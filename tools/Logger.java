@@ -13,6 +13,7 @@ public class Logger {
 	 * Constructor vacio
 	 */
 	public Logger() {
+		this.initialSetup(false);
 	}
 
 	/**
@@ -49,11 +50,13 @@ public class Logger {
 	}
 
 	public void initialSetup(boolean mantenerSesionPrevia) {
+		this.init();
 		if (!mantenerSesionPrevia) {
-			this.log.delArchivo();
+			if (this.log.existe()) {
+				this.log.delArchivo();
+			}
 			this.log.crear();
 		}
-		this.init();
 	}
 
 	public void initTicker() {
@@ -72,7 +75,7 @@ public class Logger {
 	 */
 	public void init() {
 		if (this.log == null) {
-			this.log = new Arch("../log.txt");
+			this.log = new Arch("log.txt");
 		}
 	}
 
@@ -84,7 +87,9 @@ public class Logger {
 	 */
 	public void log(String texto, boolean descripcion) {
 		if (descripcion) {
-			this.log.escribir(String.valueOf(___8drrd3148796d_Xaf()));
+			this.log.escribir(getCurrentClass() + " : ");
+			this.log.escribir(getCurrentMethod() + " : ");
+			this.log.escribir(String.valueOf(getCurrentLine()));
 			this.log.escribir("\t\t");
 		}
 		this.log.escribir(texto);
@@ -119,7 +124,7 @@ public class Logger {
 		this.log(excepcion, false);
 	}
 
-	private static int ___8drrd3148796d_Xaf() {
+	private static int getCurrentLine() {
 		boolean thisOne = false;
 		int thisOneCountDown = 1;
 		StackTraceElement[] elements = Thread.currentThread().getStackTrace();
@@ -131,11 +136,20 @@ public class Logger {
 			} else if (thisOne) {
 				thisOneCountDown--;
 			}
-			if (methodName.equals("___8drrd3148796d_Xaf")) {
+			if (methodName.equals("getCurrentLine")) {
 				thisOne = true;
 			}
 		}
 		return -1;
+	}
+
+	private static String getCurrentMethod() {
+		return new Throwable().getStackTrace()[2].getMethodName();
+	}
+
+	private static String getCurrentClass() {
+		Throwable throwable = new Throwable();
+		return  throwable.getStackTrace()[throwable.getStackTrace().length - 1].getClassLoaderName();
 	}
 
 }
