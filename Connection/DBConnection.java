@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import tools.Arch;
+import tools.Dir;
+import tools.P;
 
 public class DBConnection {
 	private String driver;
@@ -52,14 +54,12 @@ public class DBConnection {
 		boolean loaded = false;
 		this.file = new Arch(path);
 		if (this.file.existe()) {
-			if (this.file.getSizeInLines() == 4) {
-				this.file.initLineReader();
-				this.driver = this.file.leerLinea();
-				this.url = this.file.leerLinea();
-				this.user = this.file.leerLinea();
-				this.password = this.file.leerLinea();
-				loaded = true;
-			}
+			this.file.initLineReader();
+			this.driver = this.file.leerLinea();
+			this.url = this.file.leerLinea();
+			this.user = this.file.leerLinea();
+			this.password = this.file.leerLinea();
+			loaded = true;
 		}
 		return loaded;
 	}
@@ -172,24 +172,27 @@ public class DBConnection {
 		String[][] responses = null;
 		if (this.isReady()) {
 			try {
-				PreparedStatement preparedStatement = this.connection.prepareStatement(query);
-				for (int i = 0; i < values.length; i++) {
-					preparedStatement.setString(i + 1, values[i]);
-				}
 				this.openConnection();
-				ResultSet queryResults = preparedStatement.executeQuery();
-				this.closeConnection();
-				if (queryResults.last()) {
-					tableSize = queryResults.getRow();
-					responses = new String[tableSize][names.length];
-					queryResults.beforeFirst();
-					for (int i = 0; i < tableSize; i++) {
-						queryResults.next();
-						for (int j = 0; j < names.length; j++) {
-							responses[i][j] = queryResults.getString(names[i]);
-						}
+				PreparedStatement preparedStatement = this.connection.prepareStatement(query);
+				ResultSet queryResults = null;
+				if (values != null) {
+					for (int i = 0; i < values.length; i++) {
+						preparedStatement.setString(i + 1, values[i]);
 					}
 				}
+				queryResults = preparedStatement.executeQuery();
+				this.closeConnection();
+				queryResults.last();
+				tableSize = queryResults.getRow();
+				responses = new String[tableSize][names.length];
+				queryResults.beforeFirst();
+				for (int i = 0; i < tableSize; i++) {
+					queryResults.next();
+					for (int j = 0; j < names.length; j++) {
+						responses[i][j] = queryResults.getString(names[j]);
+					}
+				}
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
