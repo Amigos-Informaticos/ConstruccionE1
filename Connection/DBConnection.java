@@ -145,11 +145,11 @@ public class DBConnection {
 		boolean queryExecuted = false;
 		if (this.isReady()) {
 			try {
+				this.openConnection();
 				PreparedStatement statement = this.connection.prepareStatement(query);
 				for (int i = 0; i < values.length; i++) {
 					statement.setString(i + 1, values[i]);
 				}
-				this.openConnection();
 				queryExecuted = statement.executeUpdate() > 0 && (queryExecuted = true);
 				this.closeConnection();
 			} catch (SQLException e) {
