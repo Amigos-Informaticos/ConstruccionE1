@@ -100,7 +100,7 @@ public class DAOUsuario extends Usuario {
 	public boolean isRegistered() {
 		boolean isRegistered = false;
 		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
-		String[] values = {this.getContrasena()};
+		String[] values = {this.getCorreoElectronico()};
 		String[] names = {"TOTAL"};
 		if (this.connection.select(query, values, names)[0][0].equals("1")) {
 			isRegistered = true;

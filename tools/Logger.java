@@ -90,7 +90,7 @@ public class Logger {
 			this.log.escribir(getCurrentClass() + " : ");
 			this.log.escribir(getCurrentMethod() + " : ");
 			this.log.escribir(String.valueOf(getCurrentLine()));
-			this.log.escribir("\t\t");
+			this.log.newLine();
 		}
 		this.log.escribir(texto);
 		this.log.newLine();
@@ -102,7 +102,8 @@ public class Logger {
 	 * @param texto Cadena a loggear
 	 */
 	public void log(String texto) {
-		this.log(texto, false);
+		this.log.escribir(texto);
+		this.log.newLine();
 	}
 
 	/**
@@ -112,7 +113,17 @@ public class Logger {
 	 * @param descripcion true => Escribir la linea en que se ejecuta | false => No escribir la linea
 	 */
 	public void log(Exception excepcion, boolean descripcion) {
-		this.log(excepcion.getStackTrace().toString(), descripcion);
+		if (descripcion) {
+			this.log.escribir(getCurrentClass() + " : ");
+			this.log.escribir(getCurrentMethod() + " : ");
+			this.log.escribir(String.valueOf(getCurrentLine()));
+			this.log.newLine();
+		}
+		this.log.escribir(excepcion.getMessage());
+		for (StackTraceElement element : excepcion.getStackTrace()) {
+			this.log.escribir(element.toString());
+			this.log.newLine();
+		}
 	}
 
 	/**
@@ -121,7 +132,12 @@ public class Logger {
 	 * @param excepcion Instancia de excepcion que se desea loggear
 	 */
 	public void log(Exception excepcion) {
-		this.log(excepcion, false);
+		this.log.escribir(excepcion.getMessage());
+		for (StackTraceElement element : excepcion.getStackTrace()) {
+			this.log.escribir(element.toString());
+			this.log.newLine();
+		}
+		this.log.newLine();
 	}
 
 	private static int getCurrentLine() {
@@ -149,7 +165,7 @@ public class Logger {
 
 	private static String getCurrentClass() {
 		Throwable throwable = new Throwable();
-		return  throwable.getStackTrace()[throwable.getStackTrace().length - 1].getClassLoaderName();
+		return throwable.getStackTrace()[throwable.getStackTrace().length - 1].getClassLoaderName();
 	}
 
 }
