@@ -2,12 +2,15 @@ package Connection;
 
 import java.sql.*;
 
+import tools.Arch;
+
 public class DBConnection {
 	private String driver;
 	private String url;
 	private String user;
 	private String password;
 	private Connection connection;
+	private Arch file;
 
 	public DBConnection() {
 	}
@@ -36,7 +39,54 @@ public class DBConnection {
 	}
 
 	/**
+	 * Loas connection configuration from a file
+	 *
+	 * @param path The configuration file's path as a String
+	 * @return true => loaded | false => couldn't load
+	 */
+	public boolean loadFromFile(String path) {
+		boolean loaded = false;
+		this.file = new Arch(path);
+		if (this.file.existe()) {
+			if (this.file.getSizeInLines() == 4) {
+				this.file.initLineReader();
+				this.driver = this.file.leerLinea();
+				this.url = this.file.leerLinea();
+				this.user = this.file.leerLinea();
+				this.password = this.file.leerLinea();
+				loaded = true;
+			}
+		}
+		return loaded;
+	}
+
+	/**
+	 * Saves the current configuration to a file
+	 *
+	 * @param path The configuration file's path as a string
+	 * @return true => saved | false => couldn't save
+	 */
+	public boolean saveToFile(String path) {
+		boolean saved = false;
+		if (this.driver != null && this.url != null && this.user != null && this.password != null) {
+			this.file = new Arch(path);
+			if (!this.file.existe()) {
+				this.file.escribir(this.driver);
+				this.file.newLine();
+				this.file.escribir(this.url);
+				this.file.newLine();
+				this.file.escribir(this.user);
+				this.file.newLine();
+				this.file.escribir(this.password);
+				saved = true;
+			}
+		}
+		return saved;
+	}
+
+	/**
 	 * Check if the connection is ready to open
+	 *
 	 * @return true => is Ready | false => isn't ready
 	 */
 	public boolean isReady() {
@@ -52,6 +102,7 @@ public class DBConnection {
 
 	/**
 	 * Open the connection to the DB
+	 *
 	 * @return true => The connection is open | false => is not open
 	 */
 	public boolean openConnection() {
@@ -81,7 +132,8 @@ public class DBConnection {
 
 	/**
 	 * Send a prepared query to the DB
-	 * @param query The query to send
+	 *
+	 * @param query  The query to send
 	 * @param values The values to insert into the query
 	 * @return true => The query is sent | false => it couldn't send
 	 */
@@ -105,9 +157,10 @@ public class DBConnection {
 
 	/**
 	 * Get the values requested in the query
-	 * @param query The query to send to the DB
+	 *
+	 * @param query  The query to send to the DB
 	 * @param values The values to insert into the query
-	 * @param names Names of the columns to request
+	 * @param names  Names of the columns to request
 	 * @return Matrix of requested data
 	 */
 	public String[][] select(String query, String[] values, String[] names) {
