@@ -1,7 +1,5 @@
 package Models;
 
-import Connection.DBConnection;
-
 public class Usuario {
 	private String nombres;
 	private String apellidos;
