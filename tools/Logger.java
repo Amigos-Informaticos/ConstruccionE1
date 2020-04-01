@@ -48,22 +48,23 @@ public class Logger {
 		this.initialSetup(mantenerSesionPrevia);
 	}
 
-	public void initialSetup(boolean mantenerSesionPrevia){
-		if(!mantenerSesionPrevia){
+	public void initialSetup(boolean mantenerSesionPrevia) {
+		if (!mantenerSesionPrevia) {
 			this.log.delArchivo();
 			this.log.crear();
 		}
-		this.initTicker();
 		this.init();
 	}
 
 	public void initTicker() {
-		Runtime.getRuntime().addShutdownHook(new Thread(){
-			@Override
-			public void run() {
-				P.p("Bye");
-			}
-		});
+		Runtime.getRuntime().addShutdownHook(
+				new Thread() {
+					@Override
+					public void run() {
+						P.p("Bye");
+					}
+				}
+		);
 	}
 
 	/**
@@ -97,6 +98,25 @@ public class Logger {
 	 */
 	public void log(String texto) {
 		this.log(texto, false);
+	}
+
+	/**
+	 * Escribe la excepcion en el log
+	 *
+	 * @param excepcion   Instancia de excepcion que se desea loggear
+	 * @param descripcion true => Escribir la linea en que se ejecuta | false => No escribir la linea
+	 */
+	public void log(Exception excepcion, boolean descripcion) {
+		this.log(excepcion.getStackTrace().toString(), descripcion);
+	}
+
+	/**
+	 * Escribe la excepcion en el log
+	 *
+	 * @param excepcion Instancia de excepcion que se desea loggear
+	 */
+	public void log(Exception excepcion) {
+		this.log(excepcion, false);
 	}
 
 	private static int ___8drrd3148796d_Xaf() {

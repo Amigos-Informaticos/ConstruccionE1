@@ -7,8 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import tools.Arch;
-import tools.Dir;
-import tools.P;
+import tools.Logger;
 
 public class DBConnection {
 	private String driver;
@@ -16,7 +15,8 @@ public class DBConnection {
 	private String user;
 	private String password;
 	private Connection connection;
-	private Arch file;
+	private Arch configurationFile;
+	private Logger logger = new Logger();
 
 	public DBConnection() {
 	}
@@ -52,13 +52,13 @@ public class DBConnection {
 	 */
 	public boolean loadFromFile(String path) {
 		boolean loaded = false;
-		this.file = new Arch(path);
-		if (this.file.existe()) {
-			this.file.initLineReader();
-			this.driver = this.file.leerLinea();
-			this.url = this.file.leerLinea();
-			this.user = this.file.leerLinea();
-			this.password = this.file.leerLinea();
+		this.configurationFile = new Arch(path);
+		if (this.configurationFile.existe()) {
+			this.configurationFile.initLineReader();
+			this.driver = this.configurationFile.leerLinea();
+			this.url = this.configurationFile.leerLinea();
+			this.user = this.configurationFile.leerLinea();
+			this.password = this.configurationFile.leerLinea();
 			loaded = true;
 		}
 		return loaded;
@@ -73,15 +73,15 @@ public class DBConnection {
 	public boolean saveToFile(String path) {
 		boolean saved = false;
 		if (this.driver != null && this.url != null && this.user != null && this.password != null) {
-			this.file = new Arch(path);
-			if (!this.file.existe()) {
-				this.file.escribir(this.driver);
-				this.file.newLine();
-				this.file.escribir(this.url);
-				this.file.newLine();
-				this.file.escribir(this.user);
-				this.file.newLine();
-				this.file.escribir(this.password);
+			this.configurationFile = new Arch(path);
+			if (!this.configurationFile.existe()) {
+				this.configurationFile.escribir(this.driver);
+				this.configurationFile.newLine();
+				this.configurationFile.escribir(this.url);
+				this.configurationFile.newLine();
+				this.configurationFile.escribir(this.user);
+				this.configurationFile.newLine();
+				this.configurationFile.escribir(this.password);
 				saved = true;
 			}
 		}
@@ -116,7 +116,7 @@ public class DBConnection {
 			this.connection = DriverManager.getConnection(this.url, this.user, this.password);
 			isOpen = true;
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+			this.logger.log(e, true);
 		}
 		return isOpen;
 	}
@@ -130,7 +130,7 @@ public class DBConnection {
 				this.connection.close();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			this.logger.log(e, true);
 		}
 	}
 
@@ -153,7 +153,7 @@ public class DBConnection {
 				queryExecuted = statement.executeUpdate() > 0 && (queryExecuted = true);
 				this.closeConnection();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				this.logger.log(e, true);
 			}
 		}
 		return queryExecuted;
@@ -194,7 +194,7 @@ public class DBConnection {
 				}
 
 			} catch (SQLException e) {
-				e.printStackTrace();
+				this.logger.log(e, true);
 			}
 		}
 		return responses;
