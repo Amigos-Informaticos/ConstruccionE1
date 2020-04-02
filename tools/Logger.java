@@ -87,7 +87,6 @@ public class Logger {
 	 */
 	public void log(String texto, boolean descripcion) {
 		if (descripcion) {
-			this.log.escribir(getCurrentClass() + " : ");
 			this.log.escribir(getCurrentMethod() + " : ");
 			this.log.escribir(String.valueOf(getCurrentLine()));
 			this.log.newLine();
@@ -114,7 +113,6 @@ public class Logger {
 	 */
 	public void log(Exception excepcion, boolean descripcion) {
 		if (descripcion) {
-			this.log.escribir(getCurrentClass() + " : ");
 			this.log.escribir(getCurrentMethod() + " : ");
 			this.log.escribir(String.valueOf(getCurrentLine()));
 			this.log.newLine();
@@ -161,11 +159,6 @@ public class Logger {
 
 	private static String getCurrentMethod() {
 		return new Throwable().getStackTrace()[2].getMethodName();
-	}
-
-	private static String getCurrentClass() {
-		Throwable throwable = new Throwable();
-		return throwable.getStackTrace()[throwable.getStackTrace().length - 1].getClassLoaderName();
 	}
 
 }
