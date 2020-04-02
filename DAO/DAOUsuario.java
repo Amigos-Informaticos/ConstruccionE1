@@ -4,7 +4,7 @@ import Connection.DBConnection;
 import Models.Usuario;
 
 public class DAOUsuario extends Usuario {
-	private DBConnection connection;
+	protected DBConnection connection;
 
 	public DAOUsuario(String nombres, String apellidos, String correoElectronico, String contrasena) {
 		super(nombres, apellidos, correoElectronico, contrasena);
