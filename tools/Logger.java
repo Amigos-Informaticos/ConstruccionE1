@@ -161,4 +161,8 @@ public class Logger {
 		return new Throwable().getStackTrace()[2].getMethodName();
 	}
 
+	private static String getCurrentClass() {
+		Throwable throwable = new Throwable();
+		return "caca";
+	}
 }
