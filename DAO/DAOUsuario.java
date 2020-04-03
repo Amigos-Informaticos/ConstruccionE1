@@ -13,6 +13,7 @@ public class DAOUsuario {
 
 	public DAOUsuario(Usuario user) {
 		this.user = user;
+		this.connection = new DBConnection();
 	}
 
 	/**
