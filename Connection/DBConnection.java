@@ -43,6 +43,22 @@ public class DBConnection {
 		this.password = password;
 	}
 
+	public String getDriver() {
+		return driver;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
 	public void loadFromFile() {
 		if (!this.loadFromFile(Configuration.getConnectionConfigFile())) {
 			this.loadFromFile(Configuration.getDefaultConnectionConfigFile());

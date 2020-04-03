@@ -1,5 +1,6 @@
 package Configuration;
 
+import Connection.DBConnection;
 import tools.Arch;
 
 public class Configuration {
@@ -17,5 +18,24 @@ public class Configuration {
 
 	public static Arch getDefaultConnectionConfigFile() {
 		return new Arch("src/Configuration/defaultConnection.config");
+	}
+
+	public static boolean saveConnection(DBConnection connection) {
+		boolean isSaved = false;
+		if (connection != null) {
+			Arch connectionFile = new Arch("src/Configuration/connection.config");
+			if (connectionFile.existe()) {
+				connectionFile.delArchivo();
+			}
+			connectionFile.escribir(connection.getDriver());
+			connectionFile.newLine();
+			connectionFile.escribir(connection.getUrl());
+			connectionFile.newLine();
+			connectionFile.escribir(connection.getUser());
+			connectionFile.newLine();
+			connectionFile.escribir(connection.getPassword());
+			isSaved = true;
+		}
+		return isSaved;
 	}
 }

@@ -9,6 +9,6 @@ public class Prueba {
 				"edsonn1999@hotmail.com",
 				"relojito"
 		);
-		P.p(admin.signUp());
+		P.p(admin.logIn());
 	}
 }
