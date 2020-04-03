@@ -85,7 +85,7 @@ public class Logger {
 	 * @param texto       Cadena a loggear
 	 * @param descripcion true => Escribir la linea en que se ejecuta. false => No escribir la linea
 	 */
-	public void log(String texto, boolean descripcion) {
+	/*public void log(String texto, boolean descripcion) {
 		if (descripcion) {
 			this.log.escribir(getCurrentMethod() + " : ");
 			this.log.escribir(String.valueOf(getCurrentLine()));
@@ -93,7 +93,7 @@ public class Logger {
 		}
 		this.log.escribir(texto);
 		this.log.newLine();
-	}
+	}*/
 
 	/**
 	 * Escribe el texto en el log
@@ -111,7 +111,7 @@ public class Logger {
 	 * @param excepcion   Instancia de excepcion que se desea loggear
 	 * @param descripcion true => Escribir la linea en que se ejecuta | false => No escribir la linea
 	 */
-	public void log(Exception excepcion, boolean descripcion) {
+	/*public void log(Exception excepcion, boolean descripcion) {
 		if (descripcion) {
 			this.log.escribir(getCurrentMethod() + " : ");
 			this.log.escribir(String.valueOf(getCurrentLine()));
@@ -122,7 +122,7 @@ public class Logger {
 			this.log.escribir(element.toString());
 			this.log.newLine();
 		}
-	}
+	}*/
 
 	/**
 	 * Escribe la excepcion en el log

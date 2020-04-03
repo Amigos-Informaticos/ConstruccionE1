@@ -144,7 +144,7 @@ public class DBConnection {
 				this.connection = DriverManager.getConnection(this.url, this.user, this.password);
 				isOpen = true;
 			} catch (ClassNotFoundException | SQLException e) {
-				this.logger.log(e, true);
+				this.logger.log(e);
 			}
 		} else {
 			P.pln("Connection not open");
@@ -161,7 +161,7 @@ public class DBConnection {
 				this.connection.close();
 			}
 		} catch (SQLException e) {
-			this.logger.log(e, true);
+			this.logger.log(e);
 		}
 	}
 
@@ -183,7 +183,7 @@ public class DBConnection {
 			queryExecuted = statement.executeUpdate() > 0 && (queryExecuted = true);
 			this.closeConnection();
 		} catch (SQLException e) {
-			this.logger.log(e, true);
+			this.logger.log(e);
 		}
 		return queryExecuted;
 	}
@@ -224,7 +224,7 @@ public class DBConnection {
 				P.pln("No");
 			}
 		} catch (SQLException e) {
-			this.logger.log(e, true);
+			this.logger.log(e);
 		}
 		return responses;
 	}
