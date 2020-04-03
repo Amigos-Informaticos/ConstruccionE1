@@ -4,13 +4,7 @@ import Connection.DBConnection;
 import tools.Arch;
 
 public class Configuration {
-	private static Arch configFile;
-
-	public static void setConfigFile() {
-		if (Configuration.configFile == null) {
-			Configuration.configFile = new Arch("src/Configuration/settings.config");
-		}
-	}
+	private static Arch configFile = new Arch("src/Configuration/settings.config");
 
 	public static Arch getConnectionConfigFile() {
 		return new Arch("src/Configuration/connection.config");
@@ -23,7 +17,7 @@ public class Configuration {
 	public static boolean saveConnection(DBConnection connection) {
 		boolean isSaved = false;
 		if (connection != null) {
-			Arch connectionFile = new Arch("src/Configuration/connection.config");
+			Arch connectionFile = getConnectionConfigFile();
 			if (connectionFile.existe()) {
 				connectionFile.delArchivo();
 			}
@@ -37,5 +31,55 @@ public class Configuration {
 			isSaved = true;
 		}
 		return isSaved;
+	}
+
+	public static boolean saveToFile(DBConnection connection, String path) {
+		boolean isSaved = false;
+		Arch file;
+		if (connection != null && connection.isReady() && path != null) {
+			file = new Arch(path);
+			if (file.existe()) {
+				file.delArchivo();
+			}
+			file.escribir(connection.getDriver());
+			file.newLine();
+			file.escribir(connection.getUrl());
+			file.newLine();
+			file.escribir(connection.getUser());
+			file.newLine();
+			file.escribir(connection.getPassword());
+			isSaved = true;
+		}
+		return isSaved;
+	}
+
+	public static void loadConnection(DBConnection connection) {
+		Arch connectionFile = getConnectionConfigFile();
+		if (!connectionFile.existe()) {
+			connectionFile = getDefaultConnectionConfigFile();
+		}
+		if (connection == null) {
+			connection = new DBConnection();
+		}
+		connection.setDriver(connectionFile.leerLinea());
+		connection.setUrl(connectionFile.leerLinea());
+		connection.setUser(connectionFile.leerLinea());
+		connection.setPassword(connectionFile.leerLinea());
+	}
+
+	public static boolean loadFromFile(DBConnection connection, String path) {
+		boolean loaded = false;
+		Arch file = new Arch(path);
+		if (path != null && Arch.existe(path) && file.getSizeInLines() == 4) {
+			if (connection == null) {
+				connection = new DBConnection();
+			}
+			connection.setDriver(file.leerLinea());
+			connection.setUrl(file.leerLinea());
+			connection.setUser(file.leerLinea());
+			connection.setPassword(file.leerLinea());
+			loaded = true;
+		}
+		return loaded;
 	}
 }
