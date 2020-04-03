@@ -7,8 +7,8 @@ public class DAOCoordinador extends DAOUsuario {
 	private Coordinador coordinador;
 
     public DAOCoordinador(Coordinador coordinador) {
+        super(coordinador);
         this.coordinador = coordinador;
-        super(connection);
     }
 
 
