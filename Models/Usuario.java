@@ -17,10 +17,12 @@ public class Usuario {
 	}
 
 	public Usuario(Usuario user) {
-		this.nombres = user.getNombres();
-		this.apellidos = user.getApellidos();
-		this.correoElectronico = user.getCorreoElectronico();
-		this.contrasena = user.getContrasena();
+		if (user != null) {
+			this.nombres = user.getNombres();
+			this.apellidos = user.getApellidos();
+			this.correoElectronico = user.getCorreoElectronico();
+			this.contrasena = user.getContrasena();
+		}
 	}
 
 	public String getNombres() {

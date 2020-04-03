@@ -14,11 +14,11 @@ public class DAOProfesor extends DAOUsuario {
         this.turno = turno;
     }
 
-    public DAOProfesor(Profesor profesor) {
+    /*public DAOProfesor(Profesor profesor) {
         super(profesor);
         this.noPersonal = profesor.getNoPersonal();
         this.turno = profesor.getTurno();
-    }
+    }*/
 
     /**
      * Method to log in against the DB
@@ -67,7 +67,8 @@ public class DAOProfesor extends DAOUsuario {
     public int signUp() {
         int status = super.signUp();
         if (status == 1) {
-            String query = "INSERT INTO Profesor  VALUES ((SELECT idUsuario FROM Usuario WHERE correoElectronico" +
+            String query = "INSERT INTO Profesor (idUsuario, fechaRegistro, noPersonal," +
+                    " turno) VALUES ((SELECT idUsuario FROM Usuario WHERE correoElectronico" +
                     " = ?), (SELECT CONVERT(VARCHAR(10), getdate(), 103), " +
                     "?, ?);";
             String[] values = {this.getCorreoElectronico(), this.noPersonal, String.valueOf(this.turno)};

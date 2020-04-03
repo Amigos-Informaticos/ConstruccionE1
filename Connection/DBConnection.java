@@ -1,24 +1,23 @@
 package Connection;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import Configuration.Configuration;
 import tools.Arch;
 import tools.Logger;
+import tools.P;
+
+import java.sql.*;
 
 public class DBConnection {
-	private String driver;
-	private String url;
-	private String user;
-	private String password;
+	private String driver = null;
+	private String url = null;
+	private String user = null;
+	private String password = null;
 	private Connection connection;
 	private Arch configurationFile;
 	private Logger logger = new Logger();
 
 	public DBConnection() {
+		this.loadDefaultConnection();
 	}
 
 	public DBConnection(String driver, String url, String user, String password) {
@@ -44,15 +43,41 @@ public class DBConnection {
 		this.password = password;
 	}
 
+	public String getDriver() {
+		return driver;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void loadFromFile() {
+		if (!this.loadFromFile(Configuration.getConnectionConfigFile())) {
+			this.loadFromFile(Configuration.getDefaultConnectionConfigFile());
+		}
+	}
+
+	public void loadDefaultConnection() {
+		this.loadFromFile(Configuration.getDefaultConnectionConfigFile());
+	}
+
 	/**
-	 * Loas connection configuration from a file
+	 * Load connection configuration from a file
 	 *
-	 * @param path The configuration file's path as a String
+	 * @param file The configuration file as Arch
 	 * @return true => loaded | false => couldn't load
 	 */
-	public boolean loadFromFile(String path) {
+	public boolean loadFromFile(Arch file) {
 		boolean loaded = false;
-		this.configurationFile = new Arch(path);
+		this.configurationFile = file;
 		if (this.configurationFile.existe()) {
 			this.configurationFile.initLineReader();
 			this.driver = this.configurationFile.leerLinea();
@@ -62,6 +87,10 @@ public class DBConnection {
 			loaded = true;
 		}
 		return loaded;
+	}
+
+	public boolean loadFromFile(String path) {
+		return this.loadFromFile(new Arch(path));
 	}
 
 	/**
@@ -95,12 +124,10 @@ public class DBConnection {
 	 */
 	public boolean isReady() {
 		boolean isReady = false;
-		if (this.driver != null && this.url != null && this.user != null && this.password != null) {
-			if (this.openConnection()) {
-				this.closeConnection();
-				isReady = true;
-			}
+		if (this.driver == null || this.url == null || this.user == null || this.password == null) {
+			this.loadFromFile();
 		}
+		isReady = true;
 		return isReady;
 	}
 
@@ -111,12 +138,16 @@ public class DBConnection {
 	 */
 	public boolean openConnection() {
 		boolean isOpen = false;
-		try {
-			Class.forName(this.driver);
-			this.connection = DriverManager.getConnection(this.url, this.user, this.password);
-			isOpen = true;
-		} catch (ClassNotFoundException | SQLException e) {
-			this.logger.log(e, true);
+		if (this.isReady()) {
+			try {
+				Class.forName(this.driver);
+				this.connection = DriverManager.getConnection(this.url, this.user, this.password);
+				isOpen = true;
+			} catch (ClassNotFoundException | SQLException e) {
+				this.logger.log(e);
+			}
+		} else {
+			P.pln("Connection not open");
 		}
 		return isOpen;
 	}
@@ -130,7 +161,7 @@ public class DBConnection {
 				this.connection.close();
 			}
 		} catch (SQLException e) {
-			this.logger.log(e, true);
+			this.logger.log(e);
 		}
 	}
 
@@ -143,18 +174,16 @@ public class DBConnection {
 	 */
 	public boolean preparedQuery(String query, String[] values) {
 		boolean queryExecuted = false;
-		if (this.isReady()) {
-			try {
-				this.openConnection();
-				PreparedStatement statement = this.connection.prepareStatement(query);
-				for (int i = 0; i < values.length; i++) {
-					statement.setString(i + 1, values[i]);
-				}
-				queryExecuted = statement.executeUpdate() > 0 && (queryExecuted = true);
-				this.closeConnection();
-			} catch (SQLException e) {
-				this.logger.log(e, true);
+		try {
+			this.openConnection();
+			PreparedStatement statement = this.connection.prepareStatement(query);
+			for (int i = 0; i < values.length; i++) {
+				statement.setString(i + 1, values[i]);
 			}
+			queryExecuted = statement.executeUpdate() > 0 && (queryExecuted = true);
+			this.closeConnection();
+		} catch (SQLException e) {
+			this.logger.log(e);
 		}
 		return queryExecuted;
 	}
@@ -169,10 +198,9 @@ public class DBConnection {
 	 */
 	public String[][] select(String query, String[] values, String[] names) {
 		int tableSize = 0;
-		String[][] responses = null;
-		if (this.isReady()) {
-			try {
-				this.openConnection();
+		String[][] responses = new String[0][0];
+		try {
+			if (this.openConnection()) {
 				PreparedStatement preparedStatement = this.connection.prepareStatement(query);
 				ResultSet queryResults = null;
 				if (values != null) {
@@ -192,10 +220,11 @@ public class DBConnection {
 						responses[i][j] = queryResults.getString(names[j]);
 					}
 				}
-
-			} catch (SQLException e) {
-				this.logger.log(e, true);
+			} else {
+				P.pln("No");
 			}
+		} catch (SQLException e) {
+			this.logger.log(e);
 		}
 		return responses;
 	}

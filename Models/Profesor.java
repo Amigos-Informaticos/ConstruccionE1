@@ -7,6 +7,11 @@ public class Profesor {
     public Profesor(){
 
     }
+    public Profesor(String noPersonal, int turno) {
+        this.noPersonal=noPersonal;
+        this.turno=turno;
+    }
+
     public String getNoPersonal() {
         return this.noPersonal;
     }
