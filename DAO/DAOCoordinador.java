@@ -1,9 +1,10 @@
 package DAO;
 
 import Models.Coordinador;
+import Models.Practicante;
 
 public class DAOCoordinador extends DAOUsuario {
-    private String noPersonal;
+    private Coordinador coordinador;
 
     public DAOCoordinador(String nombres, String apellidos, String correoElectronico, String contrasena, String noPersonal) {
         super(nombres, apellidos, correoElectronico, contrasena);
@@ -44,11 +45,23 @@ public class DAOCoordinador extends DAOUsuario {
      *
      * @return The status description
      */
-    public int signUp() {
+    public int signUp(Coordinador coordinador) {
         int status = super.signUp();
         if (status == 1) {
             String query = "INSERT INTO Coordinador (idUsuario, fechaRegistro, noPersonal) VALUES ( ( SELECT idUsuario FROM Usuario WHERE correoElectronico = ? ), (SELECT CURRENT_DATE ),? );";
             String[] values = {this.getCorreoElectronico(),this.noPersonal};
+            if (!this.connection.preparedQuery(query, values)) {
+                status = 5;
+            }
+        }
+        return status;
+    }
+
+    public int signUpPracticante(Practicante practicante){
+        int status = super.signUp();
+        if (status == 1) {
+            String query = "INSERT INTO Practicante (idUsuario, fechaRegistro, matricula) VALUES ( ( SELECT idUsuario FROM Usuario WHERE correoElectronico = ? ), (SELECT CURRENT_DATE ),? );";
+            String[] values = {practicante.getMatricula()};
             if (!this.connection.preparedQuery(query, values)) {
                 status = 5;
             }
