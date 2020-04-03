@@ -3,18 +3,15 @@ package DAO;
 import Models.Coordinador;
 import Models.Practicante;
 
-public class DAOCoordinador extends DAOUsuario {
+public class DAOCoordinador {
     private Coordinador coordinador;
 
-    public DAOCoordinador(String nombres, String apellidos, String correoElectronico, String contrasena, String noPersonal) {
-        super(nombres, apellidos, correoElectronico, contrasena);
-        this.noPersonal = noPersonal;
+    public DAOCoordinador(Coordinador coordinador) {
+        this.coordinador = coordinador;
+        super(connection);
     }
 
-    public DAOCoordinador(Coordinador coordinador) {
-        super(coordinador);
-        this.noPersonal = coordinador.getNoPersonal();
-    }
+
 
     public int logIn() {
         int status = super.logIn();
@@ -22,7 +19,7 @@ public class DAOCoordinador extends DAOUsuario {
             String query = "SELECT COUNT(Coordinador.idUsuario) AS TOTAL FROM Coordinador " +
                     "INNER JOIN Usuario ON Coordinador.idUsuario = Usuario.idUsuario " +
                     "WHERE Usuario.correoElectronico = ?";
-            String[] values = {this.getCorreoElectronico()};
+            String[] values = {coordinador.getCorreoElectronico()};
             String[] names = {"TOTAL"};
             if (!this.connection.select(query, values, names)[0][0].equals("1")) {
                 status = 5;
@@ -49,7 +46,7 @@ public class DAOCoordinador extends DAOUsuario {
         int status = super.signUp();
         if (status == 1) {
             String query = "INSERT INTO Coordinador (idUsuario, fechaRegistro, noPersonal) VALUES ( ( SELECT idUsuario FROM Usuario WHERE correoElectronico = ? ), (SELECT CURRENT_DATE ),? );";
-            String[] values = {this.getCorreoElectronico(),this.noPersonal};
+            String[] values = {coordinador.getCorreoElectronico(),coordinador.getNoPersonal()};
             if (!this.connection.preparedQuery(query, values)) {
                 status = 5;
             }

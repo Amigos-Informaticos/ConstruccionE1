@@ -15,6 +15,8 @@ public class DAOUsuario extends Usuario {
 		super(user);
 	}
 
+
+
 	/**
 	 * Method to log in against the DB
 	 *
