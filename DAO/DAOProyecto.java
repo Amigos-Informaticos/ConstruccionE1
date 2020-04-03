@@ -109,7 +109,7 @@ public class DAOProyecto {
     public boolean isRegistered() {
         boolean isRegistered = false;
         String query = "SELECT COUNT(idProyecto) AS TOTAL FROM Proyecto WHERE idProyecto = ?";
-        String[] values = {Integer.toString(proyecto.getIdProyecto())};
+        String[] values = {proyecto.getIdProyecto()};
         String[] names = {"TOTAL"};
         if (this.connection.select(query, values, names)[0][0].equals("1")) {
             isRegistered = true;
