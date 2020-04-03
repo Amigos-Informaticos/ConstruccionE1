@@ -12,12 +12,14 @@ public class Practicante extends Usuario {
 		this.matricula = matricula;
 	}
 
-	public Practicante(Practicante practicante){
-		this.setNombres(practicante.getNombres());
-		this.setApellidos(practicante.getApellidos());
-		this.setCorreoElectronico(practicante.getCorreoElectronico());
-		this.setContrasena(practicante.getContrasena());
-		this.setMatricula(practicante.getMatricula());
+	public Practicante(Practicante practicante) {
+		if (practicante != null) {
+			this.setNombres(practicante.getNombres());
+			this.setApellidos(practicante.getApellidos());
+			this.setCorreoElectronico(practicante.getCorreoElectronico());
+			this.setContrasena(practicante.getContrasena());
+			this.setMatricula(practicante.getMatricula());
+		}
 	}
 
 	public String getMatricula() {

@@ -13,11 +13,13 @@ public class Coordinador extends Usuario {
 	}
 
 	public Coordinador(Coordinador coordinador) {
-		this.setNombres(coordinador.getNombres());
-		this.setApellidos(coordinador.getApellidos());
-		this.setCorreoElectronico(coordinador.getCorreoElectronico());
-		this.setContrasena(coordinador.getContrasena());
-		this.setNoPersonal(coordinador.getNoPersonal());
+		if (coordinador != null) {
+			this.setNombres(coordinador.getNombres());
+			this.setApellidos(coordinador.getApellidos());
+			this.setCorreoElectronico(coordinador.getCorreoElectronico());
+			this.setContrasena(coordinador.getContrasena());
+			this.setNoPersonal(coordinador.getNoPersonal());
+		}
 	}
 
 	public String getNoPersonal() { return noPersonal; }

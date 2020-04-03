@@ -40,7 +40,6 @@ public class DAOAdministrador extends DAOUsuario {
 		}
 		return status;
 	}
-
 	/**
 	 * Method to sign up a new Admin
 	 * <p>
