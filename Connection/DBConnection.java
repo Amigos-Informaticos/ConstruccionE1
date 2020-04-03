@@ -17,7 +17,7 @@ public class DBConnection {
 	private Logger logger = new Logger();
 
 	public DBConnection() {
-		this.loadDefaultConnection();
+		Configuration.loadConnection(this);
 	}
 
 	public DBConnection(String driver, String url, String user, String password) {
@@ -59,38 +59,27 @@ public class DBConnection {
 		return password;
 	}
 
-	public void loadFromFile() {
-		if (!this.loadFromFile(Configuration.getConnectionConfigFile())) {
-			this.loadFromFile(Configuration.getDefaultConnectionConfigFile());
-		}
-	}
-
-	public void loadDefaultConnection() {
-		this.loadFromFile(Configuration.getDefaultConnectionConfigFile());
+	/**
+	 * Loads a saved connection
+	 * <p>
+	 * Tries to load a saved connection
+	 * If there's no saved connection
+	 * or if can't load it,
+	 * loads default connection
+	 * </p>
+	 */
+	public void loadConnection() {
+		Configuration.loadConnection(this);
 	}
 
 	/**
-	 * Load connection configuration from a file
+	 * Loads the connection configuration from a file
 	 *
-	 * @param file The configuration file as Arch
+	 * @param path Path of the configuration file as a String
 	 * @return true => loaded | false => couldn't load
 	 */
-	public boolean loadFromFile(Arch file) {
-		boolean loaded = false;
-		this.configurationFile = file;
-		if (this.configurationFile.existe()) {
-			this.configurationFile.initLineReader();
-			this.driver = this.configurationFile.leerLinea();
-			this.url = this.configurationFile.leerLinea();
-			this.user = this.configurationFile.leerLinea();
-			this.password = this.configurationFile.leerLinea();
-			loaded = true;
-		}
-		return loaded;
-	}
-
 	public boolean loadFromFile(String path) {
-		return this.loadFromFile(new Arch(path));
+		return Configuration.loadFromFile(this, path);
 	}
 
 	/**
@@ -100,21 +89,7 @@ public class DBConnection {
 	 * @return true => saved | false => couldn't save
 	 */
 	public boolean saveToFile(String path) {
-		boolean saved = false;
-		if (this.driver != null && this.url != null && this.user != null && this.password != null) {
-			this.configurationFile = new Arch(path);
-			if (!this.configurationFile.existe()) {
-				this.configurationFile.escribir(this.driver);
-				this.configurationFile.newLine();
-				this.configurationFile.escribir(this.url);
-				this.configurationFile.newLine();
-				this.configurationFile.escribir(this.user);
-				this.configurationFile.newLine();
-				this.configurationFile.escribir(this.password);
-				saved = true;
-			}
-		}
-		return saved;
+		return Configuration.saveToFile(this, path);
 	}
 
 	/**
@@ -125,9 +100,9 @@ public class DBConnection {
 	public boolean isReady() {
 		boolean isReady = false;
 		if (this.driver == null || this.url == null || this.user == null || this.password == null) {
-			this.loadFromFile();
+			this.loadConnection();
+			isReady = true;
 		}
-		isReady = true;
 		return isReady;
 	}
 
