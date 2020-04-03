@@ -13,7 +13,7 @@ public class Logger {
 	 * Constructor vacio
 	 */
 	public Logger() {
-		this.initialSetup(false);
+		this.initialSetup(true);
 	}
 
 	/**

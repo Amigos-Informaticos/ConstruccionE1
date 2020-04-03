@@ -9,14 +9,6 @@ public class DAOUsuario extends Usuario {
 	public DAOUsuario(String nombres, String apellidos, String correoElectronico, String contrasena) {
 		super(nombres, apellidos, correoElectronico, contrasena);
 		this.connection = new DBConnection();
-		if (!this.connection.loadFromFile("connection.config")) {
-			this.connection = new DBConnection(
-					"org.mariadb.jdbc.Driver",
-					"jdbc:mariadb://remotemysql.com:3306/YZPyYHED8C",
-					"YZPyYHED8C",
-					"VrUiqUGLra"
-			);
-		}
 	}
 
 	public DAOUsuario(Usuario user) {

@@ -1,7 +1,5 @@
 package DAO;
 
-import Models.Usuario;
-
 public class DAOProfesor extends DAOUsuario {
     private String noPersonal;
     private int turno;
@@ -13,11 +11,11 @@ public class DAOProfesor extends DAOUsuario {
         this.turno = turno;
     }
 
-    public DAOProfesor(Profesor profesor) {
+    /*public DAOProfesor(Profesor profesor) {
         super(profesor);
         this.noPersonal = profesor.getNoPersonal();
         this.turno = profesor.getTurno();
-    }
+    }*/
 
     public int logIn() {
         int status = super.logIn();
