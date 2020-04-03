@@ -3,8 +3,8 @@ package DAO;
 import Models.Coordinador;
 import Models.Practicante;
 
-public class DAOCoordinador {
-    private Coordinador coordinador;
+public class DAOCoordinador extends DAOUsuario {
+	private Coordinador coordinador;
 
     public DAOCoordinador(Coordinador coordinador) {
         this.coordinador = coordinador;

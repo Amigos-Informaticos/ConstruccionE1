@@ -1,4 +1,5 @@
 package DAO;
 
-public class DAOPracticante {
+public class DAOPracticante extends DAOUsuario {
+
 }
