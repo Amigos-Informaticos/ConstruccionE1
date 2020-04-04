@@ -1,9 +1,10 @@
 package DAO;
 
 import Connection.DBConnection;
+import IDAO.IDAOProyecto;
 import Models.Proyecto;
 
-public class DAOProyecto {
+public class DAOProyecto implements IDAOProyecto {
     private Proyecto proyecto;
     protected DBConnection connection;
 
@@ -66,6 +67,7 @@ public class DAOProyecto {
      *
      * @return true => succesfully registered | false => couldn't register
      */
+    @Override
     public int Register() {
         int status = 0;
         if (proyecto.isComplete()) {
@@ -106,6 +108,7 @@ public class DAOProyecto {
      *
      * @return true => Already registered | Not registered
      */
+    @Override
     public boolean isRegistered() {
         boolean isRegistered = false;
         String query = "SELECT COUNT(idProyecto) AS TOTAL FROM Proyecto WHERE idProyecto = ?";

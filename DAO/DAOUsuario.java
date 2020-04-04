@@ -1,9 +1,10 @@
 package DAO;
 
 import Connection.DBConnection;
+import IDAO.IDAOUsuario;
 import Models.Usuario;
 
-public class DAOUsuario {
+public class DAOUsuario implements IDAOUsuario {
 	protected Usuario user;
 	protected DBConnection connection;
 

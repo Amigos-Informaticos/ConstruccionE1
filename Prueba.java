@@ -1,11 +1,8 @@
+import Models.Proyecto;
+
 public class Prueba {
 	public static void main(String[] args) {
-		DAOAdministrador admin = new DAOAdministrador(
-				"Edson Manuel",
-				"Carballo Vera",
-				"edsonn1999@hotmail.com",
-				"relojito"
-		);
-		P.p(admin.signUp());
-	}//Efrain was here
+		//Coordinador efra = new Coordinador("Efrain","Arenas","efrain@outlook.com","123","EFRA123");
+		Proyecto proyecto = new Proyecto("NULL", "Hackear la NASA", "A punta de If's", "Descubrir a los aliens", "Robarse un alien", "Ver un alien", "Un Tamagotchi y mucha paciencia", "Trabajarle duro y sis paga", "1", "1", "1", "1", "1");
+	}
 }

@@ -1,9 +1,10 @@
 package DAO;
 
+import IDAO.IDAOCoordinador;
 import Models.Coordinador;
 import Models.Practicante;
 
-public class DAOCoordinador extends DAOUsuario {
+public class DAOCoordinador extends DAOUsuario implements IDAOCoordinador {
 	private Coordinador coordinador;
 
     public DAOCoordinador(Coordinador coordinador) {
@@ -12,7 +13,7 @@ public class DAOCoordinador extends DAOUsuario {
     }
 
 
-
+    @Override
     public int logIn() {
         int status = super.logIn();
         if (status == 1) {
