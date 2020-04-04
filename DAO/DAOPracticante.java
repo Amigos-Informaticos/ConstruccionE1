@@ -102,7 +102,7 @@ public class DAOPracticante implements IDAOPracticante {
 		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
 		String[] values = {this.practicante.getCorreoElectronico()};
 		String[] names = {"TOTAL"};
-		if (this.practicante != null && this.practicante.isComplete()) {
+		if (this.practicante != null && this.practicante.getCorreoElectronico() != null) {
 			if (this.connection.select(query, values, names)[0][0].equals("1")) {
 				query = "SELECT COUNT(Practicante.idUsuario) AS TOTAL FROM Practicante INNER JOIN Usuario " +
 						"ON Practicante.idUsuario = Usuario.idUsuario " +
@@ -115,11 +115,62 @@ public class DAOPracticante implements IDAOPracticante {
 		return isRegistered;
 	}
 
+	/**
+	 * Returns an array of all Practicante from DB
+	 *
+	 * @return Array of Practicante
+	 */
 	public static Practicante[] getAll() {
-		return new Practicante[0];
+		Practicante[] practicantes = null;
+		DBConnection connection = new DBConnection();
+		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
+				"FROM Usuario INNER JOIN Practicante ON Usuario.idUsuario = Practicante.idUsuario;";
+		String[] names = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
+		String[][] results = connection.select(query, null, names);
+		practicantes = new Practicante[results.length];
+		for (int i = 0; i < results.length; i++) {
+			practicantes[i] = new Practicante(
+					results[i][0],
+					results[i][1],
+					results[i][2],
+					results[i][3],
+					results[i][4]
+			);
+		}
+		return practicantes;
 	}
 
+	/**
+	 * Returns an instance of Practicante
+	 * <p>
+	 * Returns an instance of practicante by its email<br/>
+	 * </p>
+	 *
+	 * @param practicante
+	 * @return
+	 */
 	public static Practicante get(Practicante practicante) {
-		return null;
+		DBConnection connection = new DBConnection();
+		Practicante returnPracticante = null;
+		if (practicante != null) {
+			if (new DAOPracticante(practicante).isRegistered()) {
+				String query = "SELECT nombres, apellidos, correoElectronico, contrasena, " +
+						"matricula FROM Usuario INNER JOIN Practicante " +
+						"ON Usuario.idUsuario = Practicante.idUsuario " +
+						"WHERE Usuario.correoElectronico = ?";
+				String[] values = {practicante.getCorreoElectronico()};
+				String[] names = {"nombres", "apellidos", "correoElectronico", "contrasena",
+						"matricula"};
+				String[][] results = connection.select(query, values, names);
+				returnPracticante = new Practicante(
+						results[0][0],
+						results[0][1],
+						results[0][2],
+						results[0][3],
+						results[0][4]
+				);
+			}
+		}
+		return returnPracticante;
 	}
 }
