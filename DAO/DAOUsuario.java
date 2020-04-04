@@ -3,16 +3,17 @@ package DAO;
 import Connection.DBConnection;
 import Models.Usuario;
 
-public class DAOUsuario extends Usuario {
+public class DAOUsuario {
+	protected Usuario user;
 	protected DBConnection connection;
 
-	public DAOUsuario(String nombres, String apellidos, String correoElectronico, String contrasena) {
-		super(nombres, apellidos, correoElectronico, contrasena);
+	public DAOUsuario() {
 		this.connection = new DBConnection();
 	}
 
 	public DAOUsuario(Usuario user) {
-		super(user);
+		this.user = user;
+		this.connection = new DBConnection();
 	}
 
 	/**
@@ -31,10 +32,10 @@ public class DAOUsuario extends Usuario {
 	 */
 	public int logIn() {
 		int status = 0;
-		if (this.getCorreoElectronico() != null && this.getContrasena() != null) {
+		if (this.user.getCorreoElectronico() != null && this.user.getContrasena() != null) {
 			if (this.isRegistered()) {
 				String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ? AND contrasena = ?";
-				String[] values = {this.getCorreoElectronico(), this.getContrasena()};
+				String[] values = {this.user.getCorreoElectronico(), this.user.getContrasena()};
 				String[] names = {"TOTAL"};
 				if (this.connection.select(query, values, names)[0][0].equals("1")) {
 					status = 1;
@@ -65,11 +66,11 @@ public class DAOUsuario extends Usuario {
 	 */
 	public int signUp() {
 		int status = 0;
-		if (this.isComplete()) {
+		if (this.user.isComplete()) {
 			if (!this.isRegistered()) {
 				String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status)" +
 						"VALUES (?, ?, ?, ?, ?)";
-				String[] values = {this.getNombres(), this.getApellidos(), this.getCorreoElectronico(), this.getContrasena(), "1"};
+				String[] values = {this.user.getNombres(), this.user.getApellidos(), this.user.getCorreoElectronico(), this.user.getContrasena(), "1"};
 				if (this.connection.preparedQuery(query, values)) {
 					status = 1;
 				} else {
@@ -92,7 +93,7 @@ public class DAOUsuario extends Usuario {
 	public boolean isRegistered() {
 		boolean isRegistered = false;
 		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
-		String[] values = {this.getCorreoElectronico()};
+		String[] values = {this.user.getCorreoElectronico()};
 		String[] names = {"TOTAL"};
 		if (this.connection.select(query, values, names)[0][0].equals("1")) {
 			isRegistered = true;

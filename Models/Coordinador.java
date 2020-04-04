@@ -25,4 +25,9 @@ public class Coordinador extends Usuario {
 	public String getNoPersonal() { return noPersonal; }
 
 	public void setNoPersonal(String noPersonal) { this.noPersonal = noPersonal; }
+
+	public void signUpPracticante(Practicante practicante){
+
+	}
+
 }
