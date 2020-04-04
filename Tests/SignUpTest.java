@@ -13,6 +13,6 @@ public class SignUpTest {
 		Practicante practicante = new Practicante("Edson Manuel", "Carballo Vera",
 				"edsonn1999@hotmail.com", "relojito", "S18012130");
 		DAOPracticante daopracticante = new DAOPracticante(practicante);
-		assertEquals(1, daopracticante.signUp());
+		assertEquals(true, daopracticante.logIn());
 	}
 }

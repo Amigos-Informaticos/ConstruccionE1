@@ -8,6 +8,10 @@ public class DAOPracticante implements IDAOPracticante {
 	private Practicante practicante;
 	private DBConnection connection = new DBConnection();
 
+	public DAOPracticante(Practicante practicante) {
+		this.practicante = practicante;
+	}
+
 	public Practicante getPracticante() {
 		return practicante;
 	}
@@ -43,7 +47,23 @@ public class DAOPracticante implements IDAOPracticante {
 
 	@Override
 	public boolean signUp() {
-		return false;
+		boolean signedUp = false;
+		String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status) " +
+				"VALUES (?, ?, ?, ?, 1)";
+		String[] values = {this.practicante.getNombres(), this.practicante.getApellidos(),
+				this.practicante.getCorreoElectronico(), this.practicante.getContrasena()};
+		if (!this.isRegistered()) {
+			if (this.connection.preparedQuery(query, values)) {
+				query = "INSERT INTO Practicante (idUsuario, matricula) VALUES " +
+						"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?)";
+				values = new String[]{this.practicante.getCorreoElectronico(),
+						this.practicante.getMatricula()};
+				if (this.connection.preparedQuery(query, values)) {
+					signedUp = true;
+				}
+			}
+		}
+		return signedUp;
 	}
 
 	@Override
@@ -54,9 +74,9 @@ public class DAOPracticante implements IDAOPracticante {
 		String[] names = {"TOTAL"};
 		if (this.practicante.isComplete()) {
 			if (this.connection.select(query, values, names)[0][0].equals("1")) {
-				query = "SELECT COUNT(idUsuario) AS TOTAL FROM Practicante INNER JOIN Usuario " +
+				query = "SELECT COUNT(Practicante.idUsuario) AS TOTAL FROM Practicante INNER JOIN Usuario " +
 						"ON Practicante.idUsuario = Usuario.idUsuario " +
-						"WHERE Usuario.correElectronico = ?";
+						"WHERE Usuario.correoElectronico = ?";
 				if (this.connection.select(query, values, names)[0][0].equals("1")) {
 					isRegistered = true;
 				}
