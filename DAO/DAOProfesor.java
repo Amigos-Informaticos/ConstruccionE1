@@ -4,14 +4,10 @@ import Models.Usuario;
 import Models.Profesor;
 
 public class DAOProfesor extends DAOUsuario {
-    private String noPersonal;
-    private int turno;
+    private Profesor profesor;
 
-    public DAOProfesor(String nombres, String apellidos, String correoElectronico, String contrasena, String noPersonal,
-                       int turno) {
-        super(nombres, apellidos, correoElectronico, contrasena);
-        this.noPersonal = noPersonal;
-        this.turno = turno;
+    public DAOProfesor(Profesor profesor) {
+        this.profesor = profesor;
     }
 
     /*public DAOProfesor(Profesor profesor) {
@@ -69,9 +65,9 @@ public class DAOProfesor extends DAOUsuario {
         if (status == 1) {
             String query = "INSERT INTO Profesor (idUsuario, fechaRegistro, noPersonal," +
                     " turno) VALUES ((SELECT idUsuario FROM Usuario WHERE correoElectronico" +
-                    " = ?), (SELECT CONVERT(VARCHAR(10), getdate(), 103), " +
+                    " = ?), (SELECT CURRENT_DATE), " +
                     "?, ?);";
-            String[] values = {this.getCorreoElectronico(), this.noPersonal, String.valueOf(this.turno)};
+            String[] values = {this.getCorreoElectronico(), this.profesor.getNoPersonal(), String.valueOf(this.profesor.getTurno())};
             if (!this.connection.preparedQuery(query, values)) {
                 status = 5;
             }
