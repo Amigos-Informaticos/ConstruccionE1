@@ -18,6 +18,10 @@ public class DBConnection {
 
 	public DBConnection() {
 		Configuration.loadConnection(this);
+		P.pln(this.driver);
+		P.pln(this.url);
+		P.pln(this.user);
+		P.pln(this.password);
 	}
 
 	public DBConnection(String driver, String url, String user, String password) {
@@ -101,6 +105,8 @@ public class DBConnection {
 		boolean isReady = false;
 		if (this.driver == null || this.url == null || this.user == null || this.password == null) {
 			this.loadConnection();
+			isReady = true;
+		} else {
 			isReady = true;
 		}
 		return isReady;
@@ -195,8 +201,6 @@ public class DBConnection {
 						responses[i][j] = queryResults.getString(names[j]);
 					}
 				}
-			} else {
-				P.pln("No");
 			}
 		} catch (SQLException e) {
 			this.logger.log(e);
