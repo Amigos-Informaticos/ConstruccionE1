@@ -1,12 +1,9 @@
 package IDAO;
 
-import Models.Usuario;
-
 public interface IDAOUsuario {
-    public int logIn(Usuario usuario);
+	boolean logIn();
 
-    public int signUp();
+	boolean signUp();
 
-    public int isRegistered();
-
+	boolean isRegistered();
 }

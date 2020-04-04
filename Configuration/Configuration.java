@@ -2,9 +2,11 @@ package Configuration;
 
 import Connection.DBConnection;
 import tools.Arch;
+import tools.Logger;
 
 public class Configuration {
 	private static Arch configFile = new Arch("src/Configuration/settings.config");
+	private static Logger logger = new Logger();
 
 	public static Arch getConnectionConfigFile() {
 		return new Arch("src/Configuration/connection.config");
