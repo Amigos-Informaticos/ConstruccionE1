@@ -6,10 +6,10 @@ import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LoginTest {
+public class DeleteTest {
 
 	@Test
-	public void loginTest() {
+	public void deletePracticante() {
 		DAOPracticante daoPracticante = new DAOPracticante(
 				new Practicante(
 						"Edson Manuel",
@@ -19,6 +19,6 @@ public class LoginTest {
 						"S18012130"
 				)
 		);
-		assertTrue(daoPracticante.logIn());
+		assertTrue(daoPracticante.delete());
 	}
 }

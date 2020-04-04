@@ -22,19 +22,49 @@ public class DAOPracticante implements IDAOPracticante {
 
 	@Override
 	public boolean update() {
-		return false;
+		boolean updated = false;
+		if (this.isRegistered()) {
+			String query = "UPDATE Usuario SET nombres = ?, apellidos = ?, correoElectronico = ?, " +
+					"contrasena = ? WHERE correoElectronico = ?";
+			String[] values = {this.practicante.getNombres(), this.practicante.getApellidos(),
+					this.practicante.getCorreoElectronico(), this.practicante.getContrasena(),
+					this.practicante.getCorreoElectronico()};
+			if (this.connection.preparedQuery(query, values)) {
+				query = "UPDATE Practicante SET Matricula = ? WHERE idUsuario = (SELECT idUsuario " +
+						"FROM Usuario WHERE correoElectronico = ?)";
+				values = new String[]{this.practicante.getMatricula(),
+						this.practicante.getCorreoElectronico()};
+				if (this.connection.preparedQuery(query, values)) {
+					updated = true;
+				}
+			}
+		}
+		return updated;
 	}
 
 	@Override
 	public boolean delete() {
-		return false;
+		boolean deleted = false;
+		String query = "DELETE FROM Practicante WHERE idUsuario = (SELECT idUsuario FROM Usuario " +
+				"WHERE correoElectronico = ?)";
+
+		String[] values = {this.practicante.getCorreoElectronico()};
+		if (this.isRegistered()) {
+			if (this.connection.preparedQuery(query, values)) {
+				query = "DELETE FROM Usuario WHERE correoElectronico = ?";
+				if (this.connection.preparedQuery(query, values)) {
+					deleted = true;
+				}
+			}
+		}
+		return deleted;
 	}
 
 	@Override
 	public boolean logIn() {
 		boolean loggedIn = false;
 		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ? " +
-				"AND contrasena = ?";
+				"AND contrasena = ? AND status = 1";
 		String[] values = {this.practicante.getCorreoElectronico(), this.practicante.getContrasena()};
 		String[] names = {"TOTAL"};
 		if (this.isRegistered()) {
@@ -72,7 +102,7 @@ public class DAOPracticante implements IDAOPracticante {
 		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
 		String[] values = {this.practicante.getCorreoElectronico()};
 		String[] names = {"TOTAL"};
-		if (this.practicante.isComplete()) {
+		if (this.practicante != null && this.practicante.isComplete()) {
 			if (this.connection.select(query, values, names)[0][0].equals("1")) {
 				query = "SELECT COUNT(Practicante.idUsuario) AS TOTAL FROM Practicante INNER JOIN Usuario " +
 						"ON Practicante.idUsuario = Usuario.idUsuario " +
