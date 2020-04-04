@@ -145,7 +145,7 @@ public class Proyecto {
     }
 
     public boolean isComplete() {
-        return this.idProyecto != 0 &&
+        return this.idProyecto != null &&
                 this.nombre != null &&
                 this.metodologia != null &&
                 this.objetivoGeneral != null &&

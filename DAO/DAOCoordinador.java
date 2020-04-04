@@ -1,33 +1,19 @@
 package DAO;
 
+import Connection.DBConnection;
 import IDAO.IDAOCoordinador;
 import Models.Coordinador;
-import Models.Practicante;
 
-public class DAOCoordinador extends DAOUsuario implements IDAOCoordinador {
+public class DAOCoordinador implements IDAOCoordinador {
 	private Coordinador coordinador;
+	private DBConnection connection = new DBConnection();
 
     public DAOCoordinador(Coordinador coordinador) {
-        super(coordinador);
         this.coordinador = coordinador;
     }
 
 
-    @Override
-    public int logIn() {
-        int status = super.logIn();
-        if (status == 1) {
-            String query = "SELECT COUNT(Coordinador.idUsuario) AS TOTAL FROM Coordinador " +
-                    "INNER JOIN Usuario ON Coordinador.idUsuario = Usuario.idUsuario " +
-                    "WHERE Usuario.correoElectronico = ?";
-            String[] values = {coordinador.getCorreoElectronico()};
-            String[] names = {"TOTAL"};
-            if (!this.connection.select(query, values, names)[0][0].equals("1")) {
-                status = 5;
-            }
-        }
-        return status;
-    }
+
 
     /**
      * Method to sign up a new Admin
@@ -43,18 +29,36 @@ public class DAOCoordinador extends DAOUsuario implements IDAOCoordinador {
      *
      * @return The status description
      */
-    public int signUp(Coordinador coordinador) {
-        int status = super.signUp();
-        if (status == 1) {
-            String query = "INSERT INTO Coordinador (idUsuario, fechaRegistro, noPersonal) VALUES ( ( SELECT idUsuario FROM Usuario WHERE correoElectronico = ? ), (SELECT CURRENT_DATE ),? );";
-            String[] values = {coordinador.getCorreoElectronico(),coordinador.getNoPersonal()};
-            if (!this.connection.preparedQuery(query, values)) {
-                status = 5;
+    @Override
+    public boolean signUp() {
+        boolean signedUp = false;
+        if(this.coordinador.isComplete()){
+            String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status)" +
+                    "VALUES (?, ?, ?, ?, ?)";
+            String[] values = {this.coordinador.getNombres(), this.coordinador.getApellidos(), this.coordinador.getCorreoElectronico(), this.coordinador.getContrasena(), "1"};
+            if(this.connection.preparedQuery(query, values)) {
+                query = "INSERT INTO Coordinador (idUsuario, noPersonal, fechaRegistro) VALUES ((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?, (SELECT CURRENT_DATE))";
+                values = new String[]{this.coordinador.getCorreoElectronico(), this.coordinador.getNoPersonal()};
+                if(this.connection.preparedQuery(query, values)){
+                    signedUp = true;
+                }
             }
         }
-        return status;
+        return signedUp;
     }
 
+    @Override
+    public boolean isRegistered() {
+        boolean isRegistered = false;
+        String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
+        String[] values = {this.coordinador.getCorreoElectronico()};
+        String[] names = {"TOTAL"};
+        if (this.connection.select(query, values, names)[0][0].equals("1")) {
+            isRegistered = true;
+        }
+        return isRegistered;
+    }
+/*
     public int signUpPracticante(Practicante practicante){
         int status = super.signUp();
         if (status == 1) {
@@ -66,5 +70,24 @@ public class DAOCoordinador extends DAOUsuario implements IDAOCoordinador {
         }
         return status;
     }
+
+ */
+
+    @Override
+    public boolean logIn() {
+        boolean loggedIn = false;
+        String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Coordinador WHERE correoElectronico = ? " +
+                "AND contrasena = ?";
+        String[] values = {this.coordinador.getCorreoElectronico(), this.coordinador.getContrasena()};
+        String[] names = {"TOTAL"};
+        if (this.isRegistered()) {
+            if (this.connection.select(query, values, names)[0][0].equals("1")) {
+                loggedIn = true;
+            }
+        }
+        return loggedIn;
+    }
+
+
 
 }
