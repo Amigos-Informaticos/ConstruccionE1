@@ -12,17 +12,29 @@ public class Usuario {
 	}
 
 	public Usuario(String nombres, String apellidos, String correoElectronico, String contrasena) {
-		this.nombres = nombres;
-		this.apellidos = apellidos;
-		this.correoElectronico = correoElectronico;
+		if (this.isName(nombres)) {
+			this.nombres = nombres;
+		}
+		if (this.isName(apellidos)) {
+			this.apellidos = apellidos;
+		}
+		if (this.isEmail(correoElectronico)) {
+			this.correoElectronico = correoElectronico;
+		}
 		this.contrasena = contrasena;
 	}
 
 	public Usuario(Usuario user) {
 		if (user != null) {
-			this.nombres = user.getNombres();
-			this.apellidos = user.getApellidos();
-			this.correoElectronico = user.getCorreoElectronico();
+			if (this.isName(user.getNombres())) {
+				this.nombres = user.getNombres();
+			}
+			if (this.isName(user.getApellidos())) {
+				this.apellidos = user.getApellidos();
+			}
+			if (this.isEmail(user.getCorreoElectronico())) {
+				this.correoElectronico = user.getCorreoElectronico();
+			}
 			this.contrasena = user.getContrasena();
 		}
 	}
@@ -42,7 +54,9 @@ public class Usuario {
 	}
 
 	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
+		if (this.isName(apellidos)) {
+			this.apellidos = apellidos;
+		}
 	}
 
 	public String getCorreoElectronico() {
