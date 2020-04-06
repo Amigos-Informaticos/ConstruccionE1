@@ -68,39 +68,31 @@ public class DAOProyecto implements IDAOProyecto {
      * @return true => succesfully registered | false => couldn't register
      */
     @Override
-    public int Register() {
-        int status = 0;
-        if (proyecto.isComplete()) {
+    public boolean signUp() {
+        boolean signedUp = false;
+        if (this.proyecto.isComplete()) {
             if (!this.isRegistered()) {
-                String query = "INSERT INTO Proyecto (nombre, , metodologia, objetivoGeneral, " +
-                        "objetivoMediato, objetivoInmediato, recursos, responsabilidades, status, " +
-                        "area, responsable, idPerdiodo, idOrganizacion) VALUES (?, ?, ?, ?, ?, ?, " +
-                        "?, ?, ?, ?, ?, ?)";
+                String query = "INSERT INTO Proyecto (idProyecto, nombre, metodologia, objetivoGeneral, objetivoMediato, objetivoInmediato, recursos, responsabilidades, status, area, responsable, idPeriodo, idOrganizacion)" +
+                        "VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
                 String[] values = {this.proyecto.getNombre(),
-                                    this.proyecto.getMetodologia(),
-                                    this.proyecto.getObjetivoGeneral(),
-                                    this.proyecto.getObjetivoMediato(),
-                                    this.proyecto.getObjetivoInmediato(),
-                                    this.proyecto.getRecursos(),
-                                    this.proyecto.getResponsabilidades(),
-                                    this.proyecto.getStatus(),
-                                    this.proyecto.getArea(),
-                                    this.proyecto.getResponsable(),
-                                    this.proyecto.getIdPeriodo(),
-                                    this.proyecto.getIdOrganizacion()
-                                    };
+                        this.proyecto.getMetodologia(),
+                        this.proyecto.getObjetivoGeneral(),
+                        this.proyecto.getObjetivoMediato(),
+                        this.proyecto.getObjetivoInmediato(),
+                        this.proyecto.getRecursos(),
+                        this.proyecto.getResponsabilidades(),
+                        this.proyecto.getStatus(),
+                        this.proyecto.getArea(),
+                        this.proyecto.getResponsable(),
+                        this.proyecto.getIdPeriodo(),
+                        this.proyecto.getIdOrganizacion()
+                };
                 if (this.connection.preparedQuery(query, values)) {
-                    status = 1;
-                } else {
-                    status = 2;
+                    signedUp = true;
                 }
-            } else {
-                status = 3;
             }
-        } else {
-            status = 4;
         }
-        return status;
+        return signedUp;
     }
 
     /**
@@ -111,12 +103,42 @@ public class DAOProyecto implements IDAOProyecto {
     @Override
     public boolean isRegistered() {
         boolean isRegistered = false;
-        String query = "SELECT COUNT(idProyecto) AS TOTAL FROM Proyecto WHERE idProyecto = ?";
-        String[] values = {proyecto.getIdProyecto()};
+        String query = "SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ?";
+        String[] values = {proyecto.getNombre()};
         String[] names = {"TOTAL"};
         if (this.connection.select(query, values, names)[0][0].equals("1")) {
             isRegistered = true;
         }
         return isRegistered;
+    }
+
+    public Proyecto loadProyecto(String name){
+        Proyecto proyecto = null;
+        String query = "SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ?";
+        String[] values = {name};
+        String[] names = {"TOTAL"};
+        if (this.connection.select(query, values, names)[0][0].equals("1")) {
+            query = "SELECT * FROM Proyecto WHERE nombre = ?";
+            String [] results = {"idProyecto","nombre","metodologia","objetivoGeneral",
+                    "objetivoMediato","objetivoInmediato","recursos","responsabilidades",
+                    "status","area","responsable","idPeriodo","idOrganizacion"};
+            String[][] project = this.connection.select(query,values,results);
+
+            proyecto = new Proyecto();
+
+            proyecto.setNombre(project[0][1]);
+            proyecto.setMetodologia(project[0][2]);
+            proyecto.setObjetivoGeneral(project[0][3]);
+            proyecto.setObjetivoMediato(project[0][4]);
+            proyecto.setObjetivoInmediato(project[0][5]);
+            proyecto.setRecursos(project[0][6]);
+            proyecto.setResponsabilidades(project[0][7]);
+            proyecto.setStatus(project[0][8]);
+            proyecto.setArea(project[0][9]);
+            proyecto.setResponsable(project[0][10]);
+            proyecto.setIdPeriodo(project[0][11]);
+            proyecto.setIdOrganizacion(project[0][12]);
+        }
+        return proyecto;
     }
 }

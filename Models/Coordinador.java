@@ -1,7 +1,11 @@
 package Models;
 
+import DAO.DAOCoordinador;
+
 public class Coordinador extends Usuario {
 	private String noPersonal;
+	Practicante practicante;
+
 
 	public Coordinador() {
 	}
@@ -26,14 +30,31 @@ public class Coordinador extends Usuario {
 
 	public void setNoPersonal(String noPersonal) { this.noPersonal = noPersonal; }
 
-	public void signUpPracticante(Practicante practicante){
+	public boolean signUpPracticante(Practicante practicante){
+		return practicante.register();
+	}
+
+	public boolean register(){
+		boolean isRegistered = false;
+		if (this.isComplete()) {
+			DAOCoordinador daoCoordinador = new DAOCoordinador(this);
+			if (daoCoordinador.signUp()) {
+				isRegistered = true;
+			}
+		}
+		return isRegistered;
+	}
+
+	public boolean registerProyecto(Proyecto proyecto){
+		return proyecto.register();
+	}
+/*
+	public boolean registerOrganizacion(Organizacion organizacion){
 
 	}
 
-	public void register(){
 
-	}
-
+ */
 
 
 }

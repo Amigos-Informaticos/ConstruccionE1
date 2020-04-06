@@ -4,7 +4,7 @@ import DAO.DAOProyecto;
 
 public class Proyecto {
     //private int idProyecto;
-    private String idProyecto,
+    private String
             nombre,
             metodologia,
             objetivoGeneral,
@@ -17,7 +17,7 @@ public class Proyecto {
             responsable,
             idPeriodo,
             idOrganizacion;
-
+/*
     public String getIdProyecto() {
         return idProyecto;
     }
@@ -26,10 +26,22 @@ public class Proyecto {
         this.idProyecto = idProyecto;
     }
 
+ */
 
 
-    public Proyecto(String idProyecto, String nombre, String metodologia, String objetivoGeneral, String objetivoMediato, String objetivoInmediato, String recursos, String responsabilidades, String status, String area, String responsable, String idPeriodo, String idOrganizacion) {
-        this.idProyecto = idProyecto;
+
+    public Proyecto(String nombre,
+                    String metodologia,
+                    String objetivoGeneral,
+                    String objetivoMediato,
+                    String objetivoInmediato,
+                    String recursos,
+                    String responsabilidades,
+                    String status,
+                    String area,
+                    String responsable,
+                    String idPeriodo,
+                    String idOrganizacion) {
         this.nombre = nombre;
         this.metodologia = metodologia;
         this.objetivoGeneral = objetivoGeneral;
@@ -145,8 +157,7 @@ public class Proyecto {
     }
 
     public boolean isComplete() {
-        return this.idProyecto != null &&
-                this.nombre != null &&
+        return this.nombre != null &&
                 this.metodologia != null &&
                 this.objetivoGeneral != null &&
                 this.objetivoMediato != null &&
@@ -160,8 +171,17 @@ public class Proyecto {
                 this.idOrganizacion != null;
     }
 
-    public void Register(){
-
+    public boolean register(){
+        boolean isRegistered = false;
+        if (this.isComplete()) {
+            DAOProyecto daoProyecto = new DAOProyecto(this);
+            if (daoProyecto.signUp()) {
+                isRegistered = true;
+            }
+        }
+        return isRegistered;
     }
+
+
 
 }
