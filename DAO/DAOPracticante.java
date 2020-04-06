@@ -3,6 +3,7 @@ package DAO;
 import Connection.DBConnection;
 import IDAO.IDAOPracticante;
 import Models.Practicante;
+import Models.Proyecto;
 
 public class DAOPracticante implements IDAOPracticante {
 	private Practicante practicante;
@@ -172,5 +173,28 @@ public class DAOPracticante implements IDAOPracticante {
 			}
 		}
 		return returnPracticante;
+	}
+
+	public boolean selectProyect(Proyecto proyecto) {
+		boolean selected = false;
+		if (this.practicante != null && this.practicante.isComplete() &&
+				proyecto != null && proyecto.isComplete()) {
+			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM SeleccionProyecto " +
+					"WHERE idUsuario = (SELECT idUsuario FROM Usuario WHERE correoElectronico = ?)";
+			String[] values = {this.practicante.getCorreoElectronico()};
+			String[] names = {"TOTAL"};
+			int selectedProyects =
+					Integer.parseInt(this.connection.select(query, values, names)[0][0]);
+			if (selectedProyects < 3) {
+				query = "INSERT INTO SeleccionProyecto VALUES " +
+						"((SELECT idProyecto FROM Proyecto WHERE nombre = ? AND status = 1), " +
+						"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?))";
+				values = new String[]{proyecto.getNombre(), this.practicante.getCorreoElectronico()};
+				if (this.connection.preparedQuery(query, values)) {
+					selected = true;
+				}
+			}
+		}
+		return selected;
 	}
 }

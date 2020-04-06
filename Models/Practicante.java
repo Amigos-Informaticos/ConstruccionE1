@@ -45,7 +45,9 @@ public class Practicante extends Usuario {
 
 	public boolean relateProyect(Proyecto proyecto) {
 		boolean related = false;
+		if (proyecto.isComplete() && this.isComplete()) {
 
+		}
 		return related;
 	}
 }
