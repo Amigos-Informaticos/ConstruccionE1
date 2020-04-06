@@ -1,5 +1,7 @@
 package Models;
 
+import DAO.DAOPracticante;
+
 public class Practicante extends Usuario {
 	private String matricula;
 
@@ -28,5 +30,22 @@ public class Practicante extends Usuario {
 
 	public void setMatricula(String matricula) {
 		this.matricula = matricula;
+	}
+
+	public boolean register() {
+		boolean isRegistered = false;
+		if (this.isComplete()) {
+			DAOPracticante daoPracticante = new DAOPracticante(this);
+			if (daoPracticante.signUp()) {
+				isRegistered = true;
+			}
+		}
+		return isRegistered;
+	}
+
+	public boolean relateProyect(Proyecto proyecto) {
+		boolean related = false;
+
+		return related;
 	}
 }
