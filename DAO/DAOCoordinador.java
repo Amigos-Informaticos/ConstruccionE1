@@ -58,20 +58,6 @@ public class DAOCoordinador implements IDAOCoordinador {
         }
         return isRegistered;
     }
-/*
-    public int signUpPracticante(Practicante practicante){
-        int status = super.signUp();
-        if (status == 1) {
-            String query = "INSERT INTO Practicante (idUsuario, fechaRegistro, matricula) VALUES ( ( SELECT idUsuario FROM Usuario WHERE correoElectronico = ? ), (SELECT CURRENT_DATE ),? );";
-            String[] values = {practicante.getMatricula()};
-            if (!this.connection.preparedQuery(query, values)) {
-                status = 5;
-            }
-        }
-        return status;
-    }
-
- */
 
     @Override
     public boolean logIn() {
@@ -87,6 +73,21 @@ public class DAOCoordinador implements IDAOCoordinador {
         }
         return loggedIn;
     }
+    /*
+    public boolean registOrganization(){
+        boolean loggedIn = false;
+        String query = "SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ?";
+        String[] values = {this.coordinador.getCorreoElectronico(), this.coordinador.getContrasena()};
+        String[] names = {"TOTAL"};
+        if (this.isRegistered()) {
+            if (this.connection.select(query, values, names)[0][0].equals("1")) {
+                loggedIn = true;
+            }
+        }
+        return loggedIn;
+    }
+
+     */
 
 
 
