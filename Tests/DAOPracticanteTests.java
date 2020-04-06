@@ -3,6 +3,7 @@ package Tests;
 import DAO.DAOPracticante;
 import Models.Practicante;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -11,16 +12,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DAOPracticanteTests {
+
+	@Ignore
 	@Test
 	public void A_signUpPracticante() {
-		assertTrue(getDAOPracticante().signUp());
+		assertTrue(getInstancePracticante().register());
 	}
 
+	@Ignore
 	@Test
 	public void B_loginPracticante() {
 		assertTrue(getDAOPracticante().logIn());
 	}
 
+	@Ignore
 	@Test
 	public void C_getAllPracticantes() {
 		Practicante[] practicantes = DAOPracticante.getAll();
@@ -29,11 +34,13 @@ public class DAOPracticanteTests {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void D_getPracticante() {
 		assertNotNull(DAOPracticante.get(getInstancePracticante()));
 	}
 
+	@Ignore
 	@Test
 	public void E_updatePracticante() {
 		Practicante practicante = getInstancePracticante();
@@ -41,6 +48,7 @@ public class DAOPracticanteTests {
 		assertTrue(new DAOPracticante(practicante).update());
 	}
 
+	@Ignore
 	@Test
 	public void F_deletePracticante() {
 		assertTrue(getDAOPracticante().delete());
