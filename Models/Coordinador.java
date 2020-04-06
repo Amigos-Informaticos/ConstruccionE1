@@ -30,4 +30,10 @@ public class Coordinador extends Usuario {
 
 	}
 
+	public void register(){
+
+	}
+
+
+
 }
