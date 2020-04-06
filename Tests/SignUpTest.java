@@ -1,8 +1,8 @@
 package Tests;
 
-import DAO.DAOCoordinador;
-import Models.Coordinador;
-import org.junit.jupiter.api.Test;
+import DAO.DAOPracticante;
+import Models.Practicante;
+import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,8 +10,9 @@ public class SignUpTest {
 
 	@Test
 	public void signUpTest() {
-		Coordinador efra = new Coordinador("Efrain","Arenas","efrain@outlook.com","123","EFRA123");
-		DAOCoordinador daoEfra = new DAOCoordinador(efra);
-		assertEquals(true, daoEfra.signUp());
+		Practicante practicante = new Practicante("Edson Manuel", "Carballo Vera",
+				"edsonn1999@hotmail.com", "relojito", "S18012130");
+		DAOPracticante daopracticante = new DAOPracticante(practicante);
+		assertEquals(true, daopracticante.signUp());
 	}
 }
