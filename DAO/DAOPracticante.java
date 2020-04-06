@@ -21,6 +21,11 @@ public class DAOPracticante implements IDAOPracticante {
 		this.practicante = practicante;
 	}
 
+	/**
+	 * Update the Database with the current PRACTICANTE
+	 *
+	 * @return true => updated | false => something went wrong
+	 */
 	@Override
 	public boolean update() {
 		boolean updated = false;
@@ -43,6 +48,11 @@ public class DAOPracticante implements IDAOPracticante {
 		return updated;
 	}
 
+	/**
+	 * Delete the current PRACTICANTE from the Database
+	 *
+	 * @return true => deleted | false => not deleted
+	 */
 	@Override
 	public boolean delete() {
 		boolean deleted = false;
@@ -177,7 +187,7 @@ public class DAOPracticante implements IDAOPracticante {
 
 	public boolean selectProyect(Proyecto proyecto) {
 		boolean selected = false;
-		if (this.practicante != null && this.practicante.isComplete() &&
+		if (this.practicante != null && this.practicante.isComplete() && this.isRegistered() &&
 				proyecto != null && proyecto.isComplete()) {
 			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM SeleccionProyecto " +
 					"WHERE idUsuario = (SELECT idUsuario FROM Usuario WHERE correoElectronico = ?)";
@@ -186,7 +196,7 @@ public class DAOPracticante implements IDAOPracticante {
 			int selectedProyects =
 					Integer.parseInt(this.connection.select(query, values, names)[0][0]);
 			if (selectedProyects < 3) {
-				query = "INSERT INTO SeleccionProyecto VALUES " +
+				query = "INSERT INTO SeleccionProyecto (idProyecto, idUsuario) VALUES " +
 						"((SELECT idProyecto FROM Proyecto WHERE nombre = ? AND status = 1), " +
 						"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?))";
 				values = new String[]{proyecto.getNombre(), this.practicante.getCorreoElectronico()};

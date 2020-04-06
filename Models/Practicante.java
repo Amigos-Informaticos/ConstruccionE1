@@ -43,10 +43,11 @@ public class Practicante extends Usuario {
 		return isRegistered;
 	}
 
-	public boolean relateProyect(Proyecto proyecto) {
+	public boolean selectProyect(Proyecto proyecto) {
 		boolean related = false;
-		if (proyecto.isComplete() && this.isComplete()) {
-
+		if (proyecto != null && proyecto.isComplete() && this.isComplete()) {
+			DAOPracticante daoPracticante = new DAOPracticante(this);
+			related = daoPracticante.selectProyect(proyecto);
 		}
 		return related;
 	}

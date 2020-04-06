@@ -1,16 +1,6 @@
 package tools;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -422,7 +412,7 @@ public class Arch implements Serializable {
 	}
 
 	/**
-	 * Lee el archivo indicado con el Path en cadena y retorna todo el archivo en
+	 * Lee el archivo indicado con el Path en cadena y retorna el archivo en
 	 * una cadena. <br>
 	 * No se recomienda su uso. <br>
 	 * Usar en su lugar leerLinea
@@ -453,7 +443,7 @@ public class Arch implements Serializable {
 	}
 
 	/**
-	 * Lee el archivo y retorna todo el archivo en una cadena. <br>
+	 * Lee el archivo y retorna el archivo en una cadena. <br>
 	 * No se recomienda su uso. <br>
 	 * Usar en su lugar leerLinea.
 	 *
@@ -469,7 +459,7 @@ public class Arch implements Serializable {
 	}
 
 	/**
-	 * Lee el archivo y retorna un arreglo de String con todo el contenido. <br>
+	 * Lee el archivo y retorna un arreglo de String con el contenido. <br>
 	 * No se recomienda su uso. <br>
 	 * Usar en su lugar leerLinea
 	 *
@@ -484,7 +474,7 @@ public class Arch implements Serializable {
 	}
 
 	/**
-	 * Lee el archivo y retorna un arreglo de String con todo el contenido. <br>
+	 * Lee el archivo y retorna un arreglo de String con el contenido. <br>
 	 * No se recomienda su uso. <br>
 	 * Usar en su lugar leerLinea
 	 *
@@ -769,14 +759,14 @@ public class Arch implements Serializable {
 	}
 
 	/**
-	 * Retorna todo el contenido del archivo en un solo String.
+	 * Retorna el contenido del archivo en un solo String.
 	 *
 	 * <pre>
 	 * Debido a temas de memoria, no se recomienda imprimir directamente el objeto Arch.
 	 * En su lugar, usar {@link #leerLinea()} o {@link #print()}
 	 * </pre>
 	 *
-	 * @return String con todo el contenido del archivo
+	 * @return String con el contenido del archivo
 	 * @see {@link #leerLinea()}
 	 * @see {@link #print()}
 	 * @see {@link #print(Path)}
