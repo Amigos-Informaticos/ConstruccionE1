@@ -1,77 +1,93 @@
 package DAO;
 
-import Models.Usuario;
+import Connection.DBConnection;
+import IDAO.IDAOProfesor;
 import Models.Profesor;
 
-public class DAOProfesor extends DAOUsuario {
+public class DAOProfesor implements IDAOProfesor {
     private Profesor profesor;
+    private DBConnection connection = new DBConnection();
 
-    public DAOProfesor(Profesor profesor) {
+    public DAOProfesor(Profesor profesor){
+        this.profesor=profesor;
+    }
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(Profesor profesor) {
         this.profesor = profesor;
     }
 
-    /*public DAOProfesor(Profesor profesor) {
-        super(profesor);
-        this.noPersonal = profesor.getNoPersonal();
-        this.turno = profesor.getTurno();
-    }*/
-
-    /**
-     * Method to log in against the DB
-     *
-     * <p>
-     * STATUS DESCRIPTION<br/>
-     * 0	->	Initial status: no action has been taken<br/>
-     * 1	->	loggedIn<br/>
-     * 2	->	Wrong password<br/>
-     * 3	->	Unmatched email<br/>
-     * 4	->	Malformed object
-     * 5	->	Logged as User but not as Admin. Attend immediately
-     * </p>
-     *
-     * @return status of the DAO
-     */
-    public int logIn() {
-        int status = super.logIn();
-        if (status == 1) {
-            String query = "SELECT COUNT(Profesor.idUsuario) AS TOTAL FROM Profesor " +
-                    "INNER JOIN Usuario ON Profesor.idUsuario = Usuario.idUsuario " +
-                    "WHERE Usuario.correoElectronico = ?";
-            String[] values = {this.getCorreoElectronico()};
-            String[] names = {"TOTAL"};
-            if (!this.connection.select(query, values, names)[0][0].equals("1")) {
-                status = 5;
-            }
-        }
-        return status;
+    @Override
+    public boolean update() {
+        return false;
     }
 
-    /**
-     * Method to sign up a new Admin
-     * <p>
-     * STATUS DESCRIPTION
-     * 0	->	Initial status: no action has been taken
-     * 1	->	Success
-     * 2	->	Error in sending query
-     * 3	->	User already registered
-     * 4	->	Malformed object
-     * 5	->	Registered into User but not into Admin. Attend immediately
-     * </p>
-     *
-     * @return
-     */
-    public int signUp() {
-        int status = super.signUp();
-        if (status == 1) {
-            String query = "INSERT INTO Profesor (idUsuario, fechaRegistro, noPersonal," +
-                    " turno) VALUES ((SELECT idUsuario FROM Usuario WHERE correoElectronico" +
-                    " = ?), (SELECT CURRENT_DATE), " +
-                    "?, ?);";
-            String[] values = {this.getCorreoElectronico(), this.profesor.getNoPersonal(), String.valueOf(this.profesor.getTurno())};
-            if (!this.connection.preparedQuery(query, values)) {
-                status = 5;
+    @Override
+    public boolean delete() {
+        return false;
+    }
+
+    @Override
+    public boolean logIn() {
+        boolean loggedIn = false;
+        String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Profesor WHERE correoElectronico = ? " +
+                "AND contrasena = ?";
+        String[] values = {this.profesor.getCorreoElectronico(), this.profesor.getContrasena()};
+        String[] names = {"TOTAL"};
+        if (this.isRegistered()) {
+            if (this.connection.select(query, values, names)[0][0].equals("1")) {
+                loggedIn = true;
             }
         }
-        return status;
+        return loggedIn;
+    }
+
+    @Override
+    public boolean signUp() {
+        boolean signedUp = false;
+        if(this.profesor.isComplete()){
+            String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status)" +
+                    "VALUES (?, ?, ?, ?, ?)";
+            String[] values = {this.profesor.getNombres(), this.profesor.getApellidos(),
+                    this.profesor.getCorreoElectronico(), this.profesor.getContrasena(), "1"};
+            if(this.connection.preparedQuery(query, values)) {
+                query = "INSERT INTO Profesor (idUsuario, fechaRegistro, noPersonal, turno) VALUES " +
+                        "((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), (SELECT CURRENT_DATE), ?, ?)";
+                values = new String[]{this.profesor.getCorreoElectronico(), this.profesor.getNoPersonal(), String.valueOf(this.profesor.getTurno())};
+                if(this.connection.preparedQuery(query, values)){
+                    signedUp = true;
+                }
+            }
+        }
+        return signedUp;
+    }
+
+    @Override
+    public boolean isRegistered() {
+        boolean isRegistered = false;
+        String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
+        String[] values = {this.profesor.getCorreoElectronico()};
+        String[] names = {"TOTAL"};
+        if (this.profesor.isComplete()) {
+            if (this.connection.select(query, values, names)[0][0].equals("1")) {
+                query = "SELECT COUNT(idUsuario) AS TOTAL FROM Profesor INNER JOIN Usuario " +
+                        "ON Profesor.idUsuario = Usuario.idUsuario " +
+                        "WHERE Usuario.correElectronico = ?";
+                if (this.connection.select(query, values, names)[0][0].equals("1")) {
+                    isRegistered = true;
+                }
+            }
+        }
+        return isRegistered;
+    }
+
+    public static Profesor[] getAll() {
+        return new Profesor[0];
+    }
+
+    public static Profesor[] get(Profesor profesor) {
+        return null;
     }
 }
