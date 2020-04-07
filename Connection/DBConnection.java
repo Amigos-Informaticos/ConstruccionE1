@@ -3,7 +3,6 @@ package Connection;
 import Configuration.Configuration;
 import tools.Arch;
 import tools.Logger;
-import tools.P;
 
 import java.sql.*;
 
@@ -18,10 +17,6 @@ public class DBConnection {
 
 	public DBConnection() {
 		Configuration.loadConnection(this);
-		P.pln(this.driver);
-		P.pln(this.url);
-		P.pln(this.user);
-		P.pln(this.password);
 	}
 
 	public DBConnection(String driver, String url, String user, String password) {
@@ -127,8 +122,6 @@ public class DBConnection {
 			} catch (ClassNotFoundException | SQLException e) {
 				this.logger.log(e);
 			}
-		} else {
-			P.pln("Connection not open");
 		}
 		return isOpen;
 	}
