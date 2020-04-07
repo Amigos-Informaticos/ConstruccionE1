@@ -30,16 +30,16 @@ public class DAOPracticante implements IDAOPracticante {
 	public boolean update() {
 		boolean updated = false;
 		if (this.isRegistered()) {
-			String query = "UPDATE Usuario SET nombres = ?, apellidos = ?, correoElectronico = ?, " +
-					"contrasena = ? WHERE correoElectronico = ?";
+			String query = "UPDATE Usuario SET nombres = ?, apellidos = ?, correoElectronico = ?, "
+				+ "contrasena = ? WHERE correoElectronico = ?";
 			String[] values = {this.practicante.getNombres(), this.practicante.getApellidos(),
-					this.practicante.getCorreoElectronico(), this.practicante.getContrasena(),
-					this.practicante.getCorreoElectronico()};
+				this.practicante.getCorreoElectronico(), this.practicante.getContrasena(),
+				this.practicante.getCorreoElectronico()};
 			if (this.connection.preparedQuery(query, values)) {
-				query = "UPDATE Practicante SET Matricula = ? WHERE idUsuario = (SELECT idUsuario " +
-						"FROM Usuario WHERE correoElectronico = ?)";
-				values = new String[]{this.practicante.getMatricula(),
-						this.practicante.getCorreoElectronico()};
+				query = "UPDATE Practicante SET Matricula = ? WHERE idUsuario = (SELECT " +
+					"idUsuario" + " " + "FROM Usuario WHERE correoElectronico = ?)";
+				values = new String[] {this.practicante.getMatricula(),
+					this.practicante.getCorreoElectronico()};
 				if (this.connection.preparedQuery(query, values)) {
 					updated = true;
 				}
@@ -56,15 +56,19 @@ public class DAOPracticante implements IDAOPracticante {
 	@Override
 	public boolean delete() {
 		boolean deleted = false;
-		String query = "DELETE FROM Practicante WHERE idUsuario = (SELECT idUsuario FROM Usuario " +
-				"WHERE correoElectronico = ?)";
-
-		String[] values = {this.practicante.getCorreoElectronico()};
-		if (this.isRegistered()) {
+		if (this.practicante != null && this.isRegistered()) {
+			String query = "DELETE FROM SeleccionProyecto WHERE idUsuario = " +
+				"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?)";
+			String[] values = {this.practicante.getCorreoElectronico()};
 			if (this.connection.preparedQuery(query, values)) {
-				query = "DELETE FROM Usuario WHERE correoElectronico = ?";
+				query = "DELETE FROM Practicante WHERE idUsuario = (SELECT idUsuario FROM Usuario" +
+					" " +
+					"WHERE correoElectronico = ?)";
 				if (this.connection.preparedQuery(query, values)) {
-					deleted = true;
+					query = "DELETE FROM Usuario WHERE correoElectronico = ?";
+					if (this.connection.preparedQuery(query, values)) {
+						deleted = true;
+					}
 				}
 			}
 		}
@@ -82,9 +86,10 @@ public class DAOPracticante implements IDAOPracticante {
 	@Override
 	public boolean logIn() {
 		boolean loggedIn = false;
-		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ? " +
-				"AND contrasena = ? AND status = 1";
-		String[] values = {this.practicante.getCorreoElectronico(), this.practicante.getContrasena()};
+		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ? "
+			+ "AND contrasena = ? AND status = 1";
+		String[] values = {this.practicante.getCorreoElectronico(),
+			this.practicante.getContrasena()};
 		String[] names = {"TOTAL"};
 		if (this.isRegistered()) {
 			if (this.connection.select(query, values, names)[0][0].equals("1")) {
@@ -105,16 +110,17 @@ public class DAOPracticante implements IDAOPracticante {
 	@Override
 	public boolean signUp() {
 		boolean signedUp = false;
-		String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status) " +
-				"VALUES (?, ?, ?, ?, 1)";
+		String query =
+			"INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status) "
+				+ "VALUES (?, ?, ?, ?, 1)";
 		String[] values = {this.practicante.getNombres(), this.practicante.getApellidos(),
-				this.practicante.getCorreoElectronico(), this.practicante.getContrasena()};
+			this.practicante.getCorreoElectronico(), this.practicante.getContrasena()};
 		if (!this.isRegistered()) {
 			if (this.connection.preparedQuery(query, values)) {
 				query = "INSERT INTO Practicante (idUsuario, matricula) VALUES " +
-						"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?)";
-				values = new String[]{this.practicante.getCorreoElectronico(),
-						this.practicante.getMatricula()};
+					"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?)";
+				values = new String[] {this.practicante.getCorreoElectronico(),
+					this.practicante.getMatricula()};
 				if (this.connection.preparedQuery(query, values)) {
 					signedUp = true;
 				}
@@ -134,14 +140,15 @@ public class DAOPracticante implements IDAOPracticante {
 	public boolean isRegistered() {
 		boolean isRegistered = false;
 		if (this.practicante != null) {
-			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
+			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE " +
+				"correoElectronico" + " " + "= ?";
 			String[] values = {this.practicante.getCorreoElectronico()};
 			String[] names = {"TOTAL"};
 			if (this.practicante != null && this.practicante.getCorreoElectronico() != null) {
 				if (this.connection.select(query, values, names)[0][0].equals("1")) {
-					query = "SELECT COUNT(Practicante.idUsuario) AS TOTAL FROM Practicante INNER JOIN Usuario " +
-							"ON Practicante.idUsuario = Usuario.idUsuario " +
-							"WHERE Usuario.correoElectronico = ?";
+					query = "SELECT COUNT(Practicante.idUsuario) AS TOTAL FROM Practicante " +
+						"INNER JOIN Usuario ON Practicante.idUsuario = Usuario.idUsuario " +
+						"WHERE Usuario.correoElectronico = ?";
 					if (this.connection.select(query, values, names)[0][0].equals("1")) {
 						isRegistered = true;
 					}
@@ -161,18 +168,13 @@ public class DAOPracticante implements IDAOPracticante {
 		Practicante[] practicantes = null;
 		DBConnection connection = new DBConnection();
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
-				"FROM Usuario INNER JOIN Practicante ON Usuario.idUsuario = Practicante.idUsuario;";
+			"FROM Usuario INNER JOIN Practicante ON Usuario.idUsuario = Practicante.idUsuario;";
 		String[] names = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
 		String[][] results = connection.select(query, null, names);
 		practicantes = new Practicante[results.length];
 		for (int i = 0; i < results.length; i++) {
-			practicantes[i] = new Practicante(
-					results[i][0],
-					results[i][1],
-					results[i][2],
-					results[i][3],
-					results[i][4]
-			);
+			practicantes[i] = new Practicante(results[i][0], results[i][1], results[i][2],
+				results[i][3], results[i][4]);
 		}
 		return practicantes;
 	}
@@ -184,7 +186,8 @@ public class DAOPracticante implements IDAOPracticante {
 	 * </p>
 	 *
 	 * @param practicante Instance of PRACTICANTE with email
-	 * @return
+	 * @return Instace of PRACTICANTE completed from the DB<br/>
+	 * If the provided PRACTICANTE is not registered, it will return null
 	 */
 	public static Practicante get(Practicante practicante) {
 		DBConnection connection = new DBConnection();
@@ -192,44 +195,48 @@ public class DAOPracticante implements IDAOPracticante {
 		if (practicante != null) {
 			if (new DAOPracticante(practicante).isRegistered()) {
 				String query = "SELECT nombres, apellidos, correoElectronico, contrasena, " +
-						"matricula FROM Usuario INNER JOIN Practicante " +
-						"ON Usuario.idUsuario = Practicante.idUsuario " +
-						"WHERE Usuario.correoElectronico = ?";
+					"matricula FROM Usuario INNER JOIN Practicante " +
+					"ON Usuario.idUsuario = Practicante.idUsuario " +
+					"WHERE Usuario.correoElectronico = ?";
 				String[] values = {practicante.getCorreoElectronico()};
 				String[] names = {"nombres", "apellidos", "correoElectronico", "contrasena",
-						"matricula"};
+					"matricula"};
 				String[][] results = connection.select(query, values, names);
-				returnPracticante = new Practicante(
-						results[0][0],
-						results[0][1],
-						results[0][2],
-						results[0][3],
-						results[0][4]
-				);
+				returnPracticante = new Practicante(results[0][0], results[0][1], results[0][2],
+					results[0][3], results[0][4]);
 			}
 		}
 		return returnPracticante;
 	}
 
+	public boolean selectProyect(String projectName) {
+		return this.selectProyect(new DAOProyecto().loadProyecto(projectName));
+	}
+
 	/**
+	 * Saves the selection of a project from the current PRACTICANTE in the database
+	 *
 	 * @param proyecto Instance of PROYECTO to relate in the database
-	 * @return
+	 * @return true => selection registered<br/>
+	 * false => not registered
 	 */
 	public boolean selectProyect(Proyecto proyecto) {
 		boolean selected = false;
 		if (this.practicante != null && this.practicante.isComplete() && this.isRegistered() &&
-				proyecto != null && proyecto.isComplete()) {
-			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM SeleccionProyecto " +
-					"WHERE idUsuario = (SELECT idUsuario FROM Usuario WHERE correoElectronico = ?)";
+			proyecto != null && proyecto.isComplete()) {
+			String query =
+				"SELECT COUNT(idUsuario) AS TOTAL FROM SeleccionProyecto " + "WHERE " + "idUsuario"
+					+ " = (SELECT idUsuario FROM Usuario WHERE correoElectronico = ?)";
 			String[] values = {this.practicante.getCorreoElectronico()};
 			String[] names = {"TOTAL"};
 			int selectedProyects =
-					Integer.parseInt(this.connection.select(query, values, names)[0][0]);
+				Integer.parseInt(this.connection.select(query, values, names)[0][0]);
 			if (selectedProyects < 3) {
-				query = "INSERT INTO SeleccionProyecto (idProyecto, idUsuario) VALUES " +
-						"((SELECT idProyecto FROM Proyecto WHERE nombre = ? AND status = 1), " +
-						"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?))";
-				values = new String[]{proyecto.getNombre(), this.practicante.getCorreoElectronico()};
+				query = "INSERT INTO SeleccionProyecto (idProyecto, idUsuario) VALUES " + "(" +
+					"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND status = 1), " +
+					"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?))";
+				values = new String[] {proyecto.getNombre(),
+					this.practicante.getCorreoElectronico()};
 				if (this.connection.preparedQuery(query, values)) {
 					selected = true;
 				}
@@ -238,39 +245,60 @@ public class DAOPracticante implements IDAOPracticante {
 		return selected;
 	}
 
-	public Proyecto[] getProyects() throws NullPointerException {
+	/**
+	 * Returns an array of the selected PROYECTO from the current PRACTICANTE
+	 *
+	 * @return Array of PROYECTO
+	 */
+	public Proyecto[] getProyects() {
 		Proyecto[] proyectos = null;
 		if (this.practicante != null && this.practicante.isComplete() && this.isRegistered()) {
-			String query = "SELECT nombre, metodologia, objetivoGeneral, " +
-					"objetivoMediato, objetivoInmediato, recursos, responsabilidades, area, " +
-					"responsable, idPeriodo, idOrganizacion " +
-					"FROM Proyecto INNER JOIN SeleccionProyecto ON Proyecto.idProyecto = " +
-					"SeleccionProyecto.idProyecto WHERE SeleccionProyecto.idUsuario = " +
-					"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?) AND " +
-					"Proyecto.status = 1";
+			String query = "SELECT nombre " + "FROM Proyecto INNER JOIN SeleccionProyecto ON " +
+				"Proyecto.idProyecto = SeleccionProyecto.idProyecto " +
+				"WHERE SeleccionProyecto.idUsuario = " +
+				"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?) " +
+				"AND Proyecto.status = 1";
 			String[] values = {this.practicante.getCorreoElectronico()};
-			String[] names = {"nombre", "metodologia", "objetivoGeneral",
-					"objetivoMediato", "objetivoInmediato", "recursos", "responsabilidades", "area",
-					"responsable", "idPeriodo", "idOrganizacion"};
+			String[] names = {"nombre"};
 			String[][] results = this.connection.select(query, values, names);
 			if (results.length > 0) {
+				DAOProyecto daoProyecto = new DAOProyecto();
 				proyectos = new Proyecto[results.length];
 				for (int i = 0; i < results.length; i++) {
-					proyectos[i] = new Proyecto();
-					proyectos[i].setNombre(results[i][0]);
-					proyectos[i].setMetodologia(results[i][1]);
-					proyectos[i].setObjetivoGeneral(results[i][2]);
-					proyectos[i].setObjetivoMediato(results[i][3]);
-					proyectos[i].setObjetivoInmediato(results[i][4]);
-					proyectos[i].setRecursos(results[i][5]);
-					proyectos[i].setResponsabilidades(results[i][6]);
-					proyectos[i].setArea(results[i][7]);
-					proyectos[i].setResponsable(results[i][8]);
-					proyectos[i].setIdPeriodo(results[i][9]);
-					proyectos[i].setIdOrganizacion(results[i][10]);
+					proyectos[i] = daoProyecto.loadProyecto(results[i][0]);
 				}
 			}
 		}
 		return proyectos;
 	}
+
+	public boolean deleteSelectedProyect(String projectName) {
+		boolean deleted = false;
+		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
+			this.isRegistered() && projectName != null) {
+			DAOProyecto daoProyecto = new DAOProyecto(projectName);
+			if (daoProyecto.isRegistered()) {
+				boolean isSelected = false;
+				for (Proyecto proyecto: this.getProyects()) {
+					if (proyecto != null && proyecto.getNombre().equals(projectName)) {
+						isSelected = true;
+						break;
+					}
+				}
+				if (isSelected) {
+					String query = "DELETE FROM SeleccionProyecto " +
+						"WHERE idUsuario = " +
+						"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?) " +
+						"AND idProyecto = " +
+						"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND " + "status = 1)";
+					String[] values = {this.practicante.getCorreoElectronico(), projectName};
+					if (this.connection.preparedQuery(query, values)) {
+						deleted = true;
+					}
+				}
+			}
+		}
+		return deleted;
+	}
+
 }

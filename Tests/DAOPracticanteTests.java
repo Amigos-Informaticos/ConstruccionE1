@@ -1,10 +1,9 @@
 package Tests;
 
 import DAO.DAOPracticante;
-import DAO.DAOProyecto;
 import Models.Practicante;
+import Models.Proyecto;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -24,22 +23,19 @@ public class DAOPracticanteTests {
 		assertTrue(getDAOPracticante().logIn());
 	}
 
-	@Ignore
 	@Test
 	public void C_getAllPracticantes() {
 		Practicante[] practicantes = DAOPracticante.getAll();
-		for (Practicante practicante : practicantes) {
+		for (Practicante practicante: practicantes) {
 			assertNotNull(practicante);
 		}
 	}
 
-	@Ignore
 	@Test
 	public void D_getPracticante() {
 		assertNotNull(DAOPracticante.get(getInstancePracticante()));
 	}
 
-	@Ignore
 	@Test
 	public void E_updatePracticante() {
 		Practicante practicante = getInstancePracticante();
@@ -49,7 +45,19 @@ public class DAOPracticanteTests {
 
 	@Test
 	public void F_selectProyect() {
-		assertTrue(getDAOPracticante().selectProyect(new DAOProyecto().loadProyecto("Hackear la nasa")));
+		assertTrue(getDAOPracticante().selectProyect("Hackear la nasa"));
+	}
+
+	@Test
+	public void F1_deleteSelectedProyect() {
+		assertTrue(getDAOPracticante().deleteSelectedProyect("Hackear la nasa"));
+	}
+
+	@Test
+	public void F2_getSelectedProyects() {
+		for (Proyecto proyecto: getDAOPracticante().getProyects()) {
+			assertNotNull(proyecto);
+		}
 	}
 
 	@Test
@@ -63,11 +71,11 @@ public class DAOPracticanteTests {
 
 	private Practicante getInstancePracticante() {
 		return new Practicante(
-				"Miguel Joaquin",
-				"Lopez Doriga",
-				"mjld@hotmail.com",
-				"elmiguel123",
-				"S18012150"
+			"Miguel Joaquin",
+			"Lopez Doriga",
+			"mjld@hotmail.com",
+			"elmiguel123",
+			"S18012150"
 		);
 	}
 }
