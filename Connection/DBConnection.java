@@ -15,10 +15,23 @@ public class DBConnection {
 	private Arch configurationFile;
 	private Logger logger = new Logger();
 
+	/**
+	 * Empty default constructor<br/>
+	 * Tries to load saved connection<br/>
+	 * If there's no saved connection, loads default connection
+	 */
 	public DBConnection() {
 		Configuration.loadConnection(this);
 	}
 
+	/**
+	 * Parametrized constructor
+	 *
+	 * @param driver   String with driver to open the connection
+	 * @param url      URL to connect to database
+	 * @param user     User to log to the database
+	 * @param password Password to enter the database
+	 */
 	public DBConnection(String driver, String url, String user, String password) {
 		this.driver = driver;
 		this.url = url;
@@ -61,7 +74,7 @@ public class DBConnection {
 	/**
 	 * Loads a saved connection
 	 * <p>
-	 * Tries to load a saved connection
+	 * Tries to load a saved connection<br/>
 	 * If there's no saved connection
 	 * or if can't load it,
 	 * loads default connection

@@ -71,6 +71,14 @@ public class DAOPracticante implements IDAOPracticante {
 		return deleted;
 	}
 
+	/**
+	 * Log the current PRACTICANTE
+	 * Verifies if the current instance is registered<br/>
+	 * and has the correct credentials to log in
+	 *
+	 * @return true => registered and correct credentials<br/>
+	 * false => not registered or incorrect credentials
+	 */
 	@Override
 	public boolean logIn() {
 		boolean loggedIn = false;
@@ -86,6 +94,14 @@ public class DAOPracticante implements IDAOPracticante {
 		return loggedIn;
 	}
 
+	/**
+	 * Register the current instance to the database
+	 * <p>
+	 * Verifies that the current instance is not already registered,<br/>
+	 * if not, saves it to the database.
+	 *
+	 * @return true => registered | false => couldn't register
+	 */
 	@Override
 	public boolean signUp() {
 		boolean signedUp = false;
@@ -107,19 +123,28 @@ public class DAOPracticante implements IDAOPracticante {
 		return signedUp;
 	}
 
+	/**
+	 * Verifies the existence of the current PRACTICANTE against the database<br/>
+	 * Checks if the email of the current PRACTICANTE
+	 * is already registered in the database
+	 *
+	 * @return true => registered | false => not registered
+	 */
 	@Override
 	public boolean isRegistered() {
 		boolean isRegistered = false;
-		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
-		String[] values = {this.practicante.getCorreoElectronico()};
-		String[] names = {"TOTAL"};
-		if (this.practicante != null && this.practicante.getCorreoElectronico() != null) {
-			if (this.connection.select(query, values, names)[0][0].equals("1")) {
-				query = "SELECT COUNT(Practicante.idUsuario) AS TOTAL FROM Practicante INNER JOIN Usuario " +
-						"ON Practicante.idUsuario = Usuario.idUsuario " +
-						"WHERE Usuario.correoElectronico = ?";
+		if (this.practicante != null) {
+			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
+			String[] values = {this.practicante.getCorreoElectronico()};
+			String[] names = {"TOTAL"};
+			if (this.practicante != null && this.practicante.getCorreoElectronico() != null) {
 				if (this.connection.select(query, values, names)[0][0].equals("1")) {
-					isRegistered = true;
+					query = "SELECT COUNT(Practicante.idUsuario) AS TOTAL FROM Practicante INNER JOIN Usuario " +
+							"ON Practicante.idUsuario = Usuario.idUsuario " +
+							"WHERE Usuario.correoElectronico = ?";
+					if (this.connection.select(query, values, names)[0][0].equals("1")) {
+						isRegistered = true;
+					}
 				}
 			}
 		}
@@ -127,9 +152,10 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 
 	/**
-	 * Returns an array of all Practicante from DB
+	 * Returns an array of all PRACTICANTE from DB
 	 *
-	 * @return Array of Practicante
+	 * @return Array of PRACTICANTE<br/>
+	 * If there are no PRACTICANTEs registered, returns null
 	 */
 	public static Practicante[] getAll() {
 		Practicante[] practicantes = null;
@@ -157,7 +183,7 @@ public class DAOPracticante implements IDAOPracticante {
 	 * Returns an instance of practicante by its email<br/>
 	 * </p>
 	 *
-	 * @param practicante
+	 * @param practicante Instance of PRACTICANTE with email
 	 * @return
 	 */
 	public static Practicante get(Practicante practicante) {
@@ -185,6 +211,10 @@ public class DAOPracticante implements IDAOPracticante {
 		return returnPracticante;
 	}
 
+	/**
+	 * @param proyecto Instance of PROYECTO to relate in the database
+	 * @return
+	 */
 	public boolean selectProyect(Proyecto proyecto) {
 		boolean selected = false;
 		if (this.practicante != null && this.practicante.isComplete() && this.isRegistered() &&
@@ -206,5 +236,41 @@ public class DAOPracticante implements IDAOPracticante {
 			}
 		}
 		return selected;
+	}
+
+	public Proyecto[] getProyects() throws NullPointerException {
+		Proyecto[] proyectos = null;
+		if (this.practicante != null && this.practicante.isComplete() && this.isRegistered()) {
+			String query = "SELECT nombre, metodologia, objetivoGeneral, " +
+					"objetivoMediato, objetivoInmediato, recursos, responsabilidades, area, " +
+					"responsable, idPeriodo, idOrganizacion " +
+					"FROM Proyecto INNER JOIN SeleccionProyecto ON Proyecto.idProyecto = " +
+					"SeleccionProyecto.idProyecto WHERE SeleccionProyecto.idUsuario = " +
+					"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?) AND " +
+					"Proyecto.status = 1";
+			String[] values = {this.practicante.getCorreoElectronico()};
+			String[] names = {"nombre", "metodologia", "objetivoGeneral",
+					"objetivoMediato", "objetivoInmediato", "recursos", "responsabilidades", "area",
+					"responsable", "idPeriodo", "idOrganizacion"};
+			String[][] results = this.connection.select(query, values, names);
+			if (results.length > 0) {
+				proyectos = new Proyecto[results.length];
+				for (int i = 0; i < results.length; i++) {
+					proyectos[i] = new Proyecto();
+					proyectos[i].setNombre(results[i][0]);
+					proyectos[i].setMetodologia(results[i][1]);
+					proyectos[i].setObjetivoGeneral(results[i][2]);
+					proyectos[i].setObjetivoMediato(results[i][3]);
+					proyectos[i].setObjetivoInmediato(results[i][4]);
+					proyectos[i].setRecursos(results[i][5]);
+					proyectos[i].setResponsabilidades(results[i][6]);
+					proyectos[i].setArea(results[i][7]);
+					proyectos[i].setResponsable(results[i][8]);
+					proyectos[i].setIdPeriodo(results[i][9]);
+					proyectos[i].setIdOrganizacion(results[i][10]);
+				}
+			}
+		}
+		return proyectos;
 	}
 }

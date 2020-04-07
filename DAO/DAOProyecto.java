@@ -17,43 +17,6 @@ public class DAOProyecto implements IDAOProyecto {
         this.connection = new DBConnection();
     }
 
-
-
-    /**
-     * Method to log in against the DB
-     *
-     * <p>
-     * STATUS DESCRIPTION<br/>
-     * 0	->	Initial status: no action has been taken<br/>
-     * 1	->	loggedIn<br/>
-     * 2	->	Wrong password<br/>
-     * 3	->	Unmatched email<br/>
-     * 4	->	Malformed object
-     * </p>
-     *
-     * @return status of the DAO
-     */
-    /*public int logIn() {
-        int status = 0;
-        if (this.proyecto.getCorreoElectronico() != null && this.proyecto.getContrasena() != null) {
-            if (this.isRegistered()) {
-                String query = "SELECT COUNT(idProyecto) AS TOTAL FROM Proyecto WHERE correoElectronico = ? AND contrasena = ?";
-                String[] values = {this.proyecto.getCorreoElectronico(), this.proyecto.getContrasena()};
-                String[] names = {"TOTAL"};
-                if (this.connection.select(query, values, names)[0][0].equals("1")) {
-                    status = 1;
-                } else {
-                    status = 2;
-                }
-            } else {
-                status = 3;
-            }
-        } else {
-            status = 4;
-        }
-        return status;
-    }*/
-
     /**
      * Method to sign up a new proyecto
      * <p>
