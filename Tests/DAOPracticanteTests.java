@@ -44,13 +44,8 @@ public class DAOPracticanteTests {
 	}
 
 	@Test
-	public void F_selectProyect() {
+	public void F1_selectProyect() {
 		assertTrue(getDAOPracticante().selectProyect("Hackear la nasa"));
-	}
-
-	@Test
-	public void F1_deleteSelectedProyect() {
-		assertTrue(getDAOPracticante().deleteSelectedProyect("Hackear la nasa"));
 	}
 
 	@Test
@@ -58,6 +53,11 @@ public class DAOPracticanteTests {
 		for (Proyecto proyecto: getDAOPracticante().getProyects()) {
 			assertNotNull(proyecto);
 		}
+	}
+
+	@Test
+	public void F3_deleteSelectedProyect() {
+		assertTrue(getDAOPracticante().deleteSelectedProyect("Hackear la nasa"));
 	}
 
 	@Test

@@ -57,9 +57,13 @@ public class DAOPracticante implements IDAOPracticante {
 	public boolean delete() {
 		boolean deleted = false;
 		if (this.practicante != null && this.isRegistered()) {
-			String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
-			String[] values = {this.practicante.getCorreoElectronico()};
-			if (this.connection.preparedQuery(query, values)) {
+			if (this.isActive()) {
+				String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
+				String[] values = {this.practicante.getCorreoElectronico()};
+				if (this.connection.preparedQuery(query, values)) {
+					deleted = true;
+				}
+			} else {
 				deleted = true;
 			}
 		}
@@ -77,14 +81,17 @@ public class DAOPracticante implements IDAOPracticante {
 	@Override
 	public boolean logIn() {
 		boolean loggedIn = false;
-		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ? "
-			+ "AND contrasena = ? AND status = 1";
-		String[] values = {this.practicante.getCorreoElectronico(),
-			this.practicante.getContrasena()};
-		String[] names = {"TOTAL"};
-		if (this.isRegistered()) {
-			if (this.connection.select(query, values, names)[0][0].equals("1")) {
-				loggedIn = true;
+		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
+			this.isRegistered() && this.isActive()) {
+			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario " +
+				"WHERE correoElectronico = ? AND contrasena = ? AND status = 1";
+			String[] values = {this.practicante.getCorreoElectronico(),
+				this.practicante.getContrasena()};
+			String[] names = {"TOTAL"};
+			if (this.isRegistered()) {
+				if (this.connection.select(query, values, names)[0][0].equals("1")) {
+					loggedIn = true;
+				}
 			}
 		}
 		return loggedIn;
@@ -101,17 +108,24 @@ public class DAOPracticante implements IDAOPracticante {
 	@Override
 	public boolean signUp() {
 		boolean signedUp = false;
-		String query =
-			"INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status) "
-				+ "VALUES (?, ?, ?, ?, 1)";
-		String[] values = {this.practicante.getNombres(), this.practicante.getApellidos(),
-			this.practicante.getCorreoElectronico(), this.practicante.getContrasena()};
-		if (!this.isRegistered()) {
-			if (this.connection.preparedQuery(query, values)) {
-				query = "INSERT INTO Practicante (idUsuario, matricula) VALUES " +
-					"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?)";
-				values = new String[] {this.practicante.getCorreoElectronico(),
-					this.practicante.getMatricula()};
+		if (this.practicante != null) {
+			if (!this.isRegistered()) {
+				String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, " +
+					"contrasena, status) VALUES (?, ?, ?, ?, 1)";
+				String[] values = {this.practicante.getNombres(), this.practicante.getApellidos(),
+					this.practicante.getCorreoElectronico(), this.practicante.getContrasena()};
+				if (this.connection.preparedQuery(query, values)) {
+					query = "INSERT INTO Practicante (idUsuario, matricula) VALUES " +
+						"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?)";
+					values = new String[] {this.practicante.getCorreoElectronico(),
+						this.practicante.getMatricula()};
+					if (this.connection.preparedQuery(query, values)) {
+						signedUp = true;
+					}
+				}
+			} else {
+				String query = "UPDATE Usuario SET status = 1 WHERE correoElectronico = ?";
+				String[] values = {this.practicante.getCorreoElectronico()};
 				if (this.connection.preparedQuery(query, values)) {
 					signedUp = true;
 				}
@@ -132,7 +146,7 @@ public class DAOPracticante implements IDAOPracticante {
 		boolean isRegistered = false;
 		if (this.practicante != null && this.practicante.getCorreoElectronico() != null) {
 			String query = "SELECT COUNT(idUsuario) AS TOTAL " +
-				"FROM Usuario WHERE correoElectronico = ? AND status = 1";
+				"FROM Usuario WHERE correoElectronico = ?";
 			String[] values = {this.practicante.getCorreoElectronico()};
 			String[] names = {"TOTAL"};
 			if (this.practicante != null && this.practicante.getCorreoElectronico() != null) {
@@ -147,6 +161,18 @@ public class DAOPracticante implements IDAOPracticante {
 			}
 		}
 		return isRegistered;
+	}
+
+	public boolean isActive() {
+		boolean isActive = false;
+		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
+			this.isRegistered()) {
+			String query = "SELECT status FROM Usuario WHERE correoElectronico = ?";
+			String[] values = {this.practicante.getCorreoElectronico()};
+			String[] names = {"status"};
+			isActive = this.connection.select(query, values, names)[0][0].equals("1");
+		}
+		return isActive;
 	}
 
 	/**
@@ -212,7 +238,8 @@ public class DAOPracticante implements IDAOPracticante {
 	public boolean selectProyect(Proyecto proyecto) {
 		boolean selected = false;
 		if (this.practicante != null && this.practicante.isComplete() && this.isRegistered() &&
-			proyecto != null && proyecto.isComplete() && new DAOProyecto(proyecto).isRegistered()) {
+			this.isActive() && proyecto != null && proyecto.isComplete() &&
+			new DAOProyecto(proyecto).isRegistered()) {
 			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM SeleccionProyecto " +
 				"WHERE idUsuario = (SELECT idUsuario FROM Usuario WHERE correoElectronico = ?)";
 			String[] values = {this.practicante.getCorreoElectronico()};
@@ -240,7 +267,8 @@ public class DAOPracticante implements IDAOPracticante {
 	 */
 	public Proyecto[] getProyects() {
 		Proyecto[] proyectos = null;
-		if (this.practicante != null && this.practicante.isComplete() && this.isRegistered()) {
+		if (this.practicante != null && this.practicante.isComplete() && this.isRegistered() &&
+			this.isActive()) {
 			String query = "SELECT nombre " + "FROM Proyecto INNER JOIN SeleccionProyecto ON " +
 				"Proyecto.idProyecto = SeleccionProyecto.idProyecto " +
 				"WHERE SeleccionProyecto.idUsuario = " +
@@ -263,7 +291,7 @@ public class DAOPracticante implements IDAOPracticante {
 	public boolean deleteSelectedProyect(String projectName) {
 		boolean deleted = false;
 		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
-			this.isRegistered() && projectName != null) {
+			this.isRegistered() && this.isActive() && projectName != null) {
 			DAOProyecto daoProyecto = new DAOProyecto(projectName);
 			if (daoProyecto.isRegistered()) {
 				boolean isSelected = false;
