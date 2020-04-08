@@ -87,31 +87,33 @@ public class DAOProyecto implements IDAOProyecto {
 
 	public Proyecto loadProyecto(String name) {
 		Proyecto proyecto = null;
-		String query = "SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ? AND status =1";
-		String[] values = {name};
-		String[] names = {"TOTAL"};
-		if (this.connection.select(query, values, names)[0][0].equals("1")) {
-			query = "SELECT * FROM Proyecto WHERE nombre = ?";
-			String[] results = {"idProyecto", "nombre", "metodologia", "objetivoGeneral",
-				"objetivoMediato", "objetivoInmediato", "recursos", "responsabilidades",
-				"status", "area", "responsable", "idPeriodo", "idOrganizacion"};
-			String[][] project = this.connection.select(query, values, results);
+		if (name != null) {
+			String query =
+				"SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ? AND status =1";
+			String[] values = {name};
+			String[] names = {"TOTAL"};
+			if (this.connection.select(query, values, names)[0][0].equals("1")) {
+				query = "SELECT * FROM Proyecto WHERE nombre = ?";
+				String[] results = {"idProyecto", "nombre", "metodologia", "objetivoGeneral",
+					"objetivoMediato", "objetivoInmediato", "recursos", "responsabilidades",
+					"status", "area", "responsable", "idPeriodo", "idOrganizacion"};
+				String[][] project = this.connection.select(query, values, results);
 
-			proyecto = new Proyecto();
+				proyecto = new Proyecto();
 
-			proyecto.setNombre(project[0][1]);
-			proyecto.setMetodologia(project[0][2]);
-			proyecto.setObjetivoGeneral(project[0][3]);
-			proyecto.setObjetivoMediato(project[0][4]);
-			proyecto.setObjetivoInmediato(project[0][5]);
-			proyecto.setRecursos(project[0][6]);
-			proyecto.setResponsabilidades(project[0][7]);
-			proyecto.setStatus(project[0][8]);
-			proyecto.setArea(project[0][9]);
-			proyecto.setResponsable(project[0][10]);
-			proyecto.setIdPeriodo(project[0][11]);
-			proyecto.setIdOrganizacion(project[0][12]);
-		} else {
+				proyecto.setNombre(project[0][1]);
+				proyecto.setMetodologia(project[0][2]);
+				proyecto.setObjetivoGeneral(project[0][3]);
+				proyecto.setObjetivoMediato(project[0][4]);
+				proyecto.setObjetivoInmediato(project[0][5]);
+				proyecto.setRecursos(project[0][6]);
+				proyecto.setResponsabilidades(project[0][7]);
+				proyecto.setStatus(project[0][8]);
+				proyecto.setArea(project[0][9]);
+				proyecto.setResponsable(project[0][10]);
+				proyecto.setIdPeriodo(project[0][11]);
+				proyecto.setIdOrganizacion(project[0][12]);
+			}
 		}
 		return proyecto;
 	}

@@ -57,19 +57,10 @@ public class DAOPracticante implements IDAOPracticante {
 	public boolean delete() {
 		boolean deleted = false;
 		if (this.practicante != null && this.isRegistered()) {
-			String query = "DELETE FROM SeleccionProyecto WHERE idUsuario = " +
-				"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?)";
+			String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
 			String[] values = {this.practicante.getCorreoElectronico()};
 			if (this.connection.preparedQuery(query, values)) {
-				query = "DELETE FROM Practicante WHERE idUsuario = (SELECT idUsuario FROM Usuario" +
-					" " +
-					"WHERE correoElectronico = ?)";
-				if (this.connection.preparedQuery(query, values)) {
-					query = "DELETE FROM Usuario WHERE correoElectronico = ?";
-					if (this.connection.preparedQuery(query, values)) {
-						deleted = true;
-					}
-				}
+				deleted = true;
 			}
 		}
 		return deleted;
@@ -139,9 +130,9 @@ public class DAOPracticante implements IDAOPracticante {
 	@Override
 	public boolean isRegistered() {
 		boolean isRegistered = false;
-		if (this.practicante != null) {
-			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE " +
-				"correoElectronico" + " " + "= ?";
+		if (this.practicante != null && this.practicante.getCorreoElectronico() != null) {
+			String query = "SELECT COUNT(idUsuario) AS TOTAL " +
+				"FROM Usuario WHERE correoElectronico = ? AND status = 1";
 			String[] values = {this.practicante.getCorreoElectronico()};
 			String[] names = {"TOTAL"};
 			if (this.practicante != null && this.practicante.getCorreoElectronico() != null) {
@@ -165,10 +156,11 @@ public class DAOPracticante implements IDAOPracticante {
 	 * If there are no PRACTICANTEs registered, returns null
 	 */
 	public static Practicante[] getAll() {
-		Practicante[] practicantes = null;
+		Practicante[] practicantes;
 		DBConnection connection = new DBConnection();
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
-			"FROM Usuario INNER JOIN Practicante ON Usuario.idUsuario = Practicante.idUsuario;";
+			"FROM Usuario INNER JOIN Practicante ON Usuario.idUsuario = Practicante.idUsuario " +
+			"WHERE Usuario.status = 1";
 		String[] names = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
 		String[][] results = connection.select(query, null, names);
 		practicantes = new Practicante[results.length];
@@ -180,10 +172,7 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 
 	/**
-	 * Returns an instance of Practicante
-	 * <p>
-	 * Returns an instance of practicante by its email<br/>
-	 * </p>
+	 * Returns an instance of Practicante by its email
 	 *
 	 * @param practicante Instance of PRACTICANTE with email
 	 * @return Instace of PRACTICANTE completed from the DB<br/>
@@ -223,10 +212,9 @@ public class DAOPracticante implements IDAOPracticante {
 	public boolean selectProyect(Proyecto proyecto) {
 		boolean selected = false;
 		if (this.practicante != null && this.practicante.isComplete() && this.isRegistered() &&
-			proyecto != null && proyecto.isComplete()) {
-			String query =
-				"SELECT COUNT(idUsuario) AS TOTAL FROM SeleccionProyecto " + "WHERE " + "idUsuario"
-					+ " = (SELECT idUsuario FROM Usuario WHERE correoElectronico = ?)";
+			proyecto != null && proyecto.isComplete() && new DAOProyecto(proyecto).isRegistered()) {
+			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM SeleccionProyecto " +
+				"WHERE idUsuario = (SELECT idUsuario FROM Usuario WHERE correoElectronico = ?)";
 			String[] values = {this.practicante.getCorreoElectronico()};
 			String[] names = {"TOTAL"};
 			int selectedProyects =
@@ -286,8 +274,7 @@ public class DAOPracticante implements IDAOPracticante {
 					}
 				}
 				if (isSelected) {
-					String query = "DELETE FROM SeleccionProyecto " +
-						"WHERE idUsuario = " +
+					String query = "DELETE FROM SeleccionProyecto WHERE idUsuario = " +
 						"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?) " +
 						"AND idProyecto = " +
 						"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND " + "status = 1)";
