@@ -29,6 +29,13 @@ public class DAOPracticante implements IDAOPracticante {
 		this.practicante = practicante;
 	}
 
+	/**
+	 * Returns the id of a PRACTICANTE by its emil
+	 *
+	 * @param email The email of the PRACTICANTE
+	 * @return PRACTICANTE's id as a String<br/>
+	 * If something goes wrong, returns an empty String
+	 */
 	public static String getId(String email) {
 		String id = "";
 		if (email != null) {
@@ -39,6 +46,13 @@ public class DAOPracticante implements IDAOPracticante {
 		return id;
 	}
 
+	/**
+	 * Returns the id of a PRACTICANTE
+	 *
+	 * @param practicante Instance of PRACTICANTE to know his id
+	 * @return PRACTICANTE's id as a String<br/>
+	 * If something goes wrong, returns an empty String
+	 */
 	public static String getId(Practicante practicante) {
 		String id = "";
 		if (practicante != null && practicante.getCorreoElectronico() != null &&
@@ -51,6 +65,12 @@ public class DAOPracticante implements IDAOPracticante {
 		return id;
 	}
 
+	/**
+	 * Returns the current PRACTICANTE's id
+	 *
+	 * @return The current PRACTICANTE's id<br/>
+	 * If something goes wrong, returns an empty String
+	 */
 	public String getId() {
 		return DAOPracticante.getId(this.practicante);
 	}
@@ -116,7 +136,7 @@ public class DAOPracticante implements IDAOPracticante {
 	public boolean logIn() {
 		boolean loggedIn = false;
 		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
-			this.isRegistered() && this.isActive()) {
+			this.isActive()) {
 			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario " +
 				"WHERE correoElectronico = ? AND contrasena = ? AND status = 1";
 			String[] values = {this.practicante.getCorreoElectronico(),
@@ -197,6 +217,12 @@ public class DAOPracticante implements IDAOPracticante {
 		return isRegistered;
 	}
 
+	/**
+	 * Verifies if the current PRACTICANTE is active in the DB
+	 *
+	 * @return true => his status is active<br/>
+	 * false => his status is inactive
+	 */
 	public boolean isActive() {
 		boolean isActive = false;
 		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
@@ -271,8 +297,8 @@ public class DAOPracticante implements IDAOPracticante {
 	 */
 	public boolean selectProyect(Proyecto proyecto) {
 		boolean selected = false;
-		if (this.practicante != null && this.practicante.isComplete() && this.isRegistered() &&
-			this.isActive() && proyecto != null && proyecto.isComplete() &&
+		if (this.practicante != null && this.practicante.isComplete() && this.isActive() &&
+			proyecto != null && proyecto.isComplete() &&
 			new DAOProyecto(proyecto).isRegistered()) {
 			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM SeleccionProyecto " +
 				"WHERE idUsuario = (SELECT idUsuario FROM Usuario WHERE correoElectronico = ?)";
@@ -301,8 +327,7 @@ public class DAOPracticante implements IDAOPracticante {
 	 */
 	public Proyecto[] getProyects() {
 		Proyecto[] proyectos = null;
-		if (this.practicante != null && this.practicante.isComplete() && this.isRegistered() &&
-			this.isActive()) {
+		if (this.practicante != null && this.practicante.isComplete() && this.isActive()) {
 			String query = "SELECT nombre " + "FROM Proyecto INNER JOIN SeleccionProyecto ON " +
 				"Proyecto.idProyecto = SeleccionProyecto.idProyecto " +
 				"WHERE SeleccionProyecto.idUsuario = " +
@@ -322,10 +347,17 @@ public class DAOPracticante implements IDAOPracticante {
 		return proyectos;
 	}
 
+	/**
+	 * Deletes the selected PROYECTO by its name
+	 *
+	 * @param projectName The name of the project to deselect
+	 * @return true => selection deleted<br/>
+	 * false => selection not deleted
+	 */
 	public boolean deleteSelectedProyect(String projectName) {
 		boolean deleted = false;
 		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
-			this.isRegistered() && this.isActive() && projectName != null) {
+			this.isActive() && projectName != null) {
 			DAOProyecto daoProyecto = new DAOProyecto(projectName);
 			if (daoProyecto.isRegistered()) {
 				boolean isSelected = false;
@@ -350,6 +382,14 @@ public class DAOPracticante implements IDAOPracticante {
 		return deleted;
 	}
 
+	/**
+	 * Adds a report to the database
+	 *
+	 * @param filePath The path to the file to upload as report
+	 * @param title    The title of the report
+	 * @return true => Report uploaded and saved<br/>
+	 * false => Report not uploaded
+	 */
 	public boolean addReporte(String filePath, String title) {
 		boolean saved = false;
 		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
@@ -381,6 +421,13 @@ public class DAOPracticante implements IDAOPracticante {
 		return saved;
 	}
 
+	/**
+	 * Deletes a report by its name for the current PRACTICANTE
+	 *
+	 * @param title The title of the report to delete
+	 * @return true => Deleted<br/>
+	 * false => not deleted
+	 */
 	public boolean deleteReporte(String title) {
 		boolean deleted = false;
 		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
