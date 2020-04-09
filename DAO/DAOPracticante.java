@@ -4,6 +4,14 @@ import Connection.DBConnection;
 import IDAO.IDAOPracticante;
 import Models.Practicante;
 import Models.Proyecto;
+import tools.Arch;
+import tools.Logger;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class DAOPracticante implements IDAOPracticante {
 	private Practicante practicante;
@@ -19,6 +27,32 @@ public class DAOPracticante implements IDAOPracticante {
 
 	public void setPracticante(Practicante practicante) {
 		this.practicante = practicante;
+	}
+
+	public static String getId(String email) {
+		String id = "";
+		if (email != null) {
+			Practicante practicante = new Practicante();
+			practicante.setCorreoElectronico(email);
+			id = DAOPracticante.getId(practicante);
+		}
+		return id;
+	}
+
+	public static String getId(Practicante practicante) {
+		String id = "";
+		if (practicante != null && practicante.getCorreoElectronico() != null &&
+			new DAOPracticante(practicante).isRegistered()) {
+			String query = "SELECT idUsuario FROM Usuario WHERE correoElectronico = ?";
+			String[] values = {practicante.getCorreoElectronico()};
+			String[] names = {"idUsuario"};
+			id = new DBConnection().select(query, values, names)[0][0];
+		}
+		return id;
+	}
+
+	public String getId() {
+		return DAOPracticante.getId(this.practicante);
 	}
 
 	/**
@@ -311,6 +345,50 @@ public class DAOPracticante implements IDAOPracticante {
 						deleted = true;
 					}
 				}
+			}
+		}
+		return deleted;
+	}
+
+	public boolean addReporte(String filePath, String title) {
+		boolean saved = false;
+		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
+			this.isActive() && filePath != null && title != null) {
+			if (Arch.existe(filePath)) {
+				try {
+					File file = new File(filePath);
+					FileInputStream fis = new FileInputStream(file);
+
+					String query = "INSERT INTO Reporte (titulo, fecha, practicante, reporte) " +
+						"VALUES (?, (SELECT CURRENT_DATE()), " +
+						"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?)";
+
+					this.connection.openConnection();
+					PreparedStatement statement =
+						this.connection.getConnection().prepareStatement(query);
+					statement.setString(1, title);
+					statement.setString(2, this.practicante.getCorreoElectronico());
+					statement.setBinaryStream(3, fis, (int) file.length());
+					statement.executeUpdate();
+					this.connection.closeConnection();
+					saved = true;
+
+				} catch (FileNotFoundException | SQLException e) {
+					new Logger().log(e);
+				}
+			}
+		}
+		return saved;
+	}
+
+	public boolean deleteReporte(String title) {
+		boolean deleted = false;
+		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
+			this.isActive() && title != null) {
+			String query = "DELETE FROM Reporte WHERE titulo = ? AND practicante = ?";
+			String[] values = {title, this.getId()};
+			if (this.connection.preparedQuery(query, values)) {
+				deleted = true;
 			}
 		}
 		return deleted;

@@ -71,6 +71,10 @@ public class DBConnection {
 		return password;
 	}
 
+	public Connection getConnection() {
+		return connection;
+	}
+
 	/**
 	 * Loads a saved connection
 	 * <p>

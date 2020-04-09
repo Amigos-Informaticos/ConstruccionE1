@@ -61,6 +61,17 @@ public class DAOPracticanteTests {
 	}
 
 	@Test
+	public void G1_addReport() {
+		assertTrue(getDAOPracticante().addReporte("src/Configuration/Configuration.java",
+			"Configuracion"));
+	}
+
+	@Test
+	public void G2_deleteReport() {
+		assertTrue(getDAOPracticante().deleteReporte("Configuracion"));
+	}
+
+	@Test
 	public void Z_deletePracticante() {
 		assertTrue(getDAOPracticante().delete());
 	}
