@@ -1,6 +1,8 @@
 package tools;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author Edson Manuel Carballo Vera
@@ -61,12 +63,12 @@ public class Logger {
 
 	public void initTicker() {
 		Runtime.getRuntime().addShutdownHook(
-				new Thread() {
-					@Override
-					public void run() {
-						P.p("Bye");
-					}
+			new Thread() {
+				@Override
+				public void run() {
+					P.p("Bye");
 				}
+			}
 		);
 	}
 
@@ -82,22 +84,6 @@ public class Logger {
 	/**
 	 * Escribe el texto en el log
 	 *
-	 * @param texto       Cadena a loggear
-	 * @param descripcion true => Escribir la linea en que se ejecuta. false => No escribir la linea
-	 */
-	/*public void log(String texto, boolean descripcion) {
-		if (descripcion) {
-			this.log.escribir(getCurrentMethod() + " : ");
-			this.log.escribir(String.valueOf(getCurrentLine()));
-			this.log.newLine();
-		}
-		this.log.escribir(texto);
-		this.log.newLine();
-	}*/
-
-	/**
-	 * Escribe el texto en el log
-	 *
 	 * @param texto Cadena a loggear
 	 */
 	public void log(String texto) {
@@ -108,30 +94,14 @@ public class Logger {
 	/**
 	 * Escribe la excepcion en el log
 	 *
-	 * @param excepcion   Instancia de excepcion que se desea loggear
-	 * @param descripcion true => Escribir la linea en que se ejecuta | false => No escribir la linea
-	 */
-	/*public void log(Exception excepcion, boolean descripcion) {
-		if (descripcion) {
-			this.log.escribir(getCurrentMethod() + " : ");
-			this.log.escribir(String.valueOf(getCurrentLine()));
-			this.log.newLine();
-		}
-		this.log.escribir(excepcion.getMessage());
-		for (StackTraceElement element : excepcion.getStackTrace()) {
-			this.log.escribir(element.toString());
-			this.log.newLine();
-		}
-	}*/
-
-	/**
-	 * Escribe la excepcion en el log
-	 *
 	 * @param excepcion Instancia de excepcion que se desea loggear
 	 */
 	public void log(Exception excepcion) {
+		DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		this.log.escribir(date.format(LocalDateTime.now()) + "\t");
 		this.log.escribir(excepcion.getMessage());
-		for (StackTraceElement element : excepcion.getStackTrace()) {
+		this.log.newLine();
+		for (StackTraceElement element: excepcion.getStackTrace()) {
 			this.log.escribir(element.toString());
 			this.log.newLine();
 		}
@@ -142,7 +112,7 @@ public class Logger {
 		boolean thisOne = false;
 		int thisOneCountDown = 1;
 		StackTraceElement[] elements = Thread.currentThread().getStackTrace();
-		for (StackTraceElement element : elements) {
+		for (StackTraceElement element: elements) {
 			String methodName = element.getMethodName();
 			int lineNum = element.getLineNumber();
 			if (thisOne && (thisOneCountDown == 0)) {
@@ -162,7 +132,6 @@ public class Logger {
 	}
 
 	private static String getCurrentClass() {
-		Throwable throwable = new Throwable();
-		return "caca";
+		return "";
 	}
 }
