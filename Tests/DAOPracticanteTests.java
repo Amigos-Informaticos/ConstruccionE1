@@ -2,8 +2,8 @@ package Tests;
 
 import DAO.DAOPracticante;
 import Models.Practicante;
+import Models.Proyecto;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -13,34 +13,29 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DAOPracticanteTests {
 
-	@Ignore
 	@Test
 	public void A_signUpPracticante() {
 		assertTrue(getInstancePracticante().register());
 	}
 
-	@Ignore
 	@Test
 	public void B_loginPracticante() {
 		assertTrue(getDAOPracticante().logIn());
 	}
 
-	@Ignore
 	@Test
 	public void C_getAllPracticantes() {
 		Practicante[] practicantes = DAOPracticante.getAll();
-		for (Practicante practicante : practicantes) {
+		for (Practicante practicante: practicantes) {
 			assertNotNull(practicante);
 		}
 	}
 
-	@Ignore
 	@Test
 	public void D_getPracticante() {
 		assertNotNull(DAOPracticante.get(getInstancePracticante()));
 	}
 
-	@Ignore
 	@Test
 	public void E_updatePracticante() {
 		Practicante practicante = getInstancePracticante();
@@ -48,9 +43,36 @@ public class DAOPracticanteTests {
 		assertTrue(new DAOPracticante(practicante).update());
 	}
 
-	@Ignore
 	@Test
-	public void F_deletePracticante() {
+	public void F1_selectProyect() {
+		assertTrue(getDAOPracticante().selectProyect("Hackear la nasa"));
+	}
+
+	@Test
+	public void F2_getSelectedProyects() {
+		for (Proyecto proyecto: getDAOPracticante().getProyects()) {
+			assertNotNull(proyecto);
+		}
+	}
+
+	@Test
+	public void F3_deleteSelectedProyect() {
+		assertTrue(getDAOPracticante().deleteSelectedProyect("Hackear la nasa"));
+	}
+
+	@Test
+	public void G1_addReport() {
+		assertTrue(getDAOPracticante().addReporte("src/Configuration/Configuration.java",
+			"Configuracion"));
+	}
+
+	@Test
+	public void G2_deleteReport() {
+		assertTrue(getDAOPracticante().deleteReport("Configuracion"));
+	}
+
+	@Test
+	public void Z_deletePracticante() {
 		assertTrue(getDAOPracticante().delete());
 	}
 
@@ -60,11 +82,11 @@ public class DAOPracticanteTests {
 
 	private Practicante getInstancePracticante() {
 		return new Practicante(
-				"Miguel Joaquin",
-				"Lopez Doriga",
-				"mjld@hotmail.com",
-				"elmiguel123",
-				"S18012150"
+			"Miguel Joaquin",
+			"Lopez Doriga",
+			"mjld@hotmail.com",
+			"elmiguel123",
+			"S18012150"
 		);
 	}
 }
