@@ -68,7 +68,7 @@ public class DAOPracticanteTests {
 
 	@Test
 	public void G2_deleteReport() {
-		assertTrue(getDAOPracticante().deleteReporte("Configuracion"));
+		assertTrue(getDAOPracticante().deleteReport("Configuracion"));
 	}
 
 	@Test
