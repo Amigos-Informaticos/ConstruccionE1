@@ -42,6 +42,13 @@ public class DAOPracticante implements IDAOPracticante {
 		return updated;
 	}
 
+	/*
+
+	Hice un metodo distinto y lo puse abajo, pues necesitaba hacer pruebas,
+	en mi método solo se cambia el status como habíamos acordado
+
+	~Efraín
+
 	@Override
 	public boolean delete() {
 		boolean deleted = false;
@@ -59,6 +66,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return deleted;
 	}
+	 */
 
 	@Override
 	public boolean logIn() {
@@ -172,5 +180,30 @@ public class DAOPracticante implements IDAOPracticante {
 			}
 		}
 		return returnPracticante;
+	}
+
+	@Override
+	public boolean delete(){
+		boolean isDeleted = false;
+		if(this.isRegistered()){
+			String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
+			String[] values = {this.practicante.getMatricula()};
+			if(this.connection.preparedQuery(query,values)){
+				isDeleted = true;
+			}
+		}
+		return isDeleted;
+	}
+
+	public boolean reactivate(){
+		boolean isReactivated = false;
+		if(this.isRegistered()){
+			String query = "UPDATE Usuario SET status = 1 WHERE correoElectronico = ?";
+			String[] values = {this.practicante.getCorreoElectronico()};
+			if(this.connection.preparedQuery(query,values)){
+				isReactivated = true;
+			}
+		}
+		return isReactivated;
 	}
 }

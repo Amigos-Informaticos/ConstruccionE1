@@ -73,21 +73,6 @@ public class DAOCoordinador implements IDAOCoordinador {
         }
         return loggedIn;
     }
-    /*
-    public boolean registOrganization(){
-        boolean loggedIn = false;
-        String query = "SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ?";
-        String[] values = {this.coordinador.getCorreoElectronico(), this.coordinador.getContrasena()};
-        String[] names = {"TOTAL"};
-        if (this.isRegistered()) {
-            if (this.connection.select(query, values, names)[0][0].equals("1")) {
-                loggedIn = true;
-            }
-        }
-        return loggedIn;
-    }
-
-     */
 
 
 
