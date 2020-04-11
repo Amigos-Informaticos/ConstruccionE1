@@ -16,9 +16,9 @@ public class DAOrganizacion {
         boolean signedUp = false;
         if (this.organizacion.isComplete()) {
             if (!this.isRegistered()) {
-                String query = "INSERT INTO organizacion " +
-                                "(idorganizacion, nombre, direccion, status, idSector)" +
-                                "VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                String query = "INSERT INTO Organizacion " +
+                                "(nombre, direccion, status, idSector)" +
+                                "VALUES (?, ?, ?, ?);";
                 String[] values = {this.organizacion.getNombre(),
                         this.organizacion.getDireccion(),
                         this.organizacion.getStatus(),

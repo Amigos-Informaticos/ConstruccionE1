@@ -5,7 +5,7 @@ import Models.Coordinador;
 import Models.Organizacion;
 import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestsCoordinador {
     Coordinador coordinador = new Coordinador();
@@ -37,6 +37,6 @@ public class TestsCoordinador {
     public void registrarOrganizacion(){
         Organizacion organizacion = new Organizacion("EfrainIndustries","La casa de Efrain","1","1");
         DAOrganizacion daoOrganizacion = new DAOrganizacion(organizacion);
-        assertNotNull(daoOrganizacion.signUp());
+        assertTrue(daoOrganizacion.signUp());
     }
 }
