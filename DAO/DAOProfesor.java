@@ -30,6 +30,11 @@ public class DAOProfesor implements IDAOProfesor {
     }
 
     @Override
+    public boolean reactive() {
+        return false;
+    }
+
+    @Override
     public boolean logIn() {
         boolean loggedIn = false;
         String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Profesor WHERE correoElectronico = ? " +

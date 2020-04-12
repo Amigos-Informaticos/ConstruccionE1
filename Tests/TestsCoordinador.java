@@ -39,7 +39,7 @@ public class TestsCoordinador {
 
     @Test
     public void C_registProyecto(){
-        Proyecto proyecto = new Proyecto("Facebook 2","Copiando y pegando", "Ganarle al Mark Zukaritas", "Hacernos ricos", "Dominar el mundo","Una nintendo switch","Echarle ganas","1","1","correoResponsable1@correo.com","1","1");
+        proyecto = new Proyecto("Facebook 2","Copiando y pegando", "Ganarle al Mark Zukaritas", "Hacernos ricos", "Dominar el mundo","Una nintendo switch","Echarle ganas","1","1","correoResponsable1@correo.com","1","1");
         assertTrue(coordinador.registerProyecto(proyecto));
     }
 
@@ -64,7 +64,14 @@ public class TestsCoordinador {
 
 
     @Test
-    public void G_eliminar(){
+    public void G_eliminarPracticante(){
+        DAOPracticante daoPracticante = new DAOPracticante(practicante);
+        assertTrue(daoPracticante.delete());
+    }
 
+    @Test
+    public void H_eliminarProyecto(){
+        DAOProyecto daoProyecto = new DAOProyecto(proyecto);
+        assertTrue(daoProyecto.delete());
     }
 }
