@@ -40,10 +40,10 @@ public class DAOProyecto implements IDAOProyecto {
 		boolean signedUp = false;
 		if (this.proyecto.isComplete()) {
 			if (!this.isRegistered()) {
-				String query = "INSERT INTO Proyecto (idProyecto, nombre, metodologia, " +
+				String query = "INSERT INTO Proyecto (nombre, metodologia, " +
 					"objetivoGeneral, objetivoMediato, objetivoInmediato, recursos, " +
 					"responsabilidades, status, area, responsable, idPeriodo, idOrganizacion)" +
-					"VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 				String[] values = {this.proyecto.getNombre(),
 					this.proyecto.getMetodologia(),
 					this.proyecto.getObjetivoGeneral(),
@@ -59,6 +59,7 @@ public class DAOProyecto implements IDAOProyecto {
 				};
 				if (this.connection.preparedQuery(query, values)) {
 					signedUp = true;
+					System.out.println("SÍ SE REGISTRÓ");
 				}
 			} else {
 				String query = "UPDATE Proyecto SET status = 1 WHERE nombre = ?";
@@ -129,13 +130,15 @@ public class DAOProyecto implements IDAOProyecto {
 		boolean deleted = false;
 		if (this.proyecto != null && this.isRegistered()) {
 			if (this.isActive()) {
-				String query = "UPDATE Proyecto SET status = 0 WHERE nombre = ?";
+				String query = "UPDATE Proyecto SET status = 0 WHERE nombre = ?;";
 				String[] values = {this.proyecto.getNombre()};
 				if (this.connection.preparedQuery(query, values)) {
 					deleted = true;
+					System.out.println("OK 1");
 				}
 			} else {
 				deleted = true;
+				System.out.println("OK 2");
 			}
 		}
 		return deleted;
