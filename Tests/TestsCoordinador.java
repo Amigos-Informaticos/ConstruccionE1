@@ -7,8 +7,8 @@ import Models.Organizacion;
 import Models.Proyecto;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestsCoordinador {
 	Coordinador coordinador = new Coordinador();

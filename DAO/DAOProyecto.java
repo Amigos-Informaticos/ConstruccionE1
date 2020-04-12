@@ -60,6 +60,12 @@ public class DAOProyecto implements IDAOProyecto {
 				if (this.connection.preparedQuery(query, values)) {
 					signedUp = true;
 				}
+			} else {
+				String query = "UPDATE Proyecto SET status = 1 WHERE nombre = ?";
+				String[] values = {this.proyecto.getNombre()};
+				if (this.connection.preparedQuery(query, values)) {
+					signedUp = true;
+				}
 			}
 		}
 		return signedUp;
