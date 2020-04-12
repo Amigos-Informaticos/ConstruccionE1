@@ -11,17 +11,15 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class TestsCoordinador {
     Coordinador coordinador = new Coordinador();
-    Proyecto proyecto = new Proyecto();
-    Practicante practicante = new Practicante();
-
-    DAOProyecto daoProyecto = new DAOProyecto();
+    Proyecto proyecto;
+    Practicante practicante;
+    Organizacion organizacion;
 
 
     @Test
@@ -32,9 +30,9 @@ public class TestsCoordinador {
 
     @Test
     public void B_registrarOrganizacion(){
-        Organizacion organizacion = new Organizacion("EfrainIndustries","La casa de Efrain","1","1");
-        DAOrganizacion daoOrganizacion = new DAOrganizacion(organizacion);
-        assertTrue(daoOrganizacion.signUp());
+        organizacion = new Organizacion("EfrainIndustries","La casa de Efrain","1","1");
+        DAOrganizacion daOrganizacion = new DAOrganizacion(organizacion);
+        assertTrue(daOrganizacion.signUp());
     }
 
     @Test
@@ -43,35 +41,33 @@ public class TestsCoordinador {
         assertTrue(coordinador.registerProyecto(proyecto));
     }
 
-    @Test
-    public void D_recuperarProyecto(){
-        DAOProyecto daoProyecto = new DAOProyecto();
-        assertNotNull(daoProyecto.loadProyecto("Facebook 2"));
-    }
+
 
     @Test
     public void E_elegirProyecto(){
         DAOPracticante daoPracticante = new DAOPracticante(practicante);
-        daoPracticante.selectProyect(proyecto);
+        assertTrue(daoPracticante.selectProyect(proyecto));
     }
 
     @Test
     public void F_asignarProyecto(){
         DAOPracticante daoPracticante = new DAOPracticante(practicante);
-        daoPracticante.setProyect("Facebook 2");
+        assertTrue(daoPracticante.setProyect("Facebook 2"));
     }
 
-
-
     @Test
-    public void G_eliminarPracticante(){
+    public void G_eliminarProyecto(){
+        DAOProyecto daoProyecto = new DAOProyecto(proyecto);
+        assertTrue(daoProyecto.delete());
+    }
+    @Test
+    public void H_eliminarPracticante(){
         DAOPracticante daoPracticante = new DAOPracticante(practicante);
         assertTrue(daoPracticante.delete());
     }
-
     @Test
-    public void H_eliminarProyecto(){
-        DAOProyecto daoProyecto = new DAOProyecto(proyecto);
-        assertTrue(daoProyecto.delete());
+    public void I_eliminarOrganizacion(){
+        DAOrganizacion daOrganizacion = new DAOrganizacion(organizacion);
+
     }
 }

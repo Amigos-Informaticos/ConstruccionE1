@@ -31,7 +31,19 @@ public class DAOProfesor implements IDAOProfesor {
 
     @Override
     public boolean reactive() {
-        return false;
+        boolean reactivated = false;
+        if (this.profesor != null && this.isRegistered()) {
+            if (this.isActive()) {
+                String query = "UPDATE Practicante SET status = 1 WHERE correoElectronico = ?";
+                String[] values = {this.profesor.getCorreoElectronico()};
+                if (this.connection.preparedQuery(query, values)) {
+                    reactivated = true;
+                }
+            } else {
+                reactivated = true;
+            }
+        }
+        return reactivated;
     }
 
     @Override
