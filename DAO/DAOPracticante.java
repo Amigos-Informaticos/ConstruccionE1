@@ -463,4 +463,22 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return set;
 	}
+	
+	public boolean deleteProyect() {
+		boolean deleted = false;
+		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
+			this.isActive()) {
+			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM PracticanteProyecto " +
+				"WHERE idPracticante = ?";
+			String[] values = {this.getId()};
+			String[] names = {"TOTAL"};
+			if (this.connection.select(query, values, names)[0][0].equals("1")) {
+				query = "DELETE FROM PracticanteProyecto WHERE idPracticante = ?";
+				if (this.connection.preparedQuery(query, values)) {
+					deleted = true;
+				}
+			}
+		}
+		return deleted;
+	}
 }
