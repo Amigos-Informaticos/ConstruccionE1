@@ -1,7 +1,9 @@
 package Tests;
 
 import DAO.DAOProyecto;
+import DAO.DAOrganizacion;
 import Models.Coordinador;
+import Models.Organizacion;
 import Models.Proyecto;
 import org.junit.Test;
 
@@ -28,5 +30,13 @@ public class TestsCoordinador {
     public void recuperarProyecto(){
         DAOProyecto daoProyecto = new DAOProyecto();
         assertNotNull(daoProyecto.loadProyecto("Hackear la nasa"));
+    }
+
+
+    @Test
+    public void registrarOrganizacion(){
+        Organizacion organizacion = new Organizacion("EfrainIndustries","La casa de Efrain","1","1");
+        DAOrganizacion daoOrganizacion = new DAOrganizacion(organizacion);
+        assertTrue(daoOrganizacion.signUp());
     }
 }

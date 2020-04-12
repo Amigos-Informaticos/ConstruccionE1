@@ -117,4 +117,51 @@ public class DAOProyecto implements IDAOProyecto {
 		}
 		return proyecto;
 	}
+
+	@Override
+	public boolean delete() {
+		boolean deleted = false;
+		if (this.proyecto != null && this.isRegistered()) {
+			if (this.isActive()) {
+				String query = "UPDATE Proyecto SET status = 0 WHERE nombre = ?";
+				String[] values = {this.proyecto.getNombre()};
+				if (this.connection.preparedQuery(query, values)) {
+					deleted = true;
+				}
+			} else {
+				deleted = true;
+			}
+		}
+		return deleted;
+	}
+
+	@Override
+	public boolean isActive() {
+		boolean isActive = false;
+		if (this.proyecto != null && this.proyecto.getNombre() != null &&
+				this.isRegistered()) {
+			String query = "SELECT status FROM Proyecto WHERE nombre = ?";
+			String[] values = {this.proyecto.getNombre()};
+			String[] names = {"status"};
+			isActive = this.connection.select(query, values, names)[0][0].equals("1");
+		}
+		return isActive;
+	}
+
+	@Override
+	public boolean reactive() {
+		boolean reactivated = false;
+		if (this.proyecto != null && this.isRegistered()) {
+			if (this.isActive()) {
+				String query = "UPDATE Proyecto SET status = 1 WHERE nombre = ?";
+				String[] values = {this.proyecto.getNombre()};
+				if (this.connection.preparedQuery(query, values)) {
+					reactivated = true;
+				}
+			} else {
+				reactivated = true;
+			}
+		}
+		return reactivated;
+	}
 }
