@@ -74,6 +74,52 @@ public class DAOCoordinador implements IDAOCoordinador {
         return loggedIn;
     }
 
+    //@Override
+    public boolean delete() {
+        boolean deleted = false;
+        if (this.coordinador != null && this.isRegistered()) {
+            if (this.isActive()) {
+                String query = "UPDATE coordinador SET status = 0 WHERE nombre = ?";
+                String[] values = {this.coordinador.getCorreoElectronico()};
+                if (this.connection.preparedQuery(query, values)) {
+                    deleted = true;
+                }
+            } else {
+                deleted = true;
+            }
+        }
+        return deleted;
+    }
+
+    public boolean isActive() {
+        boolean isActive = false;
+        if (this.coordinador != null && this.coordinador.getCorreoElectronico() != null &&
+                this.isRegistered()) {
+            String query = "SELECT status FROM Coordinador WHERE nombre = ?";
+            String[] values = {this.coordinador.getCorreoElectronico()};
+            String[] names = {"status"};
+            isActive = this.connection.select(query, values, names)[0][0].equals("1");
+        }
+        return isActive;
+    }
+
+    //@Override
+    public boolean reactive() {
+        boolean reactivated = false;
+        if (this.coordinador != null && this.isRegistered()) {
+            if (this.isActive()) {
+                String query = "UPDATE Coordinador SET status = 1 WHERE nombre = ?";
+                String[] values = {this.coordinador.getCorreoElectronico()};
+                if (this.connection.preparedQuery(query, values)) {
+                    reactivated = true;
+                }
+            } else {
+                reactivated = true;
+            }
+        }
+        return reactivated;
+    }
+
 
 
 }

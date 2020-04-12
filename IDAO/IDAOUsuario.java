@@ -6,4 +6,8 @@ public interface IDAOUsuario {
 	boolean signUp();
 
 	boolean isRegistered();
+
+	boolean delete();
+
+	boolean reactive();
 }
