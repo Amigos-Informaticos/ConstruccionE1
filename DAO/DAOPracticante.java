@@ -124,6 +124,23 @@ public class DAOPracticante implements IDAOPracticante {
 		return deleted;
 	}
 
+	@Override
+	public boolean reactive() {
+		boolean reactivated = false;
+		if (this.practicante != null && this.isRegistered()) {
+			if (this.isActive()) {
+				String query = "UPDATE Practicante SET status = 1 WHERE correoElectronico = ?";
+				String[] values = {this.practicante.getCorreoElectronico()};
+				if (this.connection.preparedQuery(query, values)) {
+					reactivated = true;
+				}
+			} else {
+				reactivated = true;
+			}
+		}
+		return reactivated;
+	}
+
 	/**
 	 * Log the current PRACTICANTE
 	 * Verifies if the current instance is registered<br/>

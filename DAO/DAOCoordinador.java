@@ -79,7 +79,7 @@ public class DAOCoordinador implements IDAOCoordinador {
         boolean deleted = false;
         if (this.coordinador != null && this.isRegistered()) {
             if (this.isActive()) {
-                String query = "UPDATE coordinador SET status = 0 WHERE nombre = ?";
+                String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
                 String[] values = {this.coordinador.getCorreoElectronico()};
                 if (this.connection.preparedQuery(query, values)) {
                     deleted = true;
@@ -95,7 +95,7 @@ public class DAOCoordinador implements IDAOCoordinador {
         boolean isActive = false;
         if (this.coordinador != null && this.coordinador.getCorreoElectronico() != null &&
                 this.isRegistered()) {
-            String query = "SELECT status FROM Coordinador WHERE nombre = ?";
+            String query = "SELECT status FROM Usuario WHERE correoElectronico = ?";
             String[] values = {this.coordinador.getCorreoElectronico()};
             String[] names = {"status"};
             isActive = this.connection.select(query, values, names)[0][0].equals("1");
@@ -108,7 +108,7 @@ public class DAOCoordinador implements IDAOCoordinador {
         boolean reactivated = false;
         if (this.coordinador != null && this.isRegistered()) {
             if (this.isActive()) {
-                String query = "UPDATE Coordinador SET status = 1 WHERE nombre = ?";
+                String query = "UPDATE Usuario SET status = 1 WHERE correoElectronico = ?";
                 String[] values = {this.coordinador.getCorreoElectronico()};
                 if (this.connection.preparedQuery(query, values)) {
                     reactivated = true;
