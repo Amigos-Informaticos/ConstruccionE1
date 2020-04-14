@@ -32,7 +32,7 @@ public class DAOCoordinador implements IDAOCoordinador {
     @Override
     public boolean signUp() {
         boolean signedUp = false;
-        if(this.coordinador.isComplete()){
+        if(this.coordinador.isComplete() && !this.isRegistered() && !this.isAnother()){
             String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status)" +
                     "VALUES (?, ?, ?, ?, ?)";
             String[] values = {this.coordinador.getNombres(), this.coordinador.getApellidos(), this.coordinador.getCorreoElectronico(), this.coordinador.getContrasena(), "1"};
@@ -118,6 +118,18 @@ public class DAOCoordinador implements IDAOCoordinador {
             }
         }
         return reactivated;
+    }
+
+    public boolean isAnother(){
+        boolean anotherCoordinador = false;
+        String query = "SELECT COUNT (Coordinador.idUsuario) AS TOTAL FROM Coordinador INNER JOIN Usuario ON Coordinador.idUsuario = Usuario.idUsuario WHERE Usuario.status = 1";
+        String[] names = {"TOTAL"};
+        String[][] resultQuery = this.connection.select(query, null, names);
+        int coordinadores = Integer.parseInt(resultQuery[0][0]);
+        if(coordinadores > 0){
+            anotherCoordinador = true;
+        }
+        return anotherCoordinador;
     }
 
 

@@ -1,9 +1,8 @@
 package IDAO;
 
 public interface IDAOCoordinador extends IDAOUsuario{
-    //public int signUp(Coordinador coordinador);
 
-    //public int logIn();
+    public boolean isAnother();
 
-    //public boolean isRegistered();
+
 }

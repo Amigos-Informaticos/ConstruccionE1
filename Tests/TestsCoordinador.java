@@ -1,5 +1,6 @@
 package Tests;
 
+import DAO.DAOCoordinador;
 import DAO.DAOProyecto;
 import DAO.DAOrganizacion;
 import Models.Coordinador;
@@ -42,7 +43,7 @@ public class TestsCoordinador {
 		assertTrue(daoOrganizacion.signUp());
 	}
 
-	@Test
+	//@Test
 	public void A_createAndDeleteOrg() {
 		DAOrganizacion daOrganizacion = new DAOrganizacion(
 			new Organizacion(
@@ -56,7 +57,8 @@ public class TestsCoordinador {
 		assertTrue(daOrganizacion.delete());
 	}
 
-	@Test
+
+	//@Test
 	public void B_createAndDeleteProyect() {
 		Proyecto proyecto = new Proyecto();
 		proyecto.setNombre("proyecto2");
@@ -74,5 +76,11 @@ public class TestsCoordinador {
 		DAOProyecto daoProyecto = new DAOProyecto(proyecto);
 		assertTrue(daoProyecto.signUp());
 		assertTrue(daoProyecto.delete());
+	}
+
+	@Test
+	public void C_isAnother(){
+		DAOCoordinador daoCoordinador = new DAOCoordinador(coordinador);
+		assertTrue(daoCoordinador.isAnother());
 	}
 }
