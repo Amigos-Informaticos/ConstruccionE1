@@ -4,10 +4,10 @@ import DAO.DAOPracticante;
 
 public class Practicante extends Usuario {
 	private String matricula;
-
+	
 	public Practicante() {
 	}
-
+	
 	/**
 	 * Parametrized constructor
 	 *
@@ -18,11 +18,11 @@ public class Practicante extends Usuario {
 	 * @param matricula         PRACTICANTE's enrollment number
 	 */
 	public Practicante(String nombres, String apellidos, String correoElectronico,
-					   String contrasena, String matricula) {
+	                   String contrasena, String matricula) {
 		super(nombres, apellidos, correoElectronico, contrasena);
 		this.matricula = matricula;
 	}
-
+	
 	/**
 	 * Copy constructor
 	 *
@@ -37,15 +37,15 @@ public class Practicante extends Usuario {
 			this.setMatricula(practicante.getMatricula());
 		}
 	}
-
+	
 	public String getMatricula() {
 		return matricula;
 	}
-
+	
 	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
-
+	
 	/**
 	 * Register a new PRACTICANTE to database
 	 *
@@ -61,8 +61,8 @@ public class Practicante extends Usuario {
 		}
 		return isRegistered;
 	}
-
-
+	
+	
 	/**
 	 * Set a selected project to the current PRACTICANTE
 	 *
@@ -76,5 +76,14 @@ public class Practicante extends Usuario {
 			related = daoPracticante.selectProyect(proyecto);
 		}
 		return related;
+	}
+	
+	public boolean removeSelection(String projectName) {
+		boolean removed = false;
+		if (this.isComplete() && projectName != null) {
+			DAOPracticante daoPracticante = new DAOPracticante(this);
+			removed = daoPracticante.deleteSelectedProyect(projectName);
+		}
+		return removed;
 	}
 }

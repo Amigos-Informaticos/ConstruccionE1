@@ -13,7 +13,7 @@ public class DBConnection {
 	private String password = null;
 	private Connection connection;
 	private Arch configurationFile;
-	private Logger logger = new Logger();
+	private final Logger logger = new Logger();
 	
 	/**
 	 * Empty default constructor<br/>
@@ -161,9 +161,10 @@ public class DBConnection {
 	 *
 	 * @param query  The query to send
 	 * @param values The values to insert into the query
-	 * @return true => The query is sent | false => it couldn't send
+	 * @return true => The query is sent<br/>
+	 * false => it couldn't send
 	 */
-	public boolean preparedQuery(String query, String[] values) {
+	public boolean sendQuery(String query, String[] values) {
 		boolean queryExecuted = false;
 		try {
 			this.openConnection();

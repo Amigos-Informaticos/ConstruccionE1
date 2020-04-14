@@ -89,12 +89,12 @@ public class DAOPracticante implements IDAOPracticante {
 			String[] values = {this.practicante.getNombres(), this.practicante.getApellidos(),
 				this.practicante.getCorreoElectronico(), this.practicante.getContrasena(),
 				this.practicante.getCorreoElectronico()};
-			if (this.connection.preparedQuery(query, values)) {
+			if (this.connection.sendQuery(query, values)) {
 				query = "UPDATE Practicante SET Matricula = ? WHERE idUsuario = (SELECT " +
 					"idUsuario" + " " + "FROM Usuario WHERE correoElectronico = ?)";
 				values = new String[]{this.practicante.getMatricula(),
 					this.practicante.getCorreoElectronico()};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					updated = true;
 				}
 			}
@@ -114,7 +114,7 @@ public class DAOPracticante implements IDAOPracticante {
 			if (this.isActive()) {
 				String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
 				String[] values = {this.practicante.getCorreoElectronico()};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					deleted = true;
 				}
 			} else {
@@ -168,12 +168,12 @@ public class DAOPracticante implements IDAOPracticante {
 					"contrasena, status) VALUES (?, ?, ?, ?, 1)";
 				String[] values = {this.practicante.getNombres(), this.practicante.getApellidos(),
 					this.practicante.getCorreoElectronico(), this.practicante.getContrasena()};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					query = "INSERT INTO Practicante (idUsuario, matricula) VALUES " +
 						"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?)";
 					values = new String[]{this.practicante.getCorreoElectronico(),
 						this.practicante.getMatricula()};
-					if (this.connection.preparedQuery(query, values)) {
+					if (this.connection.sendQuery(query, values)) {
 						signedUp = true;
 					}
 				}
@@ -308,7 +308,7 @@ public class DAOPracticante implements IDAOPracticante {
 					"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?))";
 				values = new String[]{proyecto.getNombre(),
 					this.practicante.getCorreoElectronico()};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					selected = true;
 				}
 			}
@@ -369,7 +369,7 @@ public class DAOPracticante implements IDAOPracticante {
 						"AND idProyecto = " +
 						"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND " + "status = 1)";
 					String[] values = {this.practicante.getCorreoElectronico(), projectName};
-					if (this.connection.preparedQuery(query, values)) {
+					if (this.connection.sendQuery(query, values)) {
 						deleted = true;
 					}
 				}
@@ -386,7 +386,7 @@ public class DAOPracticante implements IDAOPracticante {
 	 * @return true => Report uploaded and saved<br/>
 	 * false => Report not uploaded
 	 */
-	public boolean addReporte(String filePath, String title) {
+	public boolean addReport(String filePath, String title) {
 		boolean saved = false;
 		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
 			this.isActive() && filePath != null && title != null) {
@@ -432,7 +432,7 @@ public class DAOPracticante implements IDAOPracticante {
 			this.isActive() && title != null) {
 			String query = "DELETE FROM Reporte WHERE titulo = ? AND practicante = ?";
 			String[] values = {title, this.getId()};
-			if (this.connection.preparedQuery(query, values)) {
+			if (this.connection.sendQuery(query, values)) {
 				deleted = true;
 			}
 		}
@@ -458,7 +458,7 @@ public class DAOPracticante implements IDAOPracticante {
 				query = "INSERT INTO PracticanteProyecto (idPracticante, idProyecto) " +
 					"VALUES (?, (SELECT idProyecto FROM Proyecto WHERE nombre = ? AND status = 1))";
 				values = new String[]{this.getId(), projectName};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					set = true;
 				}
 			}
@@ -476,7 +476,7 @@ public class DAOPracticante implements IDAOPracticante {
 			String[] names = {"TOTAL"};
 			if (this.connection.select(query, values, names)[0][0].equals("1")) {
 				query = "DELETE FROM PracticanteProyecto WHERE idPracticante = ?";
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					deleted = true;
 				}
 			}
@@ -491,7 +491,7 @@ public class DAOPracticante implements IDAOPracticante {
 			if (this.isActive()) {
 				String query = "UPDATE Practicante SET status = 1 WHERE correoElectronico = ?";
 				String[] values = {this.practicante.getCorreoElectronico()};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					reactivated = true;
 				}
 			} else {
@@ -524,7 +524,6 @@ public class DAOPracticante implements IDAOPracticante {
 				} catch (FileNotFoundException | SQLException e) {
 					new Logger().log(e);
 				}
-				
 			}
 		}
 		return replied;
