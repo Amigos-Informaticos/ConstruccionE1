@@ -25,7 +25,7 @@ public class DAOrganizacion implements IDAOrganizacion {
                         this.organizacion.getStatus(),
                         this.organizacion.getIdSector()
                 };
-                if (this.connection.preparedQuery(query, values)) {
+                if (this.connection.sendQuery(query, values)) {
                     signedUp = true;
                 }
             }
@@ -52,7 +52,7 @@ public class DAOrganizacion implements IDAOrganizacion {
             if (this.isActive()) {
                 String query = "UPDATE Organizacion SET status = 0 WHERE nombre = ?";
                 String[] values = {this.organizacion.getNombre()};
-                if (this.connection.preparedQuery(query, values)) {
+                if (this.connection.sendQuery(query, values)) {
                     deleted = true;
                 }
             } else {
@@ -82,7 +82,7 @@ public class DAOrganizacion implements IDAOrganizacion {
             if (this.isActive()) {
                 String query = "UPDATE Organizacion SET status = 1 WHERE nombre = ?";
                 String[] values = {this.organizacion.getNombre()};
-                if (this.connection.preparedQuery(query, values)) {
+                if (this.connection.sendQuery(query, values)) {
                     reactivated = true;
                 }
             } else {

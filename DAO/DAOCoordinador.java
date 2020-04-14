@@ -36,10 +36,10 @@ public class DAOCoordinador implements IDAOCoordinador {
             String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status)" +
                     "VALUES (?, ?, ?, ?, ?)";
             String[] values = {this.coordinador.getNombres(), this.coordinador.getApellidos(), this.coordinador.getCorreoElectronico(), this.coordinador.getContrasena(), "1"};
-            if(this.connection.preparedQuery(query, values)) {
+            if (this.connection.sendQuery(query, values)) {
                 query = "INSERT INTO Coordinador (idUsuario, noPersonal, fechaRegistro) VALUES ((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?, (SELECT CURRENT_DATE))";
                 values = new String[]{this.coordinador.getCorreoElectronico(), this.coordinador.getNoPersonal()};
-                if(this.connection.preparedQuery(query, values)){
+                if (this.connection.sendQuery(query, values)) {
                     signedUp = true;
                 }
             }
@@ -81,7 +81,7 @@ public class DAOCoordinador implements IDAOCoordinador {
             if (this.isActive()) {
                 String query = "UPDATE coordinador SET status = 0 WHERE nombre = ?";
                 String[] values = {this.coordinador.getCorreoElectronico()};
-                if (this.connection.preparedQuery(query, values)) {
+                if (this.connection.sendQuery(query, values)) {
                     deleted = true;
                 }
             } else {
@@ -110,7 +110,7 @@ public class DAOCoordinador implements IDAOCoordinador {
             if (this.isActive()) {
                 String query = "UPDATE Coordinador SET status = 1 WHERE nombre = ?";
                 String[] values = {this.coordinador.getCorreoElectronico()};
-                if (this.connection.preparedQuery(query, values)) {
+                if (this.connection.sendQuery(query, values)) {
                     reactivated = true;
                 }
             } else {
