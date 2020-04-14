@@ -57,7 +57,7 @@ public class DAOProyecto implements IDAOProyecto {
 					this.proyecto.getIdPeriodo(),
 					this.proyecto.getIdOrganizacion()
 				};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					signedUp = true;
 					System.out.println("SÍ SE REGISTRÓ");
 				}
@@ -132,7 +132,7 @@ public class DAOProyecto implements IDAOProyecto {
 			if (this.isActive()) {
 				String query = "UPDATE Proyecto SET status = 0 WHERE nombre = ?;";
 				String[] values = {this.proyecto.getNombre()};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					deleted = true;
 					System.out.println("OK 1");
 				}
@@ -164,7 +164,7 @@ public class DAOProyecto implements IDAOProyecto {
 			if (this.isActive()) {
 				String query = "UPDATE Proyecto SET status = 1 WHERE nombre = ?";
 				String[] values = {this.proyecto.getNombre()};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					reactivated = true;
 				}
 			} else {

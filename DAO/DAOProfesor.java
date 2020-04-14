@@ -53,11 +53,11 @@ public class DAOProfesor implements IDAOProfesor {
 				"VALUES (?, ?, ?, ?, ?)";
 			String[] values = {this.profesor.getNombres(), this.profesor.getApellidos(),
 				this.profesor.getCorreoElectronico(), this.profesor.getContrasena(), "1"};
-			if (this.connection.preparedQuery(query, values)) {
+			if (this.connection.sendQuery(query, values)) {
 				query = "INSERT INTO Profesor (idUsuario, fechaRegistro, noPersonal, turno) VALUES " +
 					"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), (SELECT CURRENT_DATE), ?, ?)";
 				values = new String[]{this.profesor.getCorreoElectronico(), this.profesor.getNoPersonal(), String.valueOf(this.profesor.getTurno())};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					signedUp = true;
 				}
 			}

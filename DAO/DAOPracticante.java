@@ -16,19 +16,19 @@ import java.sql.SQLException;
 public class DAOPracticante implements IDAOPracticante {
 	private Practicante practicante;
 	private DBConnection connection = new DBConnection();
-
+	
 	public DAOPracticante(Practicante practicante) {
 		this.practicante = practicante;
 	}
-
+	
 	public Practicante getPracticante() {
 		return practicante;
 	}
-
+	
 	public void setPracticante(Practicante practicante) {
 		this.practicante = practicante;
 	}
-
+	
 	/**
 	 * Returns the id of a PRACTICANTE by its emil
 	 *
@@ -45,7 +45,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return id;
 	}
-
+	
 	/**
 	 * Returns the id of a PRACTICANTE
 	 *
@@ -64,7 +64,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return id;
 	}
-
+	
 	/**
 	 * Returns the current PRACTICANTE's id
 	 *
@@ -74,7 +74,7 @@ public class DAOPracticante implements IDAOPracticante {
 	public String getId() {
 		return DAOPracticante.getId(this.practicante);
 	}
-
+	
 	/**
 	 * Update the Database with the current PRACTICANTE
 	 *
@@ -89,19 +89,19 @@ public class DAOPracticante implements IDAOPracticante {
 			String[] values = {this.practicante.getNombres(), this.practicante.getApellidos(),
 				this.practicante.getCorreoElectronico(), this.practicante.getContrasena(),
 				this.practicante.getCorreoElectronico()};
-			if (this.connection.preparedQuery(query, values)) {
+			if (this.connection.sendQuery(query, values)) {
 				query = "UPDATE Practicante SET Matricula = ? WHERE idUsuario = (SELECT " +
 					"idUsuario" + " " + "FROM Usuario WHERE correoElectronico = ?)";
 				values = new String[]{this.practicante.getMatricula(),
 					this.practicante.getCorreoElectronico()};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					updated = true;
 				}
 			}
 		}
 		return updated;
 	}
-
+	
 	/**
 	 * Delete the current PRACTICANTE from the Database
 	 *
@@ -114,7 +114,7 @@ public class DAOPracticante implements IDAOPracticante {
 			if (this.isActive()) {
 				String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
 				String[] values = {this.practicante.getCorreoElectronico()};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					deleted = true;
 				}
 			} else {
@@ -123,7 +123,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return deleted;
 	}
-
+	
 	/**
 	 * Log the current PRACTICANTE
 	 * Verifies if the current instance is registered<br/>
@@ -150,7 +150,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return loggedIn;
 	}
-
+	
 	/**
 	 * Register the current instance to the database
 	 * <p>
@@ -168,26 +168,22 @@ public class DAOPracticante implements IDAOPracticante {
 					"contrasena, status) VALUES (?, ?, ?, ?, 1)";
 				String[] values = {this.practicante.getNombres(), this.practicante.getApellidos(),
 					this.practicante.getCorreoElectronico(), this.practicante.getContrasena()};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					query = "INSERT INTO Practicante (idUsuario, matricula) VALUES " +
 						"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?)";
 					values = new String[]{this.practicante.getCorreoElectronico(),
 						this.practicante.getMatricula()};
-					if (this.connection.preparedQuery(query, values)) {
+					if (this.connection.sendQuery(query, values)) {
 						signedUp = true;
 					}
 				}
 			} else {
-				String query = "UPDATE Usuario SET status = 1 WHERE correoElectronico = ?";
-				String[] values = {this.practicante.getCorreoElectronico()};
-				if (this.connection.preparedQuery(query, values)) {
-					signedUp = true;
-				}
+				this.reactive();
 			}
 		}
 		return signedUp;
 	}
-
+	
 	/**
 	 * Verifies the existence of the current PRACTICANTE against the database<br/>
 	 * Checks if the email of the current PRACTICANTE
@@ -216,7 +212,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return isRegistered;
 	}
-
+	
 	/**
 	 * Verifies if the current PRACTICANTE is active in the DB
 	 *
@@ -234,7 +230,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return isActive;
 	}
-
+	
 	/**
 	 * Returns an array of all PRACTICANTE from DB
 	 *
@@ -256,7 +252,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return practicantes;
 	}
-
+	
 	/**
 	 * Returns an instance of Practicante by its email
 	 *
@@ -283,11 +279,11 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return returnPracticante;
 	}
-
+	
 	public boolean selectProyect(String projectName) {
 		return this.selectProyect(new DAOProyecto().loadProyecto(projectName));
 	}
-
+	
 	/**
 	 * Saves the selection of a project from the current PRACTICANTE in the database
 	 *
@@ -312,14 +308,14 @@ public class DAOPracticante implements IDAOPracticante {
 					"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?))";
 				values = new String[]{proyecto.getNombre(),
 					this.practicante.getCorreoElectronico()};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					selected = true;
 				}
 			}
 		}
 		return selected;
 	}
-
+	
 	/**
 	 * Returns an array of the selected PROYECTO from the current PRACTICANTE
 	 *
@@ -346,7 +342,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return proyectos;
 	}
-
+	
 	/**
 	 * Deletes the selected PROYECTO by its name
 	 *
@@ -373,7 +369,7 @@ public class DAOPracticante implements IDAOPracticante {
 						"AND idProyecto = " +
 						"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND " + "status = 1)";
 					String[] values = {this.practicante.getCorreoElectronico(), projectName};
-					if (this.connection.preparedQuery(query, values)) {
+					if (this.connection.sendQuery(query, values)) {
 						deleted = true;
 					}
 				}
@@ -381,7 +377,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return deleted;
 	}
-
+	
 	/**
 	 * Adds a report to the database
 	 *
@@ -390,7 +386,7 @@ public class DAOPracticante implements IDAOPracticante {
 	 * @return true => Report uploaded and saved<br/>
 	 * false => Report not uploaded
 	 */
-	public boolean addReporte(String filePath, String title) {
+	public boolean addReport(String filePath, String title) {
 		boolean saved = false;
 		if (this.practicante != null && this.practicante.getCorreoElectronico() != null &&
 			this.isActive() && filePath != null && title != null) {
@@ -398,23 +394,23 @@ public class DAOPracticante implements IDAOPracticante {
 				try {
 					File file = new File(filePath);
 					FileInputStream fis = new FileInputStream(file);
-
+					
 					String query = "INSERT INTO Reporte (titulo, fecha, practicante, reporte) " +
 						"VALUES (?, (SELECT CURRENT_DATE()), " +
 						"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?)";
-
+					
 					this.connection.openConnection();
 					PreparedStatement statement =
 						this.connection.getConnection().prepareStatement(query);
 					statement.setString(1, title);
 					statement.setString(2, this.practicante.getCorreoElectronico());
-
+					
 					statement.setBinaryStream(3, fis, (int) file.length());
-
+					
 					statement.executeUpdate();
 					this.connection.closeConnection();
 					saved = true;
-
+					
 				} catch (FileNotFoundException | SQLException e) {
 					new Logger().log(e);
 				}
@@ -422,7 +418,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return saved;
 	}
-
+	
 	/**
 	 * Deletes a report by its name for the current PRACTICANTE
 	 *
@@ -436,13 +432,19 @@ public class DAOPracticante implements IDAOPracticante {
 			this.isActive() && title != null) {
 			String query = "DELETE FROM Reporte WHERE titulo = ? AND practicante = ?";
 			String[] values = {title, this.getId()};
-			if (this.connection.preparedQuery(query, values)) {
+			if (this.connection.sendQuery(query, values)) {
 				deleted = true;
 			}
 		}
 		return deleted;
 	}
-
+	
+	/**
+	 * Set the final Proyect
+	 *
+	 * @param projectName
+	 * @return
+	 */
 	public boolean setProyect(String projectName) {
 		boolean set = false;
 		if (this.practicante != null && this.isActive() &&
@@ -456,7 +458,7 @@ public class DAOPracticante implements IDAOPracticante {
 				query = "INSERT INTO PracticanteProyecto (idPracticante, idProyecto) " +
 					"VALUES (?, (SELECT idProyecto FROM Proyecto WHERE nombre = ? AND status = 1))";
 				values = new String[]{this.getId(), projectName};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					set = true;
 				}
 			}
@@ -474,14 +476,14 @@ public class DAOPracticante implements IDAOPracticante {
 			String[] names = {"TOTAL"};
 			if (this.connection.select(query, values, names)[0][0].equals("1")) {
 				query = "DELETE FROM PracticanteProyecto WHERE idPracticante = ?";
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					deleted = true;
 				}
 			}
 		}
 		return deleted;
 	}
-
+	
 	@Override
 	public boolean reactive() {
 		boolean reactivated = false;
@@ -489,7 +491,7 @@ public class DAOPracticante implements IDAOPracticante {
 			if (this.isActive()) {
 				String query = "UPDATE Practicante SET status = 1 WHERE correoElectronico = ?";
 				String[] values = {this.practicante.getCorreoElectronico()};
-				if (this.connection.preparedQuery(query, values)) {
+				if (this.connection.sendQuery(query, values)) {
 					reactivated = true;
 				}
 			} else {
@@ -497,5 +499,33 @@ public class DAOPracticante implements IDAOPracticante {
 			}
 		}
 		return reactivated;
+	}
+	
+	public boolean replyActivity(String activityName, String documentPath) {
+		boolean replied = false;
+		if (this.practicante != null && this.isActive() && documentPath != null &&
+			Arch.existe(documentPath) && activityName != null) {
+			String query = "SELECT COUNT(idActividad) AS TOTAL FROM Actividad WHERE titulo = ?";
+			String[] values = {activityName};
+			String[] names = {"TOTAL"};
+			if (this.connection.select(query, values, names)[0][0].equals("1")) {
+				try {
+					File file = new File(documentPath);
+					FileInputStream fis = new FileInputStream(file);
+					
+					query = "UPDATE Actividad SET documento = ?, fechaEntrega = (SELECT CURRENT_DATE())";
+					this.connection.openConnection();
+					PreparedStatement statement =
+						this.connection.getConnection().prepareStatement(query);
+					statement.setBinaryStream(1, fis, (int) file.length());
+					statement.executeUpdate();
+					this.connection.closeConnection();
+					replied = true;
+				} catch (FileNotFoundException | SQLException e) {
+					new Logger().log(e);
+				}
+			}
+		}
+		return replied;
 	}
 }

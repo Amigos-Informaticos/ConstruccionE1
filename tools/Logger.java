@@ -1,5 +1,7 @@
 package tools;
 
+import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,14 +12,14 @@ import java.time.format.DateTimeFormatter;
  */
 public class Logger {
 	private Arch log = null;
-
+	
 	/**
 	 * Constructor vacio
 	 */
 	public Logger() {
 		this.initialSetup(true);
 	}
-
+	
 	/**
 	 * Constructor con descriptor de destino
 	 *
@@ -28,7 +30,7 @@ public class Logger {
 		this.log = destino;
 		this.initialSetup(mantenerSesionPrevia);
 	}
-
+	
 	/**
 	 * Constructor con string de destino
 	 *
@@ -39,7 +41,7 @@ public class Logger {
 		this.log = new Arch(pathDestino);
 		this.initialSetup(mantenerSesionPrevia);
 	}
-
+	
 	/**
 	 * Constructor con Path de destino
 	 *
@@ -50,7 +52,7 @@ public class Logger {
 		this.log = new Arch(destino);
 		this.initialSetup(mantenerSesionPrevia);
 	}
-
+	
 	public void initialSetup(boolean mantenerSesionPrevia) {
 		this.init();
 		if (!mantenerSesionPrevia) {
@@ -60,7 +62,7 @@ public class Logger {
 			this.log.crear();
 		}
 	}
-
+	
 	public void initTicker() {
 		Runtime.getRuntime().addShutdownHook(
 			new Thread() {
@@ -71,7 +73,7 @@ public class Logger {
 			}
 		);
 	}
-
+	
 	/**
 	 * Inicializador auxiliar de archivo
 	 */
@@ -80,7 +82,7 @@ public class Logger {
 			this.log = new Arch("log.txt");
 		}
 	}
-
+	
 	/**
 	 * Escribe el texto en el log
 	 *
@@ -89,25 +91,48 @@ public class Logger {
 	public void log(String texto) {
 		this.log.escribir(texto);
 		this.log.newLine();
+		String url = "https://api.telegram.org/bot1098401798:AAEycvrpsUUIUb0oOcUO-" +
+			"_tGsvlfJEK8dVg/sendMessage?chat_id=@W3Log&text=";
+		url += texto;
+		try {
+			new URL(url).openConnection().getInputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-
+	
 	/**
 	 * Escribe la excepcion en el log
 	 *
 	 * @param excepcion Instancia de excepcion que se desea loggear
 	 */
 	public void log(Exception excepcion) {
-		DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-		this.log.escribir(date.format(LocalDateTime.now()) + "\t");
-		this.log.escribir(excepcion.getMessage());
-		this.log.newLine();
-		for (StackTraceElement element: excepcion.getStackTrace()) {
-			this.log.escribir(element.toString());
-			this.log.newLine();
+		if (excepcion.getMessage() != null) {
+			try {
+				String url = "https://api.telegram.org/bot1098401798:AAEycvrpsUUIUb0oOcUO-" +
+					"_tGsvlfJEK8dVg/sendMessage?chat_id=@W3Log&text=";
+				DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+				this.log.escribir(date.format(LocalDateTime.now()) + "\t");
+				url += date.format(LocalDateTime.now()) + "%0A";
+				
+				this.log.escribir(excepcion.getMessage());
+				url += excepcion.getMessage() + "%0A";
+				
+				this.log.newLine();
+				for (StackTraceElement element: excepcion.getStackTrace()) {
+					this.log.escribir(element.toString());
+					this.log.newLine();
+					url += element.toString() + "%0A";
+				}
+				P.pln(url);
+				this.log.newLine();
+				new URL(url).openConnection().getInputStream();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		this.log.newLine();
 	}
-
+	
 	private static int getCurrentLine() {
 		boolean thisOne = false;
 		int thisOneCountDown = 1;
@@ -126,11 +151,11 @@ public class Logger {
 		}
 		return -1;
 	}
-
+	
 	private static String getCurrentMethod() {
 		return new Throwable().getStackTrace()[2].getMethodName();
 	}
-
+	
 	private static String getCurrentClass() {
 		return "";
 	}
