@@ -1,0 +1,2 @@
+# ConstruccionE1
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cc7b9f5f91114256b4cd8d740eba8695)](https://app.codacy.com/gh/Amigos-Informaticos/ConstruccionE1?utm_source=github.com&utm_medium=referral&utm_content=Amigos-Informaticos/ConstruccionE1&utm_campaign=Badge_Grade_Dashboard)
