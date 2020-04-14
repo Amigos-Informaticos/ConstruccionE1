@@ -178,11 +178,7 @@ public class DAOPracticante implements IDAOPracticante {
 					}
 				}
 			} else {
-				String query = "UPDATE Usuario SET status = 1 WHERE correoElectronico = ?";
-				String[] values = {this.practicante.getCorreoElectronico()};
-				if (this.connection.preparedQuery(query, values)) {
-					signedUp = true;
-				}
+				this.reactive();
 			}
 		}
 		return signedUp;
@@ -443,6 +439,12 @@ public class DAOPracticante implements IDAOPracticante {
 		return deleted;
 	}
 	
+	/**
+	 * Set the final Proyect
+	 *
+	 * @param projectName
+	 * @return
+	 */
 	public boolean setProyect(String projectName) {
 		boolean set = false;
 		if (this.practicante != null && this.isActive() &&
@@ -497,5 +499,34 @@ public class DAOPracticante implements IDAOPracticante {
 			}
 		}
 		return reactivated;
+	}
+	
+	public boolean replyActivity(String activityName, String documentPath) {
+		boolean replied = false;
+		if (this.practicante != null && this.isActive() && documentPath != null &&
+			Arch.existe(documentPath) && activityName != null) {
+			String query = "SELECT COUNT(idActividad) AS TOTAL FROM Actividad WHERE titulo = ?";
+			String[] values = {activityName};
+			String[] names = {"TOTAL"};
+			if (this.connection.select(query, values, names)[0][0].equals("1")) {
+				try {
+					File file = new File(documentPath);
+					FileInputStream fis = new FileInputStream(file);
+					
+					query = "UPDATE Actividad SET documento = ?, fechaEntrega = (SELECT CURRENT_DATE())";
+					this.connection.openConnection();
+					PreparedStatement statement =
+						this.connection.getConnection().prepareStatement(query);
+					statement.setBinaryStream(1, fis, (int) file.length());
+					statement.executeUpdate();
+					this.connection.closeConnection();
+					replied = true;
+				} catch (FileNotFoundException | SQLException e) {
+					new Logger().log(e);
+				}
+				
+			}
+		}
+		return replied;
 	}
 }
