@@ -14,7 +14,7 @@ public class DBConnection {
 	private Connection connection;
 	private Arch configurationFile;
 	private Logger logger = new Logger();
-
+	
 	/**
 	 * Empty default constructor<br/>
 	 * Tries to load saved connection<br/>
@@ -23,7 +23,7 @@ public class DBConnection {
 	public DBConnection() {
 		Configuration.loadConnection(this);
 	}
-
+	
 	/**
 	 * Parametrized constructor
 	 *
@@ -38,43 +38,43 @@ public class DBConnection {
 		this.user = user;
 		this.password = password;
 	}
-
+	
 	public void setDriver(String driver) {
 		this.driver = driver;
 	}
-
+	
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
+	
 	public void setUser(String user) {
 		this.user = user;
 	}
-
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
 	public String getDriver() {
 		return driver;
 	}
-
+	
 	public String getUrl() {
 		return url;
 	}
-
+	
 	public String getUser() {
 		return user;
 	}
-
+	
 	public String getPassword() {
 		return password;
 	}
-
+	
 	public Connection getConnection() {
 		return connection;
 	}
-
+	
 	/**
 	 * Loads a saved connection
 	 * <p>
@@ -87,7 +87,7 @@ public class DBConnection {
 	public void loadConnection() {
 		Configuration.loadConnection(this);
 	}
-
+	
 	/**
 	 * Loads the connection configuration from a file
 	 *
@@ -97,7 +97,7 @@ public class DBConnection {
 	public boolean loadFromFile(String path) {
 		return Configuration.loadFromFile(this, path);
 	}
-
+	
 	/**
 	 * Saves the current configuration to a file
 	 *
@@ -107,7 +107,7 @@ public class DBConnection {
 	public boolean saveToFile(String path) {
 		return Configuration.saveToFile(this, path);
 	}
-
+	
 	/**
 	 * Check if the connection is ready to open
 	 *
@@ -123,7 +123,7 @@ public class DBConnection {
 		}
 		return isReady;
 	}
-
+	
 	/**
 	 * Open the connection to the DB
 	 *
@@ -142,7 +142,7 @@ public class DBConnection {
 		}
 		return isOpen;
 	}
-
+	
 	/**
 	 * Close the connection, no matter if its open or not
 	 */
@@ -155,7 +155,7 @@ public class DBConnection {
 			this.logger.log(e);
 		}
 	}
-
+	
 	/**
 	 * Send a prepared query to the DB
 	 *
@@ -168,8 +168,10 @@ public class DBConnection {
 		try {
 			this.openConnection();
 			PreparedStatement statement = this.connection.prepareStatement(query);
-			for (int i = 0; i < values.length; i++) {
-				statement.setString(i + 1, values[i]);
+			if (values != null) {
+				for (int i = 0; i < values.length; i++) {
+					statement.setString(i + 1, values[i]);
+				}
 			}
 			queryExecuted = statement.executeUpdate() > 0 && (queryExecuted = true);
 			this.closeConnection();
@@ -178,7 +180,7 @@ public class DBConnection {
 		}
 		return queryExecuted;
 	}
-
+	
 	/**
 	 * Get the values requested in the query
 	 *
