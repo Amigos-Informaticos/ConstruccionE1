@@ -1,9 +1,10 @@
 package DAO;
 
 import Connection.DBConnection;
+import Exceptions.CustomException;
 import IDAO.IDAOPracticante;
-import Models.Practicante;
 import Models.Proyecto;
+import Models.Student;
 import tools.Arch;
 import tools.Logger;
 
@@ -13,52 +14,34 @@ import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class DAOPracticante implements IDAOPracticante {
-	private Practicante practicante;
+public class DAOStudent implements IDAOPracticante {
+	private Student student;
 	private DBConnection connection = new DBConnection();
 	
-	public DAOPracticante(Practicante practicante) {
-		this.practicante = practicante;
+	public DAOStudent(Student student) {
+		this.student = student;
 	}
 	
-	public Practicante getPracticante() {
-		return practicante;
+	public Student getStudent() {
+		return student;
 	}
 	
-	public void setPracticante(Practicante practicante) {
-		this.practicante = practicante;
-	}
-	
-	/**
-	 * Returns the id of a PRACTICANTE by its emil
-	 *
-	 * @param email The email of the PRACTICANTE
-	 * @return PRACTICANTE's id as a String<br/>
-	 * If something goes wrong, returns an empty String
-	 */
-	public static String getId(String email) {
-		String id = "";
-		if (email != null) {
-			Practicante practicante = new Practicante();
-			practicante.setCorreoElectronico(email);
-			id = DAOPracticante.getId(practicante);
-		}
-		return id;
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 	
 	/**
-	 * Returns the id of a PRACTICANTE
+	 * Returns the id of a Student
 	 *
-	 * @param practicante Instance of PRACTICANTE to know his id
-	 * @return PRACTICANTE's id as a String<br/>
+	 * @return Student's id as a String<br/>
 	 * If something goes wrong, returns an empty String
 	 */
-	public static String getId(Practicante practicante) {
+	public String getId() throws CustomException {
 		String id = "";
-		if (practicante != null && practicante.getEmail() != null &&
-			new DAOPracticante(practicante).isRegistered()) {
+		if (this.student != null && this.student.getEmail() != null &&
+			new DAOStudent(this.student).isRegistered()) {
 			String query = "SELECT idUsuario FROM Usuario WHERE correoElectronico = ?";
-			String[] values = {practicante.getEmail()};
+			String[] values = {this.student.getEmail()};
 			String[] names = {"idUsuario"};
 			id = new DBConnection().select(query, values, names)[0][0];
 		}
@@ -66,34 +49,24 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 	
 	/**
-	 * Returns the current PRACTICANTE's id
+	 * Update the Database with the current Student
 	 *
-	 * @return The current PRACTICANTE's id<br/>
-	 * If something goes wrong, returns an empty String
-	 */
-	public String getId() {
-		return DAOPracticante.getId(this.practicante);
-	}
-	
-	/**
-	 * Update the Database with the current PRACTICANTE
-	 *
-	 * @return true => updated | false => something went wrong
+	 * @return true => updated<br/>false => something went wrong
 	 */
 	@Override
-	public boolean update() {
+	public boolean update() throws CustomException {
 		boolean updated = false;
 		if (this.isRegistered()) {
 			String query = "UPDATE Usuario SET nombres = ?, apellidos = ?, correoElectronico = ?, "
 				+ "contrasena = ? WHERE correoElectronico = ?";
-			String[] values = {this.practicante.getNames(), this.practicante.getApellidos(),
-				this.practicante.getEmail(), this.practicante.getPassword(),
-				this.practicante.getEmail()};
+			String[] values = {this.student.getNames(), this.student.getLastnames(),
+				this.student.getEmail(), this.student.getPassword(),
+				this.student.getEmail()};
 			if (this.connection.sendQuery(query, values)) {
 				query = "UPDATE Practicante SET Matricula = ? WHERE idUsuario = (SELECT " +
 					"idUsuario" + " " + "FROM Usuario WHERE correoElectronico = ?)";
-				values = new String[]{this.practicante.getMatricula(),
-					this.practicante.getEmail()};
+				values = new String[]{this.student.getRegNumber(),
+					this.student.getEmail()};
 				if (this.connection.sendQuery(query, values)) {
 					updated = true;
 				}
@@ -103,17 +76,17 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 	
 	/**
-	 * Delete the current PRACTICANTE from the Database
+	 * Delete the current Student from the Database
 	 *
-	 * @return true => deleted | false => not deleted
+	 * @return true => deleted<br/>false => not deleted
 	 */
 	@Override
-	public boolean delete() {
+	public boolean delete() throws CustomException {
 		boolean deleted = false;
-		if (this.practicante != null && this.isRegistered()) {
+		if (this.student != null && this.isRegistered()) {
 			if (this.isActive()) {
 				String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
-				String[] values = {this.practicante.getEmail()};
+				String[] values = {this.student.getEmail()};
 				if (this.connection.sendQuery(query, values)) {
 					deleted = true;
 				}
@@ -125,7 +98,7 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 	
 	/**
-	 * Log the current PRACTICANTE
+	 * Log the current Student
 	 * Verifies if the current instance is registered<br/>
 	 * and has the correct credentials to log in
 	 *
@@ -133,14 +106,14 @@ public class DAOPracticante implements IDAOPracticante {
 	 * false => not registered or incorrect credentials
 	 */
 	@Override
-	public boolean logIn() {
+	public boolean logIn() throws CustomException {
 		boolean loggedIn = false;
-		if (this.practicante != null && this.practicante.getEmail() != null &&
+		if (this.student != null && this.student.getEmail() != null &&
 			this.isActive()) {
 			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario " +
 				"WHERE correoElectronico = ? AND contrasena = ? AND status = 1";
-			String[] values = {this.practicante.getEmail(),
-				this.practicante.getPassword()};
+			String[] values = {this.student.getEmail(),
+				this.student.getPassword()};
 			String[] names = {"TOTAL"};
 			if (this.isRegistered()) {
 				if (this.connection.select(query, values, names)[0][0].equals("1")) {
@@ -157,148 +130,164 @@ public class DAOPracticante implements IDAOPracticante {
 	 * Verifies that the current instance is not already registered,<br/>
 	 * if not, saves it to the database.
 	 *
-	 * @return true => registered | false => couldn't register
+	 * @return true => registered</br>false => couldn't register
 	 */
 	@Override
-	public boolean signUp() {
+	public boolean signUp() throws CustomException {
 		boolean signedUp = false;
-		if (this.practicante != null) {
+		if (this.student != null) {
 			if (!this.isRegistered()) {
 				String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, " +
 					"contrasena, status) VALUES (?, ?, ?, ?, 1)";
-				String[] values = {this.practicante.getNames(), this.practicante.getApellidos(),
-					this.practicante.getEmail(), this.practicante.getPassword()};
+				String[] values = {this.student.getNames(), this.student.getLastnames(),
+					this.student.getEmail(), this.student.getPassword()};
 				if (this.connection.sendQuery(query, values)) {
 					query = "INSERT INTO Practicante (idUsuario, matricula) VALUES " +
 						"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?)";
-					values = new String[]{this.practicante.getEmail(),
-						this.practicante.getMatricula()};
+					values = new String[]{this.student.getEmail(),
+						this.student.getRegNumber()};
 					if (this.connection.sendQuery(query, values)) {
 						signedUp = true;
+					} else {
+						throw new CustomException("Could not insert into Practicante: signUp()");
 					}
+				} else {
+					throw new CustomException("Could not insert into Usuario: signUp()");
 				}
 			} else {
 				this.reactive();
 			}
+		} else {
+			throw new CustomException("Null Pointer Exception: signUp()");
 		}
 		return signedUp;
 	}
 	
 	/**
-	 * Verifies the existence of the current PRACTICANTE against the database<br/>
-	 * Checks if the email of the current PRACTICANTE
+	 * Verifies the existence of the current Student against the database<br/>
+	 * Checks if the email of the current Student
 	 * is already registered in the database
 	 *
-	 * @return true => registered | false => not registered
+	 * @return true => registered<br/>false => not registered
 	 */
 	@Override
-	public boolean isRegistered() {
+	public boolean isRegistered() throws CustomException {
 		boolean isRegistered = false;
-		if (this.practicante != null && this.practicante.getEmail() != null) {
+		if (this.student != null && this.student.getEmail() != null) {
 			String query = "SELECT COUNT(idUsuario) AS TOTAL " +
 				"FROM Usuario WHERE correoElectronico = ?";
-			String[] values = {this.practicante.getEmail()};
+			String[] values = {this.student.getEmail()};
 			String[] names = {"TOTAL"};
-			if (this.practicante != null && this.practicante.getEmail() != null) {
+			if (this.connection.select(query, values, names)[0][0].equals("1")) {
+				query = "SELECT COUNT(Practicante.idUsuario) AS TOTAL FROM Practicante " +
+					"INNER JOIN Usuario ON Practicante.idUsuario = Usuario.idUsuario " +
+					"WHERE Usuario.correoElectronico = ?";
 				if (this.connection.select(query, values, names)[0][0].equals("1")) {
-					query = "SELECT COUNT(Practicante.idUsuario) AS TOTAL FROM Practicante " +
-						"INNER JOIN Usuario ON Practicante.idUsuario = Usuario.idUsuario " +
-						"WHERE Usuario.correoElectronico = ?";
-					if (this.connection.select(query, values, names)[0][0].equals("1")) {
-						isRegistered = true;
-					}
+					isRegistered = true;
+				} else {
+					throw new CustomException("Not registered in Practicante: isRegistered()");
 				}
+			} else {
+				throw new CustomException("Not registered in Usuario: isRegistered()");
 			}
+		} else {
+			throw new CustomException("Null Pointer Exception: isRegistered()");
 		}
 		return isRegistered;
 	}
 	
 	/**
-	 * Verifies if the current PRACTICANTE is active in the DB
+	 * Verifies if the current Student is active in the DB
 	 *
 	 * @return true => his status is active<br/>
 	 * false => his status is inactive
 	 */
-	public boolean isActive() {
+	public boolean isActive() throws CustomException {
 		boolean isActive = false;
-		if (this.practicante != null && this.practicante.getEmail() != null &&
+		if (this.student != null && this.student.getEmail() != null &&
 			this.isRegistered()) {
 			String query = "SELECT status FROM Usuario WHERE correoElectronico = ?";
-			String[] values = {this.practicante.getEmail()};
+			String[] values = {this.student.getEmail()};
 			String[] names = {"status"};
 			isActive = this.connection.select(query, values, names)[0][0].equals("1");
+		} else {
+			throw new CustomException("Null Pointer Exception: isActive()");
 		}
 		return isActive;
 	}
 	
 	/**
-	 * Returns an array of all PRACTICANTE from DB
+	 * Returns an array of all Student from DB
 	 *
-	 * @return Array of PRACTICANTE<br/>
-	 * If there are no PRACTICANTEs registered, returns null
+	 * @return Array of Student<br/>
+	 * If there are no Students registered, returns null
 	 */
-	public static Practicante[] getAll() {
-		Practicante[] practicantes;
+	public static Student[] getAll() {
+		Student[] students;
 		DBConnection connection = new DBConnection();
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
 			"FROM Usuario INNER JOIN Practicante ON Usuario.idUsuario = Practicante.idUsuario " +
 			"WHERE Usuario.status = 1";
 		String[] names = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
 		String[][] results = connection.select(query, null, names);
-		practicantes = new Practicante[results.length];
+		students = new Student[results.length];
 		for (int i = 0; i < results.length; i++) {
-			practicantes[i] = new Practicante(results[i][0], results[i][1], results[i][2],
+			students[i] = new Student(results[i][0], results[i][1], results[i][2],
 				results[i][3], results[i][4]);
 		}
-		return practicantes;
+		return students;
 	}
 	
 	/**
-	 * Returns an instance of Practicante by its email
+	 * Returns an instance of Student by its email
 	 *
-	 * @param practicante Instance of PRACTICANTE with email
-	 * @return Instace of PRACTICANTE completed from the DB<br/>
-	 * If the provided PRACTICANTE is not registered, it will return null
+	 * @param student Instance of Student with email
+	 * @return Instance of Student completed from the DB<br/>
+	 * If the provided Student is not registered, it will return null
 	 */
-	public static Practicante get(Practicante practicante) {
+	public static Student get(Student student) throws CustomException {
 		DBConnection connection = new DBConnection();
-		Practicante returnPracticante = null;
-		if (practicante != null) {
-			if (new DAOPracticante(practicante).isRegistered()) {
+		Student returnStudent = null;
+		if (student != null) {
+			if (new DAOStudent(student).isRegistered()) {
 				String query = "SELECT nombres, apellidos, correoElectronico, contrasena, " +
 					"matricula FROM Usuario INNER JOIN Practicante " +
 					"ON Usuario.idUsuario = Practicante.idUsuario " +
 					"WHERE Usuario.correoElectronico = ?";
-				String[] values = {practicante.getEmail()};
+				String[] values = {student.getEmail()};
 				String[] names = {"nombres", "apellidos", "correoElectronico", "contrasena",
 					"matricula"};
 				String[][] results = connection.select(query, values, names);
-				returnPracticante = new Practicante(results[0][0], results[0][1], results[0][2],
+				returnStudent = new Student(results[0][0], results[0][1], results[0][2],
 					results[0][3], results[0][4]);
+			} else {
+				throw new CustomException("Not registered: get()");
 			}
+		} else {
+			throw new CustomException("Null Pointer Exception: get()");
 		}
-		return returnPracticante;
+		return returnStudent;
 	}
 	
-	public boolean selectProyect(String projectName) {
-		return this.selectProyect(new DAOProyecto().loadProyecto(projectName));
+	public boolean selectProject(String projectName) throws CustomException {
+		return this.selectProject(new DAOProyecto().loadProyecto(projectName));
 	}
 	
 	/**
-	 * Saves the selection of a project from the current PRACTICANTE in the database
+	 * Saves the selection of a project from the current Student in the database
 	 *
-	 * @param proyecto Instance of PROYECTO to relate in the database
+	 * @param proyecto Instance of Project to relate in the database
 	 * @return true => selection registered<br/>
 	 * false => not registered
 	 */
-	public boolean selectProyect(Proyecto proyecto) {
+	public boolean selectProject(Proyecto proyecto) throws CustomException {
 		boolean selected = false;
-		if (this.practicante != null && this.practicante.isComplete() && this.isActive() &&
+		if (this.student != null && this.student.isComplete() && this.isActive() &&
 			proyecto != null && proyecto.isComplete() &&
 			new DAOProyecto(proyecto).isRegistered()) {
 			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM SeleccionProyecto " +
 				"WHERE idUsuario = (SELECT idUsuario FROM Usuario WHERE correoElectronico = ?)";
-			String[] values = {this.practicante.getEmail()};
+			String[] values = {this.student.getEmail()};
 			String[] names = {"TOTAL"};
 			int selectedProyects =
 				Integer.parseInt(this.connection.select(query, values, names)[0][0]);
@@ -307,29 +296,31 @@ public class DAOPracticante implements IDAOPracticante {
 					"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND status = 1), " +
 					"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?))";
 				values = new String[]{proyecto.getNombre(),
-					this.practicante.getEmail()};
+					this.student.getEmail()};
 				if (this.connection.sendQuery(query, values)) {
 					selected = true;
 				}
 			}
+		} else {
+			throw new CustomException("Null pointer exception: selectProject()");
 		}
 		return selected;
 	}
 	
 	/**
-	 * Returns an array of the selected PROYECTO from the current PRACTICANTE
+	 * Returns an array of the selected Project from the current Student
 	 *
-	 * @return Array of PROYECTO
+	 * @return Array of Project
 	 */
-	public Proyecto[] getProyects() {
+	public Proyecto[] getProjects() throws CustomException {
 		Proyecto[] proyectos = null;
-		if (this.practicante != null && this.practicante.isComplete() && this.isActive()) {
+		if (this.student != null && this.student.isComplete() && this.isActive()) {
 			String query = "SELECT nombre " + "FROM Proyecto INNER JOIN SeleccionProyecto ON " +
 				"Proyecto.idProyecto = SeleccionProyecto.idProyecto " +
 				"WHERE SeleccionProyecto.idUsuario = " +
 				"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?) " +
 				"AND Proyecto.status = 1";
-			String[] values = {this.practicante.getEmail()};
+			String[] values = {this.student.getEmail()};
 			String[] names = {"nombre"};
 			String[][] results = this.connection.select(query, values, names);
 			if (results.length > 0) {
@@ -339,25 +330,27 @@ public class DAOPracticante implements IDAOPracticante {
 					proyectos[i] = daoProyecto.loadProyecto(results[i][0]);
 				}
 			}
+		} else {
+			throw new CustomException("Null pointer exception: getProjects()");
 		}
 		return proyectos;
 	}
 	
 	/**
-	 * Deletes the selected PROYECTO by its name
+	 * Deletes the selected Project by its name
 	 *
 	 * @param projectName The name of the project to deselect
 	 * @return true => selection deleted<br/>
 	 * false => selection not deleted
 	 */
-	public boolean deleteSelectedProyect(String projectName) {
+	public boolean deleteSelectedProject(String projectName) throws CustomException {
 		boolean deleted = false;
-		if (this.practicante != null && this.practicante.getEmail() != null &&
+		if (this.student != null && this.student.getEmail() != null &&
 			this.isActive() && projectName != null) {
 			DAOProyecto daoProyecto = new DAOProyecto(projectName);
 			if (daoProyecto.isRegistered()) {
 				boolean isSelected = false;
-				for (Proyecto proyecto: this.getProyects()) {
+				for (Proyecto proyecto: this.getProjects()) {
 					if (proyecto != null && proyecto.getNombre().equals(projectName)) {
 						isSelected = true;
 						break;
@@ -368,11 +361,13 @@ public class DAOPracticante implements IDAOPracticante {
 						"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?) " +
 						"AND idProyecto = " +
 						"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND " + "status = 1)";
-					String[] values = {this.practicante.getEmail(), projectName};
+					String[] values = {this.student.getEmail(), projectName};
 					if (this.connection.sendQuery(query, values)) {
 						deleted = true;
 					}
 				}
+			} else {
+				throw new CustomException("Null Pointer Exception: deleteSelectedProject()");
 			}
 		}
 		return deleted;
@@ -386,9 +381,9 @@ public class DAOPracticante implements IDAOPracticante {
 	 * @return true => Report uploaded and saved<br/>
 	 * false => Report not uploaded
 	 */
-	public boolean addReport(String filePath, String title) {
+	public boolean addReport(String filePath, String title) throws CustomException {
 		boolean saved = false;
-		if (this.practicante != null && this.practicante.getEmail() != null &&
+		if (this.student != null && this.student.getEmail() != null &&
 			this.isActive() && filePath != null && title != null) {
 			if (Arch.existe(filePath)) {
 				try {
@@ -403,7 +398,7 @@ public class DAOPracticante implements IDAOPracticante {
 					PreparedStatement statement =
 						this.connection.getConnection().prepareStatement(query);
 					statement.setString(1, title);
-					statement.setString(2, this.practicante.getEmail());
+					statement.setString(2, this.student.getEmail());
 					
 					statement.setBinaryStream(3, fis, (int) file.length());
 					
@@ -413,41 +408,50 @@ public class DAOPracticante implements IDAOPracticante {
 					
 				} catch (FileNotFoundException | SQLException e) {
 					new Logger().log(e);
+					throw new CustomException(e.getMessage());
 				}
+			} else {
+				throw new CustomException("File does not exists: addReport()");
 			}
+		} else {
+			throw new CustomException("Null Pointer Exception: addReport()");
 		}
 		return saved;
 	}
 	
 	/**
-	 * Deletes a report by its name for the current PRACTICANTE
+	 * Deletes a report by its name for the current Student
 	 *
 	 * @param title The title of the report to delete
 	 * @return true => Deleted<br/>
 	 * false => not deleted
 	 */
-	public boolean deleteReport(String title) {
+	public boolean deleteReport(String title) throws CustomException {
 		boolean deleted = false;
-		if (this.practicante != null && this.practicante.getEmail() != null &&
+		if (this.student != null && this.student.getEmail() != null &&
 			this.isActive() && title != null) {
 			String query = "DELETE FROM Reporte WHERE titulo = ? AND practicante = ?";
 			String[] values = {title, this.getId()};
 			if (this.connection.sendQuery(query, values)) {
 				deleted = true;
+			} else {
+				throw new CustomException("Could not delete from Reporte: deleteReport()");
 			}
+		} else {
+			throw new CustomException("Null Pointer Exception: deleteReport()");
 		}
 		return deleted;
 	}
 	
 	/**
-	 * Set the final Proyect
+	 * Set the final Project
 	 *
 	 * @param projectName
 	 * @return
 	 */
-	public boolean setProyect(String projectName) {
+	public boolean setProject(String projectName) throws CustomException {
 		boolean set = false;
-		if (this.practicante != null && this.isActive() &&
+		if (this.student != null && this.isActive() &&
 			projectName != null && new DAOProyecto(projectName).isRegistered()) {
 			Proyecto proyecto = new DAOProyecto().loadProyecto(projectName);
 			String query = "SELECT COUNT(idPracticante) AS TOTAL FROM PracticanteProyecto " +
@@ -460,15 +464,21 @@ public class DAOPracticante implements IDAOPracticante {
 				values = new String[]{this.getId(), projectName};
 				if (this.connection.sendQuery(query, values)) {
 					set = true;
+				} else {
+					throw new CustomException("Could not insert into StudentProject: setProject()");
 				}
+			} else {
+				throw new CustomException("Already setted project: setProject()");
 			}
+		} else {
+			throw new CustomException("Null Pointer Excepcion: setProject()");
 		}
 		return set;
 	}
 	
-	public boolean deleteProyect() {
+	public boolean deleteProject() throws CustomException {
 		boolean deleted = false;
-		if (this.practicante != null && this.practicante.getEmail() != null &&
+		if (this.student != null && this.student.getEmail() != null &&
 			this.isActive()) {
 			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM PracticanteProyecto " +
 				"WHERE idPracticante = ?";
@@ -485,12 +495,12 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 	
 	@Override
-	public boolean reactive() {
+	public boolean reactive() throws CustomException {
 		boolean reactivated = false;
-		if (this.practicante != null && this.isRegistered()) {
+		if (this.student != null && this.isRegistered()) {
 			if (this.isActive()) {
 				String query = "UPDATE Practicante SET status = 1 WHERE correoElectronico = ?";
-				String[] values = {this.practicante.getEmail()};
+				String[] values = {this.student.getEmail()};
 				if (this.connection.sendQuery(query, values)) {
 					reactivated = true;
 				}
@@ -501,9 +511,9 @@ public class DAOPracticante implements IDAOPracticante {
 		return reactivated;
 	}
 	
-	public boolean replyActivity(String activityName, String documentPath) {
+	public boolean replyActivity(String activityName, String documentPath) throws CustomException {
 		boolean replied = false;
-		if (this.practicante != null && this.isActive() && documentPath != null &&
+		if (this.student != null && this.isActive() && documentPath != null &&
 			Arch.existe(documentPath) && activityName != null) {
 			String query = "SELECT COUNT(idActividad) AS TOTAL FROM Actividad WHERE titulo = ?";
 			String[] values = {activityName};
@@ -513,11 +523,15 @@ public class DAOPracticante implements IDAOPracticante {
 					File file = new File(documentPath);
 					FileInputStream fis = new FileInputStream(file);
 					
-					query = "UPDATE Actividad SET documento = ?, fechaEntrega = (SELECT CURRENT_DATE())";
+					query = "UPDATE Actividad SET documento = ?, " +
+						"fechaEntrega = (SELECT CURRENT_DATE()) " +
+						"WHERE titulo = ? AND idPracticante = ?";
 					this.connection.openConnection();
 					PreparedStatement statement =
 						this.connection.getConnection().prepareStatement(query);
 					statement.setBinaryStream(1, fis, (int) file.length());
+					statement.setString(2, activityName);
+					statement.setString(3, getId());
 					statement.executeUpdate();
 					this.connection.closeConnection();
 					replied = true;
@@ -525,6 +539,16 @@ public class DAOPracticante implements IDAOPracticante {
 					new Logger().log(e);
 				}
 			}
+		}
+		return replied;
+	}
+	
+	public boolean deleteReply(String activityName) throws CustomException {
+		boolean replied = false;
+		if (this.student != null && this.isActive() && activityName != null) {
+			String query = "UPDATE Actividad SET documento = ?, fechaEntrega = ? WHERE";
+		} else {
+			throw new CustomException("Null Pointer Exception: deleteReply()");
 		}
 		return replied;
 	}

@@ -7,29 +7,29 @@ import Models.Profesor;
 public class DAOProfesor implements IDAOProfesor {
 	private Profesor profesor;
 	private DBConnection connection = new DBConnection();
-
+	
 	public DAOProfesor(Profesor profesor) {
 		this.profesor = profesor;
 	}
-
+	
 	public Profesor getProfesor() {
 		return profesor;
 	}
-
+	
 	public void setProfesor(Profesor profesor) {
 		this.profesor = profesor;
 	}
-
+	
 	@Override
 	public boolean update() {
 		return false;
 	}
-
+	
 	@Override
 	public boolean delete() {
 		return false;
 	}
-
+	
 	@Override
 	public boolean logIn() {
 		boolean loggedIn = false;
@@ -44,14 +44,14 @@ public class DAOProfesor implements IDAOProfesor {
 		}
 		return loggedIn;
 	}
-
+	
 	@Override
 	public boolean signUp() {
 		boolean signedUp = false;
 		if (this.profesor.isComplete()) {
 			String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status)" +
 				"VALUES (?, ?, ?, ?, ?)";
-			String[] values = {this.profesor.getNames(), this.profesor.getApellidos(),
+			String[] values = {this.profesor.getNames(), this.profesor.getLastnames(),
 				this.profesor.getEmail(), this.profesor.getPassword(), "1"};
 			if (this.connection.sendQuery(query, values)) {
 				query = "INSERT INTO Profesor (idUsuario, fechaRegistro, noPersonal, turno) VALUES " +
@@ -64,7 +64,7 @@ public class DAOProfesor implements IDAOProfesor {
 		}
 		return signedUp;
 	}
-
+	
 	@Override
 	public boolean isRegistered() {
 		boolean isRegistered = false;
@@ -83,15 +83,15 @@ public class DAOProfesor implements IDAOProfesor {
 		}
 		return isRegistered;
 	}
-
+	
 	public static Profesor[] getAll() {
 		return new Profesor[0];
 	}
-
+	
 	public static Profesor[] get(Profesor profesor) {
 		return null;
 	}
-
+	
 	@Override
 	public boolean reactive() {
 		return true;
