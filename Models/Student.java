@@ -55,15 +55,17 @@ public class Student extends User {
 	 */
 	public boolean register() {
 		boolean isRegistered = false;
-		try {
-			if (this.isComplete()) {
-				DAOStudent daoStudent = new DAOStudent(this);
+		if (this.isComplete()) {
+			DAOStudent daoStudent = new DAOStudent(this);
+			try {
 				if (daoStudent.signUp()) {
 					isRegistered = true;
 				}
+			} catch (CustomException e) {
+				if (e.getExceptionCode().equals("NotSignUpStudent")) {
+				
+				}
 			}
-		} catch (CustomException e) {
-			new Logger().log(e);
 		}
 		return isRegistered;
 	}
