@@ -1,18 +1,19 @@
 package IDAO;
 
-import Models.Practicante;
+import Exceptions.CustomException;
+import Models.Student;
 
 public interface IDAOPracticante extends IDAOUsuario {
-
-	static Practicante[] getAll() {
-		return new Practicante[0];
+	
+	static Student[] getAll() {
+		return new Student[0];
 	}
-
-	static Practicante get(Practicante practicante) {
+	
+	static Student get(Student student) {
 		return null;
 	}
-
-	boolean update();
-
-	boolean delete();
+	
+	boolean update() throws CustomException;
+	
+	boolean delete() throws CustomException;
 }

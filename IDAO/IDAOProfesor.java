@@ -1,6 +1,5 @@
 package IDAO;
 
-import Models.Practicante;
 import Models.Profesor;
 
 public interface IDAOProfesor extends IDAOUsuario {
