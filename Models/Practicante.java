@@ -30,10 +30,10 @@ public class Practicante extends Usuario {
 	 */
 	public Practicante(Practicante practicante) {
 		if (practicante != null) {
-			this.setNombres(practicante.getNombres());
+			this.setNames(practicante.getNames());
 			this.setApellidos(practicante.getApellidos());
-			this.setCorreoElectronico(practicante.getCorreoElectronico());
-			this.setContrasena(practicante.getContrasena());
+			this.setCorreoElectronico(practicante.getEmail());
+			this.setPassword(practicante.getPassword());
 			this.setMatricula(practicante.getMatricula());
 		}
 	}

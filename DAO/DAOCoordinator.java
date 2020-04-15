@@ -1,15 +1,15 @@
 package DAO;
 
 import Connection.DBConnection;
-import IDAO.IDAOCoordinador;
-import Models.Coordinador;
+import IDAO.IDAOCoordinator;
+import Models.Coordinator;
 
-public class DAOCoordinador implements IDAOCoordinador {
-	private Coordinador coordinador;
+public class DAOCoordinator implements IDAOCoordinator {
+	private Coordinator coordinator;
 	private DBConnection connection = new DBConnection();
 
-    public DAOCoordinador(Coordinador coordinador) {
-        this.coordinador = coordinador;
+    public DAOCoordinator(Coordinator coordinator) {
+        this.coordinator = coordinator;
     }
 
 
@@ -32,13 +32,17 @@ public class DAOCoordinador implements IDAOCoordinador {
     @Override
     public boolean signUp() {
         boolean signedUp = false;
-        if(this.coordinador.isComplete() && !this.isRegistered() && !this.isAnother()){
-            String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status)" +
-                    "VALUES (?, ?, ?, ?, ?)";
-            String[] values = {this.coordinador.getNombres(), this.coordinador.getApellidos(), this.coordinador.getCorreoElectronico(), this.coordinador.getContrasena(), "1"};
+        if(this.coordinator.isComplete() && !this.isRegistered() && !this.isAnother()){
+            String query = "INSERT INTO User (names, lastNames, email, password, status)" +
+                            "VALUES (?, ?, ?, ?, ?)";
+            String[] values = {this.coordinator.getNames(),
+                                this.coordinator.getLastNames(),
+                                this.coordinator.getEmail(),
+                                this.coordinator.getPassword(), "1"};
             if (this.connection.sendQuery(query, values)) {
-                query = "INSERT INTO Coordinador (idUsuario, noPersonal, fechaRegistro) VALUES ((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?, (SELECT CURRENT_DATE))";
-                values = new String[]{this.coordinador.getCorreoElectronico(), this.coordinador.getNoPersonal()};
+                query = "INSERT INTO Coordinator (idUser, noPersonal, dateUp) VALUES " +
+                        "((SELECT idUser FROM User WHERE email = ?), ?, (SELECT CURRENT_DATE))";
+                values = new String[]{this.coordinator.getEmail(), this.coordinator.getPersonalNo()};
                 if (this.connection.sendQuery(query, values)) {
                     signedUp = true;
                 }
@@ -50,8 +54,8 @@ public class DAOCoordinador implements IDAOCoordinador {
     @Override
     public boolean isRegistered() {
         boolean isRegistered = false;
-        String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
-        String[] values = {this.coordinador.getCorreoElectronico()};
+        String query = "SELECT COUNT(idUser) AS TOTAL FROM User WHERE email = ?";
+        String[] values = {this.coordinator.getEmail()};
         String[] names = {"TOTAL"};
         if (this.connection.select(query, values, names)[0][0].equals("1")) {
             isRegistered = true;
@@ -62,9 +66,9 @@ public class DAOCoordinador implements IDAOCoordinador {
     @Override
     public boolean logIn() {
         boolean loggedIn = false;
-        String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Coordinador WHERE correoElectronico = ? " +
-                "AND contrasena = ?";
-        String[] values = {this.coordinador.getCorreoElectronico(), this.coordinador.getContrasena()};
+        String query = "SELECT COUNT(idUser) AS TOTAL FROM Coordinator WHERE email = ? " +
+                "AND password = ?";
+        String[] values = {this.coordinator.getEmail(), this.coordinator.getPassword()};
         String[] names = {"TOTAL"};
         if (this.isRegistered()) {
             if (this.connection.select(query, values, names)[0][0].equals("1")) {
@@ -77,10 +81,10 @@ public class DAOCoordinador implements IDAOCoordinador {
     //@Override
     public boolean delete() {
         boolean deleted = false;
-        if (this.coordinador != null && this.isRegistered()) {
+        if (this.coordinator != null && this.isRegistered()) {
             if (this.isActive()) {
-                String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
-                String[] values = {this.coordinador.getCorreoElectronico()};
+                String query = "UPDATE User SET status = 0 WHERE email = ?";
+                String[] values = {this.coordinator.getEmail()};
                 if (this.connection.sendQuery(query, values)) {
                     deleted = true;
                 }
@@ -93,10 +97,10 @@ public class DAOCoordinador implements IDAOCoordinador {
 
     public boolean isActive() {
         boolean isActive = false;
-        if (this.coordinador != null && this.coordinador.getCorreoElectronico() != null &&
+        if (this.coordinator != null && this.coordinator.getEmail() != null &&
                 this.isRegistered()) {
-            String query = "SELECT status FROM Usuario WHERE correoElectronico = ?";
-            String[] values = {this.coordinador.getCorreoElectronico()};
+            String query = "SELECT status FROM User WHERE email = ?";
+            String[] values = {this.coordinator.getEmail()};
             String[] names = {"status"};
             isActive = this.connection.select(query, values, names)[0][0].equals("1");
         }
@@ -106,10 +110,10 @@ public class DAOCoordinador implements IDAOCoordinador {
     //@Override
     public boolean reactive() {
         boolean reactivated = false;
-        if (this.coordinador != null && this.isRegistered()) {
+        if (this.coordinator != null && this.isRegistered()) {
             if (this.isActive()) {
-                String query = "UPDATE Usuario SET status = 1 WHERE correoElectronico = ?";
-                String[] values = {this.coordinador.getCorreoElectronico()};
+                String query = "UPDATE User SET status = 1 WHERE email = ?";
+                String[] values = {this.coordinator.getEmail()};
                 if (this.connection.sendQuery(query, values)) {
                     reactivated = true;
                 }
@@ -121,15 +125,15 @@ public class DAOCoordinador implements IDAOCoordinador {
     }
 
     public boolean isAnother(){
-        boolean anotherCoordinador = false;
-        String query = "SELECT COUNT (Coordinador.idUsuario) AS TOTAL FROM Coordinador INNER JOIN Usuario ON Coordinador.idUsuario = Usuario.idUsuario WHERE Usuario.status = 1";
+        boolean anotherCoordinator = false;
+        String query = "SELECT COUNT (Coordinator.idUser) AS TOTAL FROM Coordinator INNER JOIN User ON Coordinator.idUser = User.idUser WHERE User.status = 1";
         String[] names = {"TOTAL"};
         String[][] resultQuery = this.connection.select(query, null, names);
-        int coordinadores = Integer.parseInt(resultQuery[0][0]);
-        if(coordinadores > 0){
-            anotherCoordinador = true;
+        int coordinators = Integer.parseInt(resultQuery[0][0]);
+        if(coordinators > 0){
+            anotherCoordinator = true;
         }
-        return anotherCoordinador;
+        return anotherCoordinator;
     }
 
 

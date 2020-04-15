@@ -39,7 +39,7 @@ public class DAOPracticanteTests {
 	@Test
 	public void E_updatePracticante() {
 		Practicante practicante = getInstancePracticante();
-		practicante.setNombres("Jose Joaquin");
+		practicante.setNames("Jose Joaquin");
 		assertTrue(new DAOPracticante(practicante).update());
 	}
 	

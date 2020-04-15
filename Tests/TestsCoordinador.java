@@ -1,11 +1,11 @@
 package Tests;
 
-import DAO.DAOCoordinador;
-import DAO.DAOProyecto;
+import DAO.DAOCoordinator;
+import DAO.DAOProject;
 import DAO.DAOrganizacion;
-import Models.Coordinador;
+import Models.Coordinator;
 import Models.Organizacion;
-import Models.Proyecto;
+import Models.Project;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class TestsCoordinador {
-	Coordinador coordinador = new Coordinador();
+	Coordinator coordinator = new Coordinator();
 
 	/*
 	@Test
@@ -24,15 +24,15 @@ public class TestsCoordinador {
 
 	 */
 	//@Test
-	public void registProyecto() {
-		Proyecto proyecto = new Proyecto("Hackear la nasa", "A punta de ifs", "Ver aliens", "Entrar a sus servidores", "Jaquearlos muajaja", "Dos computadpras", "Despertarse a las 6", "1", "1", "correoResponsable1@correo.com", "1", "1");
-		assertTrue(coordinador.registerProyecto(proyecto));
+	public void registProject() {
+		Project project = new Project("Hackear la nasa", "A punta de ifs", "Ver aliens", "Entrar a sus servidores", "Jaquearlos muajaja", "Dos computadpras", "Despertarse a las 6", "1", "1", "correoResponsable1@correo.com", "1", "1");
+		assertTrue(coordinator.registerProject(project));
 	}
 
 	//@Test
-	public void recuperarProyecto() {
-		DAOProyecto daoProyecto = new DAOProyecto();
-		assertNotNull(daoProyecto.loadProyecto("Hackear la nasa"));
+	public void recuperarProject() {
+		DAOProject daoProject = new DAOProject();
+		assertNotNull(daoProject.loadProject("Hackear la nasa"));
 	}
 
 
@@ -60,27 +60,27 @@ public class TestsCoordinador {
 
 	//@Test
 	public void B_createAndDeleteProyect() {
-		Proyecto proyecto = new Proyecto();
-		proyecto.setNombre("proyecto2");
-		proyecto.setMetodologia("a punta de ifs");
-		proyecto.setObjetivoGeneral("Proyecto2");
-		proyecto.setObjetivoMediato("objetivo mediato");
-		proyecto.setObjetivoInmediato("objetivo inmediato");
-		proyecto.setRecursos("dos switch");
-		proyecto.setResponsabilidades("llegar a las 5");
-		proyecto.setStatus("1");
-		proyecto.setArea("1");
-		proyecto.setResponsable("correoResponsable1@correo.com");
-		proyecto.setIdPeriodo("1");
-		proyecto.setIdOrganizacion("1");
-		DAOProyecto daoProyecto = new DAOProyecto(proyecto);
-		assertTrue(daoProyecto.signUp());
-		assertTrue(daoProyecto.delete());
+		Project project = new Project();
+		project.setNombre("project2");
+		project.setMetodologia("a punta de ifs");
+		project.setObjetivoGeneral("Project2");
+		project.setObjetivoMediato("objetivo mediato");
+		project.setObjetivoInmediato("objetivo inmediato");
+		project.setRecursos("dos switch");
+		project.setResponsabilidades("llegar a las 5");
+		project.setStatus("1");
+		project.setArea("1");
+		project.setResponsable("correoResponsable1@correo.com");
+		project.setIdPeriodo("1");
+		project.setIdOrganizacion("1");
+		DAOProject daoProject = new DAOProject(project);
+		assertTrue(daoProject.signUp());
+		assertTrue(daoProject.delete());
 	}
 
 	@Test
 	public void C_isAnother(){
-		DAOCoordinador daoCoordinador = new DAOCoordinador(coordinador);
-		assertTrue(daoCoordinador.isAnother());
+		DAOCoordinator daoCoordinator = new DAOCoordinator(coordinator);
+		assertTrue(daoCoordinator.isAnother());
 	}
 }

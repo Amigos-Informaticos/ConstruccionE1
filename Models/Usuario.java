@@ -26,24 +26,24 @@ public class Usuario {
 
 	public Usuario(Usuario user) {
 		if (user != null) {
-			if (this.isName(user.getNombres())) {
-				this.nombres = user.getNombres();
+			if (this.isName(user.getNames())) {
+				this.nombres = user.getNames();
 			}
 			if (this.isName(user.getApellidos())) {
 				this.apellidos = user.getApellidos();
 			}
-			if (this.isEmail(user.getCorreoElectronico())) {
-				this.correoElectronico = user.getCorreoElectronico();
+			if (this.isEmail(user.getEmail())) {
+				this.correoElectronico = user.getEmail();
 			}
-			this.contrasena = user.getContrasena();
+			this.contrasena = user.getPassword();
 		}
 	}
 
-	public String getNombres() {
+	public String getNames() {
 		return nombres;
 	}
 
-	public void setNombres(String nombres) {
+	public void setNames(String nombres) {
 		if (this.isName(nombres)) {
 			this.nombres = nombres;
 		}
@@ -59,7 +59,7 @@ public class Usuario {
 		}
 	}
 
-	public String getCorreoElectronico() {
+	public String getEmail() {
 		return correoElectronico;
 	}
 
@@ -69,11 +69,11 @@ public class Usuario {
 		}
 	}
 
-	public String getContrasena() {
+	public String getPassword() {
 		return contrasena;
 	}
 
-	public void setContrasena(String contrasena) {
+	public void setPassword(String contrasena) {
 		this.contrasena = contrasena;
 	}
 

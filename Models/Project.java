@@ -1,9 +1,9 @@
 package Models;
 
-import DAO.DAOProyecto;
+import DAO.DAOProject;
 
-public class Proyecto {
-    //private int idProyecto;
+public class Project {
+    //private int idProject;
     private String
             nombre,
             metodologia,
@@ -18,19 +18,19 @@ public class Proyecto {
             idPeriodo,
             idOrganizacion;
 /*
-    public String getIdProyecto() {
-        return idProyecto;
+    public String getIdProject() {
+        return idProject;
     }
 
-    public void setIdProyecto(String idProyecto) {
-        this.idProyecto = idProyecto;
+    public void setIdProject(String idProject) {
+        this.idProject = idProject;
     }
 
  */
 
 
 
-    public Proyecto(String nombre,
+    public Project(String nombre,
                     String metodologia,
                     String objetivoGeneral,
                     String objetivoMediato,
@@ -56,8 +56,8 @@ public class Proyecto {
         this.idOrganizacion = idOrganizacion;
     }
 
-    public Proyecto() {
-        DAOProyecto dao = new DAOProyecto(this);
+    public Project() {
+        DAOProject dao = new DAOProject(this);
     }
 
     public String getNombre() {
@@ -174,8 +174,8 @@ public class Proyecto {
     public boolean register(){
         boolean isRegistered = false;
         if (this.isComplete()) {
-            DAOProyecto daoProyecto = new DAOProyecto(this);
-            if (daoProyecto.signUp()) {
+            DAOProject daoProject = new DAOProject(this);
+            if (daoProject.signUp()) {
                 isRegistered = true;
             }
         }

@@ -1,13 +1,13 @@
 package IDAO;
 
-import Models.Proyecto;
+import Models.Project;
 
-public interface IDAOProyecto {
+public interface IDAOProject {
     public boolean signUp();
 
     public  boolean isRegistered();
 
-    public Proyecto loadProyecto(String name);
+    public Project loadProject(String name);
 
     public boolean delete();
 

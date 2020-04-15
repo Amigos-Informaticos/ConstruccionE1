@@ -7,10 +7,10 @@ public class Administrador extends Usuario {
 
 	public Administrador(Administrador administrador) {
 		if (administrador != null) {
-			this.setNombres(administrador.getNombres());
+			this.setNames(administrador.getNames());
 			this.setApellidos(administrador.getApellidos());
-			this.setCorreoElectronico(administrador.getCorreoElectronico());
-			this.setContrasena(administrador.getContrasena());
+			this.setCorreoElectronico(administrador.getEmail());
+			this.setPassword(administrador.getPassword());
 		}
 	}
 }

@@ -1,6 +1,6 @@
 package IDAO;
 
-public interface IDAOrganizacion {
+public interface IDAOrganization {
     public boolean signUp();
 
     public boolean isRegistered();

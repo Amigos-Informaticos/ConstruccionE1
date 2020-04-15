@@ -1,34 +1,34 @@
 package Models;
 
-import DAO.DAOrganizacion;
+import DAO.DAOrganization;
 
-public class Organizacion {
-    private String nombre,
-                    direccion,
+public class Organization {
+    private String name,
+                    adress,
                     status,
                     idSector;
 
-    public Organizacion(String nombre,String direccion,String status,String idSector){
-        this.nombre = nombre;
-        this.direccion = direccion;
+    public Organization(String name, String adress, String status, String idSector){
+        this.name = name;
+        this.adress = adress;
         this.status = status;
         this.idSector = idSector;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getAdress() {
+        return adress;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 
     public String getStatus() {
@@ -50,8 +50,8 @@ public class Organizacion {
     public boolean register(){
         boolean isRegistered = false;
         if (this.isComplete()) {
-            DAOrganizacion daoOrganizacion = new DAOrganizacion(this);
-            if (daoOrganizacion.signUp()) {
+            DAOrganization daoOrganization = new DAOrganization(this);
+            if (daoOrganization.signUp()) {
                 isRegistered = true;
             }
         }
@@ -59,8 +59,8 @@ public class Organizacion {
     }
 
     public boolean isComplete() {
-        return this.nombre != null &&
-                this.direccion != null &&
+        return this.name != null &&
+                this.adress != null &&
                 this.status != null &&
                 this.idSector != null;
     }
