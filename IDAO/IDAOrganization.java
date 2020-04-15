@@ -1,7 +1,9 @@
 package IDAO;
 
+import Exceptions.CustomException;
+
 public interface IDAOrganization {
-    public boolean signUp();
+    public boolean signUp() throws CustomException;
 
     public boolean isRegistered();
 

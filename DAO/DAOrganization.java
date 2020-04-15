@@ -1,6 +1,7 @@
 package DAO;
 
 import Connection.DBConnection;
+import Exceptions.CustomException;
 import IDAO.IDAOrganization;
 import Models.Organization;
 
@@ -13,7 +14,7 @@ public class DAOrganization implements IDAOrganization {
     }
 
     @Override
-    public boolean signUp() {
+    public boolean signUp() throws CustomException {
         boolean signedUp = false;
         if (this.organization != null) {
             if (!this.isRegistered()) {
@@ -23,6 +24,8 @@ public class DAOrganization implements IDAOrganization {
                                     this.organization.getIdSector()};
                 if(this.connection.sendQuery(query,values)){
                     signedUp = true;
+                } else {
+                    throw new CustomException("Could not insert into Organization: signUp()","NotSignUpOrganization");
                 }
             } else {
                 String query = "UPDATE Organizacion SET status = 1 WHERE nombre = ?";
@@ -31,6 +34,8 @@ public class DAOrganization implements IDAOrganization {
                     signedUp = true;
                 }
             }
+        }else{
+            throw new CustomException("Null Pointer Exception: signUp()");
         }
         return signedUp;
     }

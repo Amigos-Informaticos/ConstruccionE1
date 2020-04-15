@@ -1,9 +1,10 @@
 package IDAO;
 
+import Exceptions.CustomException;
 import Models.Project;
 
 public interface IDAOProject {
-    public boolean signUp();
+    public boolean signUp() throws CustomException;
 
     public  boolean isRegistered();
 

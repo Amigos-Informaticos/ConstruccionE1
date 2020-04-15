@@ -1,6 +1,7 @@
 package Models;
 
 import DAO.DAOrganization;
+import Exceptions.CustomException;
 
 public class Organization {
     private String name,
@@ -51,8 +52,12 @@ public class Organization {
         boolean isRegistered = false;
         if (this.isComplete()) {
             DAOrganization daoOrganization = new DAOrganization(this);
-            if (daoOrganization.signUp()) {
-                isRegistered = true;
+            try {
+                if (daoOrganization.signUp()) {
+                    isRegistered = true;
+                }
+            } catch (CustomException e) {
+                e.printStackTrace();
             }
         }
         return isRegistered;

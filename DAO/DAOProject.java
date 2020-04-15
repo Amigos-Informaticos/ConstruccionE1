@@ -1,6 +1,7 @@
 package DAO;
 
 import Connection.DBConnection;
+import Exceptions.CustomException;
 import IDAO.IDAOProject;
 import Models.Project;
 
@@ -36,7 +37,7 @@ public class DAOProject implements IDAOProject {
 	 * @return true => succesfully registered | false => couldn't register
 	 */
 	@Override
-	public boolean signUp() {
+	public boolean signUp() throws CustomException{
 		boolean signedUp = false;
 		if (this.project.isComplete()) {
 			if (!this.isRegistered()) {
@@ -44,30 +45,34 @@ public class DAOProject implements IDAOProject {
 					"objetivoGeneral, objetivoMediato, objetivoInmediato, recursos, " +
 					"responsabilidades, status, area, responsable, idPeriodo, idOrganizacion)" +
 					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-				String[] values = {this.project.getNombre(),
-					this.project.getMetodologia(),
-					this.project.getObjetivoGeneral(),
-					this.project.getObjetivoMediato(),
-					this.project.getObjetivoInmediato(),
-					this.project.getRecursos(),
-					this.project.getResponsabilidades(),
+				String[] values = {this.project.getName(),
+					this.project.getMethodology(),
+					this.project.getGeneralObjective(),
+					this.project.getMediateObjective(),
+					this.project.getImmediateObjective(),
+					this.project.getResources(),
+					this.project.getResponsibilities(),
 					this.project.getStatus(),
 					this.project.getArea(),
-					this.project.getResponsable(),
-					this.project.getIdPeriodo(),
-					this.project.getIdOrganizacion()
+					this.project.getResponsible(),
+					this.project.getIdPeriod(),
+					this.project.getIdOrganization()
 				};
 				if (this.connection.sendQuery(query, values)) {
 					signedUp = true;
 					System.out.println("SÍ SE REGISTRÓ");
+				}else{
+					throw new CustomException("Not registered proyecto");
 				}
 			} else {
 				String query = "UPDATE Proyecto SET status = 1 WHERE nombre = ?";
-				String[] values = {this.project.getNombre()};
+				String[] values = {this.project.getName()};
 				if (this.connection.sendQuery(query, values)) {
 					signedUp = true;
 				}
 			}
+		}else{
+			throw new CustomException("Null pointer exception");
 		}
 		return signedUp;
 	}
@@ -80,10 +85,10 @@ public class DAOProject implements IDAOProject {
 	@Override
 	public boolean isRegistered() {
 		boolean isRegistered = false;
-		if (this.project != null && this.project.getNombre() != null) {
+		if (this.project != null && this.project.getName() != null) {
 			String query = "SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ? AND " +
 				"status = 1";
-			String[] values = {project.getNombre()};
+			String[] values = {project.getName()};
 			String[] names = {"TOTAL"};
 			if (this.connection.select(query, values, names)[0][0].equals("1")) {
 				isRegistered = true;
@@ -108,18 +113,18 @@ public class DAOProject implements IDAOProject {
 
 				project = new Project();
 
-				project.setNombre(projectReturned[0][1]);
-				project.setMetodologia(projectReturned[0][2]);
-				project.setObjetivoGeneral(projectReturned[0][3]);
-				project.setObjetivoMediato(projectReturned[0][4]);
-				project.setObjetivoInmediato(projectReturned[0][5]);
-				project.setRecursos(projectReturned[0][6]);
-				project.setResponsabilidades(projectReturned[0][7]);
+				project.setName(projectReturned[0][1]);
+				project.setMethodology(projectReturned[0][2]);
+				project.setGeneralObjective(projectReturned[0][3]);
+				project.setMediateObjective(projectReturned[0][4]);
+				project.setImmediateObjective(projectReturned[0][5]);
+				project.setResources(projectReturned[0][6]);
+				project.setResponsibilities(projectReturned[0][7]);
 				project.setStatus(projectReturned[0][8]);
 				project.setArea(projectReturned[0][9]);
-				project.setResponsable(projectReturned[0][10]);
-				project.setIdPeriodo(projectReturned[0][11]);
-				project.setIdOrganizacion(projectReturned[0][12]);
+				project.setResponsible(projectReturned[0][10]);
+				project.setIdPeriod(projectReturned[0][11]);
+				project.setIdOrganization(projectReturned[0][12]);
 			}
 		}
 		return project;
@@ -131,7 +136,7 @@ public class DAOProject implements IDAOProject {
 		if (this.project != null && this.isRegistered()) {
 			if (this.isActive()) {
 				String query = "UPDATE Proyecto SET status = 0 WHERE nombre = ?;";
-				String[] values = {this.project.getNombre()};
+				String[] values = {this.project.getName()};
 				if (this.connection.sendQuery(query, values)) {
 					deleted = true;
 					System.out.println("OK 1");
@@ -147,10 +152,10 @@ public class DAOProject implements IDAOProject {
 	@Override
 	public boolean isActive() {
 		boolean isActive = false;
-		if (this.project != null && this.project.getNombre() != null &&
+		if (this.project != null && this.project.getName() != null &&
 				this.isRegistered()) {
 			String query = "SELECT status FROM Proyecto WHERE nombre = ?";
-			String[] values = {this.project.getNombre()};
+			String[] values = {this.project.getName()};
 			String[] names = {"status"};
 			isActive = this.connection.select(query, values, names)[0][0].equals("1");
 		}
@@ -163,7 +168,7 @@ public class DAOProject implements IDAOProject {
 		if (this.project != null && this.isRegistered()) {
 			if (this.isActive()) {
 				String query = "UPDATE Proyecto SET status = 1 WHERE nombre = ?";
-				String[] values = {this.project.getNombre()};
+				String[] values = {this.project.getName()};
 				if (this.connection.sendQuery(query, values)) {
 					reactivated = true;
 				}

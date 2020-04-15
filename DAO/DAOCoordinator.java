@@ -1,10 +1,12 @@
 package DAO;
 
 import Connection.DBConnection;
+import Exceptions.CustomException;
 import IDAO.IDAOCoordinator;
+import IDAO.IDAOUser;
 import Models.Coordinator;
 
-public class DAOCoordinator implements IDAOCoordinator {
+public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
 	private Coordinator coordinator;
 	private DBConnection connection = new DBConnection();
 
@@ -30,7 +32,7 @@ public class DAOCoordinator implements IDAOCoordinator {
      * @return The status description
      */
     @Override
-    public boolean signUp() {
+    public boolean signUp() throws CustomException{
         boolean signedUp = false;
         if(this.coordinator.isComplete() && !this.isRegistered() && !this.isAnother()){
             String query = "INSERT INTO User (nombres, apellidos, correoElectronico, contrasena, status)" +
@@ -45,8 +47,14 @@ public class DAOCoordinator implements IDAOCoordinator {
                 values = new String[]{this.coordinator.getEmail(), this.coordinator.getPersonalNo()};
                 if (this.connection.sendQuery(query, values)) {
                     signedUp = true;
+                }else{
+                    throw new CustomException("Could not insert into Coordinator: signUp()","NotSignUpCoordinator");
                 }
+            } else {
+                throw new CustomException("Could not insert into Usuario: signUp()","NotSignUpUser");
             }
+        }else{
+            throw new CustomException("Null Pointer Exception: signUp()");
         }
         return signedUp;
     }
@@ -67,7 +75,7 @@ public class DAOCoordinator implements IDAOCoordinator {
     public boolean logIn() {
         boolean loggedIn = false;
         String query = "SELECT COUNT(idUser) AS TOTAL FROM Coordinator WHERE correoElectronico = ? " +
-                "AND contrasena = ?";
+                        "AND contrasena = ?";
         String[] values = {this.coordinator.getEmail(), this.coordinator.getPassword()};
         String[] names = {"TOTAL"};
         if (this.isRegistered()) {

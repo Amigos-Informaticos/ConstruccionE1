@@ -2,9 +2,10 @@ package Tests;
 
 import DAO.DAOCoordinator;
 import DAO.DAOProject;
-import DAO.DAOrganizacion;
+import DAO.DAOrganization;
+import Exceptions.CustomException;
 import Models.Coordinator;
-import Models.Organizacion;
+import Models.Organization;
 import Models.Project;
 import org.junit.Test;
 
@@ -36,43 +37,43 @@ public class TestsCoordinador {
 	}
 
 
-	//@Test
-	public void registrarOrganizacion() {
-		Organizacion organizacion = new Organizacion("EfrainIndustries", "La casa de Efrain", "1", "1");
-		DAOrganizacion daoOrganizacion = new DAOrganizacion(organizacion);
-		assertTrue(daoOrganizacion.signUp());
+	@Test
+	public void registrarOrganization() throws CustomException {
+		Organization organization = new Organization("EfrainIndustries", "La casa de Efrain", "1", "1");
+		DAOrganization daoOrganization = new DAOrganization(organization);
+		assertTrue(daoOrganization.signUp());
 	}
 
 	//@Test
-	public void A_createAndDeleteOrg() {
-		DAOrganizacion daOrganizacion = new DAOrganizacion(
-			new Organizacion(
+	public void A_createAndDeleteOrg() throws CustomException {
+		DAOrganization daOrganization = new DAOrganization(
+			new Organization(
 				"Org1",
 				"La casa del alfajor",
 				"1",
 				"1"
 			)
 		);
-		assertTrue(daOrganizacion.signUp());
-		assertTrue(daOrganizacion.delete());
+		assertTrue(daOrganization.signUp());
+		assertTrue(daOrganization.delete());
 	}
 
 
 	//@Test
-	public void B_createAndDeleteProyect() {
+	public void B_createAndDeleteProyect() throws CustomException {
 		Project project = new Project();
-		project.setNombre("project2");
-		project.setMetodologia("a punta de ifs");
-		project.setObjetivoGeneral("Project2");
-		project.setObjetivoMediato("objetivo mediato");
-		project.setObjetivoInmediato("objetivo inmediato");
-		project.setRecursos("dos switch");
-		project.setResponsabilidades("llegar a las 5");
+		project.setName("project2");
+		project.setMethodology("a punta de ifs");
+		project.setGeneralObjective("Project2");
+		project.setMediateObjective("objetivo mediato");
+		project.setImmediateObjective("objetivo inmediato");
+		project.setResources("dos switch");
+		project.setResponsibilities("llegar a las 5");
 		project.setStatus("1");
 		project.setArea("1");
-		project.setResponsable("correoResponsable1@correo.com");
-		project.setIdPeriodo("1");
-		project.setIdOrganizacion("1");
+		project.setResponsible("correoResponsable1@correo.com");
+		project.setIdPeriod("1");
+		project.setIdOrganization("1");
 		DAOProject daoProject = new DAOProject(project);
 		assertTrue(daoProject.signUp());
 		assertTrue(daoProject.delete());

@@ -1,6 +1,7 @@
 package Models;
 
 import DAO.DAOCoordinator;
+import Exceptions.CustomException;
 
 public class Coordinator extends User {
 	private String personalNo;
@@ -38,8 +39,12 @@ public class Coordinator extends User {
 		boolean isRegistered = false;
 		if (this.isComplete()) {
 			DAOCoordinator daoCoordinator = new DAOCoordinator(this);
-			if (daoCoordinator.signUp()) {
-				isRegistered = true;
+			try {
+				if (daoCoordinator.signUp()) {
+					isRegistered = true;
+				}
+			} catch (CustomException e) {
+				e.printStackTrace();
 			}
 		}
 		return isRegistered;

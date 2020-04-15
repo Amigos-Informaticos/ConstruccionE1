@@ -1,22 +1,23 @@
 package Models;
 
 import DAO.DAOProject;
+import Exceptions.CustomException;
 
 public class Project {
     //private int idProject;
     private String
-            nombre,
-            metodologia,
-            objetivoGeneral,
-            objetivoMediato,
-            objetivoInmediato,
-            recursos,
-            responsabilidades,
+            name,
+            methodology,
+            generalObjective,
+            mediateObjective,
+            immediateObjective,
+            resources,
+            responsibilities,
             status,
             area,
-            responsable,
-            idPeriodo,
-            idOrganizacion;
+            responsible,
+            idPeriod,
+            idOrganization;
 /*
     public String getIdProject() {
         return idProject;
@@ -30,90 +31,90 @@ public class Project {
 
 
 
-    public Project(String nombre,
-                    String metodologia,
-                    String objetivoGeneral,
-                    String objetivoMediato,
-                    String objetivoInmediato,
-                    String recursos,
-                    String responsabilidades,
+    public Project(String name,
+                    String methodology,
+                    String generalObjective,
+                    String mediateObjective,
+                    String immediateObjective,
+                    String resources,
+                    String responsibilities,
                     String status,
                     String area,
-                    String responsable,
-                    String idPeriodo,
-                    String idOrganizacion) {
-        this.nombre = nombre;
-        this.metodologia = metodologia;
-        this.objetivoGeneral = objetivoGeneral;
-        this.objetivoMediato = objetivoMediato;
-        this.objetivoInmediato = objetivoInmediato;
-        this.recursos = recursos;
-        this.responsabilidades = responsabilidades;
+                    String responsible,
+                    String idPeriod,
+                    String idOrganization) {
+        this.name = name;
+        this.methodology = methodology;
+        this.generalObjective = generalObjective;
+        this.mediateObjective = mediateObjective;
+        this.immediateObjective = immediateObjective;
+        this.resources = resources;
+        this.responsibilities = responsibilities;
         this.status = status;
         this.area = area;
-        this.responsable = responsable;
-        this.idPeriodo = idPeriodo;
-        this.idOrganizacion = idOrganizacion;
+        this.responsible = responsible;
+        this.idPeriod = idPeriod;
+        this.idOrganization = idOrganization;
     }
 
     public Project() {
         DAOProject dao = new DAOProject(this);
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getMetodologia() {
-        return metodologia;
+    public String getMethodology() {
+        return methodology;
     }
 
-    public void setMetodologia(String metodologia) {
-        this.metodologia = metodologia;
+    public void setMethodology(String methodology) {
+        this.methodology = methodology;
     }
 
-    public String getObjetivoGeneral() {
-        return objetivoGeneral;
+    public String getGeneralObjective() {
+        return generalObjective;
     }
 
-    public void setObjetivoGeneral(String objetivoGeneral) {
-        this.objetivoGeneral = objetivoGeneral;
+    public void setGeneralObjective(String generalObjective) {
+        this.generalObjective = generalObjective;
     }
 
-    public String getObjetivoMediato() {
-        return objetivoMediato;
+    public String getMediateObjective() {
+        return mediateObjective;
     }
 
-    public void setObjetivoMediato(String objetivoMediato) {
-        this.objetivoMediato = objetivoMediato;
+    public void setMediateObjective(String mediateObjective) {
+        this.mediateObjective = mediateObjective;
     }
 
-    public String getObjetivoInmediato() {
-        return objetivoInmediato;
+    public String getImmediateObjective() {
+        return immediateObjective;
     }
 
-    public void setObjetivoInmediato(String objetivoInmediato) {
-        this.objetivoInmediato = objetivoInmediato;
+    public void setImmediateObjective(String immediateObjective) {
+        this.immediateObjective = immediateObjective;
     }
 
-    public String getRecursos() {
-        return recursos;
+    public String getResources() {
+        return resources;
     }
 
-    public void setRecursos(String recursos) {
-        this.recursos = recursos;
+    public void setResources(String resources) {
+        this.resources = resources;
     }
 
-    public String getResponsabilidades() {
-        return responsabilidades;
+    public String getResponsibilities() {
+        return responsibilities;
     }
 
-    public void setResponsabilidades(String responsabilidades) {
-        this.responsabilidades = responsabilidades;
+    public void setResponsibilities(String responsibilities) {
+        this.responsibilities = responsibilities;
     }
 
     public String getStatus() {
@@ -132,51 +133,55 @@ public class Project {
         this.area = area;
     }
 
-    public String getResponsable() {
-        return responsable;
+    public String getResponsible() {
+        return responsible;
     }
 
-    public void setResponsable(String responsable) {
-        this.responsable = responsable;
+    public void setResponsible(String responsible) {
+        this.responsible = responsible;
     }
 
-    public String getIdPeriodo() {
-        return idPeriodo;
+    public String getIdPeriod() {
+        return idPeriod;
     }
 
-    public void setIdPeriodo(String idPeriodo) {
-        this.idPeriodo = idPeriodo;
+    public void setIdPeriod(String idPeriod) {
+        this.idPeriod = idPeriod;
     }
 
-    public String getIdOrganizacion() {
-        return idOrganizacion;
+    public String getIdOrganization() {
+        return idOrganization;
     }
 
-    public void setIdOrganizacion(String idOrganizacion) {
-        this.idOrganizacion = idOrganizacion;
+    public void setIdOrganization(String idOrganization) {
+        this.idOrganization = idOrganization;
     }
 
     public boolean isComplete() {
-        return this.nombre != null &&
-                this.metodologia != null &&
-                this.objetivoGeneral != null &&
-                this.objetivoMediato != null &&
-                this.objetivoInmediato != null &&
-                this.recursos != null &&
-                this.responsabilidades != null &&
+        return this.name != null &&
+                this.methodology != null &&
+                this.generalObjective != null &&
+                this.mediateObjective != null &&
+                this.immediateObjective != null &&
+                this.resources != null &&
+                this.responsibilities != null &&
                 this.status != null &&
                 this.area != null &&
-                this.responsable != null &&
-                this.idPeriodo != null &&
-                this.idOrganizacion != null;
+                this.responsible != null &&
+                this.idPeriod != null &&
+                this.idOrganization != null;
     }
 
     public boolean register(){
         boolean isRegistered = false;
         if (this.isComplete()) {
             DAOProject daoProject = new DAOProject(this);
-            if (daoProject.signUp()) {
-                isRegistered = true;
+            try {
+                if (daoProject.signUp()) {
+                    isRegistered = true;
+                }
+            } catch (CustomException e) {
+                //Manejo de excepcion
             }
         }
         return isRegistered;
