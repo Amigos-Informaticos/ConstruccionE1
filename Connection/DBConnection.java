@@ -92,7 +92,7 @@ public class DBConnection {
 	 * Loads the connection configuration from a file
 	 *
 	 * @param path Path of the configuration file as a String
-	 * @return true => loaded | false => couldn't load
+	 * @return true => loaded<br/>false => couldn't load
 	 */
 	public boolean loadFromFile(String path) {
 		return Configuration.loadFromFile(this, path);
@@ -111,7 +111,7 @@ public class DBConnection {
 	/**
 	 * Check if the connection is ready to open
 	 *
-	 * @return true => is Ready | false => isn't ready
+	 * @return true => is Ready<br/>false => isn't ready
 	 */
 	public boolean isReady() {
 		boolean isReady = false;
@@ -127,7 +127,7 @@ public class DBConnection {
 	/**
 	 * Open the connection to the DB
 	 *
-	 * @return true => The connection is open | false => is not open
+	 * @return true => The connection is open<br/>false => is not open
 	 */
 	public boolean openConnection() {
 		boolean isOpen = false;

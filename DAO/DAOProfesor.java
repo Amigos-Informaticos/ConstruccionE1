@@ -22,23 +22,7 @@ public class DAOProfesor implements IDAOProfesor {
 	
 	@Override
 	public boolean update() {
-		boolean updated = false;
-		if (this.isRegistered()) {
-			String query = "UPDATE Usuario SET nombres = ?, apellidos = ?, correoElectronico = ?, "
-					+ "contrasena = ? WHERE correoElectronico = ?";
-			String[] values = {this.profesor.getNombres(), this.profesor.getApellidos(),
-					this.profesor.getCorreoElectronico(), this.profesor.getContrasena()};
-			if (this.connection.preparedQuery(query, values)) {
-				query = "UPDATE Profesor SET noPersonal = ? turno = ? WHERE idUsuario = (SELECT " +
-						"idUsuario" + " " + "FROM Usuario WHERE correoElectronico = ?)";
-				values = new String[]{this.profesor.getNoPersonal(), String.valueOf(this.profesor.getTurno()),
-						this.profesor.getCorreoElectronico()};
-				if (this.connection.preparedQuery(query, values)){
-					updated = true;
-				}
-			}
-		}
-		return updated;
+		return false;
 	}
 	
 	@Override
@@ -51,7 +35,7 @@ public class DAOProfesor implements IDAOProfesor {
 		boolean loggedIn = false;
 		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Profesor WHERE correoElectronico = ? " +
 			"AND contrasena = ?";
-		String[] values = {this.profesor.getCorreoElectronico(), this.profesor.getContrasena()};
+		String[] values = {this.profesor.getEmail(), this.profesor.getPassword()};
 		String[] names = {"TOTAL"};
 		if (this.isRegistered()) {
 			if (this.connection.select(query, values, names)[0][0].equals("1")) {
@@ -67,14 +51,13 @@ public class DAOProfesor implements IDAOProfesor {
 		if (this.profesor.isComplete()) {
 			String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status)" +
 				"VALUES (?, ?, ?, ?, ?)";
-			String[] values = {this.profesor.getNombres(), this.profesor.getApellidos(),
-				this.profesor.getCorreoElectronico(), this.profesor.getContrasena(), "1"};
-			if (this.connection.preparedQuery(query, values)) {
+			String[] values = {this.profesor.getNames(), this.profesor.getLastnames(),
+				this.profesor.getEmail(), this.profesor.getPassword(), "1"};
+			if (this.connection.sendQuery(query, values)) {
 				query = "INSERT INTO Profesor (idUsuario, fechaRegistro, noPersonal, turno) VALUES " +
 					"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), (SELECT CURRENT_DATE), ?, ?)";
-				values = new String[]{this.profesor.getCorreoElectronico(), this.profesor.getNoPersonal(),
-						String.valueOf(this.profesor.getTurno())};
-				if (this.connection.preparedQuery(query, values)) {
+				values = new String[]{this.profesor.getEmail(), this.profesor.getNoPersonal(), String.valueOf(this.profesor.getTurno())};
+				if (this.connection.sendQuery(query, values)) {
 					signedUp = true;
 				}
 			}
@@ -86,7 +69,7 @@ public class DAOProfesor implements IDAOProfesor {
 	public boolean isRegistered() {
 		boolean isRegistered = false;
 		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
-		String[] values = {this.profesor.getCorreoElectronico()};
+		String[] values = {this.profesor.getEmail()};
 		String[] names = {"TOTAL"};
 		if (this.profesor.isComplete()) {
 			if (this.connection.select(query, values, names)[0][0].equals("1")) {
