@@ -44,6 +44,11 @@ public class DAOStudent implements IDAOStudent {
 			String[] values = {this.student.getEmail()};
 			String[] names = {"idUsuario"};
 			id = new DBConnection().select(query, values, names)[0][0];
+		} else {
+			throw new CustomException(
+				"Null Pointer Exception: getId()",
+				"NullPointerException", "NullEmail", "StudentNotRegistered"
+			);
 		}
 		return id;
 	}
@@ -149,10 +154,14 @@ public class DAOStudent implements IDAOStudent {
 					if (this.connection.sendQuery(query, values)) {
 						signedUp = true;
 					} else {
-						throw new CustomException("Could not insert into Practicante: signUp()");
+						throw new CustomException(
+							"Could not insert into Practicante: signUp()",
+							"NotSignUpStudent");
 					}
 				} else {
-					throw new CustomException("Could not insert into Usuario: signUp()");
+					throw new CustomException(
+						"Could not insert into Usuario: signUp()",
+						"NotSignUpUser");
 				}
 			} else {
 				this.reactive();
