@@ -40,7 +40,7 @@ public class DAOProject implements IDAOProject {
 		boolean signedUp = false;
 		if (this.project.isComplete()) {
 			if (!this.isRegistered()) {
-				String query = "INSERT INTO Project (nombre, metodologia, " +
+				String query = "INSERT INTO Proyecto (nombre, metodologia, " +
 					"objetivoGeneral, objetivoMediato, objetivoInmediato, recursos, " +
 					"responsabilidades, status, area, responsable, idPeriodo, idOrganizacion)" +
 					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -62,7 +62,7 @@ public class DAOProject implements IDAOProject {
 					System.out.println("SÍ SE REGISTRÓ");
 				}
 			} else {
-				String query = "UPDATE Project SET status = 1 WHERE nombre = ?";
+				String query = "UPDATE Proyecto SET status = 1 WHERE nombre = ?";
 				String[] values = {this.project.getNombre()};
 				if (this.connection.sendQuery(query, values)) {
 					signedUp = true;
@@ -81,7 +81,7 @@ public class DAOProject implements IDAOProject {
 	public boolean isRegistered() {
 		boolean isRegistered = false;
 		if (this.project != null && this.project.getNombre() != null) {
-			String query = "SELECT COUNT(nombre) AS TOTAL FROM Project WHERE nombre = ? AND " +
+			String query = "SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ? AND " +
 				"status = 1";
 			String[] values = {project.getNombre()};
 			String[] names = {"TOTAL"};
@@ -96,12 +96,12 @@ public class DAOProject implements IDAOProject {
 		Project project = null;
 		if (name != null) {
 			String query =
-				"SELECT COUNT(nombre) AS TOTAL FROM Project WHERE nombre = ? AND status =1";
+				"SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ? AND status =1";
 			String[] values = {name};
 			String[] names = {"TOTAL"};
 			if (this.connection.select(query, values, names)[0][0].equals("1")) {
-				query = "SELECT * FROM Project WHERE nombre = ?";
-				String[] results = {"idProject", "nombre", "metodologia", "objetivoGeneral",
+				query = "SELECT * FROM Proyecto WHERE nombre = ?";
+				String[] results = {"idProyecto", "nombre", "metodologia", "objetivoGeneral",
 					"objetivoMediato", "objetivoInmediato", "recursos", "responsabilidades",
 					"status", "area", "responsable", "idPeriodo", "idOrganizacion"};
 				String[][] projectReturned = this.connection.select(query, values, results);
@@ -130,7 +130,7 @@ public class DAOProject implements IDAOProject {
 		boolean deleted = false;
 		if (this.project != null && this.isRegistered()) {
 			if (this.isActive()) {
-				String query = "UPDATE Project SET status = 0 WHERE nombre = ?;";
+				String query = "UPDATE Proyecto SET status = 0 WHERE nombre = ?;";
 				String[] values = {this.project.getNombre()};
 				if (this.connection.sendQuery(query, values)) {
 					deleted = true;
@@ -149,7 +149,7 @@ public class DAOProject implements IDAOProject {
 		boolean isActive = false;
 		if (this.project != null && this.project.getNombre() != null &&
 				this.isRegistered()) {
-			String query = "SELECT status FROM Project WHERE nombre = ?";
+			String query = "SELECT status FROM Proyecto WHERE nombre = ?";
 			String[] values = {this.project.getNombre()};
 			String[] names = {"status"};
 			isActive = this.connection.select(query, values, names)[0][0].equals("1");
@@ -162,7 +162,7 @@ public class DAOProject implements IDAOProject {
 		boolean reactivated = false;
 		if (this.project != null && this.isRegistered()) {
 			if (this.isActive()) {
-				String query = "UPDATE Project SET status = 1 WHERE nombre = ?";
+				String query = "UPDATE Proyecto SET status = 1 WHERE nombre = ?";
 				String[] values = {this.project.getNombre()};
 				if (this.connection.sendQuery(query, values)) {
 					reactivated = true;

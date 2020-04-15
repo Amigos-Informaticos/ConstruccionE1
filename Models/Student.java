@@ -70,7 +70,7 @@ public class Student extends User {
 	 * @param project Instance of Project to relate to this Student
 	 * @return true => selected<br/>false => couldn't select
 	 */
-	public boolean selectProject(Proyecto project) throws CustomException {
+	public boolean selectProject(Project project) throws CustomException {
 		boolean related = false;
 		if (project != null && project.isComplete() && this.isComplete()) {
 			DAOStudent daoStudent = new DAOStudent(this);

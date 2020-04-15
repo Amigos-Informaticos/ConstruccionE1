@@ -2,7 +2,7 @@ package Models;
 
 import DAO.DAOCoordinator;
 
-public class Coordinator extends Usuario {
+public class Coordinator extends User {
 	private String personalNo;
 	Student student;
 
