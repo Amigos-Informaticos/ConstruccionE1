@@ -15,14 +15,29 @@ public class DAOProfesor implements IDAOProfesor {
 	public Profesor getProfesor() {
 		return profesor;
 	}
-	
 	public void setProfesor(Profesor profesor) {
 		this.profesor = profesor;
 	}
 	
 	@Override
 	public boolean update() {
-		return false;
+		boolean updated = false;
+		if (this.isRegistered()) {
+			String query = "UPDATE Usuario SET nombres = ?, apellidos = ?, correoElectronico = ?, "
+					+ "contrasena = ? WHERE correoElectronico = ?";
+			String[] values = {this.profesor.getNombres(), this.profesor.getApellidos(),
+					this.profesor.getCorreoElectronico(), this.profesor.getContrasena()};
+			if (this.connection.preparedQuery(query, values)) {
+				query = "UPDATE Profesor SET noPersonal = ? turno = ? WHERE idUsuario = (SELECT " +
+						"idUsuario" + " " + "FROM Usuario WHERE correoElectronico = ?)";
+				values = new String[]{this.profesor.getNoPersonal(), String.valueOf(this.profesor.getTurno()),
+						this.profesor.getCorreoElectronico()};
+				if (this.connection.preparedQuery(query, values)){
+					updated = true;
+				}
+			}
+		}
+		return updated;
 	}
 	
 	@Override
@@ -56,7 +71,8 @@ public class DAOProfesor implements IDAOProfesor {
 			if (this.connection.preparedQuery(query, values)) {
 				query = "INSERT INTO Profesor (idUsuario, fechaRegistro, noPersonal, turno) VALUES " +
 					"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), (SELECT CURRENT_DATE), ?, ?)";
-				values = new String[]{this.profesor.getCorreoElectronico(), this.profesor.getNoPersonal(), String.valueOf(this.profesor.getTurno())};
+				values = new String[]{this.profesor.getCorreoElectronico(), this.profesor.getNoPersonal(),
+						String.valueOf(this.profesor.getTurno())};
 				if (this.connection.preparedQuery(query, values)) {
 					signedUp = true;
 				}
