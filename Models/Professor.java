@@ -1,33 +1,33 @@
 package Models;
 
 public class Professor extends User {
-    private String noPersonal;
-    private int turno;
+    private String personalNo;
+    private int shift;
     
     public Professor() {
-    
-    }
-    
-    public Professor(String nombres, String apellidos, String correoElectronico, String contrasena,
-                     String noPersonal, int turno) {
-        super(nombres, apellidos, correoElectronico, contrasena);
-        this.noPersonal = noPersonal;
-        this.turno=turno;
     }
 
-    public String getNoPersonal() {
-        return this.noPersonal;
+    public Professor(String names, String lastnames, String email, String password,
+                     String personalNo, int shift) {
+        super(names, lastnames, email, password);
+        this.personalNo = personalNo;
+        this.shift=shift;
     }
 
-    public void setNoPersonal(String noPersonal) {
-        this.noPersonal = noPersonal;
+    public String getPersonalNo() {
+        return personalNo;
     }
 
-    public int getTurno() {
-        return this.turno;
+    public int getShift() {
+        return shift;
     }
 
-    public void setTurno(int turno) {
-        this.turno = turno;
+    public void setPersonalNo(String personalNo) {
+        this.personalNo = personalNo;
     }
+
+    public void setShift(int shift) {
+        this.shift = shift;
+    }
+
 }

@@ -56,7 +56,7 @@ public class DAOProfessor implements IDAOProfessor {
 			if (this.connection.sendQuery(query, values)) {
 				query = "INSERT INTO Profesor (idUsuario, fechaRegistro, noPersonal, turno) VALUES " +
 					"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), (SELECT CURRENT_DATE), ?, ?)";
-				values = new String[]{this.professor.getEmail(), this.professor.getNoPersonal(), String.valueOf(this.professor.getTurno())};
+				values = new String[]{this.professor.getEmail(), this.professor.getPersonalNo(), String.valueOf(this.professor.getShift())};
 				if (this.connection.sendQuery(query, values)) {
 					signedUp = true;
 				}

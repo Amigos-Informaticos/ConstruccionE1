@@ -2,7 +2,7 @@ package IDAO;
 
 import Models.Professor;
 
-public interface IDAOProfessor extends IDAOUsuario {
+public interface IDAOProfessor extends IDAOUser {
     static Professor[] getAll() {
         return new Professor[0];
     }
