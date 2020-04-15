@@ -2,7 +2,7 @@ package DAO;
 
 import Connection.DBConnection;
 import Exceptions.CustomException;
-import IDAO.IDAOPracticante;
+import IDAO.IDAOStudent;
 import Models.Proyecto;
 import Models.Student;
 import tools.Arch;
@@ -14,9 +14,9 @@ import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class DAOStudent implements IDAOPracticante {
+public class DAOStudent implements IDAOStudent {
 	private Student student;
-	private DBConnection connection = new DBConnection();
+	private final DBConnection connection = new DBConnection();
 	
 	public DAOStudent(Student student) {
 		this.student = student;

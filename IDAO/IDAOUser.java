@@ -2,7 +2,7 @@ package IDAO;
 
 import Exceptions.CustomException;
 
-public interface IDAOUsuario {
+public interface IDAOUser {
 	boolean logIn() throws CustomException;
 	
 	boolean signUp() throws CustomException;

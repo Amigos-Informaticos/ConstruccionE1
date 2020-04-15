@@ -2,7 +2,7 @@ package Exceptions;
 
 public class CustomException extends Exception {
 	private String causeMessage;
-	
+	private String exceptionCode;
 	
 	public CustomException() {
 		super("Custom Exception");
@@ -19,5 +19,13 @@ public class CustomException extends Exception {
 	
 	public void setCauseMessage(String causeMessage) {
 		this.causeMessage = causeMessage;
+	}
+	
+	public String getExceptionCode() {
+		return exceptionCode;
+	}
+	
+	public void setExceptionCode(String exceptionCode) {
+		this.exceptionCode = exceptionCode;
 	}
 }
