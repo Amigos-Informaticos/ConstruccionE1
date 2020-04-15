@@ -34,11 +34,11 @@ public class DAOCoordinador implements IDAOCoordinador {
         boolean signedUp = false;
         if(this.coordinador.isComplete()){
             String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status)" +
-                    "VALUES (?, ?, ?, ?, ?)";
-            String[] values = {this.coordinador.getNombres(), this.coordinador.getApellidos(), this.coordinador.getCorreoElectronico(), this.coordinador.getContrasena(), "1"};
+                "VALUES (?, ?, ?, ?, ?)";
+            String[] values = {this.coordinador.getNames(), this.coordinador.getLastnames(), this.coordinador.getEmail(), this.coordinador.getPassword(), "1"};
             if (this.connection.sendQuery(query, values)) {
                 query = "INSERT INTO Coordinador (idUsuario, noPersonal, fechaRegistro) VALUES ((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?, (SELECT CURRENT_DATE))";
-                values = new String[]{this.coordinador.getCorreoElectronico(), this.coordinador.getNoPersonal()};
+                values = new String[]{this.coordinador.getEmail(), this.coordinador.getNoPersonal()};
                 if (this.connection.sendQuery(query, values)) {
                     signedUp = true;
                 }
@@ -51,7 +51,7 @@ public class DAOCoordinador implements IDAOCoordinador {
     public boolean isRegistered() {
         boolean isRegistered = false;
         String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
-        String[] values = {this.coordinador.getCorreoElectronico()};
+        String[] values = {this.coordinador.getEmail()};
         String[] names = {"TOTAL"};
         if (this.connection.select(query, values, names)[0][0].equals("1")) {
             isRegistered = true;
@@ -63,8 +63,8 @@ public class DAOCoordinador implements IDAOCoordinador {
     public boolean logIn() {
         boolean loggedIn = false;
         String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Coordinador WHERE correoElectronico = ? " +
-                "AND contrasena = ?";
-        String[] values = {this.coordinador.getCorreoElectronico(), this.coordinador.getContrasena()};
+            "AND contrasena = ?";
+        String[] values = {this.coordinador.getEmail(), this.coordinador.getPassword()};
         String[] names = {"TOTAL"};
         if (this.isRegistered()) {
             if (this.connection.select(query, values, names)[0][0].equals("1")) {
@@ -80,7 +80,7 @@ public class DAOCoordinador implements IDAOCoordinador {
         if (this.coordinador != null && this.isRegistered()) {
             if (this.isActive()) {
                 String query = "UPDATE coordinador SET status = 0 WHERE nombre = ?";
-                String[] values = {this.coordinador.getCorreoElectronico()};
+                String[] values = {this.coordinador.getEmail()};
                 if (this.connection.sendQuery(query, values)) {
                     deleted = true;
                 }
@@ -93,10 +93,10 @@ public class DAOCoordinador implements IDAOCoordinador {
 
     public boolean isActive() {
         boolean isActive = false;
-        if (this.coordinador != null && this.coordinador.getCorreoElectronico() != null &&
-                this.isRegistered()) {
+        if (this.coordinador != null && this.coordinador.getEmail() != null &&
+            this.isRegistered()) {
             String query = "SELECT status FROM Coordinador WHERE nombre = ?";
-            String[] values = {this.coordinador.getCorreoElectronico()};
+            String[] values = {this.coordinador.getEmail()};
             String[] names = {"status"};
             isActive = this.connection.select(query, values, names)[0][0].equals("1");
         }
@@ -109,7 +109,7 @@ public class DAOCoordinador implements IDAOCoordinador {
         if (this.coordinador != null && this.isRegistered()) {
             if (this.isActive()) {
                 String query = "UPDATE Coordinador SET status = 1 WHERE nombre = ?";
-                String[] values = {this.coordinador.getCorreoElectronico()};
+                String[] values = {this.coordinador.getEmail()};
                 if (this.connection.sendQuery(query, values)) {
                     reactivated = true;
                 }
