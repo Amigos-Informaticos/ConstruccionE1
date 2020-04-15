@@ -3,7 +3,7 @@ package IDAO;
 import Exceptions.CustomException;
 import Models.Student;
 
-public interface IDAOPracticante extends IDAOUsuario {
+public interface IDAOStudent extends IDAOUser {
 	
 	static Student[] getAll() {
 		return new Student[0];
