@@ -15,6 +15,7 @@ public class DAOProfesor implements IDAOProfesor {
 	public Profesor getProfesor() {
 		return profesor;
 	}
+	
 	public void setProfesor(Profesor profesor) {
 		this.profesor = profesor;
 	}
