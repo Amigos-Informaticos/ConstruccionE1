@@ -1,15 +1,15 @@
 package Models;
 
-public class Profesor extends User {
+public class Professor extends User {
     private String noPersonal;
     private int turno;
     
-    public Profesor() {
+    public Professor() {
     
     }
     
-    public Profesor(String nombres, String apellidos, String correoElectronico, String contrasena,
-                    String noPersonal, int turno) {
+    public Professor(String nombres, String apellidos, String correoElectronico, String contrasena,
+                     String noPersonal, int turno) {
         super(nombres, apellidos, correoElectronico, contrasena);
         this.noPersonal = noPersonal;
         this.turno=turno;

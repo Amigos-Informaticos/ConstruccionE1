@@ -1,9 +1,7 @@
 package Tests;
 
-import DAO.DAOPracticante;
-import DAO.DAOProfesor;
-import Models.Practicante;
-import Models.Profesor;
+import DAO.DAOProfessor;
+import Models.Professor;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -29,11 +27,11 @@ public class DAOProfesorTests {
     }
 
 
-    private DAOProfesor getDAOProfesor() {
-        return new DAOProfesor(getInstanceProfesor());
+    private DAOProfessor getDAOProfesor() {
+        return new DAOProfessor(getInstanceProfesor());
     }
-    private Profesor getInstanceProfesor() {
-        return new Profesor(
+    private Professor getInstanceProfesor() {
+        return new Professor(
                 "Pablo",
                 "Escamilla Buendia",
                 "pabloeb@hotmail.com",
