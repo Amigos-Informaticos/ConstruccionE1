@@ -2,6 +2,7 @@ package Models;
 
 import DAO.DAOStudent;
 import Exceptions.CustomException;
+import tools.Logger;
 
 public class Student extends User {
 	private String regNumber;
@@ -52,13 +53,17 @@ public class Student extends User {
 	 * @return true => registered<br/>
 	 * false => couldn't register
 	 */
-	public boolean register() throws CustomException {
+	public boolean register() {
 		boolean isRegistered = false;
-		if (this.isComplete()) {
-			DAOStudent daoStudent = new DAOStudent(this);
-			if (daoStudent.signUp()) {
-				isRegistered = true;
+		try {
+			if (this.isComplete()) {
+				DAOStudent daoStudent = new DAOStudent(this);
+				if (daoStudent.signUp()) {
+					isRegistered = true;
+				}
 			}
+		} catch (CustomException e) {
+			new Logger().log(e);
 		}
 		return isRegistered;
 	}
@@ -70,20 +75,28 @@ public class Student extends User {
 	 * @param project Instance of Project to relate to this Student
 	 * @return true => selected<br/>false => couldn't select
 	 */
-	public boolean selectProject(Proyecto project) throws CustomException {
+	public boolean selectProject(Proyecto project) {
 		boolean related = false;
-		if (project != null && project.isComplete() && this.isComplete()) {
-			DAOStudent daoStudent = new DAOStudent(this);
-			related = daoStudent.selectProject(project);
+		try {
+			if (project != null && project.isComplete() && this.isComplete()) {
+				DAOStudent daoStudent = new DAOStudent(this);
+				related = daoStudent.selectProject(project);
+			}
+		} catch (CustomException e) {
+			new Logger().log(e);
 		}
 		return related;
 	}
 	
-	public boolean removeSelection(String projectName) throws CustomException {
+	public boolean removeSelection(String projectName) {
 		boolean removed = false;
-		if (this.isComplete() && projectName != null) {
-			DAOStudent daoStudent = new DAOStudent(this);
-			removed = daoStudent.deleteSelectedProject(projectName);
+		try {
+			if (this.isComplete() && projectName != null) {
+				DAOStudent daoStudent = new DAOStudent(this);
+				removed = daoStudent.deleteSelectedProject(projectName);
+			}
+		} catch (CustomException e) {
+			new Logger().log(e);
 		}
 		return removed;
 	}
