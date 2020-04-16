@@ -3,7 +3,7 @@ package DAO;
 import Connection.DBConnection;
 import Exceptions.CustomException;
 import IDAO.IDAOStudent;
-import Models.Proyecto;
+import Models.Project;
 import Models.Student;
 import tools.Arch;
 import tools.Logger;
@@ -180,7 +180,7 @@ public class DAOStudent implements IDAOStudent {
 	 * @return true => registered<br/>false => not registered
 	 */
 	@Override
-	public boolean isRegistered() throws CustomException {
+	public boolean isRegistered() throws CustomException {//jaja
 		boolean isRegistered = false;
 		if (this.student != null && this.student.getEmail() != null) {
 			String query = "SELECT COUNT(idUsuario) AS TOTAL " +
@@ -279,7 +279,7 @@ public class DAOStudent implements IDAOStudent {
 	}
 	
 	public boolean selectProject(String projectName) throws CustomException {
-		return this.selectProject(new DAOProyecto().loadProyecto(projectName));
+		return this.selectProject(new DAOProject().loadProject(projectName));
 	}
 	
 	/**
@@ -289,11 +289,11 @@ public class DAOStudent implements IDAOStudent {
 	 * @return true => selection registered<br/>
 	 * false => not registered
 	 */
-	public boolean selectProject(Proyecto proyecto) throws CustomException {
+	public boolean selectProject(Project proyecto) throws CustomException {
 		boolean selected = false;
 		if (this.student != null && this.student.isComplete() && this.isActive() &&
 			proyecto != null && proyecto.isComplete() &&
-			new DAOProyecto(proyecto).isRegistered()) {
+			new DAOProject(proyecto).isRegistered()) {
 			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM SeleccionProyecto " +
 				"WHERE idUsuario = (SELECT idUsuario FROM Usuario WHERE correoElectronico = ?)";
 			String[] values = {this.student.getEmail()};
@@ -304,8 +304,7 @@ public class DAOStudent implements IDAOStudent {
 				query = "INSERT INTO SeleccionProyecto (idProyecto, idUsuario) VALUES " + "(" +
 					"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND status = 1), " +
 					"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?))";
-				values = new String[]{proyecto.getNombre(),
-					this.student.getEmail()};
+				values = new String[]{proyecto.getName(), this.student.getEmail()};
 				if (this.connection.sendQuery(query, values)) {
 					selected = true;
 				}
@@ -321,8 +320,8 @@ public class DAOStudent implements IDAOStudent {
 	 *
 	 * @return Array of Project
 	 */
-	public Proyecto[] getProjects() throws CustomException {
-		Proyecto[] proyectos = null;
+	public Project[] getProjects() throws CustomException {
+		Project[] proyectos = null;
 		if (this.student != null && this.student.isComplete() && this.isActive()) {
 			String query = "SELECT nombre " + "FROM Proyecto INNER JOIN SeleccionProyecto ON " +
 				"Proyecto.idProyecto = SeleccionProyecto.idProyecto " +
@@ -333,10 +332,10 @@ public class DAOStudent implements IDAOStudent {
 			String[] names = {"nombre"};
 			String[][] results = this.connection.select(query, values, names);
 			if (results.length > 0) {
-				DAOProyecto daoProyecto = new DAOProyecto();
-				proyectos = new Proyecto[results.length];
+				DAOProject daoProject = new DAOProject();
+				proyectos = new Project[results.length];
 				for (int i = 0; i < results.length; i++) {
-					proyectos[i] = daoProyecto.loadProyecto(results[i][0]);
+					proyectos[i] = daoProject.loadProject(results[i][0]);
 				}
 			}
 		} else {
@@ -344,6 +343,7 @@ public class DAOStudent implements IDAOStudent {
 		}
 		return proyectos;
 	}
+	
 	
 	/**
 	 * Deletes the selected Project by its name
@@ -356,11 +356,11 @@ public class DAOStudent implements IDAOStudent {
 		boolean deleted = false;
 		if (this.student != null && this.student.getEmail() != null &&
 			this.isActive() && projectName != null) {
-			DAOProyecto daoProyecto = new DAOProyecto(projectName);
+			DAOProject daoProyecto = new DAOProject(projectName);
 			if (daoProyecto.isRegistered()) {
 				boolean isSelected = false;
-				for (Proyecto proyecto: this.getProjects()) {
-					if (proyecto != null && proyecto.getNombre().equals(projectName)) {
+				for (Project proyecto: this.getProjects()) {
+					if (proyecto != null && proyecto.getName().equals(projectName)) {
 						isSelected = true;
 						break;
 					}
@@ -381,6 +381,7 @@ public class DAOStudent implements IDAOStudent {
 		}
 		return deleted;
 	}
+	
 	
 	/**
 	 * Adds a report to the database
@@ -461,8 +462,8 @@ public class DAOStudent implements IDAOStudent {
 	public boolean setProject(String projectName) throws CustomException {
 		boolean set = false;
 		if (this.student != null && this.isActive() &&
-			projectName != null && new DAOProyecto(projectName).isRegistered()) {
-			Proyecto proyecto = new DAOProyecto().loadProyecto(projectName);
+			projectName != null && new DAOProject(projectName).isRegistered()) {
+			Project proyecto = new DAOProject().loadProject(projectName);
 			String query = "SELECT COUNT(idPracticante) AS TOTAL FROM PracticanteProyecto " +
 				"WHERE idPracticante = ?";
 			String[] values = {this.getId()};
