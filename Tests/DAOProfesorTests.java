@@ -15,18 +15,38 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class DAOProfesorTests {
 
     @Test
-    public void A_signUpProfesor(){
-        assertTrue(getDAOProfesor().signUp());
+    public void A_signUpProfesor() {
+        Professor alexis = new Professor();
+        DAOProfessor daoProfessor = new DAOProfessor(alexis);
+        alexis.setNames("Alexis");
+        alexis.setLastnames("Alvarez");
+        alexis.setEmail("alexisao@hotmail.com");
+        alexis.setPassword("alexis123");
+        alexis.setPersonalNo("N12345678");
+        alexis.setShift(1);
+        assertTrue(daoProfessor.signUp());
+    }
+    @Test
+    public void B_isRegistered(){
+        Professor alexis = new Professor();
+        DAOProfessor daoProfessor = new DAOProfessor(alexis);
+        alexis.setNames("Alexis");
+        alexis.setLastnames("Alvarez");
+        alexis.setEmail("alexisao@hotmail.com");
+        alexis.setPassword("alexis123");
+        alexis.setPersonalNo("N12345678");
+        alexis.setShift(1);
+        assertTrue(daoProfessor.isRegistered());
     }
     @Test
     public void updateProfesor(){
         Professor roberto = new Professor();
         DAOProfessor daoProfessor = new DAOProfessor(roberto);
         roberto.setNames("Alexis");
-        roberto.setLastnames("Alvarez");
-        roberto.setEmail("mariaeugenia-og@hotmail.com");
+        roberto.setLastnames("Alvarez Ortega");
+        roberto.setEmail("alexisao@hotmail.com");
         roberto.setPassword("alexis123");
-        roberto.setPersonalNo("N12345678");
+        roberto.setPersonalNo("N000001");
         roberto.setShift(1);
         try{
             assertTrue(daoProfessor.update());
