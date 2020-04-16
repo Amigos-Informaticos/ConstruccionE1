@@ -52,55 +52,46 @@ public class Student extends User {
 	 * @return true => registered<br/>
 	 * false => couldn't register
 	 */
-	public boolean register() {
+	public boolean register() throws CustomException {
 		boolean isRegistered = false;
 		if (this.isComplete()) {
 			DAOStudent daoStudent = new DAOStudent(this);
-			try {
-				if (daoStudent.signUp()) {
-					isRegistered = true;
-				}
-			} catch (CustomException e) {
-				if (e.getExceptionCode().equals("NotSignUpStudent")) {
-				
-				}
+			if (daoStudent.signUp()) {
+				isRegistered = true;
 			}
 		}
 		return isRegistered;
 	}
 	
-	/*
 	/**
 	 * Set a selected project to the current Student
 	 *
 	 * @param project Instance of Project to relate to this Student
 	 * @return true => selected<br/>false => couldn't select
 	 */
-	/*
-	public boolean selectProject(Proyecto project) {
+	public boolean selectProject(Project project) throws CustomException {
 		boolean related = false;
-		try {
-			if (project != null && project.isComplete() && this.isComplete()) {
-				DAOStudent daoStudent = new DAOStudent(this);
-				related = daoStudent.selectProject(project);
-			}
-		} catch (CustomException e) {
-			new Logger().log(e);
+		if (project != null && project.isComplete() && this.isComplete()) {
+			DAOStudent daoStudent = new DAOStudent(this);
+			related = daoStudent.selectProject(project);
 		}
 		return related;
 	}
 	
-	public boolean removeSelection(String projectName) {
+	/**
+	 * Removes a selected Project
+	 *
+	 * @param projectName The name of the project to deselect
+	 * @return true => Deselected<br/>
+	 * false => Not deselected
+	 * @throws CustomException
+	 */
+	public boolean removeSelection(String projectName) throws CustomException {
 		boolean removed = false;
-		try {
-			if (this.isComplete() && projectName != null) {
-				DAOStudent daoStudent = new DAOStudent(this);
-				removed = daoStudent.deleteSelectedProject(projectName);
-			}
-		} catch (CustomException e) {
-			new Logger().log(e);
+		if (this.isComplete() && projectName != null) {
+			DAOStudent daoStudent = new DAOStudent(this);
+			removed = daoStudent.deleteSelectedProject(projectName);
 		}
 		return removed;
 	}
-	*/
 }
