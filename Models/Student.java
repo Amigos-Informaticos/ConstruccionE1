@@ -2,7 +2,6 @@ package Models;
 
 import DAO.DAOStudent;
 import Exceptions.CustomException;
-import tools.Logger;
 
 public class Student extends User {
 	private String regNumber;
@@ -67,13 +66,14 @@ public class Student extends User {
 		return isRegistered;
 	}
 	
-	
+	/*
 	/**
 	 * Set a selected project to the current Student
 	 *
 	 * @param project Instance of Project to relate to this Student
 	 * @return true => selected<br/>false => couldn't select
 	 */
+	/*
 	public boolean selectProject(Proyecto project) {
 		boolean related = false;
 		try {
@@ -99,4 +99,5 @@ public class Student extends User {
 		}
 		return removed;
 	}
+	*/
 }

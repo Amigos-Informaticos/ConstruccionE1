@@ -1,18 +1,21 @@
 package Tests;
 
-import DAO.DAOProyecto;
-import DAO.DAOrganizacion;
-import Models.Coordinador;
-import Models.Organizacion;
-import Models.Proyecto;
+import DAO.DAOCoordinator;
+import DAO.DAOProject;
+import DAO.DAOrganization;
+import Exceptions.CustomException;
+import Models.Coordinator;
+import Models.Organization;
+import Models.Project;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class TestsCoordinador {
-	Coordinador coordinador = new Coordinador();
-	
+	Coordinator coordinator = new Coordinator();
+
 	/*
 	@Test
 	public void registPracticante(){
@@ -22,56 +25,63 @@ public class TestsCoordinador {
 
 	 */
 	//@Test
-	public void registProyecto() {
-		Proyecto proyecto = new Proyecto("Hackear la nasa", "A punta de ifs", "Ver aliens", "Entrar a sus servidores", "Jaquearlos muajaja", "Dos computadpras", "Despertarse a las 6", "1", "1", "correoResponsable1@correo.com", "1", "1");
-		assertTrue(coordinador.registerProyecto(proyecto));
+	public void registProject() {
+		Project project = new Project("Hackear la nasa", "A punta de ifs", "Ver aliens", "Entrar a sus servidores", "Jaquearlos muajaja", "Dos computadpras", "Despertarse a las 6", "1", "1", "correoResponsable1@correo.com", "1", "1");
+		assertTrue(coordinator.registerProject(project));
 	}
-	
+
 	//@Test
-	public void recuperarProyecto() {
-		DAOProyecto daoProyecto = new DAOProyecto();
-		assertNotNull(daoProyecto.loadProyecto("Hackear la nasa"));
+	public void recuperarProject() {
+		DAOProject daoProject = new DAOProject();
+		assertNotNull(daoProject.loadProject("Hackear la nasa"));
 	}
-	
-	
-	//@Test
-	public void registrarOrganizacion() {
-		Organizacion organizacion = new Organizacion("EfrainIndustries", "La casa de Efrain", "1", "1");
-		DAOrganizacion daoOrganizacion = new DAOrganizacion(organizacion);
-		assertTrue(daoOrganizacion.signUp());
-	}
-	
+
+
 	@Test
-	public void A_createAndDeleteOrg() {
-		DAOrganizacion daOrganizacion = new DAOrganizacion(
-			new Organizacion(
+	public void registrarOrganization() throws CustomException {
+		Organization organization = new Organization("EfrainIndustries", "La casa de Efrain", "1", "1");
+		DAOrganization daoOrganization = new DAOrganization(organization);
+		assertTrue(daoOrganization.signUp());
+	}
+
+	//@Test
+	public void A_createAndDeleteOrg() throws CustomException {
+		DAOrganization daOrganization = new DAOrganization(
+			new Organization(
 				"Org1",
 				"La casa del alfajor",
 				"1",
 				"1"
 			)
 		);
-		assertTrue(daOrganizacion.signUp());
-		assertTrue(daOrganizacion.delete());
+		assertTrue(daOrganization.signUp());
+		assertTrue(daOrganization.delete());
 	}
-	
+
+
+	//@Test
+	public void B_createAndDeleteProyect() throws CustomException {
+		Project project = new Project();
+		project.setName("project2");
+		project.setMethodology("a punta de ifs");
+		project.setGeneralObjective("Project2");
+		project.setMediateObjective("objetivo mediato");
+		project.setImmediateObjective("objetivo inmediato");
+		project.setResources("dos switch");
+		project.setResponsibilities("llegar a las 5");
+		project.setStatus("1");
+		project.setArea("1");
+		project.setResponsible("correoResponsable1@correo.com");
+		project.setIdPeriod("1");
+		project.setIdOrganization("1");
+		DAOProject daoProject = new DAOProject(project);
+		assertTrue(daoProject.signUp());
+		assertTrue(daoProject.delete());
+	}
+
 	@Test
-	public void B_createAndDeleteProyect() {
-		Proyecto proyecto = new Proyecto();
-		proyecto.setNombre("proyecto2");
-		proyecto.setMetodologia("a punta de ifs");
-		proyecto.setObjetivoGeneral("Proyecto2");
-		proyecto.setObjetivoMediato("objetivo mediato");
-		proyecto.setObjetivoInmediato("objetivo inmediato");
-		proyecto.setRecursos("dos switch");
-		proyecto.setResponsabilidades("llegar a las 5");
-		proyecto.setStatus("1");
-		proyecto.setArea("1");
-		proyecto.setResponsable("correoResponsable1@correo.com");
-		proyecto.setIdPeriodo("1");
-		proyecto.setIdOrganizacion("1");
-		DAOProyecto daoProyecto = new DAOProyecto(proyecto);
-		assertTrue(daoProyecto.signUp());
-		assertTrue(daoProyecto.delete());
+	public void C_isAnother(){
+		DAOCoordinator daoCoordinator = new DAOCoordinator(coordinator);
+		assertTrue(daoCoordinator.isAnother());
 	}
 }
