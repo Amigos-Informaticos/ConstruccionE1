@@ -1,5 +1,6 @@
 package IDAO;
 
+import Exceptions.CustomException;
 import Models.Professor;
 
 public interface IDAOProfessor extends IDAOUser {
@@ -11,7 +12,7 @@ public interface IDAOProfessor extends IDAOUser {
         return null;
     }
 
-    boolean update();
+    boolean update() throws CustomException;
 
     boolean delete();
 

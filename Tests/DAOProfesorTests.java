@@ -1,6 +1,7 @@
 package Tests;
 
 import DAO.DAOProfessor;
+import Exceptions.CustomException;
 import Models.Professor;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -19,7 +20,19 @@ public class DAOProfesorTests {
     }
     @Test
     public void updateProfesor(){
-        assertTrue(getDAOProfesor().update());
+        Professor roberto = new Professor();
+        DAOProfessor daoProfessor = new DAOProfessor(roberto);
+        roberto.setNames("Alexis");
+        roberto.setLastnames("Alvarez");
+        roberto.setEmail("mariaeugenia-og@hotmail.com");
+        roberto.setPassword("alexis123");
+        roberto.setPersonalNo("N12345678");
+        roberto.setShift(1);
+        try{
+            assertTrue(daoProfessor.update());
+        }catch(CustomException e){
+            e.getCauseMessage();
+        }
     }
     @Test
     public void C_isRegistered(){
@@ -32,11 +45,11 @@ public class DAOProfesorTests {
     }
     private Professor getInstanceProfesor() {
         return new Professor(
-                "Pablo",
-                "Escamilla Buendia",
-                "pabloeb@hotmail.com",
-                "pablo123",
-                "N1012131",
+                "Maria Eugenia",
+                "Ortiz Gonzales",
+                "mariaeugenia-og@hotmail.com",
+                "maria123",
+                "N1012132",
                 1
         );
     }

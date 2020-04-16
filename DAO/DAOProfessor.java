@@ -1,6 +1,7 @@
 package DAO;
 
 import Connection.DBConnection;
+import Exceptions.CustomException;
 import IDAO.IDAOProfessor;
 import Models.Professor;
 
@@ -19,10 +20,27 @@ public class DAOProfessor implements IDAOProfessor {
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
 	}
-	
+
 	@Override
-	public boolean update() {
-		return false;
+	public boolean update() throws CustomException {
+		boolean updated = false;
+		if (this.isRegistered()) {
+			String query = "UPDATE Usuario SET nombres = ?, apellidos = ?, correoElectronico = ?, "
+					+ "contrasena = ? WHERE correoElectronico = ?";
+			String[] values = {this.professor.getNames(), this.professor.getLastnames(),
+					this.professor.getEmail(), this.professor.getPassword(),
+					this.professor.getEmail()};
+			if (this.connection.sendQuery(query, values)) {
+				query = "UPDATE Profesor SET noPersonal = ?, turno = ? WHERE idUsuario = (SELECT " +
+						"idUsuario" + " " + "FROM Usuario WHERE correoElectronico = ?)";
+				values = new String[]{this.professor.getPersonalNo(), String.valueOf(this.professor.getShift()),
+						this.professor.getEmail()};
+				if (this.connection.sendQuery(query, values)) {
+					updated = true;
+				}
+			}
+		}
+		return updated;
 	}
 	
 	@Override
