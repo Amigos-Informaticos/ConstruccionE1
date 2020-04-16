@@ -62,9 +62,6 @@ public class Student extends User {
 					isRegistered = true;
 				}
 			} catch (CustomException e) {
-				if (e.getExceptionCode().equals("NotSignUpStudent")) {
-				
-				}
 			}
 		}
 		return isRegistered;
