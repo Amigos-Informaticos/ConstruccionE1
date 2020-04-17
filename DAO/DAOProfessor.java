@@ -45,7 +45,19 @@ public class DAOProfessor implements IDAOProfessor {
 
     @Override
     public boolean delete() {
-        return false;
+        boolean deleted = false;
+        if (this.professor != null && this.isRegistered()) {
+            if (this.isActive()) {
+                String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
+                String[] values = {this.professor.getEmail()};
+                if (this.connection.sendQuery(query, values)) {
+                    deleted = true;
+                }
+            } else {
+                deleted = true;
+            }
+        }
+        return deleted;
     }
 
     @Override
@@ -81,6 +93,18 @@ public class DAOProfessor implements IDAOProfessor {
             }
         }
         return signedUp;
+    }
+
+    public boolean isActive() {
+        boolean isActive = false;
+        if (this.professor != null && this.professor.getEmail() != null &&
+                this.isRegistered()) {
+            String query = "SELECT status FROM Usuario WHERE correoElectronico = ?";
+            String[] values = {this.professor.getEmail()};
+            String[] names = {"status"};
+            isActive = this.connection.select(query, values, names)[0][0].equals("1");
+        }
+        return isActive;
     }
 
     @Override

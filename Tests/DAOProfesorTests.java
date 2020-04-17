@@ -39,7 +39,12 @@ public class DAOProfesorTests {
         assertTrue(daoProfessor.isRegistered());
     }
     @Test
-    public void updateProfesor(){
+    public void C_isRegistered(){
+        assertTrue(getDAOProfesor().isRegistered());
+    }
+
+    @Test
+    public void D_updateProfesor(){
         Professor roberto = new Professor();
         DAOProfessor daoProfessor = new DAOProfessor(roberto);
         roberto.setNames("Alexis");
@@ -54,9 +59,10 @@ public class DAOProfesorTests {
             e.getCauseMessage();
         }
     }
+
     @Test
-    public void C_isRegistered(){
-        assertTrue(getDAOProfesor().isRegistered());
+    public void E_deleteProfessor(){
+        assertTrue(this.getDAOProfesor().delete());
     }
 
 
@@ -67,7 +73,7 @@ public class DAOProfesorTests {
         return new Professor(
                 "Maria Eugenia",
                 "Ortiz Gonzales",
-                "mariaeugenia-og@hotmail.com",
+                "alexisao@hotmail.com",
                 "maria123",
                 "N1012132",
                 1
