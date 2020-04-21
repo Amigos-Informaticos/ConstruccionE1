@@ -31,7 +31,7 @@ public class Coordinator extends User {
 
 	public void setPersonalNo(String noPersonal) { this.personalNo = noPersonal; }
 
-	public boolean signUpStudent(Student student){
+	public boolean signUpStudent(Student student) throws CustomException{
 		return student.register();
 	}
 

@@ -18,18 +18,6 @@ public class Project {
             responsible,
             idPeriod,
             idOrganization;
-/*
-    public String getIdProject() {
-        return idProject;
-    }
-
-    public void setIdProject(String idProject) {
-        this.idProject = idProject;
-    }
-
- */
-
-
 
     public Project(String name,
                     String methodology,
