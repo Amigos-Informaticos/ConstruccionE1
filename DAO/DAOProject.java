@@ -139,11 +139,9 @@ public class DAOProject implements IDAOProject {
 				String[] values = {this.project.getName()};
 				if (this.connection.sendQuery(query, values)) {
 					deleted = true;
-					System.out.println("OK 1");
 				}
 			} else {
 				deleted = true;
-				System.out.println("OK 2");
 			}
 		}
 		return deleted;

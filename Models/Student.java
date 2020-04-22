@@ -64,18 +64,43 @@ public class Student extends User {
 	}
 	
 	/**
+	 * Checks if the credentials are valid
+	 *
+	 * @return true => valid<br/>false => invalid
+	 * @throws CustomException
+	 */
+	public boolean login() throws CustomException {
+		return new DAOStudent(this).logIn();
+	}
+	
+	/**
+	 * Updates against the database the student information
+	 *
+	 * @return true => updated<br/>false => could not update
+	 * @throws CustomException
+	 */
+	public boolean update() throws CustomException {
+		return new DAOStudent(this).update();
+	}
+	
+	/**
+	 * Deactivates the current student in the database
+	 *
+	 * @return true => deactivated<br/>false => not deactivated
+	 * @throws CustomException
+	 */
+	public boolean delete() throws CustomException {
+		return new DAOStudent(this).delete();
+	}
+	
+	/**
 	 * Set a selected project to the current Student
 	 *
-	 * @param project Instance of Project to relate to this Student
+	 * @param projectName Name of the project ot select
 	 * @return true => selected<br/>false => couldn't select
 	 */
-	public boolean selectProject(Project project) throws CustomException {
-		boolean related = false;
-		if (project != null && project.isComplete() && this.isComplete()) {
-			DAOStudent daoStudent = new DAOStudent(this);
-			related = daoStudent.selectProject(project);
-		}
-		return related;
+	public boolean selectProject(String projectName) throws CustomException {
+		return new DAOStudent(this).selectProject(projectName);
 	}
 	
 	/**
@@ -93,5 +118,63 @@ public class Student extends User {
 			removed = daoStudent.deleteSelectedProject(projectName);
 		}
 		return removed;
+	}
+	
+	public Project[] getSelection() throws CustomException {
+		return new DAOStudent(this).getProjects();
+	}
+	
+	/**
+	 * Sets the project
+	 *
+	 * @param projectName The name of the project to set
+	 * @return true => set<br/>false => not set
+	 * @throws CustomException
+	 */
+	public boolean setProject(String projectName) throws CustomException {
+		return new DAOStudent(this).setProject(projectName);
+	}
+	
+	/**
+	 * Deletes the setted project
+	 *
+	 * @return true => deleted<br/>false => not deleted
+	 * @throws CustomException
+	 */
+	public boolean deleteProject() throws CustomException {
+		return new DAOStudent(this).deleteProject();
+	}
+	
+	/**
+	 * Returns the setted project
+	 *
+	 * @return Instance of the setted Project<br/>Null if there's no setted project
+	 * @throws CustomException
+	 */
+	public Project getProject() throws CustomException {
+		return new DAOStudent(this).getProject();
+	}
+	
+	/**
+	 * Replies to an activity with a document
+	 *
+	 * @param activityName The name of the activity to reply
+	 * @param documentPath The path of the document to reply with
+	 * @return true => replied<br/>false =>could not reply
+	 * @throws CustomException
+	 */
+	public boolean replyActivity(String activityName, String documentPath) throws CustomException {
+		return new DAOStudent(this).replyActivity(activityName, documentPath);
+	}
+	
+	/**
+	 * Deletes the setted reply to a specific activity
+	 *
+	 * @param activityName Name of the activity to reply
+	 * @return true => deleted<br/>false => could not delete
+	 * @throws CustomException
+	 */
+	public boolean deleteReply(String activityName) throws CustomException {
+		return new DAOStudent(this).deleteReply(activityName);
 	}
 }
