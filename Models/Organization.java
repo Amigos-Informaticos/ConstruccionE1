@@ -48,17 +48,13 @@ public class Organization {
         this.idSector = idSector;
     }
 
-    public boolean register(){
+    public boolean register() throws CustomException{
         boolean isRegistered = false;
         if (this.isComplete()) {
             DAOrganization daoOrganization = new DAOrganization(this);
-            try {
                 if (daoOrganization.signUp()) {
                     isRegistered = true;
                 }
-            } catch (CustomException e) {
-                e.printStackTrace();
-            }
         }
         return isRegistered;
     }
@@ -68,5 +64,33 @@ public class Organization {
                 this.adress != null &&
                 this.status != null &&
                 this.idSector != null;
+    }
+
+    public boolean isRegistered(){
+        DAOrganization daOrganization = new DAOrganization(this);
+        return daOrganization.isRegistered();
+    }
+
+    public boolean delete() throws CustomException{
+        boolean deleted = false;
+        DAOrganization daOrganization = new DAOrganization(this);
+        if(daOrganization.delete()){
+            deleted = true;
+        }
+        return deleted;
+    }
+
+    public boolean isActive(){
+        DAOrganization daOrganization = new DAOrganization(this);
+        return daOrganization.isActive();
+    }
+
+    public boolean reactive(){
+        boolean reactivated = false;
+        DAOrganization daOrganization = new DAOrganization(this);
+        if(daOrganization.reactivate()){
+            reactivated = true;
+        }
+        return reactivated;
     }
 }

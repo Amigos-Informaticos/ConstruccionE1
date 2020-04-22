@@ -4,7 +4,7 @@ import DAO.DAOProject;
 import Exceptions.CustomException;
 
 public class Project {
-    //private int idProject;
+
     private String
             name,
             methodology,
@@ -160,21 +160,33 @@ public class Project {
                 this.idOrganization != null;
     }
 
-    public boolean register(){
+    public boolean register() throws CustomException{
         boolean isRegistered = false;
         if (this.isComplete()) {
             DAOProject daoProject = new DAOProject(this);
-            try {
                 if (daoProject.signUp()) {
                     isRegistered = true;
                 }
-            } catch (CustomException e) {
-                //Manejo de excepcion
-            }
         }
         return isRegistered;
     }
 
+    public boolean deleteProject()throws CustomException{
+        boolean deleted = false;
+        DAOProject daoProject = new DAOProject(this);
+        if(daoProject.delete()){
+            deleted = true;
+        }
+        return deleted;
+    }
 
+    public boolean isActive(){
+        DAOProject daoProject = new DAOProject(this);
+        return daoProject.isActive();
+    }
 
+    public boolean reactive(){
+        DAOProject daoProject = new DAOProject(this);
+        return daoProject.reactive();
+    }
 }

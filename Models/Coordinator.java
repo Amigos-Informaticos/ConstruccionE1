@@ -5,7 +5,6 @@ import Exceptions.CustomException;
 
 public class Coordinator extends User {
 	private String personalNo;
-	Student student;
 
 
 	public Coordinator() {
@@ -35,23 +34,29 @@ public class Coordinator extends User {
 		return student.register();
 	}
 
-	public boolean register(){
+	public boolean register() throws CustomException{
 		boolean isRegistered = false;
 		if (this.isComplete()) {
 			DAOCoordinator daoCoordinator = new DAOCoordinator(this);
-			try {
 				if (daoCoordinator.signUp()) {
 					isRegistered = true;
 				}
-			} catch (CustomException e) {
-				e.printStackTrace();
-			}
 		}
 		return isRegistered;
 	}
 
-	public boolean registerProject(Project project){
+	public boolean registerProject(Project project)throws CustomException{
 		return project.register();
 	}
+
+	public boolean isAnother(){
+		DAOCoordinator daoCoordinator = new DAOCoordinator(this);
+		return daoCoordinator.isAnother();
+	}
+
+	public boolean deleteStudent(Student student){
+		return student.delete();
+	}
+
 
 }
