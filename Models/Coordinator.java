@@ -26,16 +26,20 @@ public class Coordinator extends User {
 			this.setPersonalNo(coordinator.getPersonalNo());
 		}
 	}
-
-	public String getPersonalNo() { return personalNo; }
-
-	public void setPersonalNo(String noPersonal) { this.personalNo = noPersonal; }
-
-	public boolean signUpStudent(Student student){
+	
+	public String getPersonalNo() {
+		return personalNo;
+	}
+	
+	public void setPersonalNo(String noPersonal) {
+		this.personalNo = noPersonal;
+	}
+	
+	public boolean signUpStudent(Student student) throws CustomException {
 		return student.register();
 	}
-
-	public boolean register(){
+	
+	public boolean register() {
 		boolean isRegistered = false;
 		if (this.isComplete()) {
 			DAOCoordinator daoCoordinator = new DAOCoordinator(this);
