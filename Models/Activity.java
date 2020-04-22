@@ -1,49 +1,66 @@
 package Models;
 
-import java.util.Calendar;
-
 public class Activity {
-    private String titulo;
-    private String descripcion;
-    private String fechaEntrega;
-    private String documento;
+    private String title;
+    private String description;
+    private String startDate;
+    private String deliveryDate;
+    private String file;
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
 
     public Activity(){
-        titulo=null;
-        descripcion=null;
-        fechaEntrega=null;
-        documento=null;
+        title=null;
+        description=null;
+        startDate=null;
+        file =null;
     }
-    public Activity(String titulo, String descripcion, String fechaEntrega, String documento) {
-        this.titulo=titulo;
-        this.descripcion=descripcion;
-        this.fechaEntrega=fechaEntrega;
-        this.documento=documento;
+    public Activity(String titulo, String descripcion, String fechaEntrega, String file) {
+        this.title=titulo;
+        this.description=descripcion;
+        this.startDate=fechaEntrega;
+        this.file = file;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getDeliveryDate() {
+        return deliveryDate;
     }
-    public String getDescripcion() {
-        return descripcion;
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
-    public String getFechaEntrega() {
-        return fechaEntrega;
+    public String getFile() {
+        return file;
     }
-    public String getDocumento() {
-        return documento;
+
+    public void setFile(String file) {
+        this.file = file;
     }
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-    public void setFechaEntrega(String fechaEntrega) {
-        this.fechaEntrega = fechaEntrega;
-    }
-    public void setDocumento(String documento) {
-        this.documento = documento;
+    public boolean isComplete() {
+        return this.title != null &&
+                this.description != null &&
+                this.startDate != null &&
+                this.file != null;
     }
 }

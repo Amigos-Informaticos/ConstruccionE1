@@ -24,27 +24,25 @@ public class DAOProfessor implements IDAOProfessor {
     @Override
     public boolean update() throws CustomException {
         boolean updated = false;
-        if (this.isRegistered()) {
-            String query = "UPDATE Usuario SET nombres = ?, apellidos = ?, correoElectronico = ?, "
-                    + "contrasena = ? WHERE correoElectronico = ?";
-            String[] values = {this.professor.getNames(), this.professor.getLastnames(),
-                    this.professor.getEmail(), this.professor.getPassword(),
+        String query = "UPDATE Usuario SET nombres = ?, apellidos = ?, correoElectronico = ?, "
+                + "contrasena = ? WHERE correoElectronico = ?";
+        String[] values = {this.professor.getNames(), this.professor.getLastnames(),
+                this.professor.getEmail(), this.professor.getPassword(),
+                this.professor.getEmail()};
+        if (this.connection.sendQuery(query, values)) {
+            query = "UPDATE Profesor SET noPersonal = ?, turno = ? WHERE idUsuario = (SELECT " +
+                    "idUsuario" + " " + "FROM Usuario WHERE correoElectronico = ?)";
+            values = new String[]{this.professor.getPersonalNo(), String.valueOf(this.professor.getShift()),
                     this.professor.getEmail()};
             if (this.connection.sendQuery(query, values)) {
-                query = "UPDATE Profesor SET noPersonal = ?, turno = ? WHERE idUsuario = (SELECT " +
-                        "idUsuario" + " " + "FROM Usuario WHERE correoElectronico = ?)";
-                values = new String[]{this.professor.getPersonalNo(), String.valueOf(this.professor.getShift()),
-                        this.professor.getEmail()};
-                if (this.connection.sendQuery(query, values)) {
-                    updated = true;
-                }
+                updated = true;
             }
         }
         return updated;
     }
 
     @Override
-    public boolean delete() {
+    public boolean delete() throws CustomException {
         boolean deleted = false;
         if (this.professor != null && this.isRegistered()) {
             if (this.isActive()) {
@@ -61,7 +59,7 @@ public class DAOProfessor implements IDAOProfessor {
     }
 
     @Override
-    public boolean logIn() {
+    public boolean logIn() throws CustomException {
         boolean loggedIn = false;
         String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Profesor WHERE correoElectronico = ? " +
                 "AND contrasena = ?";
@@ -95,7 +93,7 @@ public class DAOProfessor implements IDAOProfessor {
         return signedUp;
     }
 
-    public boolean isActive() {
+    public boolean isActive() throws CustomException {
         boolean isActive = false;
         if (this.professor != null && this.professor.getEmail() != null &&
                 this.isRegistered()) {
@@ -108,17 +106,26 @@ public class DAOProfessor implements IDAOProfessor {
     }
 
     @Override
-    public boolean isRegistered() {
+    public boolean isRegistered() throws CustomException {
         boolean isRegistered = false;
-        String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
-        String[] values = {this.professor.getEmail()};
-        String[] names = {"TOTAL"};
-        if (this.connection.select(query, values, names)[0][0].equals("1")) {
-            query = "SELECT COUNT(idUsuario) AS TOTAL FROM Profesor INNER JOIN Usuario " +
-                    "ON Usuario.idUsuario = Profesor.idUsuario WHERE Usuario.correElectronico = ?";
+        if (this.professor != null && this.professor.getEmail() != null) {
+            String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ?";
+            String[] values = {this.professor.getEmail()};
+            String[] names = {"TOTAL"};
             if (this.connection.select(query, values, names)[0][0].equals("1")) {
-                isRegistered = true;
+                query = "SELECT COUNT(Profesor.idUsuario) AS TOTAL FROM Profesor " +
+                        "INNER JOIN Usuario ON Profesor.idUsuario = Usuario.idUsuario " +
+                        "WHERE Usuario.correoElectronico = ?";
+                if (this.connection.select(query, values, names)[0][0].equals("1")) {
+                    isRegistered = true;
+                } else {
+                    throw new CustomException("Not registered in Professor: isRegistered()");
+                }
+            } else {
+                throw new CustomException("Not registered in Usuario: isRegistered()");
             }
+        } else {
+            throw new CustomException("Null Pointer Exception: isRegistered()");
         }
         return isRegistered;
     }
