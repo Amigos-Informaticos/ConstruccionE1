@@ -10,7 +10,7 @@ public interface IDAOProject {
 
     public Project loadProject(String name);
 
-    public boolean delete();
+    public boolean delete()throws CustomException;
 
     public boolean isActive();
 

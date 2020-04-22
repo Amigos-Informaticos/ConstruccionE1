@@ -48,7 +48,7 @@ public class Organization {
         this.idSector = idSector;
     }
 
-    public boolean register() throws CustomException{
+    public boolean signUp() throws CustomException{
         boolean isRegistered = false;
         if (this.isComplete()) {
             DAOrganization daoOrganization = new DAOrganization(this);

@@ -189,4 +189,9 @@ public class Project {
         DAOProject daoProject = new DAOProject(this);
         return daoProject.reactive();
     }
+
+    public boolean haveStudents(){
+        DAOProject daoProject = new DAOProject(this);
+        return daoProject.haveStudents();
+    }
 }

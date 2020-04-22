@@ -30,11 +30,7 @@ public class Coordinator extends User {
 
 	public void setPersonalNo(String noPersonal) { this.personalNo = noPersonal; }
 
-	public boolean signUpStudent(Student student) throws CustomException{
-		return student.register();
-	}
-
-	public boolean register() throws CustomException{
+	public boolean signUp() throws CustomException{
 		boolean isRegistered = false;
 		if (this.isComplete()) {
 			DAOCoordinator daoCoordinator = new DAOCoordinator(this);
@@ -45,8 +41,15 @@ public class Coordinator extends User {
 		return isRegistered;
 	}
 
-	public boolean registerProject(Project project)throws CustomException{
+	public boolean signUpProject(Project project)throws CustomException{
 		return project.register();
+	}
+
+	public boolean deleteProject(Project project)throws CustomException{
+		if(project.haveStudents()){
+
+		}
+		return project.deleteProject();
 	}
 
 	public boolean isAnother(){
@@ -54,9 +57,23 @@ public class Coordinator extends User {
 		return daoCoordinator.isAnother();
 	}
 
-	public boolean deleteStudent(Student student){
+	public boolean signUpStudent(Student student) throws CustomException{
+		return student.register();
+	}
+
+	public boolean deleteStudent(Student student)throws CustomException{
 		return student.delete();
 	}
 
+	public boolean signUpOrganization(Organization organization)throws CustomException{
+		return organization.signUp();
+	}
 
+	public boolean deleteOrganization(Organization organization)throws CustomException{
+		return organization.signUp();
+	}
+
+	public boolean assignProject(Student student, String projectName)throws CustomException{
+		return student.setProject(projectName);
+	}
 }
