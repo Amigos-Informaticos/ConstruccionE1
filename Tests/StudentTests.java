@@ -4,13 +4,19 @@ import DAO.DAOProject;
 import Exceptions.CustomException;
 import Models.Project;
 import Models.Student;
+import org.junit.AfterClass;
 import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.junit.runners.MethodSorters;
 import tools.Logger;
+import tools.TelegramBot;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class StudentTests {
@@ -22,10 +28,31 @@ public class StudentTests {
 		"S18012150"
 	);
 	
+	private static TelegramBot bot = new TelegramBot("AITests");
+	
+	@Rule
+	public TestWatcher watcher = new TestWatcher() {
+		@Override
+		protected void succeeded(Description description) {
+			bot.addMessage(description.getClassName() + "." + description.getMethodName() + "\tSUCCESS");
+		}
+		
+		@Override
+		protected void failed(Throwable e, Description description) {
+			bot.addMessage(description.getClassName() + "." + description.getMethodName() + "\tFAILED");
+		}
+	};
+	
+	
+	@AfterClass
+	public static void send() {
+		bot.send();
+	}
+	
 	@Test
 	public void a_signUpStudent() {
 		try {
-			assertTrue(this.student.register());
+			assertTrue(this.student.signUp());
 		} catch (CustomException e) {
 			new Logger().log(e);
 		}
@@ -63,7 +90,7 @@ public class StudentTests {
 	public void e_getSelections() {
 		Project project = new DAOProject().loadProject("Hackear la nasa");
 		try {
-			assertEquals(project, this.student.getSelection()[0]);
+			assertEquals(project.getName(), this.student.getSelection()[0].getName());
 		} catch (CustomException e) {
 			new Logger().log(e);
 		}
@@ -81,7 +108,9 @@ public class StudentTests {
 	@Test
 	public void g_deleteSelectedProject() {
 		try {
-			assertTrue(this.student.removeSelection("Hackear la nasa"));
+			for (Project project: this.student.getSelection()) {
+				assertTrue(this.student.removeSelection(project.getName()));
+			}
 		} catch (CustomException e) {
 			new Logger().log(e);
 		}

@@ -155,19 +155,15 @@ public class DAOStudent implements IDAOStudent {
 						signedUp = true;
 					} else {
 						throw new CustomException(
-							"Could not insert into Practicante: signUp()",
-							"NotSignUpStudent");
+							"Could not sign up into Student: DAOStudent.signUp()");
 					}
 				} else {
-					throw new CustomException(
-						"Could not insert into Usuario: signUp()",
+					throw new CustomException("Could not sign upt into User: DAOStudent.signUp()",
 						"NotSignUpUser");
 				}
 			} else {
-				this.reactive();
+				signedUp = this.reactive();
 			}
-		} else {
-			throw new CustomException("Null Pointer Exception: signUp()");
 		}
 		return signedUp;
 	}
@@ -495,7 +491,7 @@ public class DAOStudent implements IDAOStudent {
 		boolean deleted = false;
 		if (this.student != null && this.student.getEmail() != null &&
 			this.isActive()) {
-			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM PracticanteProyecto " +
+			String query = "SELECT COUNT(idPracticante) AS TOTAL FROM PracticanteProyecto " +
 				"WHERE idPracticante = ?";
 			String[] values = {this.getId()};
 			String[] names = {"TOTAL"};
@@ -539,16 +535,16 @@ public class DAOStudent implements IDAOStudent {
 	@Override
 	public boolean reactive() throws CustomException {
 		boolean reactivated = false;
-		if (this.student != null && this.isRegistered()) {
-			if (this.isActive()) {
-				String query = "UPDATE Practicante SET status = 1 WHERE correoElectronico = ?";
-				String[] values = {this.student.getEmail()};
-				if (this.connection.sendQuery(query, values)) {
-					reactivated = true;
-				}
-			} else {
+		assert this.student != null;
+		assert this.isRegistered();
+		if (!this.isActive()) {
+			String query = "UPDATE Usuario SET status = 1 WHERE correoElectronico = ?";
+			String[] values = {this.student.getEmail()};
+			if (this.connection.sendQuery(query, values)) {
 				reactivated = true;
 			}
+		} else {
+			reactivated = true;
 		}
 		return reactivated;
 	}
@@ -588,7 +584,7 @@ public class DAOStudent implements IDAOStudent {
 	public boolean deleteReply(String activityName) throws CustomException {
 		boolean replied = false;
 		if (this.student != null && this.isActive() && activityName != null) {
-			String query = "UPDATE Actividad SET documento = ?, fechaEntrega = ? WHERE";
+			String query = "UPDATE Actividad SET documento = null, fechaEntrega = null WHERE";
 		} else {
 			throw new CustomException("Null Pointer Exception: deleteReply()");
 		}
