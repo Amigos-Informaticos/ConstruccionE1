@@ -291,6 +291,11 @@ public class DAOStudent implements IDAOStudent {
 	 */
 	public boolean selectProject(Project proyecto) throws CustomException {
 		boolean selected = false;
+		assert this.student != null;
+		assert this.student.isComplete();
+		assert this.isActive();
+		assert proyecto != null;
+		assert proyecto.isComplete();
 		if (this.student != null && this.student.isComplete() && this.isActive() &&
 			proyecto != null && proyecto.isComplete() &&
 			new DAOProject(proyecto).isRegistered()) {
@@ -502,6 +507,33 @@ public class DAOStudent implements IDAOStudent {
 			}
 		}
 		return deleted;
+	}
+	
+	public Project getProject() throws CustomException {
+		Project project = null;
+		if (this.student != null && this.student.getEmail() != null && this.isActive()) {
+			String query = "SELECT COUNT(idPracticante) AS TOTAL FROM PracticanteProyecto " +
+				"WHERE idPracticante = ?";
+			String[] values = {this.getId()};
+			String[] responses = {"TOTAL"};
+			if (this.connection.select(query, values, responses)[0][0].equals("1")) {
+				query = "SELECT Proyecto.nombre FROM Proyecto INNER JOIN PracticanteProyecto " +
+					"ON Proyecto.idProyecto = PracticanteProyecto.idProyecto " +
+					"WHERE PracticanteProyecto.idPracticante = ?;";
+				responses = new String[]{"Proyecto.nombre"};
+				DAOProject daoProject = new DAOProject();
+				project = daoProject.loadProject(
+					this.connection.select(query, values, responses)[0][0]
+				);
+			} else {
+				throw new CustomException("Project Not Set: getProject()", "ProjectNotSet");
+			}
+		} else {
+			throw new CustomException(
+				"Null Pointer Exception: getProject()",
+				"NullPointerException");
+		}
+		return project;
 	}
 	
 	@Override
