@@ -5,7 +5,6 @@ import Exceptions.CustomException;
 
 public class Coordinator extends User {
 	private String personalNo;
-	Student student;
 
 
 	public Coordinator() {
@@ -26,36 +25,55 @@ public class Coordinator extends User {
 			this.setPersonalNo(coordinator.getPersonalNo());
 		}
 	}
-	
-	public String getPersonalNo() {
-		return personalNo;
-	}
-	
-	public void setPersonalNo(String noPersonal) {
-		this.personalNo = noPersonal;
-	}
-	
-	public boolean signUpStudent(Student student) throws CustomException {
-		return student.signUp();
-	}
-	
-	public boolean register() {
+
+	public String getPersonalNo() { return personalNo; }
+
+	public void setPersonalNo(String noPersonal) { this.personalNo = noPersonal; }
+
+	public boolean signUp() throws CustomException{
 		boolean isRegistered = false;
 		if (this.isComplete()) {
 			DAOCoordinator daoCoordinator = new DAOCoordinator(this);
-			try {
 				if (daoCoordinator.signUp()) {
 					isRegistered = true;
 				}
-			} catch (CustomException e) {
-				e.printStackTrace();
-			}
 		}
 		return isRegistered;
 	}
 
-	public boolean registerProject(Project project){
+	public boolean signUpProject(Project project)throws CustomException{
 		return project.register();
 	}
 
+	public boolean deleteProject(Project project)throws CustomException{
+		if(project.haveStudents()){
+
+		}
+		return project.deleteProject();
+	}
+
+	public boolean isAnother(){
+		DAOCoordinator daoCoordinator = new DAOCoordinator(this);
+		return daoCoordinator.isAnother();
+	}
+
+	public boolean signUpStudent(Student student) throws CustomException{
+		return student.register();
+	}
+
+	public boolean deleteStudent(Student student)throws CustomException{
+		return student.delete();
+	}
+
+	public boolean signUpOrganization(Organization organization)throws CustomException{
+		return organization.signUp();
+	}
+
+	public boolean deleteOrganization(Organization organization)throws CustomException{
+		return organization.signUp();
+	}
+
+	public boolean assignProject(Student student, String projectName)throws CustomException{
+		return student.setProject(projectName);
+	}
 }

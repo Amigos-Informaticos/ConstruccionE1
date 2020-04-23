@@ -60,7 +60,6 @@ public class DAOProject implements IDAOProject {
 				};
 				if (this.connection.sendQuery(query, values)) {
 					signedUp = true;
-					System.out.println("SÍ SE REGISTRÓ");
 				}else{
 					throw new CustomException("Not registered proyecto");
 				}
@@ -130,14 +129,25 @@ public class DAOProject implements IDAOProject {
 		return project;
 	}
 
+	//WIP
 	@Override
-	public boolean delete() {
+	public boolean delete() throws CustomException{
 		boolean deleted = false;
 		if (this.project != null && this.isRegistered()) {
 			if (this.isActive()) {
+				if(this.haveStudents()){
+					String query = "DELETE * FROM PracticanteProyecto WHERE idProyecto = ?;";
+					String[] values = {this.project.getName()};
+					if(!this.connection.sendQuery(query,values)){
+						throw new CustomException
+								("Impossible to delete the relation between Project and Student");
+					}
+				}
 				String query = "UPDATE Proyecto SET status = 0 WHERE nombre = ?;";
 				String[] values = {this.project.getName()};
+
 				if (this.connection.sendQuery(query, values)) {
+
 					deleted = true;
 				}
 			} else {
@@ -175,5 +185,29 @@ public class DAOProject implements IDAOProject {
 			}
 		}
 		return reactivated;
+	}
+
+	public String getId(){
+		String id = "0";
+		String query = "SELECT idProyecto FROM Proyecto WHERE nombre = ? AND status = 1;";
+		String[] values = {this.project.getName()};
+		String[] names = {"idProyecto"};
+		String[][] result = this.connection.select(query,values,names);
+		if(!result[0][0].equals("")){
+			id = result[0][0];
+		}
+		return id;
+	}
+
+	public boolean haveStudents(){
+		boolean withStudents = false;
+		String query = "SELECT idProyecto FROM PracticanteProyecto WHERE idProyecto = ?";
+		String[] values = {this.getId()};
+		String[] names = {"idProyecto"};
+		String[][] result = this.connection.select(query,values,names);
+		if(!result[0][0].equals("")){
+			withStudents = true;
+		}
+		return withStudents;
 	}
 }
