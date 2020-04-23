@@ -20,7 +20,7 @@ public class DAOProfesorTests {
         DAOProfessor daoProfessor = new DAOProfessor(alexis);
         alexis.setNames("Alexis");
         alexis.setLastnames("Alvarez");
-        alexis.setEmail("alexisao@hotmail.com");
+        alexis.setEmail("palomita@hotmail.com");
         alexis.setPassword("alexis123");
         alexis.setPersonalNo("N12345678");
         alexis.setShift(1);
@@ -87,7 +87,4 @@ public class DAOProfesorTests {
                 1
         );
     }
-
-
-
 }
