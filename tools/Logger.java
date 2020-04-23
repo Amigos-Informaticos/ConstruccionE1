@@ -1,7 +1,5 @@
 package tools;
 
-import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -88,17 +86,18 @@ public class Logger {
 	 *
 	 * @param texto Cadena a loggear
 	 */
-	public void log(String texto) {
+	public void log(String texto, boolean send) {
 		this.log.escribir(texto);
 		this.log.newLine();
-		String url = "https://api.telegram.org/bot1098401798:AAEycvrpsUUIUb0oOcUO-" +
-			"_tGsvlfJEK8dVg/sendMessage?chat_id=@W3Log&text=";
-		url += texto;
-		try {
-			new URL(url).openConnection().getInputStream();
-		} catch (IOException e) {
-			e.printStackTrace();
+		TelegramBot bot = new TelegramBot("W3Log");
+		bot.addMessage(texto);
+		if (send) {
+			bot.send();
 		}
+	}
+	
+	public void log(String texto) {
+		this.log(texto, true);
 	}
 	
 	/**
@@ -106,31 +105,31 @@ public class Logger {
 	 *
 	 * @param excepcion Instancia de excepcion que se desea loggear
 	 */
-	public void log(Exception excepcion) {
+	public void log(Exception excepcion, boolean send) {
 		if (excepcion.getMessage() != null) {
-			try {
-				String url = "https://api.telegram.org/bot1098401798:AAEycvrpsUUIUb0oOcUO-" +
-					"_tGsvlfJEK8dVg/sendMessage?chat_id=@W3Log&text=";
-				DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-				this.log.escribir(date.format(LocalDateTime.now()) + "\t");
-				url += date.format(LocalDateTime.now()) + "%0A";
-				
-				this.log.escribir(excepcion.getMessage());
-				url += excepcion.getMessage() + "%0A";
-				
+			TelegramBot bot = new TelegramBot("W3Log");
+			DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+			this.log.escribir(date.format(LocalDateTime.now()) + "\t");
+			bot.addMessage(date.format(LocalDateTime.now()));
+			
+			this.log.escribir(excepcion.getMessage());
+			bot.addMessage(excepcion.getMessage());
+			
+			this.log.newLine();
+			for (StackTraceElement element: excepcion.getStackTrace()) {
+				this.log.escribir(element.toString());
 				this.log.newLine();
-				for (StackTraceElement element: excepcion.getStackTrace()) {
-					this.log.escribir(element.toString());
-					this.log.newLine();
-					url += element.toString() + "%0A";
-				}
-				P.pln(url);
-				this.log.newLine();
-				new URL(url).openConnection().getInputStream();
-			} catch (IOException e) {
-				e.printStackTrace();
+				bot.addMessage(element.toString());
+			}
+			this.log.newLine();
+			if (send) {
+				bot.send();
 			}
 		}
+	}
+	
+	public void log(Exception exception) {
+		this.log(exception, true);
 	}
 	
 	private static int getCurrentLine() {

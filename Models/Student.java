@@ -52,7 +52,7 @@ public class Student extends User {
 	 * @return true => registered<br/>
 	 * false => couldn't register
 	 */
-	public boolean register() throws CustomException {
+	public boolean signUp() throws CustomException {
 		boolean isRegistered = false;
 		if (this.isComplete()) {
 			DAOStudent daoStudent = new DAOStudent(this);
