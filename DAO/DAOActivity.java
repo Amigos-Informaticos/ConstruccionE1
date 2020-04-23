@@ -35,7 +35,22 @@ public class DAOActivity implements IDAOActivity {
 
     @Override
     public boolean update() throws CustomException {
-        return false;
+        boolean updated = false;
+/*        String query = "UPDATE Actividad SET titulo = ?, descripcion = ?, fechaCierre = ?, "
+                + "documento = ? WHERE  = ?";
+        String[] values = {this.professor.getNames(), this.professor.getLastnames(),
+                this.professor.getEmail(), this.professor.getPassword(),
+                this.professor.getEmail()};
+        if (this.connection.sendQuery(query, values)) {
+            query = "UPDATE Profesor SET noPersonal = ?, turno = ? WHERE idUsuario = (SELECT " +
+                    "idUsuario" + " " + "FROM Usuario WHERE correoElectronico = ?)";
+            values = new String[]{this.professor.getPersonalNo(), String.valueOf(this.professor.getShift()),
+                    this.professor.getEmail()};
+            if (this.connection.sendQuery(query, values)) {
+                updated = true;
+            }
+        }*/
+        return updated;
     }
 
     @Override
