@@ -276,20 +276,20 @@ public class DAOStudent implements IDAOStudent {
 	/**
 	 * Saves the selection of a project from the current Student in the database
 	 *
-	 * @param proyecto Instance of Project to relate in the database
+	 * @param project Instance of Project to relate in the database
 	 * @return true => selection registered<br/>
 	 * false => not registered
 	 */
-	public boolean selectProject(Project proyecto) throws CustomException {
+	public boolean selectProject(Project project) throws CustomException {
 		boolean selected = false;
 		assert this.student != null;
 		assert this.student.isComplete();
 		assert this.isActive();
-		assert proyecto != null;
-		assert proyecto.isComplete();
+		assert project != null;
+		assert project.isComplete();
 		if (this.student != null && this.student.isComplete() && this.isActive() &&
-			proyecto != null && proyecto.isComplete() &&
-			new DAOProject(proyecto).isRegistered()) {
+			project != null && project.isComplete() &&
+			new DAOProject(project).isRegistered()) {
 			String query = "SELECT COUNT(idUsuario) AS TOTAL FROM SeleccionProyecto " +
 				"WHERE idUsuario = (SELECT idUsuario FROM Usuario WHERE correoElectronico = ?)";
 			String[] values = {this.student.getEmail()};
@@ -297,12 +297,19 @@ public class DAOStudent implements IDAOStudent {
 			int selectedProyects =
 				Integer.parseInt(this.connection.select(query, values, names)[0][0]);
 			if (selectedProyects < 3) {
-				query = "INSERT INTO SeleccionProyecto (idProyecto, idUsuario) VALUES " + "(" +
-					"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND status = 1), " +
-					"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?))";
-				values = new String[]{proyecto.getName(), this.student.getEmail()};
-				if (this.connection.sendQuery(query, values)) {
-					selected = true;
+				query = "SELECT COUNT(idUsuario) AS TOTAL FROM SeleccionProyecto " +
+					"WHERE idUsuario = ? AND idProyecto = " +
+					"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND status = 1)";
+				values = new String[]{this.getId(), project.getName()};
+				names = new String[]{"TOTAL"};
+				if (this.connection.select(query, values, names)[0][0].equals("0")) {
+					query = "INSERT INTO SeleccionProyecto (idProyecto, idUsuario) VALUES " + "(" +
+						"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND status = 1), " +
+						"(SELECT idUsuario FROM Usuario WHERE correoElectronico = ?))";
+					values = new String[]{project.getName(), this.student.getEmail()};
+					if (this.connection.sendQuery(query, values)) {
+						selected = true;
+					}
 				}
 			}
 		} else {
