@@ -205,8 +205,8 @@ public class DAOStudent implements IDAOStudent {
 	 */
 	public boolean isActive() throws CustomException {
 		boolean isActive = false;
-		if (this.student != null && this.student.getEmail() != null &&
-			this.isRegistered()) {
+		if (this.student != null && this.student.getEmail() != null) {
+			assert isRegistered();
 			String query = "SELECT status FROM Usuario WHERE correoElectronico = ?";
 			String[] values = {this.student.getEmail()};
 			String[] names = {"status"};
