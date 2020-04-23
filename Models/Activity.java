@@ -37,10 +37,10 @@ public class Activity {
         startDate=null;
         file =null;
     }
-    public Activity(String titulo, String descripcion, String fechaEntrega, String file) {
-        this.title=titulo;
-        this.description=descripcion;
-        this.startDate=fechaEntrega;
+    public Activity(String title, String description, String deliveryDate, String file) {
+        this.title=title;
+        this.description=description;
+        this.deliveryDate = deliveryDate;
         this.file = file;
     }
 
@@ -60,7 +60,7 @@ public class Activity {
     public boolean isComplete() {
         return this.title != null &&
                 this.description != null &&
-                this.startDate != null &&
+                this.deliveryDate != null &&
                 this.file != null;
     }
 }
