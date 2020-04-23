@@ -36,7 +36,7 @@ public class Coordinator extends User {
 	}
 	
 	public boolean signUpStudent(Student student) throws CustomException {
-		return student.register();
+		return student.signUp();
 	}
 	
 	public boolean register() {
