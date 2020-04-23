@@ -584,7 +584,7 @@ public class DAOStudent implements IDAOStudent {
 	public boolean deleteReply(String activityName) throws CustomException {
 		boolean replied = false;
 		if (this.student != null && this.isActive() && activityName != null) {
-			String query = "UPDATE Actividad SET documento = ?, fechaEntrega = ? WHERE";
+			String query = "UPDATE Actividad SET documento = null, fechaEntrega = null WHERE";
 		} else {
 			throw new CustomException("Null Pointer Exception: deleteReply()");
 		}
