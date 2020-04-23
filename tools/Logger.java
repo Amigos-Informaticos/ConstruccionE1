@@ -87,9 +87,12 @@ public class Logger {
 	 * @param texto Cadena a loggear
 	 */
 	public void log(String texto, boolean send) {
+		this.log.escribir(System.getProperty("user.name"));
+		this.log.newLine();
 		this.log.escribir(texto);
 		this.log.newLine();
 		TelegramBot bot = new TelegramBot("W3Log");
+		bot.addMessage(System.getProperty("user.name"));
 		bot.addMessage(texto);
 		if (send) {
 			bot.send();
@@ -108,7 +111,11 @@ public class Logger {
 	public void log(Exception excepcion, boolean send) {
 		if (excepcion.getMessage() != null) {
 			TelegramBot bot = new TelegramBot("W3Log");
+			bot.addMessage(System.getProperty("user.name"));
 			DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+			
+			this.log.escribir(System.getProperty("user.name"));
+			this.log.newLine();
 			this.log.escribir(date.format(LocalDateTime.now()) + "\t");
 			bot.addMessage(date.format(LocalDateTime.now()));
 			
