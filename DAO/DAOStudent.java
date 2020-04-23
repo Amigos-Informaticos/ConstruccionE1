@@ -176,7 +176,7 @@ public class DAOStudent implements IDAOStudent {
 	 * @return true => registered<br/>false => not registered
 	 */
 	@Override
-	public boolean isRegistered() throws CustomException {//jaja
+	public boolean isRegistered() throws CustomException {
 		boolean isRegistered = false;
 		if (this.student != null && this.student.getEmail() != null) {
 			String query = "SELECT COUNT(idUsuario) AS TOTAL " +
@@ -189,11 +189,7 @@ public class DAOStudent implements IDAOStudent {
 					"WHERE Usuario.correoElectronico = ?";
 				if (this.connection.select(query, values, names)[0][0].equals("1")) {
 					isRegistered = true;
-				} else {
-					throw new CustomException("Not registered in Practicante: isRegistered()");
 				}
-			} else {
-				throw new CustomException("Not registered in Usuario: isRegistered()");
 			}
 		} else {
 			throw new CustomException("Null Pointer Exception: isRegistered()");
