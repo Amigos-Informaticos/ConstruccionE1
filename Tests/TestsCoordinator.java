@@ -59,7 +59,6 @@ public class TestsCoordinator {
 
 
 		try {
-
 			assertTrue(coordinator.signUpProject(project));
 			assertTrue(coordinator.signUpStudent(student));
 			student.selectProject("Hackear el pentagono");
