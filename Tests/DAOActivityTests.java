@@ -26,13 +26,37 @@ public class DAOActivityTests {
     }
     }
 
+    @Test
+    public void B_getIdActivity (){
+        System.out.println(getDAOActivity().getIdActivity());
+        assertNotNull(getDAOActivity().getIdActivity());
+    }
+
+    @Test
+    public void C_isRegistered(){
+        try{
+            assertTrue(getDAOActivity().isRegistered());
+        }catch(CustomException e){
+            new Logger().log(e);
+        }
+    }
+
+    @Test
+    public void D_deleteActivity(){
+        try{
+            assertTrue(getDAOActivity().delete());
+        }catch(CustomException e){
+            new Logger().log(e);
+        }
+    }
+
     private DAOActivity getDAOActivity() {
         return new DAOActivity(getInstanceActivity());
     }
     private Activity getInstanceActivity() {
         return new Activity(
-                "2.- Reporte de lectura",
-                "Entregar reporte de lectura del capitulo 2 del libro de Wieggers",
+                "Hacer la mimision",
+                "Acostarse a mimir a las 10 pm",
                 "2020-09-14 17:00:00",
                 "/src/README.md"
         );

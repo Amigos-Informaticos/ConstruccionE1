@@ -1,5 +1,7 @@
 package Models;
 
+import DAO.DAOActivity;
+
 public class Activity {
     private String title;
     private String description;
@@ -50,5 +52,11 @@ public class Activity {
         return this.title != null &&
                 this.description != null &&
                 this.deliveryDate != null;
+    }
+    public String getIdActivity(){
+        String idActivity = null;
+        DAOActivity daoActivity = new DAOActivity(this);
+        idActivity = daoActivity.getIdActivity();
+        return idActivity;
     }
 }

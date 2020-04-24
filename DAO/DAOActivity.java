@@ -4,6 +4,7 @@ import Connection.DBConnection;
 import Exceptions.CustomException;
 import IDAO.IDAOActivity;
 import Models.Activity;
+import tools.Logger;
 
 public class DAOActivity implements IDAOActivity {
     private Activity activity;
@@ -27,7 +28,7 @@ public class DAOActivity implements IDAOActivity {
             } else {
                 throw new CustomException("Error in query INSERT: SQLException");
             }
-        }else {
+        } else {
             throw new CustomException("Some atribute is empty/null: ActivityNull");
         }
         return created;
@@ -53,8 +54,45 @@ public class DAOActivity implements IDAOActivity {
         return updated;
     }
 
+
     @Override
     public boolean delete() throws CustomException {
-        return false;
+        boolean deleted = false;
+        if (this.activity != null && this.isRegistered()) {
+            String query = "DELETE FROM Actividad WHERE idActividad = ?";
+            String[] values = {this.activity.getIdActivity()};
+            if (this.connection.sendQuery(query, values)) {
+                deleted = true;
+            }
+        }
+        return deleted;
+    }
+
+    public boolean isRegistered() throws CustomException {
+        boolean isRegistered = false;
+        if (this.activity != null) {
+            String query = "SELECT COUNT(idActividad) AS TOTAL FROM Actividad WHERE titulo = ? AND descripcion = ?";
+            String[] values = {this.activity.getTitle(), this.activity.getDescription()};
+            String[] names = {"TOTAL"};
+            isRegistered = this.connection.select(query, values, names)[0][0].equals("1");
+        } else {
+            throw new CustomException("Null Pointer Exception: isRegistered()");
+        }
+        return isRegistered;
+    }
+
+    public String getIdActivity() {
+        String idActivity = null;
+        try {
+            if (this.isRegistered()) {
+                String query = "SELECT idActividad FROM Actividad WHERE titulo = ? AND descripcion = ?";
+                String[] values = {this.activity.getTitle(), this.activity.getDescription()};
+                String[] names = {"idActividad"};
+                idActivity = this.connection.select(query, values, names)[0][0];
+            }
+        }catch (CustomException e){
+            new Logger().log(e);
+        }
+        return idActivity;
     }
 }
