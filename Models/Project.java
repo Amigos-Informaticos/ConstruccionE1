@@ -194,4 +194,9 @@ public class Project {
         DAOProject daoProject = new DAOProject(this);
         return daoProject.haveStudents();
     }
+
+    public boolean isRegistered(){
+        DAOProject daoProject = new DAOProject(this);
+        return daoProject.isRegistered();
+    }
 }

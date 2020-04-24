@@ -16,7 +16,7 @@ public class TestsCoordinator {
 	//JUST FOR TEST: I create an student object here because we don´t have GUI yet, so we can create it "manually"
 	@Test
 	public void studentManagementTest(){
-		Student student = new Student("Efrain","Arenas","efrain@correo.com","contrasenia123","s18012138");
+		Student student = new Student("Efrain","Arenas","efrain@arenas.com","contrasenia123","s18012138");
 		try {
 			assertTrue(coordinator.signUpStudent(student));
 			assertTrue(coordinator.deleteStudent(student));
@@ -48,7 +48,7 @@ public class TestsCoordinator {
 		project.setResponsibilities("Echarle ganas y pararse temprano");
 		project.setStatus("1");
 		project.setArea("1");
-		project.setResponsible("1");
+		project.setResponsible("correoResponsable1@correo.com");
 		project.setIdPeriod("1");
 		project.setIdOrganization("1");
 		Student student = new Student("Efrain",
@@ -57,11 +57,14 @@ public class TestsCoordinator {
 										"contrasenia123",
 										"s18012138");
 
+
 		try {
 			assertTrue(coordinator.signUpProject(project));
+			assertTrue(coordinator.signUpStudent(student));
 			student.selectProject("Hackear el pentagono");
 			coordinator.assignProject(student,"Hackear el pentagono");
 			assertTrue(coordinator.deleteProject(project));
+			assertTrue(coordinator.deleteStudent(student));
 		} catch (CustomException e) {
 			e.printStackTrace();
 		}
