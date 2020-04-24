@@ -77,11 +77,7 @@ public class User {
 		this.password = password;
 	}
 	
-	/**
-	 * Checks if the actual instance has all basic attributes
-	 *
-	 * @return true => has every attribute | false => lacks at least one attribute
-	 */
+	
 	public boolean isComplete() {
 		return this.names != null &&
 			this.lastnames != null &&
@@ -89,23 +85,13 @@ public class User {
 			this.password != null;
 	}
 	
-	/**
-	 * Checks if the provided string has name format
-	 *
-	 * @param name The string to check
-	 * @return true => it has name format | false => it doesn't
-	 */
+	
 	public boolean isName(String name) {
 		String nameRegex = "^[A-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
 		return Pattern.compile(nameRegex).matcher(name).matches();
 	}
 	
-	/**
-	 * Checks if the provided string has email format
-	 *
-	 * @param email the string to check
-	 * @return true => has email format | false => it doesn't
-	 */
+	
 	public boolean isEmail(String email) {
 		String emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]" +
 			"+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,}[a-zA-Z0-9])" +

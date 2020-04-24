@@ -13,25 +13,9 @@ public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
     public DAOCoordinator(Coordinator coordinator) {
         this.coordinator = coordinator;
     }
-
-
-
-
-    /**
-     * Method to sign up a new Admin
-     * <p>
-     * STATUS DESCRIPTION
-     * 0	->	Initial status: no action has been taken
-     * 1	->	Success
-     * 2	->	Error in sending query
-     * 3	->	User already registered
-     * 4	->	Malformed object
-     * 5	->	Registered into User but not into Admin. Attend immediately
-     * </p>
-     *
-     * @return The status description
-     */
-    @Override
+	
+	
+	@Override
     public boolean signUp() throws CustomException{
         boolean signedUp = false;
         if(this.coordinator.isComplete() && !this.isRegistered() && !this.isAnother()){

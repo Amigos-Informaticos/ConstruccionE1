@@ -30,12 +30,6 @@ public class DAOStudent implements IDAOStudent {
 		this.student = student;
 	}
 	
-	/**
-	 * Returns the id of a Student
-	 *
-	 * @return Student's id as a String<br/>
-	 * If something goes wrong, returns an empty String
-	 */
 	public String getId() throws CustomException {
 		String id = "";
 		if (this.student != null && this.student.getEmail() != null &&
@@ -53,11 +47,6 @@ public class DAOStudent implements IDAOStudent {
 		return id;
 	}
 	
-	/**
-	 * Update the Database with the current Student
-	 *
-	 * @return true => updated<br/>false => something went wrong
-	 */
 	@Override
 	public boolean update() throws CustomException {
 		boolean updated = false;
@@ -80,11 +69,6 @@ public class DAOStudent implements IDAOStudent {
 		return updated;
 	}
 	
-	/**
-	 * Delete the current Student from the Database
-	 *
-	 * @return true => deleted<br/>false => not deleted
-	 */
 	@Override
 	public boolean delete() throws CustomException {
 		boolean deleted = false;
@@ -102,14 +86,6 @@ public class DAOStudent implements IDAOStudent {
 		return deleted;
 	}
 	
-	/**
-	 * Log the current Student
-	 * Verifies if the current instance is registered<br/>
-	 * and has the correct credentials to log in
-	 *
-	 * @return true => registered and correct credentials<br/>
-	 * false => not registered or incorrect credentials
-	 */
 	@Override
 	public boolean logIn() throws CustomException {
 		boolean loggedIn = false;
@@ -129,14 +105,6 @@ public class DAOStudent implements IDAOStudent {
 		return loggedIn;
 	}
 	
-	/**
-	 * Register the current instance to the database
-	 * <p>
-	 * Verifies that the current instance is not already registered,<br/>
-	 * if not, saves it to the database.
-	 *
-	 * @return true => registered</br>false => couldn't register
-	 */
 	@Override
 	public boolean signUp() throws CustomException {
 		boolean signedUp = false;
@@ -168,13 +136,6 @@ public class DAOStudent implements IDAOStudent {
 		return signedUp;
 	}
 	
-	/**
-	 * Verifies the existence of the current Student against the database<br/>
-	 * Checks if the email of the current Student
-	 * is already registered in the database
-	 *
-	 * @return true => registered<br/>false => not registered
-	 */
 	@Override
 	public boolean isRegistered() throws CustomException {
 		boolean isRegistered = false;
@@ -197,12 +158,6 @@ public class DAOStudent implements IDAOStudent {
 		return isRegistered;
 	}
 	
-	/**
-	 * Verifies if the current Student is active in the DB
-	 *
-	 * @return true => his status is active<br/>
-	 * false => his status is inactive
-	 */
 	public boolean isActive() throws CustomException {
 		boolean isActive = false;
 		if (this.student != null && this.student.getEmail() != null) {
@@ -216,12 +171,6 @@ public class DAOStudent implements IDAOStudent {
 		return isActive;
 	}
 	
-	/**
-	 * Returns an array of all Student from DB
-	 *
-	 * @return Array of Student<br/>
-	 * If there are no Students registered, returns null
-	 */
 	public static Student[] getAll() {
 		Student[] students;
 		DBConnection connection = new DBConnection();
@@ -238,13 +187,6 @@ public class DAOStudent implements IDAOStudent {
 		return students;
 	}
 	
-	/**
-	 * Returns an instance of Student by its email
-	 *
-	 * @param student Instance of Student with email
-	 * @return Instance of Student completed from the DB<br/>
-	 * If the provided Student is not registered, it will return null
-	 */
 	public static Student get(Student student) throws CustomException {
 		DBConnection connection = new DBConnection();
 		Student returnStudent = null;
@@ -273,13 +215,6 @@ public class DAOStudent implements IDAOStudent {
 		return this.selectProject(new DAOProject().loadProject(projectName));
 	}
 	
-	/**
-	 * Saves the selection of a project from the current Student in the database
-	 *
-	 * @param project Instance of Project to relate in the database
-	 * @return true => selection registered<br/>
-	 * false => not registered
-	 */
 	public boolean selectProject(Project project) throws CustomException {
 		boolean selected = false;
 		assert this.student != null;
@@ -318,11 +253,6 @@ public class DAOStudent implements IDAOStudent {
 		return selected;
 	}
 	
-	/**
-	 * Returns an array of the selected Project from the current Student
-	 *
-	 * @return Array of Project
-	 */
 	public Project[] getProjects() throws CustomException {
 		Project[] proyectos = null;
 		if (this.student != null && this.student.isComplete() && this.isActive()) {
@@ -347,14 +277,6 @@ public class DAOStudent implements IDAOStudent {
 		return proyectos;
 	}
 	
-	
-	/**
-	 * Deletes the selected Project by its name
-	 *
-	 * @param projectName The name of the project to deselect
-	 * @return true => selection deleted<br/>
-	 * false => selection not deleted
-	 */
 	public boolean deleteSelectedProject(String projectName) throws CustomException {
 		boolean deleted = false;
 		if (this.student != null && this.student.getEmail() != null &&
@@ -385,15 +307,6 @@ public class DAOStudent implements IDAOStudent {
 		return deleted;
 	}
 	
-	
-	/**
-	 * Adds a report to the database
-	 *
-	 * @param filePath The path to the file to upload as report
-	 * @param title    The title of the report
-	 * @return true => Report uploaded and saved<br/>
-	 * false => Report not uploaded
-	 */
 	public boolean addReport(String filePath, String title) throws CustomException {
 		boolean saved = false;
 		if (this.student != null && this.student.getEmail() != null &&
@@ -432,13 +345,6 @@ public class DAOStudent implements IDAOStudent {
 		return saved;
 	}
 	
-	/**
-	 * Deletes a report by its name for the current Student
-	 *
-	 * @param title The title of the report to delete
-	 * @return true => Deleted<br/>
-	 * false => not deleted
-	 */
 	public boolean deleteReport(String title) throws CustomException {
 		boolean deleted = false;
 		if (this.student != null && this.student.getEmail() != null &&
@@ -456,12 +362,6 @@ public class DAOStudent implements IDAOStudent {
 		return deleted;
 	}
 	
-	/**
-	 * Set the final Project
-	 *
-	 * @param projectName
-	 * @return
-	 */
 	public boolean setProject(String projectName) throws CustomException {
 		boolean set = false;
 		if (this.student != null && this.isActive() &&
@@ -481,7 +381,7 @@ public class DAOStudent implements IDAOStudent {
 					throw new CustomException("Could not insert into StudentProject: setProject()");
 				}
 			} else {
-				throw new CustomException("Already setted project: setProject()");
+				throw new CustomException("Already setted project: setProject()", "ProjectAlreadySet");
 			}
 		} else {
 			throw new CustomException("Null Pointer Excepcion: setProject()");
