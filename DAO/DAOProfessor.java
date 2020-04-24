@@ -57,15 +57,26 @@ public class DAOProfessor implements IDAOProfessor {
         }
         return deleted;
     }
+    public boolean reactive() throws CustomException{
+        boolean reactivated = false;
+        if (!this.isActive()){
+            String query = "UPDATE Usuario SET status = 1 WHERE correoElectronico = ?";
+            String[] values = {this.professor.getEmail()};
+            if(this.connection.sendQuery(query, values)){
+                reactivated = true;
+            }
+        }
+        return reactivated;
+    }
 
     @Override
     public boolean logIn() throws CustomException {
         boolean loggedIn = false;
-        String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Profesor WHERE correoElectronico = ? " +
+        String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ? " +
                 "AND contrasena = ?";
         String[] values = {this.professor.getEmail(), this.professor.getPassword()};
         String[] names = {"TOTAL"};
-        if (this.isRegistered()) {
+        if (this.isRegistered() && this.isActive()) {
             if (this.connection.select(query, values, names)[0][0].equals("1")) {
                 loggedIn = true;
             }
@@ -74,7 +85,7 @@ public class DAOProfessor implements IDAOProfessor {
     }
 
     @Override
-    public boolean signUp() {
+    public boolean signUp() throws CustomException{
         boolean signedUp = false;
         if (this.professor.isComplete()) {
             String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status)" +
@@ -119,10 +130,10 @@ public class DAOProfessor implements IDAOProfessor {
                 if (this.connection.select(query, values, names)[0][0].equals("1")) {
                     isRegistered = true;
                 } else {
-                    throw new CustomException("Not registered in Professor: isRegistered()");
+                    isRegistered = false;
                 }
             } else {
-                throw new CustomException("Not registered in Usuario: isRegistered()");
+                isRegistered = false;
             }
         } else {
             throw new CustomException("Null Pointer Exception: isRegistered()");
@@ -136,10 +147,5 @@ public class DAOProfessor implements IDAOProfessor {
 
     public static Professor[] get(Professor professor) {
         return null;
-    }
-
-    @Override
-    public boolean reactive() {
-        return true;
     }
 }
