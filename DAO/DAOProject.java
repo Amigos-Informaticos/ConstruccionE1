@@ -28,7 +28,7 @@ public class DAOProject implements IDAOProject {
 	public boolean signUp() throws CustomException{
 		boolean signedUp = false;
 		if (this.project.isComplete()) {
-			if (!this.isRegistered()) {
+			if (!this.isRegistered() && !this.isActive()) {
 				String query = "INSERT INTO Proyecto (nombre, metodologia, " +
 					"objetivoGeneral, objetivoMediato, objetivoInmediato, recursos, " +
 					"responsabilidades, status, area, responsable, idPeriodo, idOrganizacion)" +
@@ -48,15 +48,15 @@ public class DAOProject implements IDAOProject {
 				};
 				if (this.connection.sendQuery(query, values)) {
 					signedUp = true;
-				}else{
-					throw new CustomException("Not registered proyecto");
 				}
-			} else {
+			} else if(this.isRegistered() && !this.isActive()){
 				String query = "UPDATE Proyecto SET status = 1 WHERE nombre = ?";
 				String[] values = {this.project.getName()};
 				if (this.connection.sendQuery(query, values)) {
 					signedUp = true;
 				}
+			}else if(this.isActive()){
+				throw new CustomException("Project already registered and active");
 			}
 		}else{
 			throw new CustomException("Null pointer exception");
@@ -69,8 +69,7 @@ public class DAOProject implements IDAOProject {
 	public boolean isRegistered() {
 		boolean isRegistered = false;
 		if (this.project != null && this.project.getName() != null) {
-			String query = "SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ? AND " +
-				"status = 1";
+			String query = "SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ?";
 			String[] values = {project.getName()};
 			String[] names = {"TOTAL"};
 			if (this.connection.select(query, values, names)[0][0].equals("1")) {
@@ -120,8 +119,8 @@ public class DAOProject implements IDAOProject {
 		if (this.project != null && this.isRegistered()) {
 			if (this.isActive()) {
 				if(this.haveStudents()){
-					String query = "DELETE * FROM PracticanteProyecto WHERE idProyecto = ?;";
-					String[] values = {this.project.getName()};
+					String query = "DELETE FROM PracticanteProyecto WHERE idProyecto = ?;";
+					String[] values = {this.getId()};
 					if(!this.connection.sendQuery(query,values)){
 						throw new CustomException
 								("Impossible to delete the relation between Project and Student");
