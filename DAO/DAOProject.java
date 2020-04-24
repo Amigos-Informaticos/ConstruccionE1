@@ -22,20 +22,8 @@ public class DAOProject implements IDAOProject {
 		this.connection = new DBConnection();
 		this.project = this.loadProject(name);
 	}
-
-	/**
-	 * Method to sign up a new project
-	 * <p>
-	 * STATUS DESCRIPTION<br/>
-	 * 0	->	Initial status: no action has been taken<br/>
-	 * 1	->	Success
-	 * 2	->	Error in sending query
-	 * 3	->	project already registered
-	 * 4	->	Malformed object
-	 * </p>
-	 *
-	 * @return true => succesfully registered | false => couldn't register
-	 */
+	
+	
 	@Override
 	public boolean signUp() throws CustomException{
 		boolean signedUp = false;
@@ -75,12 +63,8 @@ public class DAOProject implements IDAOProject {
 		}
 		return signedUp;
 	}
-
-	/**
-	 * Checks if the current project is already registered
-	 *
-	 * @return true => Already registered | Not registered
-	 */
+	
+	
 	@Override
 	public boolean isRegistered() {
 		boolean isRegistered = false;
