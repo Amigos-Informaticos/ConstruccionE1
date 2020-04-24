@@ -15,23 +15,12 @@ public class DBConnection {
 	private Arch configurationFile;
 	private final Logger logger = new Logger();
 	
-	/**
-	 * Empty default constructor<br/>
-	 * Tries to load saved connection<br/>
-	 * If there's no saved connection, loads default connection
-	 */
+	
 	public DBConnection() {
 		Configuration.loadConnection(this);
 	}
 	
-	/**
-	 * Parametrized constructor
-	 *
-	 * @param driver   String with driver to open the connection
-	 * @param url      URL to connect to database
-	 * @param user     User to log to the database
-	 * @param password Password to enter the database
-	 */
+	
 	public DBConnection(String driver, String url, String user, String password) {
 		this.driver = driver;
 		this.url = url;
@@ -75,44 +64,22 @@ public class DBConnection {
 		return connection;
 	}
 	
-	/**
-	 * Loads a saved connection
-	 * <p>
-	 * Tries to load a saved connection<br/>
-	 * If there's no saved connection
-	 * or if can't load it,
-	 * loads default connection
-	 * </p>
-	 */
+	
 	public void loadConnection() {
 		Configuration.loadConnection(this);
 	}
 	
-	/**
-	 * Loads the connection configuration from a file
-	 *
-	 * @param path Path of the configuration file as a String
-	 * @return true => loaded<br/>false => couldn't load
-	 */
+	
 	public boolean loadFromFile(String path) {
 		return Configuration.loadFromFile(this, path);
 	}
 	
-	/**
-	 * Saves the current configuration to a file
-	 *
-	 * @param path The configuration file's path as a string
-	 * @return true => saved | false => couldn't save
-	 */
+	
 	public boolean saveToFile(String path) {
 		return Configuration.saveToFile(this, path);
 	}
 	
-	/**
-	 * Check if the connection is ready to open
-	 *
-	 * @return true => is Ready<br/>false => isn't ready
-	 */
+	
 	public boolean isReady() {
 		boolean isReady = false;
 		if (this.driver == null || this.url == null || this.user == null || this.password == null) {
@@ -124,11 +91,7 @@ public class DBConnection {
 		return isReady;
 	}
 	
-	/**
-	 * Open the connection to the DB
-	 *
-	 * @return true => The connection is open<br/>false => is not open
-	 */
+	
 	public boolean openConnection() {
 		boolean isOpen = false;
 		if (this.isReady()) {
@@ -143,9 +106,7 @@ public class DBConnection {
 		return isOpen;
 	}
 	
-	/**
-	 * Close the connection, no matter if its open or not
-	 */
+	
 	public void closeConnection() {
 		try {
 			while (!this.connection.isClosed()) {
@@ -156,14 +117,7 @@ public class DBConnection {
 		}
 	}
 	
-	/**
-	 * Send a prepared query to the DB
-	 *
-	 * @param query  The query to send
-	 * @param values The values to insert into the query
-	 * @return true => The query is sent<br/>
-	 * false => it couldn't send
-	 */
+	
 	public boolean sendQuery(String query, String[] values) {
 		boolean queryExecuted = false;
 		try {
@@ -182,14 +136,7 @@ public class DBConnection {
 		return queryExecuted;
 	}
 	
-	/**
-	 * Get the values requested in the query
-	 *
-	 * @param query  The query to send to the DB
-	 * @param values The values to insert into the query
-	 * @param names  Names of the columns to request
-	 * @return Matrix of requested data
-	 */
+	
 	public String[][] select(String query, String[] values, String[] names) {
 		int tableSize = 0;
 		String[][] responses = new String[0][0];

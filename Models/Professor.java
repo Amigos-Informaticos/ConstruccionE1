@@ -32,6 +32,16 @@ public class Professor extends User {
     public void setShift(int shift) {
         this.shift = shift;
     }
+    public boolean logIn() throws CustomException{
+        boolean loggedIn = false;
+        if (this.isComplete()){
+            DAOProfessor daoProfessor = new DAOProfessor(this);
+            if(daoProfessor.logIn()){
+                loggedIn = true;
+            }
+        }
+        return loggedIn;
+    }
 
     public boolean signUp() throws CustomException {
         boolean isRegistered = false;
@@ -42,5 +52,29 @@ public class Professor extends User {
             }
         }
         return isRegistered;
+    }
+    public boolean update ()  throws CustomException {
+        boolean updated = false;
+        DAOProfessor daoProfessor = new DAOProfessor(this);
+        if (daoProfessor.update()){
+            updated = true;
+        }
+        return updated;
+    }
+    public boolean delete() throws CustomException {
+        boolean deleted = false;
+        DAOProfessor daoProfessor = new DAOProfessor(this);
+        if(daoProfessor.delete()){
+            deleted = true;
+        }
+        return deleted;
+    }
+    public boolean reactive() throws CustomException{
+        boolean reactivated = false;
+        DAOProfessor daoProfessor = new DAOProfessor(this);
+        if(daoProfessor.reactive()){
+            reactivated = true;
+        }
+        return reactivated;
     }
 }

@@ -63,7 +63,6 @@ public class DAOProject implements IDAOProject {
 		return signedUp;
 	}
 
-
 	@Override
 	public boolean isRegistered() {
 		boolean isRegistered = false;

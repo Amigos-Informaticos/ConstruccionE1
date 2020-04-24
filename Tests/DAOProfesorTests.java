@@ -6,6 +6,7 @@ import Models.Professor;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import tools.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,18 +14,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class DAOProfesorTests {
-
     @Test
     public void A_signUpProfesor() {
         Professor alexis = new Professor();
         DAOProfessor daoProfessor = new DAOProfessor(alexis);
-        alexis.setNames("Alexis");
-        alexis.setLastnames("Alvarez");
-        alexis.setEmail("palomita@hotmail.com");
-        alexis.setPassword("alexis123");
-        alexis.setPersonalNo("N12345678");
+        alexis.setNames("Octavio");
+        alexis.setLastnames("Ocharan");
+        alexis.setEmail("ocha@hotmail.com");
+        alexis.setPassword("ocha1234");
+        alexis.setPersonalNo("N000002");
         alexis.setShift(1);
-        assertTrue(daoProfessor.signUp());
+        try{
+            assertTrue(daoProfessor.signUp());
+        }catch (CustomException e){
+            new Logger().log(e);
+        }
     }
     @Test
     public void B_isRegistered(){
