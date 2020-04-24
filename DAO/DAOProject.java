@@ -22,8 +22,7 @@ public class DAOProject implements IDAOProject {
 		this.connection = new DBConnection();
 		this.project = this.loadProject(name);
 	}
-	
-	
+
 	@Override
 	public boolean signUp() throws CustomException{
 		boolean signedUp = false;
@@ -63,8 +62,7 @@ public class DAOProject implements IDAOProject {
 		}
 		return signedUp;
 	}
-	
-	
+
 	@Override
 	public boolean isRegistered() {
 		boolean isRegistered = false;
@@ -112,7 +110,6 @@ public class DAOProject implements IDAOProject {
 		return project;
 	}
 
-	//WIP
 	@Override
 	public boolean delete() throws CustomException{
 		boolean deleted = false;

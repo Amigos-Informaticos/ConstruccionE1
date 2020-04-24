@@ -13,9 +13,8 @@ public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
     public DAOCoordinator(Coordinator coordinator) {
         this.coordinator = coordinator;
     }
-	
-	
-	@Override
+
+    @Override
     public boolean signUp() throws CustomException{
         boolean signedUp = false;
         if(this.coordinator.isComplete() && !this.isRegistered() && !this.isAnother()){
@@ -70,7 +69,7 @@ public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
         return loggedIn;
     }
 
-    //@Override
+    @Override
     public boolean delete() {
         boolean deleted = false;
         if (this.coordinator != null && this.isRegistered()) {
@@ -99,7 +98,7 @@ public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
         return isActive;
     }
 
-    //@Override
+    @Override
     public boolean reactive() {
         boolean reactivated = false;
         if (this.coordinator != null && this.isRegistered()) {
@@ -127,7 +126,5 @@ public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
         }
         return anotherCoordinator;
     }
-
-
 
 }
