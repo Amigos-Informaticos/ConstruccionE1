@@ -16,4 +16,6 @@ public interface IDAOProfessor extends IDAOUser {
 
     boolean delete() throws CustomException;
 
+    boolean reactive() throws CustomException;
+
 }
