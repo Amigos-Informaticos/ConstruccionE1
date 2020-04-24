@@ -24,6 +24,11 @@ public class DAOActivity implements IDAOActivity {
             String[] values = {"edsonn1999@hotmail.com", this.activity.getTitle(), this.activity.getDescription(),
                     this.activity.getDeliveryDate()};
             if (this.connection.sendQuery(query, values)) {
+                query = "SELECT fechaInicio FROM Actividad WHERE titulo = ?";
+                String [] valuesSelect = {this.activity.getTitle()};
+                String[] names = {"fechaInicio"};
+                String startDate = this.connection.select(query, valuesSelect, names)[0][0];
+                this.activity.setStartDate(startDate);
                 created = true;
             } else {
                 throw new CustomException("Error in query INSERT: SQLException");
@@ -37,20 +42,15 @@ public class DAOActivity implements IDAOActivity {
     @Override
     public boolean update() throws CustomException {
         boolean updated = false;
-/*        String query = "UPDATE Actividad SET titulo = ?, descripcion = ?, fechaCierre = ?, "
-                + "documento = ? WHERE  = ?";
-        String[] values = {this.professor.getNames(), this.professor.getLastnames(),
-                this.professor.getEmail(), this.professor.getPassword(),
-                this.professor.getEmail()};
-        if (this.connection.sendQuery(query, values)) {
-            query = "UPDATE Profesor SET noPersonal = ?, turno = ? WHERE idUsuario = (SELECT " +
-                    "idUsuario" + " " + "FROM Usuario WHERE correoElectronico = ?)";
-            values = new String[]{this.professor.getPersonalNo(), String.valueOf(this.professor.getShift()),
-                    this.professor.getEmail()};
+        if(this.activity.getStartDate() != null) {
+            String query = "UPDATE Actividad SET titulo = ?, descripcion = ? WHERE  fechaInicio = ?";
+            String[] values = {this.activity.getTitle(), this.activity.getDescription(), this.activity.getStartDate()};
             if (this.connection.sendQuery(query, values)) {
                 updated = true;
             }
-        }*/
+        } else {
+            System.out.println("startDateNull");
+        }
         return updated;
     }
 
@@ -90,7 +90,7 @@ public class DAOActivity implements IDAOActivity {
                 String[] names = {"idActividad"};
                 idActivity = this.connection.select(query, values, names)[0][0];
             }
-        }catch (CustomException e){
+        } catch (CustomException e) {
             new Logger().log(e);
         }
         return idActivity;

@@ -1,6 +1,7 @@
 package Models;
 
 import DAO.DAOActivity;
+import Exceptions.CustomException;
 
 public class Activity {
     private String title;
@@ -11,11 +12,12 @@ public class Activity {
     public Activity(){
         title=null;
         description=null;
-        startDate=null;
+        deliveryDate=null;
     }
     public Activity(String title, String description, String deliveryDate, String file) {
         this.title=title;
         this.description=description;
+        this.startDate = null;
         this.deliveryDate = deliveryDate;
     }
 
@@ -47,6 +49,24 @@ public class Activity {
     }
     public void setDeliveryDate(String deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+    public boolean create () throws CustomException{
+        boolean created = false;
+        if(this.isComplete()){
+            DAOActivity activity = new DAOActivity(this);
+            if(activity.create()){
+                created = true;
+            }
+        }
+        return created;
+    }
+    public boolean update() throws CustomException{
+        boolean updated = false;
+        DAOActivity activity = new DAOActivity(this);
+        if(activity.update()){
+            updated = true;
+        }
+        return updated;
     }
     public boolean isComplete() {
         return this.title != null &&

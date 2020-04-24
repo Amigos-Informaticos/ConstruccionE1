@@ -6,6 +6,7 @@ import Models.Professor;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import tools.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,7 +24,11 @@ public class DAOProfesorTests {
         alexis.setPassword("ocha1234");
         alexis.setPersonalNo("N000002");
         alexis.setShift(1);
-        assertTrue(daoProfessor.signUp());
+        try{
+            assertTrue(daoProfessor.signUp());
+        }catch (CustomException e){
+            new Logger().log(e);
+        }
     }
     @Test
     public void B_isRegistered(){
