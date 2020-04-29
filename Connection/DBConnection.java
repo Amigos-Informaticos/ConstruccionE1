@@ -79,7 +79,6 @@ public class DBConnection {
 		return Configuration.saveToFile(this, path);
 	}
 	
-	
 	public boolean isReady() {
 		boolean isReady = false;
 		if (this.driver == null || this.url == null || this.user == null || this.password == null) {
@@ -128,7 +127,7 @@ public class DBConnection {
 					statement.setString(i + 1, values[i]);
 				}
 			}
-			queryExecuted = statement.executeUpdate() > 0 && (queryExecuted = true);
+			queryExecuted = (statement.executeUpdate() > 0) && ((queryExecuted = true));
 			this.closeConnection();
 		} catch (SQLException e) {
 			this.logger.log(e);
