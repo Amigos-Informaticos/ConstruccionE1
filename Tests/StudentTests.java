@@ -21,11 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class StudentTests {
 	private Student student = new Student(
-		"Miguel Joaquin",
+		"Juan Gabriel",
 		"Lopez Doriga",
-		"mjld@hotmail.com",
+		"jbld@correo.com",
 		"elmiguel123",
-		"S18012150"
+		"S17012130"
 	);
 	
 	private static TelegramBot bot = new TelegramBot("AITests");

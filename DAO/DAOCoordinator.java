@@ -49,7 +49,9 @@ public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
         String[] values = {this.coordinator.getEmail()};
         String[] names = {"TOTAL"};
         if (this.connection.select(query, values, names)[0][0].equals("1")) {
-            isRegistered = true;
+            query = "SELECT COUNT(Coordinador.idUsuario) AS TOTAL FROM Coordinador INNER JOIN Usuario ON " +
+                "Coordinador.idUsuario = Usuario.idUsuario WHERE Usuario.correoElectronico = ?";
+            isRegistered = this.connection.select(query, values, names)[0][0].equals("1");
         }
         return isRegistered;
     }

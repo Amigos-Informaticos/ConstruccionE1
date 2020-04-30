@@ -148,9 +148,7 @@ public class DAOStudent implements IDAOStudent {
 				query = "SELECT COUNT(Practicante.idUsuario) AS TOTAL FROM Practicante " +
 					"INNER JOIN Usuario ON Practicante.idUsuario = Usuario.idUsuario " +
 					"WHERE Usuario.correoElectronico = ?";
-				if (this.connection.select(query, values, names)[0][0].equals("1")) {
-					isRegistered = true;
-				}
+				isRegistered = this.connection.select(query, values, names)[0][0].equals("1");
 			}
 		} else {
 			throw new CustomException("Null Pointer Exception: isRegistered()");

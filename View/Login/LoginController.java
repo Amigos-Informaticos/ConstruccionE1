@@ -1,48 +1,60 @@
 package View.Login;
 
+import Models.User;
 import View.MainController;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
-
-    @FXML private JFXTextField nameText;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        nameText.addEventFilter(KeyEvent.ANY, handleLetters);
-    }
-
-    EventHandler<KeyEvent> handleLetters = new EventHandler<KeyEvent>() {
-        private boolean willConsume;
-        @Override
-        public void handle(KeyEvent event) {
-            Object tempO = event.getSource();
-            if(willConsume){
-                event.consume();
-            }
-            String temp = event.getCode().toString();
-            if(!event.getCode().toString().matches("[a-zA-Z]")
-                    && event.getCode() != KeyCode.BACK_SPACE
-                    && event.getCode() != KeyCode.SHIFT){
-                if(event.getEventType() == KeyEvent.KEY_PRESSED){
-                    willConsume = true;
-                }else if(event.getEventType() == KeyEvent.KEY_RELEASED){
-                    willConsume = false;
-                }
-            }
-        }
-    };
-
-    public void onIngresarButtonClick(){
-        MainController mainController = new MainController();
-        mainController.activate("Registrar Estudiante","RegistAStudent/RegistAStudent.fxml");
-    }
+	@FXML
+	private JFXPasswordField passwordField;
+	
+	@FXML
+	private JFXTextField emailField;
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+	
+	}
+	
+	public void onIngresarButtonClick() {
+		User user = new User();
+		if (validateFields()) {
+			if (isRegistered(emailField.getText().trim(), passwordField.getText().trim())) {
+				user.setEmail(emailField.getText().trim());
+				user.setPassword(passwordField.getText().trim());
+				MainController.setUser(user);
+				MainController.setType(user.getType());
+				switch (user.getType()) {
+					case "Student":
+						//Ventana para studiante
+						break;
+					case "Professor":
+						//Ventana para profesor
+						break;
+					case "Coordinator":
+						//
+						break;
+				}
+			}
+		}
+	}
+	
+	public boolean validateFields() {
+		return !emailField.getText().trim().equals("") && !passwordField.getText().trim().equals("");
+	}
+	
+	public boolean isRegistered(String email, String password) {
+		boolean isRegistered = false;
+		User user = new User();
+		user.setEmail(email);
+		user.setPassword(password);
+		isRegistered = !user.getType().equals("");
+		return isRegistered;
+	}
 }

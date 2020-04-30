@@ -1,5 +1,11 @@
 package Models;
 
+import Exceptions.CustomException;
+import tools.Logger;
+
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
 public class User {
@@ -21,7 +27,7 @@ public class User {
 		if (this.isEmail(email)) {
 			this.email = email;
 		}
-		this.password = password;
+		this.setPassword(password);
 	}
 	
 	public User(User user) {
@@ -74,9 +80,19 @@ public class User {
 	}
 	
 	public void setPassword(String password) {
-		this.password = password;
+		try {
+			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+			byte[] message = messageDigest.digest(password.getBytes());
+			BigInteger number = new BigInteger(1, message);
+			String hashed = number.toString(16);
+			while (hashed.length() < 32) {
+				hashed = "0" + hashed;
+			}
+			this.password = hashed;
+		} catch (NoSuchAlgorithmException e) {
+			new Logger().log(e);
+		}
 	}
-	
 	
 	public boolean isComplete() {
 		return this.names != null &&
@@ -84,7 +100,6 @@ public class User {
 			this.email != null &&
 			this.password != null;
 	}
-	
 	
 	public boolean isName(String name) {
 		String nameRegex = "^[A-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
@@ -97,5 +112,25 @@ public class User {
 			"+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,}[a-zA-Z0-9])" +
 			"?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,}[a-zA-Z0-9])?)*$";
 		return Pattern.compile(emailRegex).matcher(email).matches();
+	}
+	
+	public String getType() {
+		String type = "";
+		assert this.getEmail() != null;
+		assert this.getPassword() != null;
+		try {
+			if (new Student((Student) this).login()) {
+				type = "Student";
+			}
+			if (new Professor((Professor) this).logIn()) {
+				type = "Professor";
+			}
+			if (new Coordinator((Coordinator) this).logIn()) {
+				type = "Coordinator";
+			}
+		} catch (CustomException e) {
+			new Logger().log(e);
+		}
+		return type;
 	}
 }
