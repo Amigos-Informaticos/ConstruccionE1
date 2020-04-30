@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class TestsCoordinator {
 	Coordinator coordinator = new Coordinator();
 
-	//JUST FOR TEST: I create an student object here because we don´t have GUI yet, so we can create it "manually"
 	@Test
 	public void studentManagementTest(){
 		Student student = new Student("Efrain","Arenas","efrain@arenas.com","contrasenia123","s18012138");
