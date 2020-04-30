@@ -94,6 +94,10 @@ public class User {
 		}
 	}
 	
+	public void setCleanPassword(String password) {
+		this.password = password;
+	}
+	
 	public boolean isComplete() {
 		return this.names != null &&
 			this.lastnames != null &&
@@ -118,14 +122,26 @@ public class User {
 		String type = "";
 		assert this.getEmail() != null;
 		assert this.getPassword() != null;
+		Student auxiliarStudent = new Student();
+		auxiliarStudent.setEmail(this.getEmail());
+		auxiliarStudent.setCleanPassword(this.getPassword());
+		Professor auxiliarProfessor = new Professor();
+		auxiliarProfessor.setEmail(this.getEmail());
+		auxiliarProfessor.setCleanPassword(this.getPassword());
+		Coordinator auxiliarCoordinator = new Coordinator();
+		auxiliarCoordinator.setEmail(this.getEmail());
+		auxiliarCoordinator.setCleanPassword(this.getPassword());
+		Administrator auxiliarAdministrator = new Administrator();
+		auxiliarAdministrator.setEmail(this.getEmail());
+		auxiliarAdministrator.setCleanPassword(this.getPassword());
 		try {
-			if (new Student((Student) this).login()) {
+			if (auxiliarStudent.login()) {
 				type = "Student";
 			}
-			if (new Professor((Professor) this).logIn()) {
+			if (auxiliarProfessor.logIn()) {
 				type = "Professor";
 			}
-			if (new Coordinator((Coordinator) this).logIn()) {
+			if (auxiliarCoordinator.logIn()) {
 				type = "Coordinator";
 			}
 		} catch (CustomException e) {
