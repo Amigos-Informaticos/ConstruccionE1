@@ -21,7 +21,7 @@ public class MainController extends Application {
 				)
 			);
 		} catch (IOException e) {
-			new Logger().log(e);
+			new Logger().log(e,false);
 		}
 	}
 	
