@@ -7,43 +7,34 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="420.0" prefWidth="308.0" style="-fx-background-color: #f0f0f0;"
-            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="View.Login.LoginController">
+<AnchorPane maxHeight="420.0" maxWidth="308.0" prefHeight="420.0" prefWidth="308.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Login.LoginController">
    <children>
-      <ImageView fitHeight="192.0" fitWidth="308.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="192.0" fitWidth="308.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../images/fei_photo.jpg"/>
+            <Image url="@../images/fei_photo.jpg" />
          </image>
       </ImageView>
-      <JFXTextField fx:id="emailField" focusColor="#28ad56" layoutX="53.0" layoutY="205.0"
-                    prefHeight="25.0" prefWidth="220.0" promptText="E-Mail"/>
-      <ImageView fitHeight="35.0" fitWidth="37.0" layoutX="12.0" layoutY="260.0" pickOnBounds="true"
-                 preserveRatio="true">
+      <JFXTextField focusColor="#28ad56" layoutX="53.0" layoutY="205.0" prefHeight="25.0" prefWidth="220.0" promptText="E-Mail" />
+      <ImageView fitHeight="35.0" fitWidth="37.0" layoutX="12.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/icon_password.png"/>
+            <Image url="@../images/icon_password.png" />
          </image>
       </ImageView>
-      <Label layoutX="9.0" layoutY="140.0" prefHeight="27.0" prefWidth="291.0"
-             text="Sistema de Prácticas Profesionales" textFill="#18529d">
+      <Label layoutX="9.0" layoutY="140.0" prefHeight="27.0" prefWidth="291.0" text="Sistema de Prácticas Profesionales" textFill="#18529d">
          <font>
-            <Font name="System Bold" size="18.0"/>
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <HBox layoutY="325.0" prefHeight="20.0" prefWidth="256.0"
-            style="-fx-background-color: #28ad56;" AnchorPane.bottomAnchor="0.0"
-            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <HBox layoutY="325.0" prefHeight="20.0" prefWidth="256.0" style="-fx-background-color: #28ad56;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <JFXButton onMouseClicked="#onIngresarButtonClick" prefHeight="42.0" prefWidth="323.0"
-                       text="Ingresar" textFill="WHITE">
+            <JFXButton maxHeight="42.0" maxWidth="308.0" onMouseClicked="#onIngresarButtonClick" prefHeight="42.0" prefWidth="308.0" text="Ingresar" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="19.0"/>
+                  <Font name="System Bold" size="19.0" />
                </font>
             </JFXButton>
          </children>
       </HBox>
-      <Label layoutX="29.0" layoutY="158.0" prefHeight="27.0" prefWidth="268.0"
-             text="Licenciatura en Ingeniería de Software" textFill="#686868">
+      <Label layoutX="29.0" layoutY="158.0" prefHeight="27.0" prefWidth="268.0" text="Licenciatura en Ingeniería de Software" textFill="#686868">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -53,26 +44,17 @@
             <Image url="@../images/icon_email.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="42.0" fitWidth="21.0" layoutX="273.0" layoutY="267.0"
-                 pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="42.0" fitWidth="21.0" layoutX="273.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/icon_eye.png"/>
+            <Image url="@../images/icon_eye.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="51.0" fitWidth="35.0" layoutX="137.0" layoutY="307.0" opacity="0.4"
-                 pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="51.0" fitWidth="35.0" layoutX="137.0" layoutY="307.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/logo_uv.png"/>
+            <Image url="@../images/logo_uv.png" />
          </image>
       </ImageView>
-      <Label layoutX="89.0" layoutY="351.0" opacity="0.4" text="Universidad Veracruzana"/>
-      <ImageView fitHeight="25.0" fitWidth="35.0" layoutX="281.0" layoutY="1.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <image>
-            <Image url="@../images/icon_close.png"/>
-         </image>
-      </ImageView>
-      <JFXPasswordField fx:id="passwordField" focusColor="#28ad56" layoutX="53.0" layoutY="265.0"
-                        prefHeight="25.0" prefWidth="220.0" promptText="Contraseña"/>
+      <Label layoutX="89.0" layoutY="351.0" opacity="0.4" text="Universidad Veracruzana" />
+      <JFXPasswordField focusColor="#28ad56" layoutX="53.0" layoutY="265.0" prefHeight="25.0" prefWidth="220.0" promptText="Contraseña" />
    </children>
 </AnchorPane>
