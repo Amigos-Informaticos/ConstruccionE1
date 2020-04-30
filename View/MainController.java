@@ -43,7 +43,7 @@ public class MainController extends Application {
 			);
 			MainController.stage.show();
 		} catch (IOException e) {
-			new Logger().log(e);
+			new Logger().log(e,false);
 		}
 	}
 }
