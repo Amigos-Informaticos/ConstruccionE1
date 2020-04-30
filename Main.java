@@ -5,8 +5,6 @@ public class Main {
 		
 		MainController mainController = new MainController();
 		
-		
-		mainController.addScreen("Login", "Login/Login.fxml");
 		mainController.hit();
 	}
 }
