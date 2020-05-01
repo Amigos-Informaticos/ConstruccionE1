@@ -102,4 +102,8 @@ public class Student extends User {
 	public boolean deleteReply(String activityName) throws CustomException {
 		return new DAOStudent(this).deleteReply(activityName);
 	}
+	
+	public boolean isRegistered() throws CustomException {
+		return new DAOStudent(this).isRegistered();
+	}
 }

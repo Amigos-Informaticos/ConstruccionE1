@@ -466,9 +466,7 @@ public class Arch implements Serializable {
 	 * @return Arreglo de String con el contenido
 	 * @see {@link #leerLinea()}
 	 * @since 1.1.0
-	 * @deprecated
 	 */
-	@Deprecated
 	public String[] getLineasArchivo() {
 		return Arch.getLineasArchivo(this.path.toString());
 	}
