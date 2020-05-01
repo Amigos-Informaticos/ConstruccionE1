@@ -119,7 +119,7 @@ public class User {
 	}
 	
 	public String getType() {
-		String type = "";
+		String type = "null";
 		assert this.getEmail() != null;
 		assert this.getPassword() != null;
 		Student auxiliarStudent = new Student();
@@ -135,13 +135,13 @@ public class User {
 		auxiliarAdministrator.setEmail(this.getEmail());
 		auxiliarAdministrator.setCleanPassword(this.getPassword());
 		try {
-			if (auxiliarStudent.login()) {
+			if (auxiliarStudent.isRegistered()) {
 				type = "Student";
 			}
-			if (auxiliarProfessor.logIn()) {
+			if (type.equals("null") && auxiliarProfessor.isRegistered()) {
 				type = "Professor";
 			}
-			if (auxiliarCoordinator.logIn()) {
+			if (type.equals("null") && auxiliarCoordinator.isRegistered()) {
 				type = "Coordinator";
 			}
 		} catch (CustomException e) {

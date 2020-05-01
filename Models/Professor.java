@@ -1,7 +1,6 @@
 package Models;
 
 import DAO.DAOProfessor;
-import DAO.DAOStudent;
 import Exceptions.CustomException;
 
 public class Professor extends User {
@@ -67,14 +66,19 @@ public class Professor extends User {
         if(daoProfessor.delete()){
             deleted = true;
         }
-        return deleted;
+	    return deleted;
     }
-    public boolean reactive() throws CustomException{
-        boolean reactivated = false;
-        DAOProfessor daoProfessor = new DAOProfessor(this);
-        if(daoProfessor.reactive()){
-            reactivated = true;
-        }
-        return reactivated;
-    }
+	
+	public boolean reactive() throws CustomException {
+		boolean reactivated = false;
+		DAOProfessor daoProfessor = new DAOProfessor(this);
+		if (daoProfessor.reactive()) {
+			reactivated = true;
+		}
+		return reactivated;
+	}
+	
+	public boolean isRegistered() throws CustomException {
+		return new DAOProfessor(this).isRegistered();
+	}
 }

@@ -36,13 +36,14 @@ public class MainController extends Application {
 	
 	public static void activate(String name) {
 		try {
-			stage.setScene(
-				new Scene(
-					FXMLLoader.load(MainController.class.getResource(
-						MainController.screens.get(name)
-					))
-				)
+			Scene newScene = new Scene(
+				FXMLLoader.load(MainController.class.getResource(
+					MainController.screens.get(name)
+				))
 			);
+			MainController.stage.setScene(newScene);
+			MainController.stage.setWidth(newScene.getWidth());
+			MainController.stage.setHeight(newScene.getHeight());
 		} catch (IOException e) {
 			new Logger().log(e);
 		}
