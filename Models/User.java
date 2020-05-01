@@ -72,6 +72,8 @@ public class User {
 	public void setEmail(String email) {
 		if (this.isEmail(email)) {
 			this.email = email;
+		} else {
+			this.email = "";
 		}
 	}
 	

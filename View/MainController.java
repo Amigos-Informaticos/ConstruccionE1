@@ -4,6 +4,7 @@ import Models.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import tools.Arch;
 import tools.Logger;
@@ -80,5 +81,12 @@ public class MainController extends Application {
 		} catch (IOException e) {
 			new Logger().log(e, false);
 		}
+	}
+	
+	public static void alert(Alert.AlertType type, String header, String message) {
+		Alert alert = new Alert(type);
+		alert.setHeaderText(header);
+		alert.setContentText(message);
+		alert.show();
 	}
 }

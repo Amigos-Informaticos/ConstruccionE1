@@ -6,7 +6,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import tools.P;
+import javafx.scene.control.Alert;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,16 +20,12 @@ public class LoginController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-	
 	}
 	
 	public void onIngresarButtonClick() {
 		User user = new User();
-		P.pln("1");
 		if (validateFields()) {
-			P.pln("2");
 			if (isRegistered(emailField.getText().trim(), passwordField.getText().trim())) {
-				P.pln("3");
 				user.setEmail(emailField.getText().trim());
 				user.setPassword(passwordField.getText().trim());
 				MainController.setUser(user);
@@ -47,7 +43,11 @@ public class LoginController implements Initializable {
 					default:
 				}
 			} else {
-				P.pln("No registrado");
+				MainController.alert(
+					Alert.AlertType.ERROR,
+					"No registrado",
+					"Credenciales no registradas");
+				
 			}
 		}
 	}
@@ -61,7 +61,6 @@ public class LoginController implements Initializable {
 		User user = new User();
 		user.setEmail(email);
 		user.setPassword(password);
-		P.pln(user.getType());
 		isRegistered = !user.getType().equals("null");
 		return isRegistered;
 	}
