@@ -59,8 +59,8 @@ public class DAOActivity implements IDAOActivity {
     public boolean delete() throws CustomException {
         boolean deleted = false;
         if (this.activity != null && this.isRegistered()) {
-            String query = "DELETE FROM Actividad WHERE idActividad = ?";
-            String[] values = {this.activity.getIdActivity()};
+            String query = "DELETE FROM Actividad WHERE fechaInicio = ?";
+            String[] values = {this.activity.getStartDate()};
             if (this.connection.sendQuery(query, values)) {
                 deleted = true;
             }

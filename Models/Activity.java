@@ -12,6 +12,7 @@ public class Activity {
     public Activity(){
         title=null;
         description=null;
+        startDate = null;
         deliveryDate=null;
     }
     public Activity(String title, String description, String deliveryDate, String file) {
@@ -50,6 +51,7 @@ public class Activity {
     public void setDeliveryDate(String deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
+
     public boolean create () throws CustomException{
         boolean created = false;
         if(this.isComplete()){

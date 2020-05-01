@@ -23,7 +23,7 @@ public class DAOProfesorTests {
         alexis.setEmail("ocha@hotmail.com");
         alexis.setPassword("ocha1234");
         alexis.setPersonalNo("N000002");
-        alexis.setShift(1);
+        alexis.setShift("1");
         try{
             assertTrue(daoProfessor.signUp());
         }catch (CustomException e){
@@ -38,7 +38,7 @@ public class DAOProfesorTests {
         alexis.setEmail("alexisao@hotmail.com");
         alexis.setPassword("alexis123");
         alexis.setPersonalNo("N12345678");
-        alexis.setShift(1);
+        alexis.setShift("1");
         DAOProfessor daoProfessor = new DAOProfessor(alexis);
         try{
             assertTrue(daoProfessor.isRegistered());
@@ -60,7 +60,7 @@ public class DAOProfesorTests {
         roberto.setEmail("alexisao@hotmail.com");
         roberto.setPassword("alexis123");
         roberto.setPersonalNo("N000001");
-        roberto.setShift(1);
+        roberto.setShift("1");
         try{
             assertTrue(daoProfessor.update());
         }catch(CustomException e){
@@ -88,7 +88,7 @@ public class DAOProfesorTests {
                 "alexisao@hotmail.com",
                 "alexis123",
                 "N000001",
-                1
+                "1"
         );
     }
 }

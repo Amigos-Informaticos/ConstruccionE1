@@ -18,8 +18,13 @@ public class DAOActivityTests {
 
     @Test
     public void A_createActivity() {
+        Activity activity = getInstanceActivity();
         try {
-            assertTrue(getDAOActivity().create());
+            activity.create();
+            activity.setTitle("LEER REPORTE LECTURA");
+            activity.setDescription("Leer el RL que se encuentra en el libro 2 de sulana de tal" +
+                    "y usar la nomenclatura Ap1-2-3-4");
+            assertTrue(activity.update());
         } catch (CustomException e) {
             System.out.println(e.getCauseMessage());
             new Logger().log(e);
@@ -59,14 +64,23 @@ public class DAOActivityTests {
         }
     }
 
+    @Test
+    public void E_createAndDelete(){
+        try {
+            assertTrue(getDAOActivity().create());
+        } catch (CustomException e) {
+            new Logger().log(e);
+        }
+    }
+
     private DAOActivity getDAOActivity() {
         return new DAOActivity(getInstanceActivity());
     }
 
     private Activity getInstanceActivity() {
         return new Activity(
-                "Holaaaa",
-                "ADiossss",
+                "Evaluación de avances. TERCERA PARTE",
+                "Nomenclatura del documento Act3-ApellidosNombre",
                 "2020-09-14 17:00:00",
                 "/src/README.md"
         );
