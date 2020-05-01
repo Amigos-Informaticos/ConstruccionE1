@@ -6,6 +6,9 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,41 +18,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Admin.RegistProfessorController">
    <children>
-      <GridPane layoutX="219.0" layoutY="109.0" prefHeight="232.0" prefWidth="262.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <HBox prefHeight="60.0" prefWidth="701.0" style="-fx-background-color: #18529D;">
          <children>
-            <Label text="Correo eléctronico" />
-            <Label text="Contraseña" GridPane.rowIndex="1" />
-            <Label text="Nombres" GridPane.rowIndex="2" />
-            <Label text="Apellidos" GridPane.rowIndex="3" />
-            <Label text="No. de Personal" GridPane.rowIndex="4" />
-            <Label text="Turno" GridPane.rowIndex="5" />
-            <JFXTextField focusColor="#28ad56" GridPane.columnIndex="1" />
-            <JFXPasswordField focusColor="#28ad56" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <JFXTextField focusColor="#28ad56" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <JFXTextField focusColor="#28ad56" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <JFXTextField focusColor="#28ad56" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <JFXComboBox focusColor="#28ad56" prefHeight="25.0" prefWidth="134.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-         </children>
-      </GridPane>
-      <Label alignment="CENTER" layoutY="87.0" text="Datos del profesor" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;">
-         <children>
-            <Label text="Registrar Profesor" textFill="WHITE">
+            <Label text="Administrar profesor" textFill="WHITE">
                <font>
                   <Font size="32.0" />
                </font>
@@ -59,24 +32,111 @@
             </Label>
          </children>
       </HBox>
-      <ImageView fitHeight="272.0" fitWidth="216.0" layoutX="482.0" layoutY="52.0" opacity="0.23" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/logo_uv.png" />
-         </image>
-      </ImageView>
-      <HBox layoutX="203.0" layoutY="374.0" prefHeight="25.0" prefWidth="295.0" spacing="10.0">
-         <children>
-            <JFXButton prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #969696;" text="Cancelar" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </JFXButton>
-            <JFXButton prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Registrar" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </JFXButton>
-         </children>
-      </HBox>
+      <SplitPane dividerPositions="0.3918918918918919" layoutX="1.0" layoutY="60.0" prefHeight="391.0" prefWidth="700.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="364.0" prefWidth="290.0">
+               <children>
+                  <GridPane layoutX="9.0" layoutY="63.0" prefHeight="227.0" prefWidth="241.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="70.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" minWidth="10.0" prefWidth="134.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Email" textFill="#18529d">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label prefWidth="83.0" text="Contraseña" textFill="#18529d" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label text="Nombres" textFill="#18529d" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label text="Apellidos" textFill="#18529d" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label text="No. de Personal" textFill="#18529d" GridPane.rowIndex="4" />
+                        <Label text="Turno" textFill="#18529d" GridPane.rowIndex="5">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <JFXTextField fx:id="txtEmail" focusColor="#28ad56" prefHeight="25.0" prefWidth="215.0" promptText="ejemplo@hotmailcom" GridPane.columnIndex="1" />
+                        <JFXPasswordField fx:id="pwdPassword" focusColor="#28ad56" promptText="Introduzca un password seguro" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXTextField fx:id="txtNames" focusColor="#28ad56" promptText="Nombres del profesor" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <JFXTextField fx:id="txtLastNames" focusColor="#28ad56" promptText="Apellidos del profesor" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <JFXTextField fx:id="txtNoPersonal" focusColor="#28ad56" promptText="E.j N000001" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <JFXComboBox fx:id="cmbShift" focusColor="#28ad56" prefHeight="25.0" prefWidth="222.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                     </children>
+                  </GridPane>
+                  <ImageView disable="true" fitHeight="272.0" fitWidth="216.0" layoutX="34.0" layoutY="34.0" opacity="0.12" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/logo_uv.png" />
+                     </image>
+                  </ImageView>
+                  <HBox layoutX="15.0" layoutY="324.0" prefHeight="25.0" prefWidth="241.0" spacing="10.0">
+                     <children>
+                        <JFXButton fx:id="btnUpdate" disable="true" layoutX="10.0" layoutY="10.0" onAction="#update" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #969696;" text="Actualizar" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="btnDelete" disable="true" layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #e61010;" text="Eliminar" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="btnRegister" onAction="#signUp" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Registrar" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <Label alignment="CENTER" layoutY="22.0" text="Datos del profesor" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/back_arrow_64px.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="387.0">
+               <children>
+                  <TableView fx:id="tblViewProfessor" editable="true" layoutX="85.0" layoutY="50.0" prefHeight="351.0" prefWidth="402.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="clmnEmail" prefWidth="75.0" text="Email" />
+                      <TableColumn fx:id="clmnNames" prefWidth="75.0" text="Nombres" />
+                        <TableColumn fx:id="clmnLastNames" prefWidth="75.0" text="Apellidos" />
+                        <TableColumn fx:id="clmnPersonalNo" prefWidth="75.0" text="No. de Personal" />
+                        <TableColumn fx:id="clmnShift" prefWidth="75.0" text="Turno" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
    </children>
 </AnchorPane>
