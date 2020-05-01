@@ -6,12 +6,12 @@ import Exceptions.CustomException;
 
 public class Professor extends User {
     private String personalNo;
-    private int shift;
+    private String shift;
     
     public Professor() {
     }
     public Professor(String names, String lastnames, String email, String password,
-                     String personalNo, int shift) {
+                     String personalNo, String shift) {
         super(names, lastnames, email, password);
         this.personalNo = personalNo;
         this.shift=shift;
@@ -21,7 +21,7 @@ public class Professor extends User {
         return personalNo;
     }
 
-    public int getShift() {
+    public String getShift() {
         return shift;
     }
 
@@ -29,7 +29,7 @@ public class Professor extends User {
         this.personalNo = personalNo;
     }
 
-    public void setShift(int shift) {
+    public void setShift(String shift) {
         this.shift = shift;
     }
     public boolean logIn() throws CustomException{
