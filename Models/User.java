@@ -138,10 +138,10 @@ public class User {
 			if (auxiliarStudent.isRegistered()) {
 				type = "Student";
 			}
-			if (type.equals("null") && auxiliarProfessor.isRegistered()) {
+			if ("null".equals(type) && auxiliarProfessor.isRegistered()) {
 				type = "Professor";
 			}
-			if (type.equals("null") && auxiliarCoordinator.isRegistered()) {
+			if ("null".equals(type) && auxiliarCoordinator.isRegistered()) {
 				type = "Coordinator";
 			}
 		} catch (CustomException e) {
