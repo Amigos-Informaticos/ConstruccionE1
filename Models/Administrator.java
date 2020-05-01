@@ -4,8 +4,8 @@ public class Administrator extends User {
 	public Administrator() {
 	}
 	
-	public Administrator(String nombres, String apellidos, String correoElectronico, String contrasena) {
-		super(nombres, apellidos, correoElectronico, contrasena);
+	public Administrator(String names, String lastnames, String email, String password) {
+		super(names, lastnames, email, password);
 	}
 	
 	public Administrator(Administrator administrator) {
