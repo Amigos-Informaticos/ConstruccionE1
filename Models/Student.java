@@ -2,6 +2,7 @@ package Models;
 
 import DAO.DAOStudent;
 import Exceptions.CustomException;
+import javafx.collections.ObservableList;
 
 public class Student extends User {
 	private String regNumber;
@@ -105,5 +106,14 @@ public class Student extends User {
 	
 	public boolean isRegistered() throws CustomException {
 		return new DAOStudent(this).isRegistered();
+	}
+
+	public boolean fillTableStudent(ObservableList<Student> listStudent){
+		boolean filled = false;
+		DAOStudent daoStudent = new DAOStudent(this);
+		if(daoStudent.fillTableStudent(listStudent)){
+			filled = true;
+		}
+		return filled;
 	}
 }

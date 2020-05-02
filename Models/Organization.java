@@ -2,47 +2,48 @@ package Models;
 
 import DAO.DAOrganization;
 import Exceptions.CustomException;
+import javafx.collections.ObservableList;
 
 public class Organization {
     private String name;
-    private String calle;
-    private String numero;
-    private String colonia;
-    private String localidad;
+    private String street;
+    private String adressNo;
+    private String colony;
+    private String locality;
     private String idSector;
     private String tel1;
     private String tel2;
 
     public Organization(String name,
-                        String calle,
-                        String numero,
-                        String colonia,
-                        String localidad,
+                        String street,
+                        String adressNo,
+                        String colony,
+                        String locality,
                         String idSector,
                         String tel1,
                         String tel2) {
         this.name = name;
-        this.calle = calle;
-        this.numero = numero;
-        this.colonia = colonia;
-        this.localidad = localidad;
+        this.street = street;
+        this.adressNo = adressNo;
+        this.colony = colony;
+        this.locality = locality;
         this.idSector = idSector;
         this.tel1 = tel1;
         this.tel2 = tel2;
     }
 
     public Organization(String name,
-                        String calle,
-                        String numero,
-                        String colonia,
-                        String localidad,
+                        String street,
+                        String adressNo,
+                        String colony,
+                        String locality,
                         String idSector,
                         String tel1) {
         this.name = name;
-        this.calle = calle;
-        this.numero = numero;
-        this.colonia = colonia;
-        this.localidad = localidad;
+        this.street = street;
+        this.adressNo = adressNo;
+        this.colony = colony;
+        this.locality = locality;
         this.idSector = idSector;
         this.tel1 = tel1;
     }
@@ -55,36 +56,36 @@ public class Organization {
         this.name = name;
     }
 
-    public String getCalle() {
-        return calle;
+    public String getStreet() {
+        return street;
     }
 
-    public void setCalle(String calle) {
-        this.calle = calle;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
-    public String getNumero() {
-        return numero;
+    public String getAdressNo() {
+        return adressNo;
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setAdressNo(String adressNo) {
+        this.adressNo = adressNo;
     }
 
-    public String getColonia() {
-        return colonia;
+    public String getColony() {
+        return colony;
     }
 
-    public void setColonia(String colonia) {
-        this.colonia = colonia;
+    public void setColony(String colony) {
+        this.colony = colony;
     }
 
-    public String getLocalidad() {
-        return localidad;
+    public String getLocality() {
+        return locality;
     }
 
-    public void setLocalidad(String localidad) {
-        this.localidad = localidad;
+    public void setLocality(String locality) {
+        this.locality = locality;
     }
 
     public String getTel1() {
@@ -124,10 +125,10 @@ public class Organization {
 
     public boolean isComplete() {
         return this.name != null &&
-                this.calle != null &&
-                this.numero != null &&
-                this.colonia != null &&
-                this.localidad != null &&
+                this.street != null &&
+                this.adressNo != null &&
+                this.colony != null &&
+                this.locality != null &&
                 this.idSector != null;
     }
 
@@ -157,5 +158,14 @@ public class Organization {
             reactivated = true;
         }
         return reactivated;
+    }
+
+    public boolean fillTableOrganization(ObservableList<Organization> listOrganization){
+        boolean filled = false;
+        DAOrganization daoOrg = new DAOrganization(this);
+        if(daoOrg.fillTableOrganization(listOrganization)){
+            filled = true;
+        }
+        return filled;
     }
 }
