@@ -71,23 +71,7 @@ public class RegistProfessorController implements Initializable {
     @FXML
     public void signUp(){
         Professor professor = new Professor();
-        professor.setEmail(txtEmail.getText());
-        professor.setNames(txtNames.getText());
-        professor.setLastnames(txtLastNames.getText());
-        professor.setPersonalNo(txtNoPersonal.getText());
-        switch (cmbShift.getValue()){
-            case "Matutino":
-                professor.setShift("1");
-                break;
-            case "Vespertino":
-                professor.setShift("2");
-                break;
-            case "Mixto":
-                professor.setShift("3");
-                break;
-        }
-        professor.setPassword(pwdPassword.getText());
-
+        this.instanceProfessor(professor);
         try {
             if(professor.signUp()){
                 listProfessor.add(professor);
@@ -107,14 +91,9 @@ public class RegistProfessorController implements Initializable {
         this.instanceProfessor(professor);
         try {
             if(professor.update()){
-                Alert message = new Alert(Alert.AlertType.INFORMATION);
-                message.setTitle("Registro agregado exitosamente");
-                message.setContentText("Felicidades!");
-                message.setHeaderText("Resultado:");
+                JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
             } else {
-                Alert message2 = new Alert(Alert.AlertType.ERROR);
-                message2 = new Alert(Alert.AlertType.ERROR);
-                message2.setTitle("Error a registrar el profesor");
+                JOptionPane.showMessageDialog(null, "No se pudo actualizar al profesor");
             }
         } catch (CustomException e) {
             new Logger().log(e);
@@ -159,16 +138,6 @@ public class RegistProfessorController implements Initializable {
         professor.setNames(txtNames.getText());
         professor.setLastnames(txtLastNames.getText());
         professor.setPersonalNo(txtNoPersonal.getText());
-        switch (cmbShift.getValue()){
-            case "Matutino":
-                professor.setShift("1");
-                break;
-            case "Vespertino":
-                professor.setShift("2");
-                break;
-            case "Mixto":
-                professor.setShift("3");
-                break;
-        }
+        cmbShift.getValue();
     }
 }
