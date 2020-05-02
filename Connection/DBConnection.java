@@ -1,7 +1,7 @@
 package Connection;
 
 import Configuration.Configuration;
-import tools.Arch;
+import tools.File;
 import tools.Logger;
 
 import java.sql.*;
@@ -12,7 +12,7 @@ public class DBConnection {
 	private String user = null;
 	private String password = null;
 	private Connection connection;
-	private Arch configurationFile;
+	private File configurationFile;
 	private final Logger logger = new Logger();
 	
 	

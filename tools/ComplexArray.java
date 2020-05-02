@@ -28,9 +28,9 @@ public class ComplexArray {
 	public boolean modPosition(int position, String name, Object var, String type) {
 		boolean isModified = false;
 		if (position >= 0 && position < this.name.len()) {
-			this.name.mod(name, position);
-			this.var.mod(var, position);
-			this.type.mod(type, position);
+			this.name.modify(name, position);
+			this.var.modify(var, position);
+			this.type.modify(type, position);
 			isModified = true;
 		}
 		return isModified;
