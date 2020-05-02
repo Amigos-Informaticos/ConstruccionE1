@@ -24,6 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import tools.Logger;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Observable;
@@ -116,6 +117,20 @@ public class RegistProfessorController implements Initializable {
                 message2.setTitle("Error a registrar el profesor");
             }
         } catch (CustomException e) {
+            new Logger().log(e);
+        }
+    }
+    @FXML
+    public void delete(){
+        Professor professor = new Professor();
+        this.instanceProfessor(professor);
+        try{
+            if(professor.delete()){
+                JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+            } else{
+                JOptionPane.showMessageDialog(null, "No se pudo eliminar al profesor");
+            }
+        }catch(CustomException e){
             new Logger().log(e);
         }
     }
