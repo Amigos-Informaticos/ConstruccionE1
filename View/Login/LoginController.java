@@ -40,6 +40,8 @@ public class LoginController implements Initializable {
 					case "Coordinator":
 						MainController.activate("MainMenuCoordinator");
 						break;
+					case "Admin":
+						MainController.activate("MainMenuAdmin");
 					default:
 				}
 			} else {

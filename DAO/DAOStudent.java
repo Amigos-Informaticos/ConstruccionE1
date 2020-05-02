@@ -138,22 +138,13 @@ public class DAOStudent implements IDAOStudent {
 	
 	@Override
 	public boolean isRegistered() throws CustomException {
-		boolean isRegistered = false;
-		if (this.student != null && this.student.getEmail() != null) {
-			String query = "SELECT COUNT(idUsuario) AS TOTAL " +
-				"FROM Usuario WHERE correoElectronico = ?";
-			String[] values = {this.student.getEmail()};
-			String[] names = {"TOTAL"};
-			if (this.connection.select(query, values, names)[0][0].equals("1")) {
-				query = "SELECT COUNT(Practicante.idUsuario) AS TOTAL FROM Practicante " +
-					"INNER JOIN Usuario ON Practicante.idUsuario = Usuario.idUsuario " +
-					"WHERE Usuario.correoElectronico = ?";
-				isRegistered = this.connection.select(query, values, names)[0][0].equals("1");
-			}
-		} else {
-			throw new CustomException("Null Pointer Exception: isRegistered()");
-		}
-		return isRegistered;
+		assert this.student != null;
+		assert this.student.getEmail() != null;
+		String query = "SELECT COUNT(Usuario.idUsuario) AS TOTAL FROM Usuario INNER JOIN Practicante " +
+			"ON Usuario.idUsuario = Practicante.idUsuario WHERE correoElectronico = ?";
+		String[] values = {this.student.getEmail()};
+		String[] names = {"TOTAL"};
+		return this.connection.select(query, values, names)[0][0].equals("1");
 	}
 	
 	public boolean isActive() throws CustomException {

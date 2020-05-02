@@ -2,4 +2,6 @@ Login:Login/Login.fxml
 MainMenuAdmin:MainMenuAdmin/MainMenuAdmin.fxml
 MainMenuProfessor:MainMenuProfessor/MainMenuProfessor.fxml
 MainMenuStudent:MainMenuStudent/MainMenuStudent.fxml
+MainMenuAdmin:MainMenuAdmin/MainMenuAdmin.fxml
 RegistAnOrganization:RegistAnOrganization/RegistAnOrganization.fxml
+RegistProfessor:Admin/RegistProfessor.fxml
