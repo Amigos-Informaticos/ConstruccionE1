@@ -485,8 +485,8 @@ public class DAOStudent implements IDAOStudent {
 		boolean filled = false;
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula FROM Usuario INNER JOIN " +
 			"Practicante on Usuario.idUsuario = Practicante.idUsuario";
-		String values[] = null;
-		String names[] = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
+		String[] values = null;
+		String[] names = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
 		String[][] select = this.connection.select(query, values, names);
 		int row = 0, col = 0;
 		while (row < select.length) {

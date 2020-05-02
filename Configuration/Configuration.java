@@ -8,8 +8,7 @@ import tools.Logger;
 import java.util.HashMap;
 
 public class Configuration {
-	private static File configFile = new File("src/Configuration/settings.config");
-	private static Logger logger = new Logger();
+	private static final Logger logger = new Logger();
 	
 	public static File getConnectionConfigFile() {
 		return new File("src/Configuration/connection.config");
@@ -20,22 +19,7 @@ public class Configuration {
 	}
 	
 	public static boolean saveConnection(DBConnection connection) {
-		boolean isSaved = false;
-		if (connection != null) {
-			File connectionFile = getConnectionConfigFile();
-			if (connectionFile.exists()) {
-				connectionFile.delete();
-			}
-			connectionFile.write(connection.getDriver());
-			connectionFile.newLine();
-			connectionFile.write(connection.getUrl());
-			connectionFile.newLine();
-			connectionFile.write(connection.getUser());
-			connectionFile.newLine();
-			connectionFile.write(connection.getPassword());
-			isSaved = true;
-		}
-		return isSaved;
+		return saveToFile(connection, getConnectionConfigFile().getStringPath());
 	}
 	
 	public static boolean saveToFile(DBConnection connection, String path) {
@@ -43,9 +27,7 @@ public class Configuration {
 		File file;
 		if (connection != null && connection.isReady() && path != null) {
 			file = new File(path);
-			if (file.exists()) {
-				file.delete();
-			}
+			file.delete();
 			file.write(connection.getDriver());
 			file.newLine();
 			file.write(connection.getUrl());
@@ -89,7 +71,7 @@ public class Configuration {
 	}
 	
 	public static HashMap<String, String> loadScreens() {
-		HashMap<String, String> screens = new HashMap<String, String>();
+		HashMap<String, String> screens = new HashMap<>();
 		Dir view = new Dir("src/View");
 		for (File file: view.ls()) {
 			if (Dir.isDir("src/View/" + file.getName())) {

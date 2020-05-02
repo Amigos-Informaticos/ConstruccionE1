@@ -1,10 +1,8 @@
 package Tests;
 
 import DAO.DAOActivity;
-import DAO.DAOProfessor;
 import Exceptions.CustomException;
 import Models.Activity;
-import Models.Professor;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;

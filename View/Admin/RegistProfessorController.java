@@ -1,6 +1,5 @@
 package View.Admin;
 
-import DAO.DAOShift;
 import Exceptions.CustomException;
 import Models.Admin;
 import Models.Professor;
@@ -9,7 +8,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,16 +15,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import tools.Logger;
 
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Observable;
 import java.util.ResourceBundle;
 
 public class RegistProfessorController implements Initializable {

@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 import org.junit.Test;
 import tools.Logger;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProfessorTests {
