@@ -6,10 +6,9 @@ import IDAO.IDAOStudent;
 import Models.Project;
 import Models.Student;
 import javafx.collections.ObservableList;
-import tools.Arch;
+import tools.File;
 import tools.Logger;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
@@ -301,9 +300,9 @@ public class DAOStudent implements IDAOStudent {
 		boolean saved = false;
 		if (this.student != null && this.student.getEmail() != null &&
 			this.isActive() && filePath != null && title != null) {
-			if (Arch.existe(filePath)) {
+			if (File.exists(filePath)) {
 				try {
-					File file = new File(filePath);
+					java.io.File file = new java.io.File(filePath);
 					FileInputStream fis = new FileInputStream(file);
 					
 					String query = "INSERT INTO Reporte (titulo, fecha, practicante, reporte) " +
@@ -440,19 +439,18 @@ public class DAOStudent implements IDAOStudent {
 		}
 		return reactivated;
 	}
-	/*
+	
 	public boolean replyActivity(String activityName, String documentPath) throws CustomException {
 		boolean replied = false;
 		if (this.student != null && this.isActive() && documentPath != null &&
-			Arch.existe(documentPath) && activityName != null) {
+			File.exists(documentPath) && activityName != null) {
 			String query = "SELECT COUNT(idActividad) AS TOTAL FROM Actividad WHERE titulo = ?";
 			String[] values = {activityName};
 			String[] names = {"TOTAL"};
 			if (this.connection.select(query, values, names)[0][0].equals("1")) {
 				try {
-					File file = new File(documentPath);
+					java.io.File file = new java.io.File(documentPath);
 					FileInputStream fis = new FileInputStream(file);
-					
 					query = "UPDATE Actividad SET documento = ?, " +
 						"fechaEntrega = (SELECT CURRENT_DATE()) " +
 						"WHERE titulo = ? AND idPracticante = ?";
@@ -472,7 +470,6 @@ public class DAOStudent implements IDAOStudent {
 		}
 		return replied;
 	}
-	 */
 	
 	public boolean deleteReply(String activityName) throws CustomException {
 		boolean replied = false;
@@ -483,24 +480,23 @@ public class DAOStudent implements IDAOStudent {
 		}
 		return replied;
 	}
-
+	
 	public boolean fillTableStudent(ObservableList<Student> listStudent) {
 		boolean filled = false;
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula FROM Usuario INNER JOIN " +
-				"Practicante on Usuario.idUsuario = Practicante.idUsuario";
+			"Practicante on Usuario.idUsuario = Practicante.idUsuario";
 		String values[] = null;
 		String names[] = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
-
 		String[][] select = this.connection.select(query, values, names);
 		int row = 0, col = 0;
-		while(row<select.length){
+		while (row < select.length) {
 			listStudent.add(new Student(
-							select[row][0],
-							select[row][1],
-							select[row][2],
-							select[row][3],
-							select[row][4]
-					)
+					select[row][0],
+					select[row][1],
+					select[row][2],
+					select[row][3],
+					select[row][4]
+				)
 			);
 			row++;
 		}
