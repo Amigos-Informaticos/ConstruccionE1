@@ -5,6 +5,7 @@ import Exceptions.CustomException;
 import IDAO.IDAOStudent;
 import Models.Project;
 import Models.Student;
+import javafx.collections.ObservableList;
 import tools.Arch;
 import tools.Logger;
 
@@ -480,5 +481,28 @@ public class DAOStudent implements IDAOStudent {
 			throw new CustomException("Null Pointer Exception: deleteReply()");
 		}
 		return replied;
+	}
+
+	public boolean fillTableStudent(ObservableList<Student> listStudent) {
+		boolean filled = false;
+		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula FROM Usuario INNER JOIN " +
+				"Practicante on Usuario.idUsuario = Practicante.idUsuario";
+		String values[] = null;
+		String names[] = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
+
+		String[][] select = this.connection.select(query, values, names);
+		int row = 0, col = 0;
+		while(row<select.length){
+			listStudent.add(new Student(
+							select[row][0],
+							select[row][1],
+							select[row][2],
+							select[row][3],
+							select[row][4]
+					)
+			);
+			row++;
+		}
+		return filled;
 	}
 }
