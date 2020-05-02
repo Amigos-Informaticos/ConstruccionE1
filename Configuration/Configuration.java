@@ -2,20 +2,23 @@ package Configuration;
 
 import Connection.DBConnection;
 import tools.Arch;
+import tools.Dir;
 import tools.Logger;
+
+import java.util.HashMap;
 
 public class Configuration {
 	private static Arch configFile = new Arch("src/Configuration/settings.config");
 	private static Logger logger = new Logger();
-
+	
 	public static Arch getConnectionConfigFile() {
 		return new Arch("src/Configuration/connection.config");
 	}
-
+	
 	public static Arch getDefaultConnectionConfigFile() {
 		return new Arch("src/Configuration/defaultConnection.config");
 	}
-
+	
 	public static boolean saveConnection(DBConnection connection) {
 		boolean isSaved = false;
 		if (connection != null) {
@@ -34,7 +37,7 @@ public class Configuration {
 		}
 		return isSaved;
 	}
-
+	
 	public static boolean saveToFile(DBConnection connection, String path) {
 		boolean isSaved = false;
 		Arch file;
@@ -54,7 +57,7 @@ public class Configuration {
 		}
 		return isSaved;
 	}
-
+	
 	public static void loadConnection(DBConnection connection) {
 		Arch connectionFile = getConnectionConfigFile();
 		if (!connectionFile.existe()) {
@@ -68,7 +71,7 @@ public class Configuration {
 		connection.setUser(connectionFile.leerLinea());
 		connection.setPassword(connectionFile.leerLinea());
 	}
-
+	
 	public static boolean loadFromFile(DBConnection connection, String path) {
 		boolean loaded = false;
 		Arch file = new Arch(path);
@@ -83,5 +86,31 @@ public class Configuration {
 			loaded = true;
 		}
 		return loaded;
+	}
+	
+	public static HashMap<String, String> loadScreens() {
+		HashMap<String, String> screens = new HashMap<String, String>();
+		Dir view = new Dir("src/View");
+		for (Arch file: view.ls()) {
+			if (Dir.isDir("src/View/" + file.getName())) {
+				Dir auxiliarDir = new Dir("src/View/" + file.getName());
+				for (Arch fxml: auxiliarDir.ls()) {
+					if (fxml.getExt().equals("fxml")) {
+						screens.put(
+							fxml.getNameNoExt(),
+							file.getName() + "/" + fxml.getName()
+						);
+					}
+				}
+			} else {
+				if ("fxml".equals(file.getExt())) {
+					screens.put(
+						file.getNameNoExt(),
+						file.getName()
+					);
+				}
+			}
+		}
+		return screens;
 	}
 }

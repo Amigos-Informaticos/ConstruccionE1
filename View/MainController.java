@@ -1,12 +1,12 @@
 package View;
 
+import Configuration.Configuration;
 import Models.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import tools.Arch;
 import tools.Logger;
 
 import java.io.IOException;
@@ -18,6 +18,7 @@ public class MainController extends Application {
 	private static User user;
 	private static String type;
 	private static HashMap<String, String> screens = new HashMap<String, String>();
+	private static boolean loaded = false;
 	
 	public static User getUser() {
 		return user;
@@ -51,17 +52,12 @@ public class MainController extends Application {
 	}
 	
 	public static void load() {
-		Arch screensFile = new Arch("src/Configuration/scenes");
-		String[] lines = screensFile.getLineasArchivo();
-		for (String line: lines) {
-			MainController.screens.put(
-				line.split(":")[0],
-				line.split(":")[1]);
-		}
+		MainController.screens = Configuration.loadScreens();
 	}
 	
 	public static void hit(String name) {
 		MainController.name = name;
+		MainController.load();
 		Application.launch();
 	}
 	
