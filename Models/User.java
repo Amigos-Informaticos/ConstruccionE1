@@ -72,6 +72,8 @@ public class User {
 	public void setEmail(String email) {
 		if (this.isEmail(email)) {
 			this.email = email;
+		} else {
+			this.email = "";
 		}
 	}
 	
@@ -131,7 +133,7 @@ public class User {
 		Coordinator auxiliarCoordinator = new Coordinator();
 		auxiliarCoordinator.setEmail(this.getEmail());
 		auxiliarCoordinator.setCleanPassword(this.getPassword());
-		Administrator auxiliarAdministrator = new Administrator();
+		Admin auxiliarAdministrator = new Admin();
 		auxiliarAdministrator.setEmail(this.getEmail());
 		auxiliarAdministrator.setCleanPassword(this.getPassword());
 		try {
@@ -143,6 +145,9 @@ public class User {
 			}
 			if ("null".equals(type) && auxiliarCoordinator.isRegistered()) {
 				type = "Coordinator";
+			}
+			if ("null".equals(type) && auxiliarAdministrator.isRegistered()) {
+				type = "Admin";
 			}
 		} catch (CustomException e) {
 			new Logger().log(e);

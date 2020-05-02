@@ -15,7 +15,7 @@ public class Arch implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Path path = null;
 	public BufferedReader in = null;
-
+	
 	/**
 	 * Constructor vacio
 	 *
@@ -23,7 +23,7 @@ public class Arch implements Serializable {
 	 */
 	public Arch() {
 	}
-
+	
 	/**
 	 * Constructor con inicializador de Path
 	 *
@@ -33,7 +33,7 @@ public class Arch implements Serializable {
 	public Arch(String path) {
 		this.path = Paths.get(path);
 	}
-
+	
 	/**
 	 * Constructor con inicializador de Path y de LineReader
 	 *
@@ -51,7 +51,7 @@ public class Arch implements Serializable {
 			this.initLineReader();
 		}
 	}
-
+	
 	/**
 	 * Constructor con inicializador de Path
 	 *
@@ -61,7 +61,7 @@ public class Arch implements Serializable {
 	public Arch(Path p) {
 		this.path = p;
 	}
-
+	
 	/**
 	 * Constructor con inicializador de tipo Arch
 	 *
@@ -71,7 +71,7 @@ public class Arch implements Serializable {
 	public Arch(Arch a) {
 		this.path = a.getPath();
 	}
-
+	
 	/**
 	 * Constructor con inicializador de Path y de LineReader
 	 *
@@ -89,7 +89,7 @@ public class Arch implements Serializable {
 			this.initLineReader();
 		}
 	}
-
+	
 	/**
 	 * Inicializa el lector por lineas
 	 *
@@ -110,7 +110,7 @@ public class Arch implements Serializable {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Setter del path del archivo
 	 *
@@ -120,7 +120,7 @@ public class Arch implements Serializable {
 	public void setPath(String path) {
 		this.path = Paths.get(path);
 	}
-
+	
 	/**
 	 * Setter del path del archivo
 	 *
@@ -130,7 +130,7 @@ public class Arch implements Serializable {
 	public void setPath(Path path) {
 		this.setPath(path.toString());
 	}
-
+	
 	/**
 	 * Getter del path del archivo
 	 *
@@ -140,7 +140,7 @@ public class Arch implements Serializable {
 	public String getStringPath() {
 		return this.path.toString();
 	}
-
+	
 	/**
 	 * Getter del path del archivo
 	 *
@@ -150,7 +150,7 @@ public class Arch implements Serializable {
 	public Path getPath() {
 		return this.path;
 	}
-
+	
 	/**
 	 * Crea el archivo a partir de {@link #path}
 	 *
@@ -163,7 +163,7 @@ public class Arch implements Serializable {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Crea el archivo a partir del Path indicado
 	 *
@@ -174,7 +174,7 @@ public class Arch implements Serializable {
 	public static boolean crear(String p) {
 		return Arch.crear(Paths.get(p));
 	}
-
+	
 	/**
 	 * Crea el archivo a partir del Path indicado
 	 *
@@ -194,7 +194,7 @@ public class Arch implements Serializable {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Crea un directorio con el Path indicado
 	 *
@@ -207,7 +207,7 @@ public class Arch implements Serializable {
 	public static boolean crearDir(String p) {
 		return Arch.crearDir(Paths.get(p));
 	}
-
+	
 	/**
 	 * Crea un directorio a con el Path indicado
 	 *
@@ -229,7 +229,7 @@ public class Arch implements Serializable {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Elimina el archivo indicado
 	 *
@@ -246,7 +246,7 @@ public class Arch implements Serializable {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Elimina el archivo con {@link #path}
 	 *
@@ -261,7 +261,7 @@ public class Arch implements Serializable {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Renombra el archivo con el path indicado
 	 *
@@ -272,7 +272,7 @@ public class Arch implements Serializable {
 	public boolean renombrar(String path) {
 		return this.renombrar(Paths.get(path));
 	}
-
+	
 	/**
 	 * Renombra el archivo con el path indicado
 	 *
@@ -293,7 +293,7 @@ public class Arch implements Serializable {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Verifica si un archivo existe
 	 *
@@ -310,7 +310,7 @@ public class Arch implements Serializable {
 	public static boolean existe(Path path) {
 		return Files.exists(path);
 	}
-
+	
 	/**
 	 * Verifica si un archivo existe
 	 *
@@ -327,7 +327,7 @@ public class Arch implements Serializable {
 	public static boolean existe(String path) {
 		return Arch.existe(Paths.get(path));
 	}
-
+	
 	/**
 	 * Verifica si el archivo existe con {@link #path}
 	 *
@@ -341,7 +341,7 @@ public class Arch implements Serializable {
 		P.err("El path no esta definido");
 		return false;
 	}
-
+	
 	/**
 	 * Escribe el texto indicado en el archivo
 	 *
@@ -356,7 +356,7 @@ public class Arch implements Serializable {
 	public boolean escribir(String text) {
 		return this.escribir(text, true);
 	}
-
+	
 	/**
 	 * Escribe el texto indicado en el archivo
 	 *
@@ -384,7 +384,7 @@ public class Arch implements Serializable {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Introduce un salto de linea en el archivo
 	 *
@@ -410,7 +410,7 @@ public class Arch implements Serializable {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Lee el archivo indicado con el Path en cadena y retorna el archivo en
 	 * una cadena. <br>
@@ -441,7 +441,7 @@ public class Arch implements Serializable {
 		}
 		return cad;
 	}
-
+	
 	/**
 	 * Lee el archivo y retorna el archivo en una cadena. <br>
 	 * No se recomienda su uso. <br>
@@ -457,7 +457,7 @@ public class Arch implements Serializable {
 	public String leerArchivo() {
 		return Arch.leerArchivo(this.path.toString());
 	}
-
+	
 	/**
 	 * Lee el archivo y retorna un arreglo de String con el contenido. <br>
 	 * No se recomienda su uso. <br>
@@ -470,7 +470,7 @@ public class Arch implements Serializable {
 	public String[] getLineasArchivo() {
 		return Arch.getLineasArchivo(this.path.toString());
 	}
-
+	
 	/**
 	 * Lee el archivo y retorna un arreglo de String con el contenido. <br>
 	 * No se recomienda su uso. <br>
@@ -498,7 +498,7 @@ public class Arch implements Serializable {
 		}
 		return line.split("\\r?\\n");
 	}
-
+	
 	/**
 	 * Lee una linea del archivo y la retorna como String.
 	 *
@@ -526,7 +526,7 @@ public class Arch implements Serializable {
 			this.in = null;
 		return cad;
 	}
-
+	
 	/**
 	 * Encuentra y reemplaza una linea por otra dentro del archivo
 	 *
@@ -543,7 +543,7 @@ public class Arch implements Serializable {
 	public void mod(String original, String reemplazo) {
 		this.mod(original, reemplazo, false);
 	}
-
+	
 	/**
 	 * Encuentra y reemplaza una linea por otra dentro del archivo
 	 *
@@ -594,7 +594,7 @@ public class Arch implements Serializable {
 			P.err(e);
 		}
 	}
-
+	
 	/**
 	 * Retorna el nombre de un archivo
 	 *
@@ -605,7 +605,7 @@ public class Arch implements Serializable {
 	public static String getName(Path path) {
 		return Arch.getName(path.toString());
 	}
-
+	
 	/**
 	 * Retorna el nombre de un archivo
 	 *
@@ -619,7 +619,7 @@ public class Arch implements Serializable {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Retorna el nombre de un archivo
 	 *
@@ -634,7 +634,7 @@ public class Arch implements Serializable {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Retorna el nombre del archivo
 	 *
@@ -647,7 +647,39 @@ public class Arch implements Serializable {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Retorna el nombre del archivo sin extension
+	 *
+	 * @param file Instancia de Arch
+	 * @return Cadena con nombre del archivo sin extension
+	 */
+	public static String getNameNoExt(Arch file) {
+		return file.getNameNoExt();
+	}
+	
+	/**
+	 * Retorna el nombre del archivo sin extension
+	 *
+	 * @param path Cadena con Path del archivo cuyo nombre se desea conocer
+	 * @return Cadena con nombre del archivo sin extension
+	 */
+	public static String getNameNoExt(String path) {
+		return new Arch(path).getNameNoExt();
+	}
+	
+	/**
+	 * Retorna el nombre del archivo sin extension
+	 *
+	 * @return Cadena con nombre del archivo sin extension
+	 */
+	public String getNameNoExt() {
+		if (this.existe()) {
+			return this.getName().replaceFirst("[.][^.]+$", "");
+		}
+		return null;
+	}
+	
 	/**
 	 * Retorna la extension de un archivo
 	 *
@@ -658,7 +690,7 @@ public class Arch implements Serializable {
 	public static String getExt(Path path) {
 		return Arch.getExt(path.toString());
 	}
-
+	
 	/**
 	 * Retorna la extension de un archivo
 	 *
@@ -669,7 +701,7 @@ public class Arch implements Serializable {
 	public static String getExt(Arch arch) {
 		return Arch.getExt(arch.getName());
 	}
-
+	
 	/**
 	 * Retorna la extension de un archivo
 	 *
@@ -686,11 +718,11 @@ public class Arch implements Serializable {
 				ret += rev.charAt(i);
 				i++;
 			}
-			return ret;
+			return Util.reverse(ret);
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Retorna la extension de un archivo
 	 *
@@ -700,7 +732,7 @@ public class Arch implements Serializable {
 	public String getExt() {
 		return Arch.getExt(this.path);
 	}
-
+	
 	/**
 	 * Imprime el contenido de un archivo
 	 *
@@ -710,7 +742,7 @@ public class Arch implements Serializable {
 	public static void print(Path path) {
 		P.p(new Arch(path));
 	}
-
+	
 	/**
 	 * Imprime el contenido de un archivo
 	 *
@@ -720,7 +752,7 @@ public class Arch implements Serializable {
 	public static void print(String path) {
 		Arch.print(Paths.get(path));
 	}
-
+	
 	/**
 	 * Imprime el contenido del archivo
 	 *
@@ -729,7 +761,7 @@ public class Arch implements Serializable {
 	public void print() {
 		Arch.print(this.path);
 	}
-
+	
 	/**
 	 * Loggea información en un archivo
 	 *
@@ -739,9 +771,10 @@ public class Arch implements Serializable {
 	public boolean log(String log) {
 		return this.escribir(log) && this.newLine();
 	}
-
+	
 	/**
 	 * Retorna la cantidad de lineas que tiene el archivo
+	 *
 	 * @return int Cantidad de lineas en el archivo
 	 * @since 1.6
 	 */
@@ -755,7 +788,7 @@ public class Arch implements Serializable {
 		}
 		return size;
 	}
-
+	
 	/**
 	 * Retorna el contenido del archivo en un solo String.
 	 *

@@ -19,7 +19,7 @@ public class Student extends User {
 			this.setNames(student.getNames());
 			this.setLastnames(student.getLastnames());
 			this.setEmail(student.getEmail());
-			this.setPassword(student.getPassword());
+			this.setCleanPassword(student.getPassword());
 			this.setRegNumber(student.getRegNumber());
 		}
 	}
