@@ -4,16 +4,47 @@ import DAO.DAOrganization;
 import Exceptions.CustomException;
 
 public class Organization {
-    private String name,
-                    adress,
-                    status,
-                    idSector;
+    private String name;
+    private String calle;
+    private String numero;
+    private String colonia;
+    private String localidad;
+    private String idSector;
+    private String tel1;
+    private String tel2;
 
-    public Organization(String name, String adress, String status, String idSector){
+    public Organization(String name,
+                        String calle,
+                        String numero,
+                        String colonia,
+                        String localidad,
+                        String idSector,
+                        String tel1,
+                        String tel2) {
         this.name = name;
-        this.adress = adress;
-        this.status = status;
+        this.calle = calle;
+        this.numero = numero;
+        this.colonia = colonia;
+        this.localidad = localidad;
         this.idSector = idSector;
+        this.tel1 = tel1;
+        this.tel2 = tel2;
+    }
+
+    public Organization(String name,
+                        String calle,
+                        String numero,
+                        String colonia,
+                        String localidad,
+                        String idSector,
+                        String tel1) {
+        this.name = name;
+        this.calle = calle;
+        this.numero = numero;
+        this.colonia = colonia;
+        this.localidad = localidad;
+        this.idSector = idSector;
+        this.tel1 = tel1;
     }
 
     public String getName() {
@@ -24,20 +55,52 @@ public class Organization {
         this.name = name;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getCalle() {
+        return calle;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setCalle(String calle) {
+        this.calle = calle;
     }
 
-    public String getStatus() {
-        return status;
+    public String getNumero() {
+        return numero;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getColonia() {
+        return colonia;
+    }
+
+    public void setColonia(String colonia) {
+        this.colonia = colonia;
+    }
+
+    public String getLocalidad() {
+        return localidad;
+    }
+
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
+    }
+
+    public String getTel1() {
+        return tel1;
+    }
+
+    public void setTel1(String tel1) {
+        this.tel1 = tel1;
+    }
+
+    public String getTel2() {
+        return tel2;
+    }
+
+    public void setTel2(String tel2) {
+        this.tel2 = tel2;
     }
 
     public String getIdSector() {
@@ -61,8 +124,10 @@ public class Organization {
 
     public boolean isComplete() {
         return this.name != null &&
-                this.adress != null &&
-                this.status != null &&
+                this.calle != null &&
+                this.numero != null &&
+                this.colonia != null &&
+                this.localidad != null &&
                 this.idSector != null;
     }
 
