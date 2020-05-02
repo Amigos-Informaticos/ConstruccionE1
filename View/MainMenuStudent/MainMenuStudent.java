@@ -11,11 +11,11 @@ import java.util.ResourceBundle;
 
 public class MainMenuStudent implements Initializable {
 	@FXML
-	private JFXButton buttonPracticantes;
+	private JFXButton solicitarProyecto;
 	@FXML
-	private JFXButton buttonProyectos;
+	private JFXButton generarReporte;
 	@FXML
-	private JFXButton buttonOrganizaciones;
+	private JFXButton anadirActividad;
 	
 	
 	@Override
@@ -23,7 +23,7 @@ public class MainMenuStudent implements Initializable {
 	
 	}
 	
-	public void clickOnPracticantes() {
+	public void solicitar() {
 		MainController.alert(
 			Alert.AlertType.WARNING,
 			"No hay nada",
