@@ -15,6 +15,14 @@ public class Professor extends User {
         this.personalNo = personalNo;
         this.shift=shift;
     }
+    public Professor (Professor professor){
+        setNames(professor.getNames());
+        setLastnames(professor.getLastnames());
+        setEmail(professor.getEmail());
+        setCleanPassword(professor.getPassword());
+        setShift(professor.getShift());
+        setPersonalNo(professor.getPersonalNo());
+    }
 
     public String getPersonalNo() {
         return personalNo;
