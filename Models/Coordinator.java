@@ -21,7 +21,7 @@ public class Coordinator extends User {
 			this.setNames(coordinator.getNames());
 			this.setLastnames(coordinator.getLastnames());
 			this.setEmail(coordinator.getEmail());
-			this.setPassword(coordinator.getPassword());
+			this.setCleanPassword(coordinator.getPassword());
 			this.setPersonalNo(coordinator.getPersonalNo());
 		}
 	}

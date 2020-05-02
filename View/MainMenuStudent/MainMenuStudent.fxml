@@ -12,13 +12,13 @@
       <HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Separator prefHeight="5.0" prefWidth="83.0" />
-            <Label text="Coordinador" textFill="WHITE">
+            <Label text="Practicante" textFill="WHITE">
                <font>
                   <Font size="35.0" />
                </font>
             </Label>
          </children></HBox>
-      <JFXButton layoutX="195.0" layoutY="108.0" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Practicantes" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton layoutX="195.0" layoutY="108.0" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Solicitar Proyecto" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font></JFXButton>
@@ -27,29 +27,29 @@
             <Image url="@../images/logo_uv.png" />
          </image>
       </ImageView>
-      <JFXButton layoutX="195.0" layoutY="197.0" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Proyectos" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton layoutX="195.0" layoutY="197.0" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Generar Reporte" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="195.0" layoutY="284.0" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Organizaciones" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton layoutX="195.0" layoutY="284.0" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Añadir Actividad" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </JFXButton>
-      <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="284.0">
+      <ImageView fitHeight="51.0" fitWidth="50.0" layoutX="200.0" layoutY="289.0">
          <image>
-            <Image url="@../../../../../AppData/Local/Temp/icons8_related_companies_96px_2.png" />
+            <Image url="@../images/icon_activity.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="108.0">
+      <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="198.0" layoutY="108.0">
          <image>
-            <Image url="@../../../../../AppData/Local/Temp/icons8_couple_96px_1.png" />
+            <Image url="@../images/icon_project.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="197.0">
+      <ImageView fitHeight="51.0" fitWidth="50.0" layoutX="200.0" layoutY="200.0">
          <image>
-            <Image url="@../../../../../AppData/Local/Temp/icons8_project_96px.png" />
+            <Image url="@../images/icon_report.png" />
          </image>
       </ImageView>
    </children>
