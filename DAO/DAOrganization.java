@@ -19,7 +19,7 @@ public class DAOrganization implements IDAOrganization {
         boolean signedUp = false;
         if (this.organization != null) {
             if (!this.isRegistered()) {
-                String query = "INSERT INTO Organizacion (nombre, status, idSector) VALUES (?, 1, ?)";
+                String query = "INSERT INTO Organizacion (nombre, ,status, idSector) VALUES (?, 1, ?)";
                 String[] values = {this.organization.getName(),
                                     this.organization.getIdSector()};
                 if(this.connection.sendQuery(query,values)){
@@ -126,4 +126,6 @@ public class DAOrganization implements IDAOrganization {
         }
         return filled;
     }
+
+
 }

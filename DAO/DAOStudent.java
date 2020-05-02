@@ -440,7 +440,7 @@ public class DAOStudent implements IDAOStudent {
 		}
 		return reactivated;
 	}
-	
+	/*
 	public boolean replyActivity(String activityName, String documentPath) throws CustomException {
 		boolean replied = false;
 		if (this.student != null && this.isActive() && documentPath != null &&
@@ -472,6 +472,7 @@ public class DAOStudent implements IDAOStudent {
 		}
 		return replied;
 	}
+	 */
 	
 	public boolean deleteReply(String activityName) throws CustomException {
 		boolean replied = false;
