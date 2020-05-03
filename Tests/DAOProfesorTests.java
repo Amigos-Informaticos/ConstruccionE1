@@ -77,6 +77,11 @@ public class DAOProfesorTests {
         }
     }
 
+    @Test
+    public void testGetIdShift(){
+        System.out.println(getDAOProfesor().getIdShift());
+    }
+
 
     private DAOProfessor getDAOProfesor() {
         return new DAOProfessor(getInstanceProfesor());
@@ -88,7 +93,7 @@ public class DAOProfesorTests {
                 "alexisao@hotmail.com",
                 "alexis123",
                 "N000001",
-                "1"
+                "Mixto"
         );
     }
 }

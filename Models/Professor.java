@@ -8,6 +8,8 @@ public class Professor extends User {
     private String shift;
     
     public Professor() {
+        this.personalNo = null;
+        this.shift = null;
     }
     public Professor(String names, String lastnames, String email, String password,
                      String personalNo, String shift) {
@@ -60,7 +62,7 @@ public class Professor extends User {
         }
         return isRegistered;
     }
-    public boolean update ()  throws CustomException {
+    public boolean update () throws CustomException {
         boolean updated = false;
         DAOProfessor daoProfessor = new DAOProfessor(this);
         if (daoProfessor.update()){
@@ -89,4 +91,7 @@ public class Professor extends User {
 	public boolean isRegistered() throws CustomException {
 		return new DAOProfessor(this).isRegistered();
 	}
+	public boolean isComplete(){
+        return super.isComplete() && personalNo != null && shift != null;
+    }
 }
