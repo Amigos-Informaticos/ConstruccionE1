@@ -3,7 +3,6 @@ package DAO;
 import Connection.DBConnection;
 import Models.Shift;
 import javafx.collections.ObservableList;
-import org.junit.Test;
 import tools.Logger;
 
 import java.sql.Connection;

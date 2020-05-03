@@ -109,6 +109,7 @@ public abstract class P {
 		printArray(array, false);
 	}
 	
+	@Deprecated
 	public static void printArray(Array array, boolean splitLines) {
 		array.print(splitLines);
 	}
