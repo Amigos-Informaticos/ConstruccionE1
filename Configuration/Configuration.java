@@ -75,8 +75,8 @@ public class Configuration {
 		Dir view = new Dir("src/View");
 		for (File file: view.ls()) {
 			if (Dir.isDir("src/View/" + file.getName())) {
-				Dir auxiliarDir = new Dir("src/View/" + file.getName());
-				for (File fxml: auxiliarDir.ls()) {
+				Dir auxiliaryDir = new Dir("src/View/" + file.getName());
+				for (File fxml: auxiliaryDir.ls()) {
 					if (fxml.getExt().equals("fxml")) {
 						screens.put(
 							fxml.getNameNoExt(),
