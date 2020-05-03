@@ -43,6 +43,7 @@ public class MainController extends Application {
 			MainController.stage.setScene(newScene);
 			MainController.stage.setWidth(newScene.getWidth());
 			MainController.stage.setHeight(newScene.getHeight());
+			MainController.stage.setTitle(name);
 		} catch (IOException e) {
 			new Logger().log(e);
 		}
@@ -66,6 +67,7 @@ public class MainController extends Application {
 	
 	public static void hit(String name) {
 		MainController.name = name;
+		MainController.title = name;
 		Application.launch();
 	}
 	
