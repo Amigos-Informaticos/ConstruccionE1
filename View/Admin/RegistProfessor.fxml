@@ -113,7 +113,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="backArrow" fitHeight="36.0" fitWidth="37.0" layoutX="14.0" layoutY="16.0" onMouseClicked="#onBackArrowClicked" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/back_arrow_64px.png" />
                      </image>
