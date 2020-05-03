@@ -3,9 +3,9 @@ package IDAO;
 import Exceptions.CustomException;
 
 public interface IDAOActivity {
-    boolean create() throws CustomException;
+    boolean create();
 
-    boolean update() throws CustomException;
+    boolean update();
 
-    boolean delete() throws CustomException;
+    boolean delete();
 }
