@@ -3,12 +3,10 @@ package Configuration;
 import Connection.DBConnection;
 import tools.Dir;
 import tools.File;
-import tools.Logger;
 
 import java.util.HashMap;
 
 public class Configuration {
-	private static final Logger logger = new Logger();
 	
 	public static File getConnectionConfigFile() {
 		return new File("src/Configuration/connection.config");
@@ -24,9 +22,8 @@ public class Configuration {
 	
 	public static boolean saveToFile(DBConnection connection, String path) {
 		boolean isSaved = false;
-		File file;
 		if (connection != null && connection.isReady() && path != null) {
-			file = new File(path);
+			File file = new File(path);
 			file.delete();
 			file.write(connection.getDriver());
 			file.newLine();
@@ -72,7 +69,7 @@ public class Configuration {
 	
 	public static HashMap<String, String> loadScreens() {
 		HashMap<String, String> screens = new HashMap<>();
-		Dir view = new Dir("src/View");
+		Dir view = new Dir("src/View/");
 		for (File file: view.ls()) {
 			if (Dir.isDir("src/View/" + file.getName())) {
 				Dir auxiliaryDir = new Dir("src/View/" + file.getName());

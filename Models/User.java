@@ -31,18 +31,17 @@ public class User {
 	}
 	
 	public User(User user) {
-		if (user != null) {
-			if (this.isName(user.getNames())) {
-				this.names = user.getNames();
-			}
-			if (this.isName(user.getLastnames())) {
-				this.lastnames = user.getLastnames();
-			}
-			if (this.isEmail(user.getEmail())) {
-				this.email = user.getEmail();
-			}
-			this.password = user.getPassword();
+		assert user != null : "User is null: User()";
+		if (this.isName(user.getNames())) {
+			this.names = user.getNames();
 		}
+		if (this.isName(user.getLastnames())) {
+			this.lastnames = user.getLastnames();
+		}
+		if (this.isEmail(user.getEmail())) {
+			this.email = user.getEmail();
+		}
+		this.password = user.getPassword();
 	}
 	
 	public String getNames() {
@@ -50,9 +49,7 @@ public class User {
 	}
 	
 	public void setNames(String names) {
-		if (this.isName(names)) {
-			this.names = names;
-		}
+		this.names = this.isName(names) ? names : null;
 	}
 	
 	public String getLastnames() {
@@ -60,9 +57,7 @@ public class User {
 	}
 	
 	public void setLastnames(String lastnames) {
-		if (this.isName(lastnames)) {
-			this.lastnames = lastnames;
-		}
+		this.lastnames = this.isName(lastnames) ? lastnames : null;
 	}
 	
 	public String getEmail() {
@@ -70,11 +65,7 @@ public class User {
 	}
 	
 	public void setEmail(String email) {
-		if (this.isEmail(email)) {
-			this.email = email;
-		} else {
-			this.email = "";
-		}
+		this.email = this.isEmail(email) ? email : null;
 	}
 	
 	public String getPassword() {
@@ -108,10 +99,8 @@ public class User {
 	}
 	
 	public boolean isName(String name) {
-		String nameRegex = "^[A-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-		return Pattern.compile(nameRegex).matcher(name).matches();
+		return Pattern.compile("^[A-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$").matcher(name).matches();
 	}
-	
 	
 	public boolean isEmail(String email) {
 		String emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]" +
@@ -124,29 +113,26 @@ public class User {
 		String type = "null";
 		assert this.getEmail() != null;
 		assert this.getPassword() != null;
-		Student auxiliarStudent = new Student();
-		auxiliarStudent.setEmail(this.getEmail());
-		auxiliarStudent.setCleanPassword(this.getPassword());
-		Professor auxiliarProfessor = new Professor();
-		auxiliarProfessor.setEmail(this.getEmail());
-		auxiliarProfessor.setCleanPassword(this.getPassword());
-		Coordinator auxiliarCoordinator = new Coordinator();
-		auxiliarCoordinator.setEmail(this.getEmail());
-		auxiliarCoordinator.setCleanPassword(this.getPassword());
-		Admin auxiliarAdministrator = new Admin();
-		auxiliarAdministrator.setEmail(this.getEmail());
-		auxiliarAdministrator.setCleanPassword(this.getPassword());
+		Student auxiliaryStudent = new Student();
+		auxiliaryStudent.setEmail(this.getEmail());
+		auxiliaryStudent.setCleanPassword(this.getPassword());
+		Professor auxiliaryProfessor = new Professor();
+		auxiliaryProfessor.setEmail(this.getEmail());
+		auxiliaryProfessor.setCleanPassword(this.getPassword());
+		Coordinator auxiliaryCoordinator = new Coordinator();
+		auxiliaryCoordinator.setEmail(this.getEmail());
+		auxiliaryCoordinator.setCleanPassword(this.getPassword());
+		Admin auxiliaryAdministrator = new Admin();
+		auxiliaryAdministrator.setEmail(this.getEmail());
+		auxiliaryAdministrator.setCleanPassword(this.getPassword());
 		try {
-			if (auxiliarStudent.isRegistered()) {
+			if (auxiliaryStudent.isRegistered()) {
 				type = "Student";
-			}
-			if ("null".equals(type) && auxiliarProfessor.isRegistered()) {
+			} else if (auxiliaryProfessor.isRegistered()) {
 				type = "Professor";
-			}
-			if ("null".equals(type) && auxiliarCoordinator.isRegistered()) {
+			} else if (auxiliaryCoordinator.isRegistered()) {
 				type = "Coordinator";
-			}
-			if ("null".equals(type) && auxiliarAdministrator.isRegistered()) {
+			} else if (auxiliaryAdministrator.isRegistered()) {
 				type = "Admin";
 			}
 		} catch (CustomException e) {

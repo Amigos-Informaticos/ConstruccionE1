@@ -22,7 +22,7 @@ public class LoginController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 	}
 	
-	public void onIngresarButtonClick() {
+	public void onClick() {
 		User user = new User();
 		if (validateFields()) {
 			if (isRegistered(emailField.getText().trim(), passwordField.getText().trim())) {
@@ -55,15 +55,14 @@ public class LoginController implements Initializable {
 	}
 	
 	public boolean validateFields() {
-		return !emailField.getText().trim().equals("") && !passwordField.getText().trim().equals("");
+		return !emailField.getText().trim().equals("") &&
+			!passwordField.getText().trim().equals("");
 	}
 	
 	public boolean isRegistered(String email, String password) {
-		boolean isRegistered = false;
 		User user = new User();
 		user.setEmail(email);
 		user.setPassword(password);
-		isRegistered = !user.getType().equals("null");
-		return isRegistered;
+		return !user.getType().equals("null");
 	}
 }
