@@ -17,8 +17,7 @@ public class MainController extends Application {
 	private static String name;
 	private static User user;
 	private static String type;
-	private static HashMap<String, String> screens = new HashMap<String, String>();
-	private static boolean loaded = false;
+	private static HashMap<String, String> screens = new HashMap<>();
 	
 	public static User getUser() {
 		return user;
@@ -39,10 +38,7 @@ public class MainController extends Application {
 	public static void activate(String name) {
 		try {
 			Scene newScene = new Scene(
-				FXMLLoader.load(MainController.class.getResource(
-					MainController.screens.get(name)
-				))
-			);
+				FXMLLoader.load(MainController.class.getResource(screens.get(name))));
 			MainController.stage.setScene(newScene);
 			MainController.stage.setWidth(newScene.getWidth());
 			MainController.stage.setHeight(newScene.getHeight());
@@ -55,9 +51,15 @@ public class MainController extends Application {
 		MainController.screens = Configuration.loadScreens();
 	}
 	
+	public static void alert(Alert.AlertType type, String header, String message) {
+		Alert alert = new Alert(type);
+		alert.setHeaderText(header);
+		alert.setContentText(message);
+		alert.show();
+	}
+	
 	public static void hit(String name) {
 		MainController.name = name;
-		MainController.load();
 		Application.launch();
 	}
 	
@@ -65,6 +67,7 @@ public class MainController extends Application {
 	public void start(Stage stage) {
 		MainController.stage = stage;
 		MainController.stage.setResizable(false);
+		load();
 		try {
 			MainController.stage.setScene(
 				new Scene(
@@ -77,12 +80,5 @@ public class MainController extends Application {
 		} catch (IOException e) {
 			new Logger().log(e, false);
 		}
-	}
-	
-	public static void alert(Alert.AlertType type, String header, String message) {
-		Alert alert = new Alert(type);
-		alert.setHeaderText(header);
-		alert.setContentText(message);
-		alert.show();
 	}
 }

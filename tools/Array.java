@@ -76,9 +76,9 @@ public class Array implements Serializable {
 	
 	public static void dump(boolean providedArray, Array... arrays) {
 		if (providedArray) {
-			for (int i = 0; i < arrays.length; i++) {
+			for (Array value: arrays) {
 				for (int s = 0; s < Array.sum.length; s++) {
-					arrays[i].add(Array.sum[s]);
+					value.add(Array.sum[s]);
 				}
 			}
 		} else {
@@ -166,9 +166,7 @@ public class Array implements Serializable {
 	
 	public void addArray(String[] strings, boolean explode) {
 		Object[] a = new Object[strings.length];
-		for (int i = 0; i < strings.length; i++) {
-			a[i] = strings[i];
-		}
+		System.arraycopy(strings, 0, a, 0, strings.length);
 		this.addArray(a, explode);
 	}
 	
@@ -456,7 +454,7 @@ public class Array implements Serializable {
 		P.p("[");
 		for (int i = 0; i < this.array.length; i++) {
 			if (this.array[i] instanceof Object[]) {
-				this.printArray((Object[]) this.array[i], false);
+				printArray((Object[]) this.array[i], false);
 			} else {
 				System.out.print(this.array[i]);
 			}

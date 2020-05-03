@@ -86,11 +86,11 @@ public class User {
 			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
 			byte[] message = messageDigest.digest(password.getBytes());
 			BigInteger number = new BigInteger(1, message);
-			String hashed = number.toString(16);
+			StringBuilder hashed = new StringBuilder(number.toString(16));
 			while (hashed.length() < 32) {
-				hashed = "0" + hashed;
+				hashed.insert(0, "0");
 			}
-			this.password = hashed;
+			this.password = hashed.toString();
 		} catch (NoSuchAlgorithmException e) {
 			new Logger().log(e);
 		}
@@ -115,8 +115,8 @@ public class User {
 	
 	public boolean isEmail(String email) {
 		String emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]" +
-			"+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,}[a-zA-Z0-9])" +
-			"?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,}[a-zA-Z0-9])?)*$";
+			"+@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])" +
+			"?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*$";
 		return Pattern.compile(emailRegex).matcher(email).matches();
 	}
 	
