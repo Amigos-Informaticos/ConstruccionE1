@@ -15,6 +15,7 @@ import java.util.HashMap;
 public class MainController extends Application {
 	private static Stage stage;
 	private static String name;
+	private static String title = null;
 	private static User user;
 	private static String type;
 	private static HashMap<String, String> screens = new HashMap<>();
@@ -42,9 +43,15 @@ public class MainController extends Application {
 			MainController.stage.setScene(newScene);
 			MainController.stage.setWidth(newScene.getWidth());
 			MainController.stage.setHeight(newScene.getHeight());
+			MainController.stage.setTitle(name);
 		} catch (IOException e) {
 			new Logger().log(e);
 		}
+	}
+	
+	public static void activate(String name, String title) {
+		MainController.stage.setTitle(title);
+		MainController.activate(name);
 	}
 	
 	public static void load() {
@@ -60,6 +67,13 @@ public class MainController extends Application {
 	
 	public static void hit(String name) {
 		MainController.name = name;
+		MainController.title = name;
+		Application.launch();
+	}
+	
+	public static void hit(String name, String title) {
+		MainController.name = name;
+		MainController.title = title;
 		Application.launch();
 	}
 	
@@ -76,6 +90,9 @@ public class MainController extends Application {
 					))
 				)
 			);
+			if (MainController.title != null) {
+				MainController.stage.setTitle(MainController.title);
+			}
 			MainController.stage.show();
 		} catch (IOException e) {
 			new Logger().log(e, false);

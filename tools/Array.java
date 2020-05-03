@@ -70,10 +70,6 @@ public class Array implements Serializable {
 		}
 	}
 	
-	public static void clear() {
-		Array.sum = new Object[0];
-	}
-	
 	public static void dump(boolean providedArray, Array... arrays) {
 		if (providedArray) {
 			for (Array value: arrays) {
@@ -92,6 +88,10 @@ public class Array implements Serializable {
 				}
 			}
 		}
+	}
+	
+	public static void clear() {
+		Array.sum = new Object[0];
 	}
 	
 	public void add(Object... objects) {
@@ -114,6 +114,27 @@ public class Array implements Serializable {
 				x++;
 			}
 		}
+	}
+	
+	public boolean add(Object o, int pos) {
+		boolean added = false;
+		if (pos >= 0 && pos <= this.array.length) {
+			Object[] aux = this.array;
+			this.array = new Object[aux.length + 1];
+			int x1 = 0;
+			int x2 = 0;
+			while (x1 < this.array.length) {
+				if (x1 == pos) {
+					this.array[x1] = o;
+				} else {
+					this.array[x1] = aux[x2];
+					x2++;
+				}
+				x1++;
+			}
+			added = true;
+		}
+		return added;
 	}
 	
 	public void addArray(int[] integers) {
@@ -189,7 +210,7 @@ public class Array implements Serializable {
 	public void addArray(Var[] vars, boolean explode) {
 		Object[] a = new Object[vars.length];
 		for (int i = 0; i < vars.length; i++) {
-			a[i] = ((Var) vars[i]).get();
+			a[i] = vars[i].get();
 		}
 		this.addArray(a, explode);
 	}
@@ -236,27 +257,6 @@ public class Array implements Serializable {
 			}
 			this.array[aux.length] = objects;
 		}
-	}
-	
-	public boolean add(Object o, int pos) {
-		boolean added = false;
-		if (pos >= 0 && pos <= this.array.length) {
-			Object[] aux = this.array;
-			this.array = new Object[aux.length + 1];
-			int x1 = 0;
-			int x2 = 0;
-			while (x1 < this.array.length) {
-				if (x1 == pos) {
-					this.array[x1] = o;
-				} else {
-					this.array[x1] = aux[x2];
-					x2++;
-				}
-				x1++;
-			}
-			added = true;
-		}
-		return added;
 	}
 	
 	public void del() {
@@ -435,65 +435,12 @@ public class Array implements Serializable {
 	public String toString() {
 		StringBuilder cad = new StringBuilder("[");
 		for (int i = 0; i < this.array.length; i++) {
-			cad.append("").append(this.array[i].toString());
+			cad.append(this.array[i].toString());
 			if (i < this.array.length - 1) {
 				cad.append(", ");
 			}
 		}
 		cad.append("]");
 		return cad.toString();
-	}
-	
-	@Deprecated
-	public void print() {
-		this.print(false);
-	}
-	
-	@Deprecated
-	public void print(boolean splitLines) {
-		P.p("[");
-		for (int i = 0; i < this.array.length; i++) {
-			if (this.array[i] instanceof Object[]) {
-				printArray((Object[]) this.array[i], false);
-			} else {
-				System.out.print(this.array[i]);
-			}
-			if (i < this.array.length - 1) {
-				System.out.print(", ");
-			}
-			if (splitLines) {
-				System.out.println();
-			}
-		}
-		System.out.print("]");
-	}
-	
-	@Deprecated
-	private static void printArray(Object[] objects, boolean splitLines) {
-		System.out.print("[");
-		for (int i = 0; i < objects.length; i++) {
-			System.out.print(objects[i]);
-			if (i < objects.length - 1) {
-				System.out.print(", ");
-			}
-			if (splitLines) {
-				System.out.println();
-			}
-		}
-		System.out.print("]");
-	}
-	
-	public void describe() {
-		for (int i = 0; i < this.array.length; i++) {
-			if (this.array[i] instanceof Object[]) {
-				Array.printArray((Object[]) this.array[i], false);
-			} else {
-				System.out.print(this.array[i]);
-			}
-			System.out.print(":" + this.array[i].getClass().getSimpleName());
-			if (i < this.array.length - 1) {
-				System.out.println();
-			}
-		}
 	}
 }
