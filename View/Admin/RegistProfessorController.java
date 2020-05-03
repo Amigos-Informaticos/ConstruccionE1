@@ -67,24 +67,27 @@ public class RegistProfessorController implements Initializable {
         Professor professor = new Professor();
         this.instanceProfessor(professor);
         try {
-            if(professor.signUp()){
-                listProfessor.add(professor);
-                Alert message2 = new Alert(Alert.AlertType.INFORMATION);
-                message2.setTitle("Registro agregado exitosamente");
-                message2.setContentText("Felicidades!");
-                message2.setHeaderText("Resultado:");
+            if(professor.isComplete()){
+                if(professor.signUp()){
+                    listProfessor.add(professor);
+                    JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos");
+                }
+            } else {
+                    JOptionPane.showMessageDialog(null, "Llene todos los campos");
             }
         } catch (CustomException e) {
-            new Logger().log(e);
+            new Logger().log(e.getCauseMessage());
         }
     }
 
     @FXML
     public void update(){
-        Professor professor = new Professor();
-        this.instanceProfessor(professor);
         try {
-            if(professor.update()){
+            Professor professor = tblViewProfessor.getSelectionModel().getSelectedItem();
+            if(tblViewProfessor.getSelectionModel().getSelectedItem().update()){
+                listProfessor.set(tblViewProfessor.getSelectionModel().getSelectedIndex(), professor);
                 JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
             } else {
                 JOptionPane.showMessageDialog(null, "No se pudo actualizar al profesor");
@@ -95,11 +98,9 @@ public class RegistProfessorController implements Initializable {
     }
     @FXML
     public void delete(){
-        Professor professor = new Professor();
-        this.instanceProfessor(professor);
         try{
-            if(professor.delete()){
-                JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+            if(tblViewProfessor.getSelectionModel().getSelectedItem().delete()){
+                listProfessor.remove(tblViewProfessor.getSelectionModel().getSelectedIndex());
             } else{
                 JOptionPane.showMessageDialog(null, "No se pudo eliminar al profesor");
             }
@@ -113,15 +114,17 @@ public class RegistProfessorController implements Initializable {
                     @Override
                     public void changed(ObservableValue<? extends Professor> observable, Professor oldValue,
                                         Professor newValue) {
-                        txtEmail.setText(newValue.getEmail());
-                        txtNames.setText(newValue.getNames());
-                        txtLastNames.setText(newValue.getLastnames());
-                        txtNoPersonal.setText(newValue.getPersonalNo());
-                        cmbShift.setValue(newValue.getShift());
-
-                        btnDelete.setDisable(false);
-                        btnUpdate.setDisable(false);
-                        btnRegister.setDisable(true);
+                        if(newValue != null){
+                            txtEmail.setText(newValue.getEmail());
+                            txtNames.setText(newValue.getNames());
+                            txtLastNames.setText(newValue.getLastnames());
+                            txtNoPersonal.setText(newValue.getPersonalNo());
+                            cmbShift.setValue(newValue.getShift());
+                            enableEdit();
+                        } else {
+                            cleanFormProfessor();
+                            enableRegister();
+                        }
                     }
                 }
         );
@@ -132,6 +135,30 @@ public class RegistProfessorController implements Initializable {
         professor.setNames(txtNames.getText());
         professor.setLastnames(txtLastNames.getText());
         professor.setPersonalNo(txtNoPersonal.getText());
-        cmbShift.getValue();
+        professor.setShift(cmbShift.getValue());
+    }
+    private void cleanFormProfessor(){
+        txtEmail.setText(null);
+        txtNames.setText(null);
+        txtLastNames.setText(null);
+        txtNoPersonal.setText(null);
+        cmbShift.setValue(null);
+    }
+
+    private void enableRegister(){
+        txtEmail.setDisable(false);
+        pwdPassword.setDisable(false);
+
+        btnDelete.setDisable(true);
+        btnUpdate.setDisable(true);
+        btnRegister.setDisable(false);
+    }
+    private void enableEdit(){
+        txtEmail.setDisable(true);
+        pwdPassword.setDisable(true);
+
+        btnDelete.setDisable(false);
+        btnUpdate.setDisable(false);
+        btnRegister.setDisable(true);
     }
 }

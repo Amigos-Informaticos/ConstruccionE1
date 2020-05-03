@@ -24,19 +24,19 @@ public class DAOProfessor implements IDAOProfessor {
 	@Override
 	public boolean update() throws CustomException {
 		boolean updated = false;
-		String query = "UPDATE Usuario SET nombres = ?, apellidos = ?, correoElectronico = ?, "
-			+ "contrasena = ? WHERE correoElectronico = ?";
+		String query = "UPDATE Usuario SET nombres = ?, apellidos = ? WHERE correoElectronico = ?";
 		String[] values = {this.professor.getNames(), this.professor.getLastnames(),
-			this.professor.getEmail(), this.professor.getPassword(),
 			this.professor.getEmail()};
 		if (this.connection.sendQuery(query, values)) {
-			query = "UPDATE Profesor SET noPersonal = ?, turno = ? WHERE idUsuario = (SELECT " +
-				"idUsuario" + " " + "FROM Usuario WHERE correoElectronico = ?)";
-			values = new String[]{this.professor.getPersonalNo(), String.valueOf(this.professor.getShift()),
-				this.professor.getEmail()};
+			query = "UPDATE Profesor SET noPersonal = ?, turno = ? WHERE idUsuario = ?";
+			values = new String[]{this.professor.getPersonalNo(), this.getIdShift(), this.getIdProfessor()};
 			if (this.connection.sendQuery(query, values)) {
 				updated = true;
+			} else {
+				throw new CustomException("Can't Update Professor: NotUpdateProfessor");
 			}
+		} else{
+			throw new CustomException("Can't Update User: NotUpdateUser");
 		}
 		return updated;
 	}
@@ -95,9 +95,8 @@ public class DAOProfessor implements IDAOProfessor {
 				this.professor.getEmail(), this.professor.getPassword(), "1"};
 			if (this.connection.sendQuery(query, values)) {
 				query = "INSERT INTO Profesor (idUsuario, fechaRegistro, noPersonal, turno) VALUES " +
-					"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), (SELECT CURRENT_DATE), ?, " +
-						"(SELECT idTurno FROM Turno WHERE turno = ?))";
-				values = new String[]{this.professor.getEmail(), this.professor.getPersonalNo(), this.professor.getShift()};
+					"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), (SELECT CURRENT_DATE), ?, ?)";
+				values = new String[]{this.professor.getEmail(), this.professor.getPersonalNo(), this.getIdShift()};
 				if (this.connection.sendQuery(query, values)) {
 					signedUp = true;
 				}
@@ -127,6 +126,20 @@ public class DAOProfessor implements IDAOProfessor {
 		String[] values = {this.professor.getEmail()};
 		String[] names = {"TOTAL"};
 		return this.connection.select(query, values, names)[0][0].equals("1");
+	}
+
+	public String getIdShift(){
+		String query = "SELECT Turno.idTurno AS Turno FROM Turno WHERE turno = ?";
+		String[] values = {this.professor.getShift()};
+		String[] names = {"Turno"};
+		return this.connection.select(query, values, names)[0][0];
+	}
+
+	private String getIdProfessor(){
+		String query = "SELECT idUsuario AS idProfessor FROM Usuario WHERE correoElectronico = ?";
+		String[] values = {this.professor.getEmail()};
+		String[] names = {"idProfessor"};
+		return this.connection.select(query, values, names)[0][0];
 	}
 	
 	public static Professor[] getAll() {
