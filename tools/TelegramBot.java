@@ -21,6 +21,7 @@ public class TelegramBot {
 	
 	public void addMessage(String message) {
 		this.message += message;
+		this.message += "\n";
 	}
 	
 	public void send() {
