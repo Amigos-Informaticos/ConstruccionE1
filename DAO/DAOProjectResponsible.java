@@ -44,4 +44,30 @@ public class DAOProjectResponsible {
         }
         return deleted;
     }
+
+    public boolean isActive(){
+        boolean isActive = false;
+        if(this.isRegistered() &&
+                this.projectResponsible != null &&
+                this.projectResponsible.getEmail() != null){
+            String query = "SELECT status FROM Responsable WHERE correoElectronico = ?";
+            String[] values = {this.projectResponsible.getEmail()};
+            String[] names = {"status"};
+            isActive = this.connection.select(query,values,names)[0][0].equals("");
+        }
+        return isActive;
+    }
+
+    public boolean reactive(){
+        boolean reactivated = false;
+        if(this.projectResponsible != null && this.isRegistered()){
+            if(this.isActive()){
+                String query = "UPDATE Responsable SET status = 1 WHERE correoElectronico = ?";
+                String[] values =
+            }
+        }
+        return reactivated;
+    }
+
+
 }
