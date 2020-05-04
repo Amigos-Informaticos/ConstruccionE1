@@ -1,7 +1,6 @@
 package Tests;
 
 import DAO.DAOActivity;
-import Exceptions.CustomException;
 import Models.Activity;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -23,9 +22,8 @@ public class DAOActivityTests {
             activity.setDescription("Leer el RL que se encuentra en el libro 2 de sulana de tal" +
                     "y usar la nomenclatura Ap1-2-3-4");
             assertTrue(activity.update());
-        } catch (CustomException e) {
-            System.out.println(e.getCauseMessage());
-            new Logger().log(e);
+        } catch (AssertionError e) {
+            new Logger().log(e.getMessage());
         }
     }
 
@@ -33,8 +31,8 @@ public class DAOActivityTests {
     public void updateActivity(){
         try{
             assertTrue(getDAOActivity().update());
-        }catch(CustomException e){
-            new Logger().log(e);
+        }catch(AssertionError e){
+            new Logger().log(e.getMessage());
         }
     }
 
@@ -48,8 +46,8 @@ public class DAOActivityTests {
     public void C_isRegistered() {
         try {
             assertTrue(getDAOActivity().isRegistered());
-        } catch (CustomException e) {
-            new Logger().log(e);
+        } catch (AssertionError e) {
+            new Logger().log(e.getMessage());
         }
     }
 
@@ -57,8 +55,8 @@ public class DAOActivityTests {
     public void D_deleteActivity() {
         try {
             assertTrue(getDAOActivity().delete());
-        } catch (CustomException e) {
-            new Logger().log(e);
+        } catch (AssertionError e) {
+            new Logger().log(e.getMessage());
         }
     }
 
@@ -66,8 +64,8 @@ public class DAOActivityTests {
     public void E_createAndDelete(){
         try {
             assertTrue(getDAOActivity().create());
-        } catch (CustomException e) {
-            new Logger().log(e);
+        } catch (AssertionError e) {
+            new Logger().log(e.getMessage());
         }
     }
 

@@ -4,6 +4,7 @@ import Exceptions.CustomException;
 import Models.Admin;
 import Models.Professor;
 import Models.Shift;
+import View.MainController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -12,15 +13,21 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import tools.Logger;
 
-import javax.swing.*;
+
+import javax.swing.JOptionPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -41,6 +48,7 @@ public class RegistProfessorController implements Initializable {
     @FXML private JFXButton btnDelete;
     @FXML private JFXButton btnRegister;
     @FXML private JFXButton btnUpdate;
+    @FXML private ImageView backArrow;
 
     //Collections
     ObservableList<String> listShift;
@@ -59,6 +67,9 @@ public class RegistProfessorController implements Initializable {
         clmnLastNames.setCellValueFactory(new PropertyValueFactory<Professor,String>("lastnames"));
         clmnPersonalNo.setCellValueFactory(new PropertyValueFactory<Professor,String>("personalNo"));
         clmnShift.setCellValueFactory(new PropertyValueFactory<Professor,String>("shift"));
+
+        txtNames.addEventFilter(KeyEvent.ANY, handleLetters);
+        txtLastNames.addEventFilter(KeyEvent.ANY, handleLetters);
         eventManager();
     }
 
@@ -129,6 +140,31 @@ public class RegistProfessorController implements Initializable {
                 }
         );
     }
+    @FXML
+    public void onBackArrowClicked(MouseEvent event){
+        MainController.activate("MainMenuAdmin");
+    }
+
+    EventHandler<KeyEvent> handleLetters = new EventHandler<KeyEvent>() {
+        private boolean willConsume;
+        @Override
+        public void handle(KeyEvent event) {
+            Object tempO = event.getSource();
+            if(willConsume){
+                event.consume();
+            }
+            String temp = event.getCode().toString();
+            if(!event.getCode().toString().matches("[a-zA-Z]")
+                    && event.getCode() != KeyCode.BACK_SPACE
+                    && event.getCode() != KeyCode.SHIFT){
+                if(event.getEventType() == KeyEvent.KEY_PRESSED){
+                    willConsume = true;
+                }else if(event.getEventType() == KeyEvent.KEY_RELEASED){
+                    willConsume = false;
+                }
+            }
+        }
+    };
     private void instanceProfessor(Professor professor){
         professor.setEmail(txtEmail.getText());
         professor.setPassword(pwdPassword.getText());
