@@ -1,27 +1,26 @@
 package DAO;
 
 import Connection.DBConnection;
-import Exceptions.CustomException;
 import IDAO.IDAOActivity;
 import Models.Activity;
 
 public class DAOActivity implements IDAOActivity {
-    private Activity activity;
-    private DBConnection connection = new DBConnection();
-
+    private final Activity activity;
+    private final DBConnection connection = new DBConnection();
+    
     public DAOActivity(Activity activity) {
         this.activity = activity;
     }
-
+    
     @Override
-    public boolean create()  {
+    public boolean create() {
         assert this.activity != null : "Activity null on create()";
         assert this.activity.isComplete() : "Some atribute is empty";
         boolean created = false;
         String query = "INSERT INTO Actividad (idPracticante, titulo, descripcion, fechaInicio, fechaCierre) VALUES" +
-                " ((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?, ?, (SELECT SYSDATE()), ?)";
+            " ((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), ?, ?, (SELECT SYSDATE()), ?)";
         String[] values = {"edsonn1999@hotmail.com", this.activity.getTitle(), this.activity.getDescription(),
-                this.activity.getDeliveryDate()};
+            this.activity.getDeliveryDate()};
         if (this.connection.sendQuery(query, values)) {
             this.activity.setStartDate(this.getStartDate());
             created = true;
