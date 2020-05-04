@@ -1,4 +1,4 @@
-package view.manageStudents;
+package View.manageStudents;
 
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
@@ -8,7 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import models.Student;
+import Models.Student;
 
 import java.net.URL;
 import java.util.ResourceBundle;
