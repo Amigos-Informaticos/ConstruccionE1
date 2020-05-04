@@ -4,6 +4,11 @@ import Connection.DBConnection;
 import Models.Admin;
 import Models.Professor;
 import javafx.collections.ObservableList;
+import tools.Logger;
+
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class DAOAdmin {
     private Admin admin;
