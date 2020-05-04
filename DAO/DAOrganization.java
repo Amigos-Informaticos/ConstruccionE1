@@ -25,7 +25,8 @@ public class DAOrganization implements IDAOrganization {
                 if(this.connection.sendQuery(query,values)){
                     signedUp = true;
                 } else {
-                    throw new CustomException("Could not insert into Organization: signUp()","NotSignUpOrganization");
+                    throw new CustomException("Could not insert into Organization: signUp()",
+                                                "NotSignUpOrganization");
                 }
             } else {
                 String query = "UPDATE Organizacion SET status = 1 WHERE nombre = ?";
@@ -43,7 +44,7 @@ public class DAOrganization implements IDAOrganization {
         @Override
         public boolean isRegistered () {
             boolean isRegistered = false;
-            String query = "SELECT COUNT (idOrganizacion) AS TOTAL FROM Organizacion WHERE nombre = ?"; //Comentar lo de no repetir nombres
+            String query = "SELECT COUNT (idOrganizacion) AS TOTAL FROM Organizacion WHERE nombre = ?";
             String[] values = {this.organization.getName()};
             String[] names = {"TOTAL"};
             if (this.connection.select(query, values, names)[0][0].equals("1")) {
