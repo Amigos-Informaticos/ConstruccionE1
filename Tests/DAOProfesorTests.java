@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import tools.Logger;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -77,6 +76,11 @@ public class DAOProfesorTests {
         }
     }
 
+    @Test
+    public void testGetIdShift(){
+        System.out.println(getDAOProfesor().getIdShift());
+    }
+
 
     private DAOProfessor getDAOProfesor() {
         return new DAOProfessor(getInstanceProfesor());
@@ -88,7 +92,7 @@ public class DAOProfesorTests {
                 "alexisao@hotmail.com",
                 "alexis123",
                 "N000001",
-                "1"
+                "Mixto"
         );
     }
 }

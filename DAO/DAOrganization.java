@@ -103,21 +103,21 @@ public class DAOrganization implements IDAOrganization {
     public boolean fillTableOrganization(ObservableList<Organization> listOrganization) {
         boolean filled = false;
         String query = "SELECT nombre, calle, numero, colonia, localidad, telefono, telefono2, sector " +
-                "FROM Organizacion O INNER  JOIN Sector S on O.idSector = S.idSector " +
-                "LEFT OUTER JOIN  Direccion D on O.idOrganizacion = D.idOrganizacion " +
-                "LEFT OUTER JOIN TelefonoOrganizacion T on O.idOrganizacion = T.idOrganizacion;";
-        String values[] = null;
-        String names[] = {"nombre", "calle", "numero", "colonia", "localidad", "telefono", "telefono2", "sector"};
-
+            "FROM Organizacion O INNER  JOIN Sector S on O.idSector = S.idSector " +
+            "LEFT OUTER JOIN  Direccion D on O.idOrganizacion = D.idOrganizacion " +
+            "LEFT OUTER JOIN TelefonoOrganizacion T on O.idOrganizacion = T.idOrganizacion;";
+        String[] values = null;
+        String[] names = {"nombre", "calle", "numero", "colonia", "localidad", "telefono", "telefono2", "sector"};
+    
         String[][] select = this.connection.select(query, values, names);
         int row = 0, col = 0;
-        while(row<select.length){
+        while (row < select.length) {
             listOrganization.add(new Organization(
-                    select[row][0],
-                    select[row][1],
-                    select[row][2],
-                    select[row][3],
-                    select[row][4],
+                select[row][0],
+                select[row][1],
+                select[row][2],
+                select[row][3],
+                select[row][4],
                     select[row][5],
                     select[row][6],
                     select[row][7]

@@ -7,7 +7,7 @@ import javafx.collections.ObservableList;
 
 public class DAOAdmin {
     private Admin admin;
-    private DBConnection connection = new DBConnection();
+    private final DBConnection connection = new DBConnection();
 
     public DAOAdmin(Admin admin) {
         this.admin = admin;
@@ -15,25 +15,38 @@ public class DAOAdmin {
 
     public boolean fillTableProfessor(ObservableList<Professor> listProfessor) {
         boolean filled = false;
-        String query = "SELECT nombres, apellidos, correoElectronico, noPersonal, Turno.turno FROM Usuario INNER JOIN " +
-                "Profesor on Usuario.idUsuario = Profesor.idUsuario INNER JOIN Turno on Profesor.turno = Turno.idTurno";
-        String values[] = null;
-        String names[] = {"nombres", "apellidos", "correoElectronico", "noPersonal", "turno"};
-
+        String query = "SELECT nombres, apellidos, correoElectronico, noPersonal, Turno.turno " +
+                "FROM Usuario INNER JOIN Profesor ON Usuario.idUsuario = Profesor.idUsuario " +
+                "INNER JOIN Turno on Profesor.turno = Turno.idTurno WHERE status = ?";
+        String[] values = {"1"};
+        String[] names = {"nombres", "apellidos", "correoElectronico", "noPersonal", "turno"};
         String[][] select = this.connection.select(query, values, names);
-        int row = 0, col = 0;
-        while(row<select.length){
+        for (String[] selection : select) {
             listProfessor.add(new Professor(
-                            select[row][0],
-                            select[row][1],
-                            select[row][2],
-                            null,
-                            select[row][3],
-                            select[row][4]
+                            selection[0],
+                            selection[1],
+                            selection[2],
+                            "NotNullFillList",
+                            selection[3],
+                            selection[4]
                     )
             );
-            row++;
+            if (!filled) {
+                filled = true;
+            }
         }
         return filled;
+    }
+
+    public boolean isRegistered() {
+        boolean isRegistered = false;
+        assert this.admin != null;
+        String query = "SELECT COUNT(Administrador.idUsuario) AS TOTAL " +
+                "FROM Usuario INNER JOIN Administrador " +
+                "WHERE correoElectronico = ? AND contrasena = ?";
+        String[] values = {this.admin.getEmail(), this.admin.getPassword()};
+        String[] responses = {"TOTAL"};
+        isRegistered = this.connection.select(query, values, responses)[0][0].equals("1");
+        return isRegistered;
     }
 }
