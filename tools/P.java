@@ -105,15 +105,6 @@ public abstract class P {
 		}
 	}
 	
-	public static void printArray(Array array) {
-		printArray(array, false);
-	}
-	
-	@Deprecated
-	public static void printArray(Array array, boolean splitLines) {
-		array.print(splitLines);
-	}
-	
 	public static void err(Object err) {
 		System.err.println(err.toString());
 	}
