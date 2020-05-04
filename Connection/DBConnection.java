@@ -1,7 +1,6 @@
 package Connection;
 
 import Configuration.Configuration;
-import tools.File;
 import tools.Logger;
 
 import java.sql.*;
@@ -12,14 +11,11 @@ public class DBConnection {
 	private String user = null;
 	private String password = null;
 	private Connection connection;
-	private File configurationFile;
 	private final Logger logger = new Logger();
-	
 	
 	public DBConnection() {
 		Configuration.loadConnection(this);
 	}
-	
 	
 	public DBConnection(String driver, String url, String user, String password) {
 		this.driver = driver;
@@ -64,32 +60,24 @@ public class DBConnection {
 		return connection;
 	}
 	
-	
 	public void loadConnection() {
 		Configuration.loadConnection(this);
 	}
 	
-	
 	public boolean loadFromFile(String path) {
 		return Configuration.loadFromFile(this, path);
 	}
-	
 	
 	public boolean saveToFile(String path) {
 		return Configuration.saveToFile(this, path);
 	}
 	
 	public boolean isReady() {
-		boolean isReady = false;
 		if (this.driver == null || this.url == null || this.user == null || this.password == null) {
 			this.loadConnection();
-			isReady = true;
-		} else {
-			isReady = true;
 		}
-		return isReady;
+		return true;
 	}
-	
 	
 	public boolean openConnection() {
 		boolean isOpen = false;
@@ -105,7 +93,6 @@ public class DBConnection {
 		return isOpen;
 	}
 	
-	
 	public void closeConnection() {
 		try {
 			while (!this.connection.isClosed()) {
@@ -115,7 +102,6 @@ public class DBConnection {
 			this.logger.log(e);
 		}
 	}
-	
 	
 	public boolean sendQuery(String query, String[] values) {
 		boolean queryExecuted = false;
@@ -127,7 +113,7 @@ public class DBConnection {
 					statement.setString(i + 1, values[i]);
 				}
 			}
-			queryExecuted = (statement.executeUpdate() > 0) && ((queryExecuted = true));
+			queryExecuted = statement.executeUpdate() > 0;
 			this.closeConnection();
 		} catch (SQLException e) {
 			this.logger.log(e);
@@ -135,14 +121,13 @@ public class DBConnection {
 		return queryExecuted;
 	}
 	
-	
 	public String[][] select(String query, String[] values, String[] names) {
-		int tableSize = 0;
+		int tableSize;
 		String[][] responses = new String[0][0];
 		try {
 			if (this.openConnection()) {
 				PreparedStatement preparedStatement = this.connection.prepareStatement(query);
-				ResultSet queryResults = null;
+				ResultSet queryResults;
 				if (values != null) {
 					for (int i = 0; i < values.length; i++) {
 						preparedStatement.setString(i + 1, values[i]);
