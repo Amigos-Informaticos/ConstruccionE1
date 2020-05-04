@@ -27,7 +27,8 @@ public class DAOProjectResponsible {
     }
 
     public boolean isRegistered(){
-        String query = "SELECT COUNT (correoElectronico) AS TOTAL FROM Responsable WHERE correoElectron = ?";
+        String query = "SELECT COUNT (correoElectronico) AS TOTAL FROM Responsable " +
+                        "WHERE correoElectron = ?";
         String[] values = {this.projectResponsible.getEmail()};
         String[] names = {"TOTAL"};
         return this.connection.select(query,values,names)[0][0].equals("1");
@@ -63,11 +64,12 @@ public class DAOProjectResponsible {
         if(this.projectResponsible != null && this.isRegistered()){
             if(this.isActive()){
                 String query = "UPDATE Responsable SET status = 1 WHERE correoElectronico = ?";
-                String[] values =
+                String[] values = {this.projectResponsible.getEmail()};
+                if(this.connection.sendQuery(query,values)){
+                    reactivated = true;
+                }
             }
         }
         return reactivated;
     }
-
-
 }
