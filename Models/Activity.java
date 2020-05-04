@@ -52,7 +52,7 @@ public class Activity {
         this.deliveryDate = deliveryDate;
     }
 
-    public boolean create () throws CustomException{
+    public boolean create (){
         boolean created = false;
         if(this.isComplete()){
             DAOActivity activity = new DAOActivity(this);
@@ -62,7 +62,7 @@ public class Activity {
         }
         return created;
     }
-    public boolean update() throws CustomException{
+    public boolean update(){
         boolean updated = false;
         DAOActivity activity = new DAOActivity(this);
         if(activity.update()){
