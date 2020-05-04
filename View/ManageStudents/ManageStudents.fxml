@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ManageOrganizations.ManageProjects">
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ManageStudents.ManageStudentController">
    <children>
       <SplitPane dividerPositions="0.49331103678929766" layoutY="71.0" prefHeight="380.0" prefWidth="700.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <GridPane layoutY="55.0" prefHeight="215.0" prefWidth="341.0">
+                  <GridPane layoutY="29.0" prefHeight="215.0" prefWidth="341.0">
                     <columnConstraints>
                       <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="165.0" minWidth="10.0" prefWidth="116.0" />
                       <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="225.0" />
@@ -23,22 +23,22 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Nombre:">
+                        <Label text="Nombre:" textFill="#18529d">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label text="Apellido:" GridPane.rowIndex="1">
+                        <Label text="Apellido:" textFill="#18529d" GridPane.rowIndex="1">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label text="Matrícula:" GridPane.rowIndex="2">
+                        <Label text="Matrícula:" textFill="#18529d" GridPane.rowIndex="2">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label text="Email:" GridPane.rowIndex="3">
+                        <Label text="Email:" textFill="#18529d" GridPane.rowIndex="3">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -65,7 +65,7 @@
                         </JFXTextField>
                      </children>
                   </GridPane>
-                  <HBox layoutY="278.0" prefHeight="100.0" prefWidth="341.0">
+                  <HBox layoutY="278.0" prefHeight="100.0" prefWidth="341.0" spacing="15.0">
                      <children>
                         <JFXButton prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Eliminar" textFill="WHITE">
                            <font>
@@ -83,6 +83,9 @@
                            </font>
                         </JFXButton>
                      </children>
+                     <padding>
+                        <Insets left="15.0" right="15.0" />
+                     </padding>
                   </HBox>
                </children>
             </AnchorPane>
@@ -99,6 +102,16 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <HBox prefHeight="73.0" prefWidth="700.0" />
+      <HBox prefHeight="73.0" prefWidth="700.0" style="-fx-background-color: #18529D;">
+         <children>
+            <Label text="Practicantes" textFill="WHITE">
+               <font>
+                  <Font size="44.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets left="30.0" />
+         </padding></HBox>
    </children>
 </AnchorPane>
