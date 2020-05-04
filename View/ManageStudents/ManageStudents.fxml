@@ -43,22 +43,22 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField GridPane.columnIndex="1">
+                        <JFXTextField fx:id="txtName" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </JFXTextField>
-                        <JFXTextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <JFXTextField fx:id="txtLastname" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </JFXTextField>
-                        <JFXTextField GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXTextField fx:id="txtRegNo" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </JFXTextField>
-                        <JFXTextField GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <JFXTextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
@@ -91,11 +91,11 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="360.0">
                <children>
-                  <TableView layoutX="28.0" layoutY="41.0" prefHeight="378.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tblViewStudent" layoutX="28.0" layoutY="41.0" prefHeight="378.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn prefWidth="105.0" text="Matrícula" />
-                      <TableColumn prefWidth="124.0" text="Apellido" />
-                        <TableColumn prefWidth="121.0" text="Nombre" />
+                      <TableColumn fx:id="clmnRegno" prefWidth="105.0" text="Matrícula" />
+                      <TableColumn fx:id="clmnLastame" prefWidth="124.0" text="Apellido" />
+                        <TableColumn fx:id="clmnName" prefWidth="121.0" text="Nombre" />
                     </columns>
                   </TableView>
                </children>

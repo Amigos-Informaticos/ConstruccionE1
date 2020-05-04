@@ -41,8 +41,6 @@ public class ManageStudentController implements Initializable {
         txtEmail.setText(null);
     }
 
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         listStudent = FXCollections.observableArrayList();
