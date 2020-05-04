@@ -105,10 +105,6 @@ public abstract class P {
 		}
 	}
 	
-	public static void printArray(Array array) {
-		printArray(array, false);
-	}
-
 	public static void err(Object err) {
 		System.err.println(err.toString());
 	}
