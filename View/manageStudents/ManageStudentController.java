@@ -1,5 +1,6 @@
-package View.manageStudents;
+package View.ManageStudents;
 
+import Models.Student;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import Models.Student;
 
 import java.net.URL;
 import java.util.ResourceBundle;
