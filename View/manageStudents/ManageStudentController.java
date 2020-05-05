@@ -1,4 +1,4 @@
-package View.manageStudents;
+package View.ManageStudents;
 
 import Models.Student;
 import com.jfoenix.controls.JFXTextField;
