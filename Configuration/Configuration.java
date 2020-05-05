@@ -9,11 +9,11 @@ import java.util.HashMap;
 public class Configuration {
 	
 	public static File getConnectionConfigFile() {
-		return new File("src/configuration/connection.config");
+		return new File("src/Configuration/connection.config");
 	}
 	
 	public static File getDefaultConnectionConfigFile() {
-		return new File("src/configuration/defaultConnection.config");
+		return new File("src/Configuration/defaultConnection.config");
 	}
 	
 	public static boolean saveConnection(DBConnection connection) {

@@ -55,7 +55,7 @@ public class MainController extends Application {
 	}
 	
 	public static void load() {
-		Configuration.loadScreens("src/view/").forEach((name, location) ->
+		Configuration.loadScreens("src/View/").forEach((name, location) ->
 			MainController.screens.put(
 				name,
 				location.substring(9)

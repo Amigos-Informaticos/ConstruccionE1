@@ -9,8 +9,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -47,8 +45,7 @@ public class RegistProfessorController implements Initializable {
     @FXML private JFXButton btnRegister;
     @FXML private JFXButton btnUpdate;
     @FXML private ImageView backArrow;
-
-    //Collections
+    
     ObservableList<String> listShift;
     ObservableList<Professor> listProfessor;
 
@@ -105,6 +102,7 @@ public class RegistProfessorController implements Initializable {
             new Logger().log(e);
         }
     }
+    
     @FXML
     public void delete(){
         try{
@@ -117,27 +115,25 @@ public class RegistProfessorController implements Initializable {
             new Logger().log(e);
         }
     }
+    
     public void eventManager(){
         tblViewProfessor.getSelectionModel().selectedItemProperty().addListener(
-                new ChangeListener<Professor>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Professor> observable, Professor oldValue,
-                                        Professor newValue) {
-                        if(newValue != null){
-                            txtEmail.setText(newValue.getEmail());
-                            txtNames.setText(newValue.getNames());
-                            txtLastNames.setText(newValue.getLastnames());
-                            txtNoPersonal.setText(newValue.getPersonalNo());
-                            cmbShift.setValue(newValue.getShift());
-                            enableEdit();
-                        } else {
-                            cleanFormProfessor();
-                            enableRegister();
-                        }
-                    }
+            (observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    txtEmail.setText(newValue.getEmail());
+                    txtNames.setText(newValue.getNames());
+                    txtLastNames.setText(newValue.getLastnames());
+                    txtNoPersonal.setText(newValue.getPersonalNo());
+                    cmbShift.setValue(newValue.getShift());
+                    enableEdit();
+                } else {
+                    cleanFormProfessor();
+                    enableRegister();
                 }
+            }
         );
     }
+    
     @FXML
     public void onBackArrowClicked(MouseEvent event){
         MainController.activate("MainMenuAdmin");
@@ -163,6 +159,7 @@ public class RegistProfessorController implements Initializable {
             }
         }
     };
+    
     private void instanceProfessor(Professor professor){
         professor.setEmail(txtEmail.getText());
         professor.setPassword(pwdPassword.getText());
@@ -171,6 +168,7 @@ public class RegistProfessorController implements Initializable {
         professor.setPersonalNo(txtNoPersonal.getText());
         professor.setShift(cmbShift.getValue());
     }
+    
     private void cleanFormProfessor(){
         txtEmail.setText(null);
         txtNames.setText(null);
@@ -187,6 +185,7 @@ public class RegistProfessorController implements Initializable {
         btnUpdate.setDisable(true);
         btnRegister.setDisable(false);
     }
+    
     private void enableEdit(){
         txtEmail.setDisable(true);
         pwdPassword.setDisable(true);
