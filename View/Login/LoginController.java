@@ -29,7 +29,7 @@ public class LoginController implements Initializable {
 				user.setEmail(emailField.getText().trim());
 				user.setPassword(passwordField.getText().trim());
 				String type = user.getType();
-				if (!type.equals("null")) {
+				if (!"null".equals(type)) {
 					MainController.setUser(user);
 					MainController.setType(type);
 					MainController.activate("MainMenu" + type);
@@ -55,6 +55,6 @@ public class LoginController implements Initializable {
 	}
 	
 	public boolean checkEmptyFields() {
-		return !(emailField.getText().length() == 0) && !(passwordField.getText().length() == 0);
+		return emailField.getText().length() != 0 && passwordField.getText().length() != 0;
 	}
 }

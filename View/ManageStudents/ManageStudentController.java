@@ -25,13 +25,13 @@ public class ManageStudentController implements Initializable {
 	
 	
 	@FXML
-	JFXTextField txtName;
+	private JFXTextField txtName;
 	@FXML
-	JFXTextField txtLastname;
+	private JFXTextField txtLastname;
 	@FXML
-	JFXTextField txtRegNo;
+	private JFXTextField txtRegNo;
 	@FXML
-	JFXTextField txtEmail;
+	private JFXTextField txtEmail;
 	
 	ObservableList<Student> listStudent;
 	

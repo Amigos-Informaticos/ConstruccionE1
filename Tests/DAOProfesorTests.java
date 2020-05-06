@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DAOProfesorTests {
 	@Test
-	public void A_signUpProfesor() {
+	public void a_signUpProfesor() {
 		Professor alexis = new Professor();
 		DAOProfessor daoProfessor = new DAOProfessor(alexis);
 		alexis.setNames("Octavio");
@@ -28,7 +28,7 @@ public class DAOProfesorTests {
 	}
 	
 	@Test
-	public void B_isRegistered() {
+	public void b_isRegistered() {
 		Professor alexis = new Professor();
 		alexis.setNames("Alexis");
 		alexis.setLastnames("Alvarez");
@@ -41,12 +41,7 @@ public class DAOProfesorTests {
 	}
 	
 	@Test
-	public void C_isRegistered() {
-		//assertTrue(getDAOProfesor().isRegistered());
-	}
-	
-	@Test
-	public void D_updateProfesor() {
+	public void c_updateProfesor() {
 		Professor roberto = new Professor();
 		DAOProfessor daoProfessor = new DAOProfessor(roberto);
 		roberto.setNames("Alexis");
@@ -63,7 +58,7 @@ public class DAOProfesorTests {
 	}
 	
 	@Test
-	public void E_deleteProfessor() {
+	public void d_deleteProfessor() {
 		try {
 			assertTrue(this.getDAOProfesor().delete());
 		} catch (CustomException e) {
@@ -72,12 +67,13 @@ public class DAOProfesorTests {
 	}
 	
 	@Test
-	public void F_testGetIdShift() {
+	public void e_testGetIdShift() {
 		System.out.println(getDAOProfesor().getIdShift());
+		assertNotNull(getDAOProfesor().getIdShift());
 	}
 	
 	@Test
-	public void Z_getAll() {
+	public void z_getAll() {
 		for (Professor professor: DAOProfessor.getAll()) {
 			assertNotNull(professor.getNames());
 			P.pln(professor.getNames());

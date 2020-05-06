@@ -392,7 +392,7 @@ public class DAOStudent implements IDAOStudent {
 		assert documentPath != null : "Document Path is null: DAOStudent.replyActivity()";
 		assert File.exists(documentPath) : "File doesnt exists: DAOStudent.replyActivity()";
 		assert activityName != null : "Activity name is null: DAOStudent.replyActivity()";
-		//TODO verificar query
+		//verificar query
 		String query = "SELECT COUNT(idActividad) AS TOTAL FROM Actividad WHERE titulo = ?";
 		String[] values = {activityName};
 		String[] names = {"TOTAL"};

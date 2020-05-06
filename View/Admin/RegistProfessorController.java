@@ -154,7 +154,7 @@ public class RegistProfessorController implements Initializable {
 		MainController.activate("MainMenuAdmin");
 	}
 	
-	EventHandler<KeyEvent> handleLetters = new EventHandler<>() {
+	private final EventHandler<KeyEvent> handleLetters = new EventHandler<>() {
 		private boolean willConsume;
 		
 		@Override
