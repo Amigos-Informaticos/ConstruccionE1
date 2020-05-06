@@ -18,13 +18,13 @@ public class User {
 	}
 	
 	public User(String names, String lastnames, String email, String password) {
-		if (this.isName(names)) {
+		if (User.isName(names)) {
 			this.names = names;
 		}
-		if (this.isName(lastnames)) {
+		if (User.isName(lastnames)) {
 			this.lastnames = lastnames;
 		}
-		if (this.isEmail(email)) {
+		if (User.isEmail(email)) {
 			this.email = email;
 		}
 		this.setPassword(password);
@@ -32,13 +32,13 @@ public class User {
 	
 	public User(User user) {
 		assert user != null : "User is null: User()";
-		if (this.isName(user.getNames())) {
+		if (User.isName(user.getNames())) {
 			this.names = user.getNames();
 		}
-		if (this.isName(user.getLastnames())) {
+		if (User.isName(user.getLastnames())) {
 			this.lastnames = user.getLastnames();
 		}
-		if (this.isEmail(user.getEmail())) {
+		if (User.isEmail(user.getEmail())) {
 			this.email = user.getEmail();
 		}
 		this.password = user.getPassword();
@@ -49,7 +49,7 @@ public class User {
 	}
 	
 	public void setNames(String names) {
-		this.names = this.isName(names) ? names : null;
+		this.names = User.isName(names) ? names : null;
 	}
 	
 	public String getLastnames() {
@@ -57,7 +57,7 @@ public class User {
 	}
 	
 	public void setLastnames(String lastnames) {
-		this.lastnames = this.isName(lastnames) ? lastnames : null;
+		this.lastnames = User.isName(lastnames) ? lastnames : null;
 	}
 	
 	public String getEmail() {
@@ -65,7 +65,7 @@ public class User {
 	}
 	
 	public void setEmail(String email) {
-		this.email = this.isEmail(email) ? email : null;
+		this.email = User.isEmail(email) ? email : null;
 	}
 	
 	public String getPassword() {
@@ -98,11 +98,11 @@ public class User {
 			this.password != null;
 	}
 	
-	public boolean isName(String name) {
+	public static boolean isName(String name) {
 		return Pattern.compile("^[A-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$").matcher(name).matches();
 	}
 	
-	public boolean isEmail(String email) {
+	public static boolean isEmail(String email) {
 		String emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]" +
 			"+@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])" +
 			"?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*$";
