@@ -23,46 +23,38 @@ public class LoginController implements Initializable {
 	}
 	
 	public void onClick() {
-		User user = new User();
-		if (validateFields()) {
-			if (isRegistered(emailField.getText().trim(), passwordField.getText().trim())) {
+		if (checkEmptyFields()) {
+			if (User.isEmail(emailField.getText().trim())) {
+				User user = new User();
 				user.setEmail(emailField.getText().trim());
 				user.setPassword(passwordField.getText().trim());
-				MainController.setUser(user);
-				MainController.setType(user.getType());
-				switch (user.getType()) {
-					case "Student":
-						MainController.activate("MainMenuStudent");
-						break;
-					case "Professor":
-						MainController.activate("MainMenuProfessor");
-						break;
-					case "Coordinator":
-						MainController.activate("MainMenuCoordinator");
-						break;
-					case "Admin":
-						MainController.activate("MainMenuAdmin");
-					default:
+				String type = user.getType();
+				if (!"null".equals(type)) {
+					MainController.setUser(user);
+					MainController.setType(type);
+					MainController.activate("MainMenu" + type);
+				} else {
+					MainController.alert(
+						Alert.AlertType.ERROR,
+						"No registrado",
+						"Credenciales no registradas");
 				}
 			} else {
 				MainController.alert(
 					Alert.AlertType.ERROR,
-					"No registrado",
-					"Credenciales no registradas");
-				
+					"Correo erróneo",
+					"Formato de correo electrónico inválido");
 			}
+		} else {
+			MainController.alert(
+				Alert.AlertType.WARNING,
+				"Campos vacíos",
+				"Algún campo se encuentra vacío"
+			);
 		}
 	}
 	
-	public boolean validateFields() {
-		return !emailField.getText().trim().equals("") &&
-			!passwordField.getText().trim().equals("");
-	}
-	
-	public boolean isRegistered(String email, String password) {
-		User user = new User();
-		user.setEmail(email);
-		user.setPassword(password);
-		return !user.getType().equals("null");
+	public boolean checkEmptyFields() {
+		return emailField.getText().length() != 0 && passwordField.getText().length() != 0;
 	}
 }

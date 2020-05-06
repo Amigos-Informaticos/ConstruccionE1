@@ -42,7 +42,6 @@ public class StudentTests {
 		}
 	};
 	
-	
 	@AfterClass
 	public static void send() {
 		bot.send();

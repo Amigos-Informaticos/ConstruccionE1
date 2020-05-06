@@ -1,7 +1,6 @@
 package Models;
 
 import DAO.DAOActivity;
-import Exceptions.CustomException;
 
 public class Activity {
     private String title;

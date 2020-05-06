@@ -18,7 +18,7 @@ public class MainController extends Application {
 	private static String title = null;
 	private static User user;
 	private static String type;
-	private static HashMap<String, String> screens = new HashMap<>();
+	private static final HashMap<String, String> screens = new HashMap<>();
 	
 	public static User getUser() {
 		return user;
@@ -55,7 +55,11 @@ public class MainController extends Application {
 	}
 	
 	public static void load() {
-		MainController.screens = Configuration.loadScreens();
+		Configuration.loadScreens("src/View/").forEach((name, location) ->
+			MainController.screens.put(
+				name,
+				location.substring(9)
+			));
 	}
 	
 	public static void alert(Alert.AlertType type, String header, String message) {
