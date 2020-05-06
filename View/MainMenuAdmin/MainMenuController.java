@@ -16,6 +16,6 @@ public class MainMenuController implements Initializable {
 	
 	@FXML
 	public void onClickProfessor() {
-		MainController.activate("RegistProfessor");
+		MainController.activate("RegistProfessor", "Registrar Profesor");
 	}
 }
