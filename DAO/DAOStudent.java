@@ -97,14 +97,13 @@ public class DAOStudent implements IDAOStudent {
 		String[] values = {this.student.getEmail(),
 			this.student.getPassword()};
 		String[] names = {"TOTAL"};
-		loggedIn = this.connection.select(query, values, names)[0][0].equals("1");
-		return loggedIn;
+		return this.connection.select(query, values, names)[0][0].equals("1");
 	}
 	
 	@Override
 	public boolean signUp() throws CustomException {
+		assert this.student != null : "Student is null: DAOStudent.signUp()";
 		boolean signedUp;
-		assert this.student != null;
 		if (!this.isRegistered()) {
 			String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, " +
 				"contrasena, status) VALUES (?, ?, ?, ?, 1)";
