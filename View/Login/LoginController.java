@@ -23,14 +23,13 @@ public class LoginController implements Initializable {
 	}
 	
 	public void onClick() {
-		User user = new User();
 		if (checkEmptyFields()) {
 			if (User.isEmail(emailField.getText().trim())) {
-				String type =
-					isRegistered(emailField.getText().trim(), passwordField.getText().trim());
+				User user = new User();
+				user.setEmail(emailField.getText().trim());
+				user.setPassword(passwordField.getText().trim());
+				String type = user.getType();
 				if (!type.equals("null")) {
-					user.setEmail(emailField.getText().trim());
-					user.setPassword(passwordField.getText().trim());
 					MainController.setUser(user);
 					MainController.setType(type);
 					MainController.activate("MainMenu" + type);
@@ -57,12 +56,5 @@ public class LoginController implements Initializable {
 	
 	public boolean checkEmptyFields() {
 		return !(emailField.getText().length() == 0) && !(passwordField.getText().length() == 0);
-	}
-	
-	public String isRegistered(String email, String password) {
-		User user = new User();
-		user.setEmail(email);
-		user.setPassword(password);
-		return user.getType();
 	}
 }
