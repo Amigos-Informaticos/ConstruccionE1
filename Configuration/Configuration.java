@@ -67,26 +67,14 @@ public class Configuration {
 		return loaded;
 	}
 	
-	public static HashMap<String, String> loadScreens() {
+	public static HashMap<String, String> loadScreens(String path) {
 		HashMap<String, String> screens = new HashMap<>();
-		Dir view = new Dir("src/View/");
-		for (File file: view.ls()) {
-			if (Dir.isDir("src/View/" + file.getName())) {
-				Dir auxiliaryDir = new Dir("src/View/" + file.getName());
-				for (File fxml: auxiliaryDir.ls()) {
-					if (fxml.getExt().equals("fxml")) {
-						screens.put(
-							fxml.getNameNoExt(),
-							file.getName() + "/" + fxml.getName()
-						);
-					}
-				}
-			} else {
-				if ("fxml".equals(file.getExt())) {
-					screens.put(
-						file.getNameNoExt(),
-						file.getName()
-					);
+		if (Dir.isDir(path)) {
+			for (File file: Dir.ls(path)) {
+				if (Dir.isDir(file)) {
+					loadScreens(file.getStringPath()).forEach(screens::put);
+				} else if (file.getExt().equals("fxml")) {
+					screens.put(file.getNameNoExt(), file.getStringPath());
 				}
 			}
 		}

@@ -8,11 +8,11 @@ import javafx.collections.ObservableList;
 public class DAOrganization implements IDAOrganization {
 	private final Organization organization;
 	private final DBConnection connection = new DBConnection();
-
+	
 	public DAOrganization(Organization organization) {
 		this.organization = organization;
 	}
-
+	
 	@Override
 	public boolean signUp() {
 		assert this.organization != null : "Organization is null: DAOrganization.signUp()";
@@ -27,7 +27,7 @@ public class DAOrganization implements IDAOrganization {
 		}
 		return this.connection.sendQuery(query, values);
 	}
-
+	
 	@Override
 	public boolean isRegistered() {
 		String query = "SELECT COUNT (idOrganizacion) AS TOTAL FROM Organizacion WHERE nombre = ?";
@@ -36,7 +36,7 @@ public class DAOrganization implements IDAOrganization {
 		String[] names = {"TOTAL"};
 		return this.connection.select(query, values, names)[0][0].equals("1");
 	}
-
+	
 	@Override
 	public boolean delete() {
 		assert this.organization != null : "Organization is null: DAOrganization.delete()";
@@ -46,7 +46,7 @@ public class DAOrganization implements IDAOrganization {
 		String[] values = {this.organization.getName()};
 		return this.connection.sendQuery(query, values);
 	}
-
+	
 	@Override
 	public boolean isActive() {
 		assert this.organization != null : "Organization is null: DAOrganization.isActive()";
@@ -58,7 +58,7 @@ public class DAOrganization implements IDAOrganization {
 		String[] names = {"status"};
 		return this.connection.select(query, values, names)[0][0].equals("1");
 	}
-
+	
 	@Override
 	public boolean reactivate() {
 		assert this.organization != null : "Organization is null: DAOrganization.reactivate()";
@@ -68,7 +68,7 @@ public class DAOrganization implements IDAOrganization {
 		String[] values = {this.organization.getName()};
 		return this.connection.sendQuery(query, values);
 	}
-
+	
 	public boolean fillTableOrganization(ObservableList<Organization> listOrganization) {
 		boolean filled = false;
 		String query =
@@ -96,6 +96,15 @@ public class DAOrganization implements IDAOrganization {
 		}
 		return filled;
 	}
-
-
+	public boolean fillOrganizationNames(ObservableList<String> listOrganization) {
+		boolean filled = false;
+		String query = "SELECT nombre FROM Organizacion WHERE status = 1";
+		for (String[] nombre: this.connection.select(query, null, new String[]{"nombre"})) {
+			listOrganization.add(nombre[0]);
+			filled = true;
+			System.out.println("Se lleno");
+		}
+		return filled;
+	}
+	
 }

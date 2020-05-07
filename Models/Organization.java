@@ -32,6 +32,8 @@ public class Organization {
         this.tel2 = tel2;
     }
 
+    public Organization(){}
+
     public Organization(String name,
                         String street,
                         String adressNo,
@@ -164,6 +166,15 @@ public class Organization {
         boolean filled = false;
         DAOrganization daoOrg = new DAOrganization(this);
         if(daoOrg.fillTableOrganization(listOrganization)){
+            filled = true;
+        }
+        return filled;
+    }
+
+    public boolean fillOrganizationNames(ObservableList<String> listOrganization){
+        boolean filled = false;
+        DAOrganization daoOrganization = new DAOrganization(this);
+        if(daoOrganization.fillOrganizationNames(listOrganization)){
             filled = true;
         }
         return filled;

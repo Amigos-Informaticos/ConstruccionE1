@@ -26,19 +26,17 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import tools.Logger;
 
-
-import javax.swing.JOptionPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class RegistProfessorController implements Initializable {
+public class AdminProfessorController implements Initializable {
     @FXML private TableView<Professor> tblViewProfessor;
     @FXML private TableColumn<Professor, String> clmnEmail;
     @FXML private TableColumn<Professor, String> clmnNames;
     @FXML private TableColumn<Professor, String> clmnLastNames;
     @FXML private TableColumn<Professor, String> clmnPersonalNo;
     @FXML private TableColumn<Professor, String> clmnShift;
-    //Components
+
     @FXML private JFXTextField txtEmail;
     @FXML private JFXPasswordField pwdPassword;
     @FXML private JFXTextField txtNames;
@@ -50,7 +48,7 @@ public class RegistProfessorController implements Initializable {
     @FXML private JFXButton btnUpdate;
     @FXML private ImageView backArrow;
 
-    //Collections
+    Professor professor;
     ObservableList<String> listShift;
     ObservableList<Professor> listProfessor;
 
@@ -75,18 +73,30 @@ public class RegistProfessorController implements Initializable {
 
     @FXML
     public void signUp(){
-        Professor professor = new Professor();
+        professor = new Professor();
         this.instanceProfessor(professor);
         try {
             if(professor.isComplete()){
                 if(professor.signUp()){
                     listProfessor.add(professor);
-                    JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+                    MainController.alert(
+                            Alert.AlertType.INFORMATION,
+                            "Profesor registrado correctamente",
+                            "Pulse aceptar para continuar"
+                    );
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos");
+                    MainController.alert(
+                            Alert.AlertType.WARNING,
+                            "Error al conectar con la base de datos",
+                            "Pulse aceptar para continuar"
+                    );
                 }
             } else {
-                    JOptionPane.showMessageDialog(null, "Llene todos los campos");
+                    MainController.alert(
+                            Alert.AlertType.INFORMATION,
+                            "LLene todos los campos correctamente",
+                            "Pulse aceptar para continuar"
+                    );
             }
         } catch (CustomException e) {
             new Logger().log(e.getCauseMessage());
@@ -99,9 +109,12 @@ public class RegistProfessorController implements Initializable {
             Professor professor = tblViewProfessor.getSelectionModel().getSelectedItem();
             if(tblViewProfessor.getSelectionModel().getSelectedItem().update()){
                 listProfessor.set(tblViewProfessor.getSelectionModel().getSelectedIndex(), professor);
-                JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
             } else {
-                JOptionPane.showMessageDialog(null, "No se pudo actualizar al profesor");
+                MainController.alert(
+                        Alert.AlertType.WARNING,
+                        "No se pudo actualizar al profesor",
+                        "Pulse aceptar para continuar"
+                );
             }
         } catch (CustomException e) {
             new Logger().log(e);
@@ -113,7 +126,11 @@ public class RegistProfessorController implements Initializable {
             if(tblViewProfessor.getSelectionModel().getSelectedItem().delete()){
                 listProfessor.remove(tblViewProfessor.getSelectionModel().getSelectedIndex());
             } else{
-                JOptionPane.showMessageDialog(null, "No se pudo eliminar al profesor");
+                MainController.alert(
+                        Alert.AlertType.INFORMATION,
+                        "No se pudo eliminar al profesor",
+                        "Pulse aceptar para continuar"
+                );
             }
         }catch(CustomException e){
             new Logger().log(e);
@@ -126,6 +143,7 @@ public class RegistProfessorController implements Initializable {
                     public void changed(ObservableValue<? extends Professor> observable, Professor oldValue,
                                         Professor newValue) {
                         if(newValue != null){
+                            professor = newValue;
                             txtEmail.setText(newValue.getEmail());
                             txtNames.setText(newValue.getNames());
                             txtLastNames.setText(newValue.getLastnames());

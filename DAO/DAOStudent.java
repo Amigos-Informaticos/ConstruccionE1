@@ -97,14 +97,13 @@ public class DAOStudent implements IDAOStudent {
 		String[] values = {this.student.getEmail(),
 			this.student.getPassword()};
 		String[] names = {"TOTAL"};
-		loggedIn = this.connection.select(query, values, names)[0][0].equals("1");
-		return loggedIn;
+		return this.connection.select(query, values, names)[0][0].equals("1");
 	}
 	
 	@Override
 	public boolean signUp() throws CustomException {
+		assert this.student != null : "Student is null: DAOStudent.signUp()";
 		boolean signedUp;
-		assert this.student != null;
 		if (!this.isRegistered()) {
 			String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, " +
 				"contrasena, status) VALUES (?, ?, ?, ?, 1)";
@@ -393,7 +392,7 @@ public class DAOStudent implements IDAOStudent {
 		assert documentPath != null : "Document Path is null: DAOStudent.replyActivity()";
 		assert File.exists(documentPath) : "File doesnt exists: DAOStudent.replyActivity()";
 		assert activityName != null : "Activity name is null: DAOStudent.replyActivity()";
-		//TODO verificar query
+		//verificar query
 		String query = "SELECT COUNT(idActividad) AS TOTAL FROM Actividad WHERE titulo = ?";
 		String[] values = {activityName};
 		String[] names = {"TOTAL"};
