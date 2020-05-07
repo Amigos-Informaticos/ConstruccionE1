@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import tools.Logger;
+import tools.P;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,6 +20,8 @@ public class MainController extends Application {
 	private static User user;
 	private static String type;
 	private static final HashMap<String, String> screens = new HashMap<>();
+	private static final HashMap<String, double[]> size = new HashMap<>();
+	private static String currentSize = null;
 	
 	public static User getUser() {
 		return user;
@@ -36,22 +39,38 @@ public class MainController extends Application {
 		MainController.type = type;
 	}
 	
+	public static void activate(String name, String title, String size) {
+		MainController.currentSize = size;
+		MainController.activate(name, title);
+	}
+	
+	public static void activate(String name, String title) {
+		MainController.title = title;
+		MainController.activate(name);
+	}
+	
 	public static void activate(String name) {
 		try {
 			Scene newScene = new Scene(
 				FXMLLoader.load(MainController.class.getResource(screens.get(name))));
 			MainController.stage.setScene(newScene);
-			MainController.stage.setWidth(newScene.getWidth());
-			MainController.stage.setHeight(newScene.getHeight());
-			MainController.stage.setTitle(name);
+			if (MainController.currentSize != null) {
+				MainController.stage.setWidth(size.get(currentSize)[0]);
+				MainController.stage.setHeight(size.get(currentSize)[1]);
+			} else {
+				P.pln(newScene.getHeight());
+				MainController.stage.setWidth(newScene.getWidth());
+				MainController.stage.setHeight(newScene.getHeight());
+			}
+			if (MainController.title != null) {
+				MainController.stage.setTitle(MainController.title);
+			} else {
+				MainController.stage.setTitle(name);
+			}
+			MainController.currentSize = null;
 		} catch (IOException e) {
 			new Logger().log(e);
 		}
-	}
-	
-	public static void activate(String name, String title) {
-		MainController.stage.setTitle(title);
-		MainController.activate(name);
 	}
 	
 	public static void load() {
@@ -62,6 +81,12 @@ public class MainController extends Application {
 			));
 	}
 	
+	public static void loadSizes() {
+		size.put("SMALL", new double[]{310.0, 450.0});
+		size.put("MID", new double[]{700.0, 450.0});
+		size.put("LARGE", new double[]{700.0, 710.0});
+	}
+	
 	public static void alert(Alert.AlertType type, String header, String message) {
 		Alert alert = new Alert(type);
 		alert.setHeaderText(header);
@@ -69,15 +94,18 @@ public class MainController extends Application {
 		alert.show();
 	}
 	
-	public static void hit(String name) {
-		MainController.name = name;
-		MainController.title = name;
-		Application.launch();
+	public static void hit(String name, String title, String size) {
+		MainController.currentSize = size;
+		MainController.hit(name, title);
 	}
 	
 	public static void hit(String name, String title) {
-		MainController.name = name;
 		MainController.title = title;
+		MainController.hit(name);
+	}
+	
+	public static void hit(String name) {
+		MainController.name = name;
 		Application.launch();
 	}
 	
@@ -85,21 +113,9 @@ public class MainController extends Application {
 	public void start(Stage stage) {
 		MainController.stage = stage;
 		MainController.stage.setResizable(false);
-		load();
-		try {
-			MainController.stage.setScene(
-				new Scene(
-					FXMLLoader.load(getClass().getResource(
-						MainController.screens.get(name)
-					))
-				)
-			);
-			if (MainController.title != null) {
-				MainController.stage.setTitle(MainController.title);
-			}
-			MainController.stage.show();
-		} catch (IOException e) {
-			new Logger().log(e, false);
-		}
+		MainController.load();
+		MainController.loadSizes();
+		MainController.activate(MainController.name);
+		MainController.stage.show();
 	}
 }
