@@ -1,7 +1,6 @@
 package View.Admin;
 
 import Exceptions.CustomException;
-import Models.Admin;
 import Models.Professor;
 import Models.Shift;
 import View.MainController;
@@ -24,11 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import sun.applet.Main;
 import tools.Logger;
-
-
-import javax.swing.JOptionPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -60,7 +55,7 @@ public class AdminProfessorController implements Initializable {
         listShift = FXCollections.observableArrayList();
         listProfessor = FXCollections.observableArrayList();
         new Shift().fillShift(listShift);
-        new Admin().fillTableProfessor(listProfessor);
+        new Professor().fillTableProfessor(listProfessor);
         cmbShift.setItems(listShift);
         tblViewProfessor.setItems(listProfessor);
         clmnEmail.setCellValueFactory(new PropertyValueFactory<Professor,String>("email"));
