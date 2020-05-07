@@ -158,7 +158,7 @@ public class AdminProfessorController implements Initializable {
     }
     @FXML
     public void onBackArrowClicked(MouseEvent event){
-        MainController.activate("MainMenuAdmin");
+        MainController.activate("MainMenuAdmin", "Menú Administrador");
     }
 
     EventHandler<KeyEvent> handleLetters = new EventHandler<KeyEvent>() {
