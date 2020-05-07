@@ -1,7 +1,9 @@
 package Models;
 
 import DAO.DAOCoordinator;
+import DAO.DAOProfessor;
 import Exceptions.CustomException;
+import javafx.collections.ObservableList;
 
 public class Coordinator extends User {
 	private String personalNo;
@@ -84,5 +86,9 @@ public class Coordinator extends User {
 	
 	public boolean isRegistered() {
 		return new DAOCoordinator(this).isRegistered();
+	}
+
+	public void fillTableProfessor(ObservableList<Coordinator> listCoordinator) {
+		listCoordinator.addAll(DAOCoordinator.getAll());
 	}
 }
