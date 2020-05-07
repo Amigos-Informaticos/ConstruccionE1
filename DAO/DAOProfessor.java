@@ -139,7 +139,7 @@ public class DAOProfessor implements IDAOProfessor {
 				"FROM Usuario INNER JOIN Profesor ON Usuario.idUsuario = Profesor.idUsuario " +
 				"INNER JOIN Turno ON Profesor.turno = Turno.idTurno WHERE status = 1";
 		String[] names =
-			{"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "turno"};
+		{"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "turno"};
 		String[][] responses = new DBConnection().select(query, null, names);
 		Professor[] professors = new Professor[responses.length];
 		for (int i = 0; i < responses.length; i++) {

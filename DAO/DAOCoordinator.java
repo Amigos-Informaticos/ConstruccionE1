@@ -4,6 +4,7 @@ import Connection.DBConnection;
 import IDAO.IDAOCoordinator;
 import IDAO.IDAOUser;
 import Models.Coordinator;
+import Models.Professor;
 
 public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
 	private Coordinator coordinator;
@@ -91,6 +92,26 @@ public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
 		String[] names = {"TOTAL"};
 		String[][] resultQuery = this.connection.select(query, null, names);
 		return Integer.parseInt(resultQuery[0][0]) > 0;
+	}
+
+	public static Coordinator[] getAll() {
+		String query =
+				"SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, status, fechaRegistro FROM " +
+						"Usuario INNER JOIN Coordinador ON Usuario.idUsuario = Coordinador.idUsuario";
+		String[] names =
+				{"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "status", "fechaRegistro"};
+		String[][] responses = new DBConnection().select(query, null, names);
+		Coordinator[] coordinators = new Coordinator[responses.length];
+		for (int i = 0; i < responses.length; i++) {
+			coordinators[i] = new Coordinator(
+					responses[i][0],
+					responses[i][1],
+					responses[i][2],
+					responses[i][3],
+					responses[i][4]
+			);
+		}
+		return coordinators;
 	}
 	
 }
