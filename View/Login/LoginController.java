@@ -35,7 +35,7 @@ public class LoginController implements Initializable {
 					MainController.activate(
 						"MainMenu" + type,
 						"Menu Principal " + type,
-						"MID"
+						MainController.Sizes.MID
 					);
 				} else {
 					MainController.alert(
