@@ -69,7 +69,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <JFXButton layoutX="530.0" layoutY="644.0" prefHeight="31.0" prefWidth="141.0" style="-fx-background-color: #28AD56;" text="Registrar" textFill="WHITE">
+      <JFXButton layoutX="525.0" layoutY="632.0" prefHeight="31.0" prefWidth="141.0" style="-fx-background-color: #28AD56;" text="Registrar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
