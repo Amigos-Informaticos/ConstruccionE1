@@ -7,11 +7,11 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="420.0" maxWidth="308.0" prefHeight="420.0" prefWidth="308.0"
+<AnchorPane maxHeight="420.0" maxWidth="310.0" prefHeight="420.0" prefWidth="310.0"
             style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Login.LoginController">
    <children>
-      <ImageView fitHeight="192.0" fitWidth="308.0" pickOnBounds="true" preserveRatio="true"
+      <ImageView fitHeight="192.0" fitWidth="310.0" pickOnBounds="true" preserveRatio="true"
                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                  AnchorPane.topAnchor="0.0">
          <image>
@@ -36,8 +36,8 @@
             style="-fx-background-color: #28ad56;" AnchorPane.bottomAnchor="0.0"
             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <JFXButton maxHeight="42.0" maxWidth="308.0" onMouseClicked="#onClick" prefHeight="42.0"
-                       prefWidth="308.0" text="Ingresar" textFill="WHITE">
+            <JFXButton maxHeight="42.0" maxWidth="310.0" onMouseClicked="#onClick" prefHeight="42.0"
+                       prefWidth="310.0" text="Ingresar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="19.0"/>
                </font>
