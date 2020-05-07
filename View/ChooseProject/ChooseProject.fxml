@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ChooseProject.ChooseProjectController">
+   <children>
+      <HBox prefHeight="60.0" prefWidth="350.0" spacing="15.0" style="-fx-background-color: #18529D;">
+         <children>
+            <ImageView fitHeight="34.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icon_back_white.png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="5.0" top="10.0" />
+               </HBox.margin>
+            </ImageView>
+            <Label text="Elegir proyecto" textFill="WHITE">
+               <font>
+                  <Font size="34.0" />
+               </font>
+            </Label>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets></HBox>
+      <AnchorPane layoutX="1.0" layoutY="60.0" prefHeight="390.0" prefWidth="468.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0">
+         <children>
+            <TableView prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columns>
+                <TableColumn prefWidth="109.0" text="Organización" />
+                <TableColumn prefWidth="294.0" text="Nombre" />
+                  <TableColumn prefWidth="64.0" text="Ver" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <Label layoutX="491.0" layoutY="116.0" text="Primera Opción:" textFill="#18529d">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="491.0" layoutY="180.0" text="Segunda Opción:" textFill="#18529d">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="494.0" layoutY="248.0" text="Tercera Opción:" textFill="#18529d">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="493.0" layoutY="147.0" prefHeight="25.0" prefWidth="190.0" text="Proyecto 1">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="493.0" layoutY="213.0" prefHeight="25.0" prefWidth="190.0" text="Proyecto 2">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="493.0" layoutY="278.0" prefHeight="25.0" prefWidth="190.0" text="Proyecto 3">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="499.0" layoutY="401.0" prefHeight="33.0" prefWidth="161.0" style="-fx-background-color: #28AD56;" text="Aceptar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="543.0" layoutY="338.0" prefHeight="17.0" prefWidth="112.0" text="Reiniciar Opciones" textFill="#838383">
+         <font>
+            <Font name="System Italic" size="13.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="33.0" fitWidth="35.0" layoutX="510.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/icon_refresh.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
