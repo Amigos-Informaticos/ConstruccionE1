@@ -32,7 +32,11 @@ public class LoginController implements Initializable {
 				if (!"null".equals(type)) {
 					MainController.setUser(user);
 					MainController.setType(type);
-					MainController.activate("MainMenu" + type);
+					MainController.activate(
+						"MainMenu" + type,
+						"Menu Principal " + type,
+						"MID"
+					);
 				} else {
 					MainController.alert(
 						Alert.AlertType.ERROR,
@@ -53,6 +57,7 @@ public class LoginController implements Initializable {
 			);
 		}
 	}
+	
 	
 	public boolean checkEmptyFields() {
 		return emailField.getText().length() != 0 && passwordField.getText().length() != 0;
