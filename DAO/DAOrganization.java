@@ -31,7 +31,6 @@ public class DAOrganization implements IDAOrganization {
 	@Override
 	public boolean isRegistered() {
 		String query = "SELECT COUNT (idOrganizacion) AS TOTAL FROM Organizacion WHERE nombre = ?";
-		//Comentar lo de no repetir nombres
 		String[] values = {this.organization.getName()};
 		String[] names = {"TOTAL"};
 		return this.connection.select(query, values, names)[0][0].equals("1");
