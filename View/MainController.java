@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class MainController extends Application {
+	public static final double MIDWIDTH = 450.0;
+	public static final double MIDHEIGHT = 700;
 	private static Stage stage;
 	private static String name;
 	private static String title = null;

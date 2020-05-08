@@ -1,7 +1,6 @@
 package View.Admin;
 
 import Exceptions.CustomException;
-import Models.Admin;
 import Models.Professor;
 import Models.Shift;
 import View.MainController;
@@ -57,7 +56,7 @@ public class AdminProfessorController implements Initializable {
         listShift = FXCollections.observableArrayList();
         listProfessor = FXCollections.observableArrayList();
         new Shift().fillShift(listShift);
-        new Admin().fillTableProfessor(listProfessor);
+        new Professor().fillTableProfessor(listProfessor);
         cmbShift.setItems(listShift);
         tblViewProfessor.setItems(listProfessor);
         clmnEmail.setCellValueFactory(new PropertyValueFactory<Professor,String>("email"));
@@ -160,7 +159,7 @@ public class AdminProfessorController implements Initializable {
     }
     @FXML
     public void onBackArrowClicked(MouseEvent event){
-        MainController.activate("MainMenuAdmin");
+        MainController.activate("MainMenuAdmin", "Menú Administrador");
     }
 
     EventHandler<KeyEvent> handleLetters = new EventHandler<KeyEvent>() {

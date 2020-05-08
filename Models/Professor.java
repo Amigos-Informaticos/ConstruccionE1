@@ -2,6 +2,7 @@ package Models;
 
 import DAO.DAOProfessor;
 import Exceptions.CustomException;
+import javafx.collections.ObservableList;
 
 public class Professor extends User {
     private String personalNo;
@@ -93,5 +94,9 @@ public class Professor extends User {
 	}
 	public boolean isComplete(){
         return super.isComplete() && personalNo != null && shift != null;
+    }
+
+    public void fillTableProfessor(ObservableList<Professor> listProfessor) {
+        listProfessor.addAll(DAOProfessor.getAll());
     }
 }
