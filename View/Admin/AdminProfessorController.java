@@ -1,6 +1,6 @@
 package View.Admin;
 
-import Exceptions.CustomException;
+
 import Models.Professor;
 import Models.Shift;
 import View.MainController;
@@ -23,7 +23,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import sun.applet.Main;
 import tools.Logger;
 
 import java.net.URL;
