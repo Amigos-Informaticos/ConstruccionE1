@@ -107,11 +107,6 @@ public class StudentTests {
 	}
 	
 	@Test
-	public void h_replyActivity() {
-		//assertTrue(this.student.replyActivity())
-	}
-	
-	@Test
 	public void i_deleteReply() {
 	
 	}
