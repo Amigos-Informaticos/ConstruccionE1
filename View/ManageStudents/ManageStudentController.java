@@ -1,14 +1,19 @@
 package View.ManageStudents;
 
+import Exceptions.CustomException;
 import Models.Student;
+import View.MainController;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import tools.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,15 +37,11 @@ public class ManageStudentController implements Initializable {
 	JFXTextField txtRegNo;
 	@FXML
 	JFXTextField txtEmail;
+
+	@FXML
+	JFXButton btnRegister;
 	
 	ObservableList<Student> listStudent;
-	
-	public void instanceStudent(Student student) {
-		student.setNames(txtName.getText());
-		student.setLastnames(txtLastname.getText());
-		student.setRegNumber(txtRegNo.getText());
-		student.setEmail(txtEmail.getText());
-	}
 	
 	public void cleanFormStudent() {
 		txtName.setText(null);
@@ -59,5 +60,44 @@ public class ManageStudentController implements Initializable {
 		clmnRegno.setCellValueFactory(new PropertyValueFactory<Student, String>("regNumber"));
 		
 		
+	}
+
+	@FXML
+	public void signUp(){
+		Student student = new Student();
+		this.instanceStudent(student);
+		try {
+			if(student.isComplete()){
+				if(student.signUp()){
+					listStudent.add(student);
+					MainController.alert(
+							Alert.AlertType.INFORMATION,
+							"Practicante registrado correctamente",
+							"Pulse aceptar para continuar"
+					);
+				} else {
+					MainController.alert(
+							Alert.AlertType.WARNING,
+							"Error al conectar con la base de datos",
+							"Pulse aceptar para continuar"
+					);
+				}
+			} else {
+				MainController.alert(
+						Alert.AlertType.INFORMATION,
+						"Llene todos los campos correctamente",
+						"Pulse aceptar para continuar"
+				);
+			}
+		} catch (CustomException e) {
+			new Logger().log(e.getCauseMessage());
+		}
+	}
+
+	private void instanceStudent(Student student){
+		student.setNames(txtName.getText());
+		student.setLastnames(txtLastname.getText());
+		student.setRegNumber(txtRegNo.getText());
+		student.setEmail(txtEmail.getText());
 	}
 }
