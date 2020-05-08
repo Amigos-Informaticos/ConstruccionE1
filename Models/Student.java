@@ -63,6 +63,8 @@ public class Student extends User {
 	public boolean isComplete() {
 		return super.isComplete() && this.regNumber != null;
 	}
+
+
 	
 	public boolean selectProject(String projectName) throws CustomException {
 		return new DAOStudent(this).selectProject(projectName);
