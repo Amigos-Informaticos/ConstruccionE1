@@ -107,11 +107,6 @@ public class StudentTests {
 	}
 	
 	@Test
-	public void h_replyActivity() {
-		assertTrue(this.student.replyActivity("Actividad","DocumenthPath/Sample"));
-	}
-	
-	@Test
 	public void i_deleteReply() {
 	
 	}
