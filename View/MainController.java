@@ -14,15 +14,13 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class MainController extends Application {
-	public static final double MIDWIDTH = 450.0;
-	public static final double MIDHEIGHT = 700;
 	private static Stage stage;
 	private static String name;
 	private static String title = null;
 	private static User user;
 	private static String type;
 	private static final HashMap<String, String> screens = new HashMap<>();
-	private static final HashMap<Sizes, double[]> size = new HashMap<Sizes, double[]>();
+	private static final HashMap<Sizes, double[]> size = new HashMap<>();
 	private static Sizes currentSize = null;
 	
 	public enum Sizes {
@@ -30,8 +28,6 @@ public class MainController extends Application {
 		MID,
 		LARGE
 	}
-	
-	;
 	
 	public static User getUser() {
 		return user;

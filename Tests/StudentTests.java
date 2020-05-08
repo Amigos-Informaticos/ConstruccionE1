@@ -20,9 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class StudentTests {
-
-	private static TelegramBot bot = new TelegramBot("AITests");
-	private Student student = new Student(
+	private static final TelegramBot bot = new TelegramBot("AITests");
+	private final Student student = new Student(
 		"Juan Gabriel",
 		"Lopez Doriga",
 		"jbld@correo.com",
@@ -59,24 +58,14 @@ public class StudentTests {
 	
 	@Test
 	public void b_loginStudent() {
-		try {
-			assertTrue(this.student.login());
-		} catch (CustomException e) {
-			new Logger().log(e);
-		}
+		assertTrue(this.student.login());
 	}
 	
 	@Test
 	public void c_updatePracticante() {
 		this.student.setNames("Emilio Olvedo");
-		try {
-			assertTrue(this.student.update());
-		} catch (CustomException e) {
-			new Logger().log(e);
-		}
+		assertTrue(this.student.update());
 	}
-
-
 	
 	@Test
 	public void d_selectProject() {
@@ -138,12 +127,6 @@ public class StudentTests {
 	
 	@Test
 	public void k_deleteStudent() {
-		try {
-			assertTrue(this.student.delete());
-		} catch (CustomException e) {
-			new Logger().log(e);
-		}
+		assertTrue(this.student.delete());
 	}
-
-
 }
