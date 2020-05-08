@@ -46,20 +46,23 @@ public class Student extends User {
 	}
 	
 	
-	public boolean login() throws CustomException {
+	public boolean login() {
 		return new DAOStudent(this).logIn();
 	}
 	
 	
-	public boolean update() throws CustomException {
+	public boolean update() {
 		return new DAOStudent(this).update();
 	}
 	
 	
-	public boolean delete() throws CustomException {
+	public boolean delete() {
 		return new DAOStudent(this).delete();
 	}
 	
+	public boolean isComplete() {
+		return super.isComplete() && this.regNumber != null;
+	}
 	
 	public boolean selectProject(String projectName) throws CustomException {
 		return new DAOStudent(this).selectProject(projectName);
@@ -107,11 +110,11 @@ public class Student extends User {
 	public boolean isRegistered() throws CustomException {
 		return new DAOStudent(this).isRegistered();
 	}
-
-	public boolean fillTableStudent(ObservableList<Student> listStudent){
+	
+	public boolean fillTableStudent(ObservableList<Student> listStudent) {
 		boolean filled = false;
 		DAOStudent daoStudent = new DAOStudent(this);
-		if(daoStudent.fillTableStudent(listStudent)){
+		if (daoStudent.fillTableStudent(listStudent)) {
 			filled = true;
 		}
 		return filled;

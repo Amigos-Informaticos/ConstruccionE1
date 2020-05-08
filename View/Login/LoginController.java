@@ -20,6 +20,7 @@ public class LoginController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+	
 	}
 	
 	public void onClick() {
@@ -35,8 +36,7 @@ public class LoginController implements Initializable {
 					MainController.activate(
 						"MainMenu" + type,
 						"Menu Principal " + type,
-						"MID"
-					);
+						MainController.Sizes.MID);
 				} else {
 					MainController.alert(
 						Alert.AlertType.ERROR,
@@ -53,8 +53,7 @@ public class LoginController implements Initializable {
 			MainController.alert(
 				Alert.AlertType.WARNING,
 				"Campos vacíos",
-				"Algún campo se encuentra vacío"
-			);
+				"Algún campo se encuentra vacío");
 		}
 	}
 	
