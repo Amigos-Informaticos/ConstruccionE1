@@ -22,8 +22,16 @@ public class MainController extends Application {
 	private static User user;
 	private static String type;
 	private static final HashMap<String, String> screens = new HashMap<>();
-	private static final HashMap<String, double[]> size = new HashMap<>();
-	private static String currentSize = null;
+	private static final HashMap<Sizes, double[]> size = new HashMap<Sizes, double[]>();
+	private static Sizes currentSize = null;
+	
+	public enum Sizes {
+		SMALL,
+		MID,
+		LARGE
+	}
+	
+	;
 	
 	public static User getUser() {
 		return user;
@@ -41,7 +49,7 @@ public class MainController extends Application {
 		MainController.type = type;
 	}
 	
-	public static void activate(String name, String title, String size) {
+	public static void activate(String name, String title, Sizes size) {
 		MainController.currentSize = size;
 		MainController.activate(name, title);
 	}
@@ -84,9 +92,9 @@ public class MainController extends Application {
 	}
 	
 	public static void loadSizes() {
-		size.put("SMALL", new double[]{310.0, 450.0});
-		size.put("MID", new double[]{700.0, 450.0});
-		size.put("LARGE", new double[]{700.0, 710.0});
+		size.put(Sizes.SMALL, new double[]{310.0, 450.0});
+		size.put(Sizes.MID, new double[]{700.0, 450.0});
+		size.put(Sizes.LARGE, new double[]{700.0, 710.0});
 	}
 	
 	public static void alert(Alert.AlertType type, String header, String message) {
@@ -96,7 +104,7 @@ public class MainController extends Application {
 		alert.show();
 	}
 	
-	public static void hit(String name, String title, String size) {
+	public static void hit(String name, String title, Sizes size) {
 		MainController.currentSize = size;
 		MainController.hit(name, title);
 	}
