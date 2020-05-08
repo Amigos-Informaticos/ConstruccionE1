@@ -22,8 +22,10 @@ public class DAOProfessor implements IDAOProfessor {
 	}
 	
 	@Override
-	public boolean update() throws CustomException {
-		boolean updated;
+	public boolean update(){
+		assert professor != null : "Professor is null : update()";
+		assert this.isActive() : "Professor has not a status active on the system";
+		boolean updated = false;
 		String query = "UPDATE Usuario SET nombres = ?, apellidos = ? WHERE correoElectronico = ?";
 		String[] values = {this.professor.getNames(), this.professor.getLastnames(),
 			this.professor.getEmail()};
@@ -32,44 +34,30 @@ public class DAOProfessor implements IDAOProfessor {
 			values = new String[]{this.professor.getPersonalNo(), this.getIdShift(), this.getIdProfessor()};
 			if (this.connection.sendQuery(query, values)) {
 				updated = true;
-			} else {
-				throw new CustomException("Can't Update Professor: NotUpdateProfessor");
 			}
-		} else {
-			throw new CustomException("Can't Update User: NotUpdateUser");
 		}
 		return updated;
 	}
-	
 	@Override
-	public boolean delete() throws CustomException {
-		boolean deleted = false;
-		if (this.professor != null && this.isRegistered()) {
-			if (this.isActive()) {
-				String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
-				String[] values = {this.professor.getEmail()};
-				if (this.connection.sendQuery(query, values)) {
-					deleted = true;
-				}
-			} else {
-				deleted = true;
-			}
-		}
-		return deleted;
+	public boolean delete(){
+		assert this.professor != null : "Professor null is null : delete()";
+		assert this.isActive() : "Professor is not active : delete()";
+		String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
+		String[] values = {this.professor.getEmail()};
+		return this.connection.sendQuery(query, values);
 	}
-	
-	public boolean reactive() throws CustomException {
-		boolean reactivated = false;
-		if (!this.isActive()) {
-			String query = "UPDATE Usuario SET status = 1 WHERE correoElectronico = ?";
-			String[] values = {this.professor.getEmail()};
-			reactivated = this.connection.sendQuery(query, values);
-		}
-		return reactivated;
+
+	@Override
+	public boolean reactive(){
+		assert this.professor != null : "Professor is null : reactive()";
+		assert !this.isActive() : "Professor is not active : reactive()";
+		String query = "UPDATE Usuario SET status = 1 WHERE correoElectronico = ?";
+		String[] values = {this.professor.getEmail()};
+		return this.connection.sendQuery(query, values);
 	}
 	
 	@Override
-	public boolean logIn() throws CustomException {
+	public boolean logIn(){
 		assert this.isRegistered() : "Professor is not registered: DAOProfessor.logIn()";
 		assert this.isActive() : "Professor is not active: DAOProfessor.logIn()";
 		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ? " +
@@ -96,7 +84,7 @@ public class DAOProfessor implements IDAOProfessor {
 		return signedUp;
 	}
 	
-	public boolean isActive() throws CustomException {
+	public boolean isActive(){
 		assert this.professor != null : "Professor is null: DAOProfessor.isActive()";
 		assert this.professor.getEmail() != null :
 			"Professor's email is null: DAOProfessor.isActive()";
