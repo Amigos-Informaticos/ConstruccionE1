@@ -23,7 +23,7 @@ public class LoginController implements Initializable {
 	
 	}
 	
-	public void onClick() {
+	public void onClickLogIn() {
 		if (checkEmptyFields()) {
 			if (User.isEmail(emailField.getText().trim())) {
 				User user = new User();

@@ -23,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import sun.applet.Main;
 import tools.Logger;
 
 import java.net.URL;
@@ -159,7 +160,7 @@ public class AdminProfessorController implements Initializable {
     }
     @FXML
     public void onBackArrowClicked(MouseEvent event){
-        MainController.activate("MainMenuAdmin", "Menú Administrador", "MID");
+        MainController.activate("MainMenuAdmin", "Menú Administrador", MainController.Sizes.MID);
     }
 
     EventHandler<KeyEvent> handleLetters = new EventHandler<KeyEvent>() {
