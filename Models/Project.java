@@ -48,7 +48,23 @@ public class Project {
 	public Project() {
 		DAOProject dao = new DAOProject(this);
 	}
-	
+
+	public Project(String name,
+				   String methodology,
+				   String generalObjective,
+				   String mediateObjective,
+				   String immediateObjective,
+				   String resources,
+				   String responsibilities) {
+		this.name = name;
+		this.methodology = methodology;
+		this.generalObjective = generalObjective;
+		this.mediateObjective = mediateObjective;
+		this.immediateObjective = immediateObjective;
+		this.resources = resources;
+		this.responsibilities = responsibilities;
+	}
+
 	public String getName() {
 		return name;
 	}

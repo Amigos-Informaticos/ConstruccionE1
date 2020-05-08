@@ -190,4 +190,38 @@ public class DAOProject implements IDAOProject {
 		}
 		return withStudents;
 	}
+
+	public static Project[] getAll(){
+		String query =
+				"SELECT nombre, " +
+						"metodologia, " +
+						"objetivoGeneral, " +
+						"objetivoMediato, " +
+						"objetivoInmediato, " +
+						"recursos, " +
+						"responsabilidades " +
+						"FROM Project";
+		String[] names =
+						{"nombre",
+						"metodologia",
+						"objetivoGeneral",
+						"objetivoMediato",
+						"objetivoInmediato",
+						"recursos",
+						"responsabilidades"};
+		String[][] responses = new DBConnection().select(query, null, names);
+		Project[] projects = new Project[responses.length];
+		for (int i = 0; i < responses.length; i++) {
+			projects[i] = new Project(
+					responses[i][0],
+					responses[i][1],
+					responses[i][2],
+					responses[i][3],
+					responses[i][4],
+					responses[i][5],
+					responses[i][6]
+			);
+		}
+		return projects;
+	}
 }
