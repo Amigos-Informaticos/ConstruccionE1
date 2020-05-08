@@ -25,8 +25,8 @@ public class ProfessorTests {
     public void a_signUpProfessor() {
         try {
             assertTrue(this.professor.signUp());
-        } catch (CustomException e) {
-            new Logger().log(e);
+        } catch (AssertionError e) {
+            new Logger().log(e.getMessage());
         }
     }
 
@@ -34,8 +34,8 @@ public class ProfessorTests {
     public void b_updateProfessor() {
         try {
             assertTrue(this.professor.update());
-        } catch (CustomException e) {
-            new Logger().log(e);
+        } catch (AssertionError e) {
+            new Logger().log(e.getMessage());
         }
     }
 
@@ -43,8 +43,8 @@ public class ProfessorTests {
     public void c_deleteProfessor() {
         try {
             assertTrue(this.professor.delete());
-        } catch (CustomException e) {
-            new Logger().log(e);
+        } catch (AssertionError e) {
+            new Logger().log(e.getMessage());
         }
     }
 
@@ -52,8 +52,8 @@ public class ProfessorTests {
     public void d_reactive() {
         try {
             assertTrue(this.professor.reactive());
-        } catch (CustomException e) {
-            new Logger().log(e);
+        } catch (AssertionError e) {
+            new Logger().log(e.getMessage());
         }
     }
 

@@ -97,8 +97,8 @@ public class AdminProfessorController implements Initializable {
                             "Pulse aceptar para continuar"
                     );
             }
-        } catch (CustomException e) {
-            new Logger().log(e.getCauseMessage());
+        } catch (AssertionError e) {
+            new Logger().log(e.getMessage());
         }
     }
 
@@ -115,8 +115,8 @@ public class AdminProfessorController implements Initializable {
                         "Pulse aceptar para continuar"
                 );
             }
-        } catch (CustomException e) {
-            new Logger().log(e);
+        } catch (AssertionError e) {
+            new Logger().log(e.getMessage());
         }
     }
     @FXML
@@ -131,8 +131,8 @@ public class AdminProfessorController implements Initializable {
                         "Pulse aceptar para continuar"
                 );
             }
-        }catch(CustomException e){
-            new Logger().log(e);
+        }catch(AssertionError e){
+            new Logger().log(e.getMessage());
         }
     }
     public void eventManager(){
@@ -159,7 +159,7 @@ public class AdminProfessorController implements Initializable {
     }
     @FXML
     public void onBackArrowClicked(MouseEvent event){
-        MainController.activate("MainMenuAdmin", "Menú Administrador");
+        MainController.activate("MainMenuAdmin", "Menú Administrador", "MID");
     }
 
     EventHandler<KeyEvent> handleLetters = new EventHandler<KeyEvent>() {
