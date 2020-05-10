@@ -23,7 +23,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Registrar" textFill="WHITE">
+                        <JFXButton onMouseClicked="#signUp" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Registrar" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -64,17 +64,17 @@
                               <Font name="System Italic" size="12.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtNo" focusColor="#28ad56" layoutX="338.0" layoutY="191.0" prefHeight="25.0" prefWidth="50.0" promptText="Calle" text="No.">
+                        <JFXTextField fx:id="txtNo" focusColor="#28ad56" layoutX="338.0" layoutY="191.0" prefHeight="25.0" prefWidth="50.0" promptText="No.">
                            <font>
                               <Font name="System Italic" size="12.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtColony" focusColor="#28ad56" layoutX="103.0" layoutY="229.0" prefHeight="25.0" prefWidth="142.0" promptText="Calle" text="Colonia">
+                        <JFXTextField fx:id="txtColony" focusColor="#28ad56" layoutX="103.0" layoutY="229.0" prefHeight="25.0" prefWidth="142.0" promptText="Colonia">
                            <font>
                               <Font name="System Italic" size="12.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtLocality" focusColor="#28ad56" layoutX="269.0" layoutY="229.0" prefHeight="25.0" prefWidth="119.0" promptText="Calle" text="Localidad">
+                        <JFXTextField fx:id="txtLocality" focusColor="#28ad56" layoutX="269.0" layoutY="229.0" prefHeight="25.0" prefWidth="119.0" promptText="Localidad">
                            <font>
                               <Font name="System Italic" size="12.0" />
                            </font>

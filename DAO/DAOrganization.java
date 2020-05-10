@@ -19,8 +19,8 @@ public class DAOrganization implements IDAOrganization {
 		String query;
 		String[] values;
 		if (!this.isRegistered()) {
-			query = "INSERT INTO Organizacion (nombre, ,status, idSector) VALUES (?, 1, ?)";
-			values = new String[]{this.organization.getName(), this.organization.getSector()};
+			query = "INSERT INTO Organizacion (nombre, status, idSector) VALUES (?, 1, ?)";
+			values = new String[]{this.organization.getName(), this.organization.getSector().getId()};
 		} else {
 			query = "UPDATE Organizacion SET status = 1 WHERE nombre = ?";
 			values = new String[]{this.organization.getName()};
@@ -75,8 +75,14 @@ public class DAOrganization implements IDAOrganization {
 				"FROM Organizacion O INNER  JOIN Sector S on O.idSector = S.idSector " +
 				"LEFT OUTER JOIN  Direccion D on O.idOrganizacion = D.idOrganizacion " +
 				"LEFT OUTER JOIN TelefonoOrganizacion T on O.idOrganizacion = T.idOrganizacion;";
-		String[] names = {"nombre", "calle", "numero", "colonia", "localidad", "telefono",
-			"telefono2", "sector"};
+		String[] names = {"nombre",
+							"calle",
+							"numero",
+							"colonia",
+							"localidad",
+							"telefono",
+							"telefono2",
+							"sector"};
 		String[][] select = this.connection.select(query, null, names);
 		for (int row = 0; row < select.length; row++) {
 			listOrganization.add(new Organization(
@@ -95,6 +101,25 @@ public class DAOrganization implements IDAOrganization {
 		}
 		return filled;
 	}
+/*
+	public boolean fillTableOrganization(ObservableList<Organization> listOrganization) {
+		boolean filled = false;
+		String query = "SELECT nombre FROM Organizacion WHERE status = 1";
+		String[] names = {"nombre"};
+		String[][] select = this.connection.select(query, null, names);
+		for (int row = 0; row < select.length; row++) {
+			listOrganization.add(new Organization(
+					select[row][0]
+			));
+			if (!filled) {
+				filled = true;
+			}
+		}
+		return filled;
+	}
+ */
+
+
 	public boolean fillOrganizationNames(ObservableList<String> listOrganization) {
 		boolean filled = false;
 		String query = "SELECT nombre FROM Organizacion WHERE status = 1";
@@ -104,5 +129,11 @@ public class DAOrganization implements IDAOrganization {
 		}
 		return filled;
 	}
-	
+
+	public String getId(){
+		String query = "SELECT idOrganizacion FROM Organizacion WHERE nombre = ?";
+		String[] values = {organization.getName()};
+		String[] names ={"idOrganizacion"};
+		return this.connection.select(query, values, names)[0][0];
+	}
 }

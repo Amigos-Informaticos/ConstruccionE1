@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import tools.Logger;
-import tools.P;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -64,7 +63,6 @@ public class MainController extends Application {
 				MainController.stage.setWidth(size.get(currentSize)[0]);
 				MainController.stage.setHeight(size.get(currentSize)[1]);
 			} else {
-				P.pln(newScene.getHeight());
 				MainController.stage.setWidth(newScene.getWidth());
 				MainController.stage.setHeight(newScene.getHeight());
 			}
