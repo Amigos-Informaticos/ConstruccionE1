@@ -21,4 +21,11 @@ public class DAOSector {
         }
         return filled;
     }
+
+    public String getId(){
+        String query = "SELECT idSector FROM Sector WHERE sector = ?";
+        String[] values = {sector.getName()};
+        String[] names ={"idSector"};
+        return this.connection.select(query, values, names)[0][0];
+    }
 }

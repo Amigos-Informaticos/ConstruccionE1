@@ -1,7 +1,11 @@
 package View.ManageOrganizations;
 
+import Exceptions.CustomException;
+import Models.Address;
 import Models.Organization;
 import Models.Sector;
+import Models.TelephoneNumber;
+import View.MainController;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.beans.value.ChangeListener;
@@ -10,9 +14,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import tools.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,7 +49,8 @@ public class ManageOrganizationsController implements Initializable {
     ObservableList<Organization> listOrganization;
     ObservableList<String> listSector;
 
-    Organization organization;
+    private Organization organization;
+    private TelephoneNumber telephoneNumber;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,13 +75,13 @@ public class ManageOrganizationsController implements Initializable {
                         if(newValue != null){
                             organization = newValue;
                             txtName.setText(newValue.getName());
-                            txtTel1.setText(newValue.getTel1());
-                            txtTel2.setText(newValue.getTel2());
-                            txtStreet.setText(newValue.getStreet());
-                            txtNo.setText(newValue.getAdressNo());
-                            txtColony.setText(newValue.getColony());
-                            txtLocality.setText(newValue.getLocality());
-                            cmbSector.setValue(newValue.getSector());
+                            txtTel1.setText(newValue.getTel().getNumber());
+                            txtTel2.setText(newValue.getTel().getNumber2());
+                            txtStreet.setText(newValue.getAddress().getStreet());
+                            txtNo.setText(newValue.getAddress().getNo());
+                            txtColony.setText(newValue.getAddress().getColony());
+                            txtLocality.setText(newValue.getAddress().getLocality());
+                            cmbSector.setValue(newValue.getSector().getName());
                             enableEdit();
                         } else {
                             cleanFormProfessor();
@@ -91,4 +98,65 @@ public class ManageOrganizationsController implements Initializable {
 
     public void enableRegister(){}
 
+    @FXML
+    public void signUp(){
+        Organization organization = new Organization();
+        this.instanceOrganization(organization);
+        try {
+            if(organization.isComplete()){
+                if(organization.signUp() &&
+                        organization.getAddress().signUp(organization.getId()) &&
+                        organization.getTel().signUp(organization.getId())){
+
+
+
+
+                    listOrganization.add(organization);
+                    MainController.alert(
+                            Alert.AlertType.INFORMATION,
+                            "Organizacion registrada exitosamente",
+                            "Pulse aceptar para continuar"
+                    );
+                } else {
+                    MainController.alert(
+                            Alert.AlertType.WARNING,
+                            "Error al conectar con la base de datos",
+                            "Pulse aceptar para continuar"
+                    );
+                }
+            } else {
+                MainController.alert(
+                        Alert.AlertType.INFORMATION,
+                        "Llene todos los campos correctamente",
+                        "Pulse aceptar para continuar"
+                );
+            }
+        } catch (CustomException e) {
+            new Logger().log(e.getCauseMessage());
+        }
+    }
+
+    public Address instanceAddress(){
+        Address address = new Address();
+        address.setStreet(txtStreet.getText());
+        address.setNo(txtNo.getText());
+        address.setColony(txtColony.getText());
+        address.setLocality(txtLocality.getText());
+        return address;
+    }
+
+    public TelephoneNumber instanceTel(){
+        TelephoneNumber tel = new TelephoneNumber();
+        tel.setNumber(txtTel1.getText());
+        tel.setNumber2(txtTel2.getText());
+        return tel;
+    }
+
+
+    public void instanceOrganization(Organization organization){
+        organization.setName(txtName.getText());
+        organization.setAddress(instanceAddress());
+        organization.setTel(instanceTel());
+        organization.setSector(new Sector(cmbSector.getValue()));
+    }
 }

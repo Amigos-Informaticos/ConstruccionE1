@@ -1,7 +1,6 @@
 package Models;
 
 import DAO.DAOCoordinator;
-import DAO.DAOProfessor;
 import Exceptions.CustomException;
 import javafx.collections.ObservableList;
 

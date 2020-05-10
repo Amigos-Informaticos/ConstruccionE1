@@ -4,7 +4,6 @@ import Connection.DBConnection;
 import IDAO.IDAOCoordinator;
 import IDAO.IDAOUser;
 import Models.Coordinator;
-import Models.Professor;
 
 public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
 	private Coordinator coordinator;
@@ -30,7 +29,7 @@ public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
 		assert this.connection.sendQuery(query, values) :
 			"Could not insert into Usuario: DAOCoordinator.signUp()";
 		query = "INSERT INTO Coordinator (idUsuario, noPersonal, fechaRegistro) VALUES " +
-			"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?),?,(SELECT CURRENT_DATE))";
+				"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?),?,(SELECT CURRENT_DATE))";
 		values = new String[]{this.coordinator.getEmail(), this.coordinator.getPersonalNo()};
 		return this.connection.sendQuery(query, values);
 	}
@@ -38,8 +37,8 @@ public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
 	@Override
 	public boolean isRegistered() {
 		String query = "SELECT COUNT(Usuario.idUsuario) AS TOTAL FROM Usuario " +
-			"INNER JOIN Coordinador ON Usuario.idUsuario = Coordinador.idUsuario " +
-			"WHERE correoElectronico = ?";
+						"INNER JOIN Coordinador ON Usuario.idUsuario = Coordinador.idUsuario " +
+						"WHERE correoElectronico = ?";
 		String[] values = {this.coordinator.getEmail()};
 		String[] names = {"TOTAL"};
 		return this.connection.select(query, values, names)[0][0].equals("1");
@@ -49,7 +48,7 @@ public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
 	public boolean logIn() {
 		assert this.isRegistered() : "Coordinator is not registered: DAOCoordinator.logIn()";
 		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Coordinador " +
-			"WHERE correoElectronico = ? AND contrasena = ?";
+						"WHERE correoElectronico = ? AND contrasena = ?";
 		String[] values = {this.coordinator.getEmail(), this.coordinator.getPassword()};
 		String[] names = {"TOTAL"};
 		return this.connection.select(query, values, names)[0][0].equals("1");
