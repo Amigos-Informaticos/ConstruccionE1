@@ -5,116 +5,90 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="View.ManageStudents.ManageStudentController">
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ManageOrganizations.ManageOrganizationsController">
    <children>
-      <SplitPane dividerPositions="0.6876790830945558" layoutY="71.0" prefHeight="380.0"
-                 prefWidth="700.0">
+      <SplitPane dividerPositions="0.6876790830945558" layoutY="71.0" prefHeight="380.0" prefWidth="700.0">
          <items>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
                   <HBox layoutY="278.0" prefHeight="100.0" prefWidth="477.0" spacing="15.0">
                      <children>
-                        <JFXButton prefHeight="27.0" prefWidth="142.0"
-                                   style="-fx-background-color: #28AD56;" text="Eliminar"
-                                   textFill="WHITE">
+                        <JFXButton prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Eliminar" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="12.0"/>
+                              <Font name="System Bold" size="12.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton prefHeight="27.0" prefWidth="142.0"
-                                   style="-fx-background-color: #28AD56;" text="Actualizar"
-                                   textFill="WHITE">
+                        <JFXButton prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Actualizar" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="12.0"/>
+                              <Font name="System Bold" size="12.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton prefHeight="27.0" prefWidth="142.0"
-                                   style="-fx-background-color: #28AD56;" text="Registrar"
-                                   textFill="WHITE">
+                        <JFXButton prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Registrar" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="12.0"/>
+                              <Font name="System Bold" size="12.0" />
                            </font>
                         </JFXButton>
                      </children>
                      <padding>
-                        <Insets left="15.0" right="15.0" top="30.0"/>
+                        <Insets left="15.0" right="15.0" top="30.0" />
                      </padding>
                   </HBox>
                   <AnchorPane layoutY="-2.0" prefHeight="280.0" prefWidth="477.0">
                      <children>
                         <Label layoutX="41.0" layoutY="40.0" text="NOMBRE:" textFill="#18529d">
                            <font>
-                              <Font name="System Bold" size="18.0"/>
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <Label layoutX="72.0" layoutY="75.0" text="TEL 1:" textFill="#18529d">
                            <font>
-                              <Font name="System Bold" size="18.0"/>
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField focusColor="#28ad56" layoutX="127.0" layoutY="41.0"
-                                      prefHeight="25.0" prefWidth="285.0"/>
-                        <JFXTextField focusColor="#28ad56" layoutX="132.0" layoutY="76.0"
-                                      prefHeight="25.0" prefWidth="119.0"
-                                      promptText="+52 #########"/>
-                        <JFXComboBox layoutX="291.0" layoutY="102.0" prefHeight="25.0"
-                                     prefWidth="119.0" promptText="Sector"/>
+                        <JFXTextField fx:id="txtName" focusColor="#28ad56" layoutX="127.0" layoutY="41.0" prefHeight="25.0" prefWidth="285.0" />
+                        <JFXTextField fx:id="txtTel1" focusColor="#28ad56" layoutX="132.0" layoutY="76.0" prefHeight="25.0" prefWidth="119.0" promptText="+52 #########" />
+                        <JFXComboBox fx:id="cmbSector" layoutX="291.0" layoutY="102.0" prefHeight="25.0" prefWidth="119.0" promptText="Sector" />
                         <Label layoutX="70.0" layoutY="119.0" text="TEL 2:" textFill="#18529d">
                            <font>
-                              <Font name="System Bold" size="18.0"/>
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField focusColor="#28ad56" layoutX="132.0" layoutY="120.0"
-                                      prefHeight="25.0" prefWidth="119.0"
-                                      promptText="+52 #########"/>
-                        <Label layoutX="31.0" layoutY="159.0" opacity="0.49" text="DIRECCIÓN"
-                               textFill="#18529d">
+                        <JFXTextField fx:id="txtTel2" focusColor="#28ad56" layoutX="132.0" layoutY="120.0" prefHeight="25.0" prefWidth="119.0" promptText="+52 #########" />
+                        <Label layoutX="31.0" layoutY="159.0" opacity="0.49" text="DIRECCIÓN" textFill="#18529d">
                            <font>
-                              <Font name="System Bold" size="18.0"/>
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField focusColor="#28ad56" layoutX="103.0" layoutY="191.0"
-                                      prefHeight="25.0" prefWidth="204.0" promptText="Calle">
+                        <JFXTextField fx:id="txtStreet" focusColor="#28ad56" layoutX="103.0" layoutY="191.0" prefHeight="25.0" prefWidth="204.0" promptText="Calle">
                            <font>
-                              <Font name="System Italic" size="12.0"/>
+                              <Font name="System Italic" size="12.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField focusColor="#28ad56" layoutX="338.0" layoutY="191.0"
-                                      prefHeight="25.0" prefWidth="50.0" promptText="Calle"
-                                      text="No.">
+                        <JFXTextField fx:id="txtNo" focusColor="#28ad56" layoutX="338.0" layoutY="191.0" prefHeight="25.0" prefWidth="50.0" promptText="Calle" text="No.">
                            <font>
-                              <Font name="System Italic" size="12.0"/>
+                              <Font name="System Italic" size="12.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField focusColor="#28ad56" layoutX="103.0" layoutY="229.0"
-                                      prefHeight="25.0" prefWidth="142.0" promptText="Calle"
-                                      text="Colonia">
+                        <JFXTextField fx:id="txtColony" focusColor="#28ad56" layoutX="103.0" layoutY="229.0" prefHeight="25.0" prefWidth="142.0" promptText="Calle" text="Colonia">
                            <font>
-                              <Font name="System Italic" size="12.0"/>
+                              <Font name="System Italic" size="12.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField focusColor="#28ad56" layoutX="269.0" layoutY="229.0"
-                                      prefHeight="25.0" prefWidth="119.0" promptText="Calle"
-                                      text="Localidad">
+                        <JFXTextField fx:id="txtLocality" focusColor="#28ad56" layoutX="269.0" layoutY="229.0" prefHeight="25.0" prefWidth="119.0" promptText="Calle" text="Localidad">
                            <font>
-                              <Font name="System Italic" size="12.0"/>
+                              <Font name="System Italic" size="12.0" />
                            </font>
                         </JFXTextField>
-                        <Separator layoutX="135.0" layoutY="171.0" opacity="0.35" prefHeight="0.0"
-                                   prefWidth="324.0" style="-fx-background-color: #18529d;"/>
+                        <Separator layoutX="135.0" layoutY="171.0" opacity="0.35" prefHeight="0.0" prefWidth="324.0" style="-fx-background-color: #18529d;" />
                      </children>
                   </AnchorPane>
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="360.0">
                <children>
-                  <TableView layoutX="28.0" layoutY="41.0" prefHeight="378.0" prefWidth="351.0"
-                             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tblViewOrganization" layoutX="28.0" layoutY="41.0" prefHeight="378.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
-                        <TableColumn prefWidth="214.0" text="Nombre"/>
+                        <TableColumn fx:id="clmnName" prefWidth="214.0" text="Nombre" />
                      </columns>
                   </TableView>
                </children>
@@ -125,15 +99,15 @@
          <children>
             <Label text="Organizaciones" textFill="WHITE">
                <font>
-                  <Font size="42.0"/>
+                  <Font size="42.0" />
                </font>
             </Label>
          </children>
          <opaqueInsets>
-            <Insets/>
+            <Insets />
          </opaqueInsets>
          <padding>
-            <Insets left="30.0"/>
+            <Insets left="30.0" />
          </padding>
       </HBox>
    </children>

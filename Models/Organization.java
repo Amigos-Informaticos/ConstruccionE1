@@ -10,7 +10,7 @@ public class Organization {
     private String adressNo;
     private String colony;
     private String locality;
-    private String idSector;
+    private String sector;
     private String tel1;
     private String tel2;
 
@@ -19,7 +19,7 @@ public class Organization {
                         String adressNo,
                         String colony,
                         String locality,
-                        String idSector,
+                        String sector,
                         String tel1,
                         String tel2) {
         this.name = name;
@@ -27,7 +27,7 @@ public class Organization {
         this.adressNo = adressNo;
         this.colony = colony;
         this.locality = locality;
-        this.idSector = idSector;
+        this.sector = sector;
         this.tel1 = tel1;
         this.tel2 = tel2;
     }
@@ -39,14 +39,14 @@ public class Organization {
                         String adressNo,
                         String colony,
                         String locality,
-                        String idSector,
+                        String sector,
                         String tel1) {
         this.name = name;
         this.street = street;
         this.adressNo = adressNo;
         this.colony = colony;
         this.locality = locality;
-        this.idSector = idSector;
+        this.sector = sector;
         this.tel1 = tel1;
     }
 
@@ -106,12 +106,12 @@ public class Organization {
         this.tel2 = tel2;
     }
 
-    public String getIdSector() {
-        return idSector;
+    public String getSector() {
+        return sector;
     }
 
-    public void setIdSector(String idSector) {
-        this.idSector = idSector;
+    public void setSector(String sector) {
+        this.sector = sector;
     }
 
     public boolean signUp() throws CustomException{
@@ -131,7 +131,7 @@ public class Organization {
                 this.adressNo != null &&
                 this.colony != null &&
                 this.locality != null &&
-                this.idSector != null;
+                this.sector != null;
     }
 
     public boolean isRegistered(){
