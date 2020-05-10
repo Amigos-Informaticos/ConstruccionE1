@@ -43,53 +43,25 @@ public class Professor extends User {
         this.shift = shift;
     }
     public boolean logIn() throws CustomException{
-        boolean loggedIn = false;
-        if (this.isComplete()){
-            DAOProfessor daoProfessor = new DAOProfessor(this);
-            if(daoProfessor.logIn()){
-                loggedIn = true;
-            }
-        }
-        return loggedIn;
+        return new DAOProfessor(this).logIn();
     }
 
-    public boolean signUp() throws CustomException {
-        boolean isRegistered = false;
-        if (this.isComplete()){
-            DAOProfessor daoProfessor = new DAOProfessor(this);
-            if(daoProfessor.signUp()){
-                isRegistered = true;
-            }
-        }
-        return isRegistered;
+    public boolean signUp(){
+        return  new DAOProfessor(this).signUp();
     }
-    public boolean update () throws CustomException {
-        boolean updated = false;
-        DAOProfessor daoProfessor = new DAOProfessor(this);
-        if (daoProfessor.update()){
-            updated = true;
-        }
-        return updated;
+
+    public boolean update () {
+        return new DAOProfessor(this).update();
     }
-    public boolean delete() throws CustomException {
-        boolean deleted = false;
-        DAOProfessor daoProfessor = new DAOProfessor(this);
-        if(daoProfessor.delete()){
-            deleted = true;
-        }
-	    return deleted;
+    public boolean delete(){
+        return new DAOProfessor(this).delete();
     }
 	
-	public boolean reactive() throws CustomException {
-		boolean reactivated = false;
-		DAOProfessor daoProfessor = new DAOProfessor(this);
-		if (daoProfessor.reactive()) {
-			reactivated = true;
-		}
-		return reactivated;
+	public boolean reactive(){
+		return new DAOProfessor(this).reactive();
 	}
 	
-	public boolean isRegistered() throws CustomException {
+	public boolean isRegistered(){
 		return new DAOProfessor(this).isRegistered();
 	}
 	public boolean isComplete(){

@@ -20,7 +20,7 @@ public class DAOrganization implements IDAOrganization {
 		String[] values;
 		if (!this.isRegistered()) {
 			query = "INSERT INTO Organizacion (nombre, ,status, idSector) VALUES (?, 1, ?)";
-			values = new String[]{this.organization.getName(), this.organization.getIdSector()};
+			values = new String[]{this.organization.getName(), this.organization.getSector()};
 		} else {
 			query = "UPDATE Organizacion SET status = 1 WHERE nombre = ?";
 			values = new String[]{this.organization.getName()};
@@ -31,7 +31,6 @@ public class DAOrganization implements IDAOrganization {
 	@Override
 	public boolean isRegistered() {
 		String query = "SELECT COUNT (idOrganizacion) AS TOTAL FROM Organizacion WHERE nombre = ?";
-		//Comentar lo de no repetir nombres
 		String[] values = {this.organization.getName()};
 		String[] names = {"TOTAL"};
 		return this.connection.select(query, values, names)[0][0].equals("1");
@@ -102,7 +101,6 @@ public class DAOrganization implements IDAOrganization {
 		for (String[] nombre: this.connection.select(query, null, new String[]{"nombre"})) {
 			listOrganization.add(nombre[0]);
 			filled = true;
-			System.out.println("Se lleno");
 		}
 		return filled;
 	}

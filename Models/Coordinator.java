@@ -36,15 +36,8 @@ public class Coordinator extends User {
 		this.personalNo = noPersonal;
 	}
 	
-	public boolean signUp() throws CustomException {
-		boolean isRegistered = false;
-		if (this.isComplete()) {
-			DAOCoordinator daoCoordinator = new DAOCoordinator(this);
-			if (daoCoordinator.signUp()) {
-				isRegistered = true;
-			}
-		}
-		return isRegistered;
+	public boolean signUp() {
+		return new DAOCoordinator(this).signUp();
 	}
 	
 	public boolean logIn() {
@@ -88,7 +81,7 @@ public class Coordinator extends User {
 		return new DAOCoordinator(this).isRegistered();
 	}
 
-	public void fillTableProfessor(ObservableList<Coordinator> listCoordinator) {
+	public void fillTableCoordinator(ObservableList<Coordinator> listCoordinator) {
 		listCoordinator.addAll(DAOCoordinator.getAll());
 	}
 }

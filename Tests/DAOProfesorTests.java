@@ -52,7 +52,7 @@ public class DAOProfesorTests {
 		roberto.setShift("1");
 		try {
 			assertTrue(daoProfessor.update());
-		} catch (CustomException e) {
+		} catch (AssertionError e) {
 			e.printStackTrace();
 		}
 	}
@@ -61,8 +61,8 @@ public class DAOProfesorTests {
 	public void d_deleteProfessor() {
 		try {
 			assertTrue(this.getDAOProfesor().delete());
-		} catch (CustomException e) {
-			System.out.println(e.getCauseMessage());
+		} catch (AssertionError e) {
+			System.out.println(e.getMessage());
 		}
 	}
 	

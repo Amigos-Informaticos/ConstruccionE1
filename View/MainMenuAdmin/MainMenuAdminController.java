@@ -17,6 +17,10 @@ public class MainMenuAdminController implements Initializable {
 
     @FXML
     public void onClickProfessor(MouseEvent event){
-        MainController.activate("AdminProfessor");
+        MainController.activate("AdminProfessor", "Administrar Profesor", MainController.Sizes.MID);
+    }
+    @FXML
+    public void onClickCoordinator(MouseEvent event){
+        MainController.activate("AdminCoordinator", "Administrar coordinador", MainController.Sizes.MID);
     }
 }
