@@ -104,18 +104,29 @@ public class AdminProfessorController implements Initializable {
 
     @FXML
     public void update(){
+        professor = new Professor();
+        this.instanceProfessor(professor);
         try {
-            Professor professor = tblViewProfessor.getSelectionModel().getSelectedItem();
-            if(tblViewProfessor.getSelectionModel().getSelectedItem().update()){
-                listProfessor.set(tblViewProfessor.getSelectionModel().getSelectedIndex(), professor);
+            if (professor.isComplete()) {
+                Professor professor = tblViewProfessor.getSelectionModel().getSelectedItem();
+                instanceProfessor(professor);
+                if (tblViewProfessor.getSelectionModel().getSelectedItem().update()) {
+                    listProfessor.set(tblViewProfessor.getSelectionModel().getSelectedIndex(), professor);
+                } else {
+                    MainController.alert(
+                            Alert.AlertType.WARNING,
+                            "No se pudo actualizar al profesor",
+                            "Pulse aceptar para continuar"
+                    );
+                }
             } else {
                 MainController.alert(
-                        Alert.AlertType.WARNING,
-                        "No se pudo actualizar al profesor",
+                        Alert.AlertType.INFORMATION,
+                        "LLene todos los campos correctamente",
                         "Pulse aceptar para continuar"
                 );
             }
-        } catch (AssertionError e) {
+        } catch(AssertionError e){
             new Logger().log(e.getMessage());
         }
     }
@@ -150,6 +161,7 @@ public class AdminProfessorController implements Initializable {
                             cmbShift.setValue(newValue.getShift());
                             enableEdit();
                         } else {
+                            professor = null;
                             cleanFormProfessor();
                             enableRegister();
                         }
@@ -197,7 +209,6 @@ public class AdminProfessorController implements Initializable {
         txtNoPersonal.setText(null);
         cmbShift.setValue(null);
     }
-
     private void enableRegister(){
         txtEmail.setDisable(false);
         pwdPassword.setDisable(false);
