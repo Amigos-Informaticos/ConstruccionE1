@@ -59,5 +59,15 @@ public class TestsCoordinator {
 		}
 	}
 
-
+	@Test
+	public void signUpCoordinator(){
+		Coordinator angel = new Coordinator(
+				"Angel Juan",
+				"Sanchez",
+				"ajs@hotmail.com",
+				"angel123",
+				"N000222"
+		);
+		angel.signUp();
+	}
 }

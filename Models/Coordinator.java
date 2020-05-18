@@ -42,6 +42,10 @@ public class Coordinator extends User {
 	public boolean logIn() {
 		return new DAOCoordinator(this).logIn();
 	}
+
+	public boolean update() { return new DAOCoordinator(this).update();}
+
+	public boolean delete() {return new DAOCoordinator(this).delete();}
 	
 	public boolean signUpProject(Project project) throws CustomException {
 		return project.register();
@@ -78,6 +82,10 @@ public class Coordinator extends User {
 	
 	public boolean isRegistered() {
 		return new DAOCoordinator(this).isRegistered();
+	}
+
+	public boolean isComplete(){
+		return super.isComplete() && personalNo != null;
 	}
 
 	public void fillTableCoordinator(ObservableList<Coordinator> listCoordinator) {
