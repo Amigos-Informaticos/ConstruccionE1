@@ -47,9 +47,9 @@ public class AdminProfessorController implements Initializable {
     @FXML private JFXButton btnUpdate;
     @FXML private ImageView backArrow;
 
-    Professor professor;
-    ObservableList<String> listShift;
-    ObservableList<Professor> listProfessor;
+    private Professor professor;
+    private ObservableList<String> listShift;
+    private ObservableList<Professor> listProfessor;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -207,7 +207,6 @@ public class AdminProfessorController implements Initializable {
         txtNames.setText(null);
         txtLastNames.setText(null);
         txtNoPersonal.setText(null);
-        cmbShift.setValue(null);
     }
     private void enableRegister(){
         txtEmail.setDisable(false);
