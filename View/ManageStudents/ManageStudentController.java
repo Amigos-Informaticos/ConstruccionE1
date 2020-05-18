@@ -38,7 +38,7 @@ public class ManageStudentController implements Initializable {
 	
 	ObservableList<Student> listStudent;
 
-	Student student;
+	private Student student;
 
 
 	@Override
@@ -126,4 +126,5 @@ public class ManageStudentController implements Initializable {
 		student.setEmail(txtEmail.getText());
 		student.setPassword(txtPassword.getText());
 	}
+
 }

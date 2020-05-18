@@ -6,7 +6,7 @@ import IDAO.IDAOUser;
 import Models.Coordinator;
 import Models.Professor;
 
-public class DAOCoordinator implements IDAOCoordinator {
+public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
 	private Coordinator coordinator;
 	private final DBConnection connection = new DBConnection();
 	
@@ -141,5 +141,5 @@ public class DAOCoordinator implements IDAOCoordinator {
 		String[] names = {"idCoordinator"};
 		return this.connection.select(query, values, names)[0][0];
 	}
-	
+
 }
