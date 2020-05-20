@@ -1,4 +1,4 @@
-package View.ChooseProject;
+package View.student.controller;
 
 import Models.Project;
 import javafx.fxml.FXML;

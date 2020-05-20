@@ -7,13 +7,13 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ChooseProject.ChooseProjectController">
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.student.controller.ChooseProjectController">
    <children>
       <HBox prefHeight="60.0" prefWidth="350.0" spacing="15.0" style="-fx-background-color: #18529D;">
          <children>
             <ImageView fitHeight="34.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/icon_back_white.png" />
+                  <Image url="@../../images/icon_back_white.png" />
                </image>
                <HBox.margin>
                   <Insets left="5.0" top="10.0" />
@@ -81,7 +81,7 @@
       </Label>
       <ImageView fitHeight="33.0" fitWidth="35.0" layoutX="510.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/icon_refresh.png" />
+            <Image url="@../../images/icon_refresh.png" />
          </image>
       </ImageView>
    </children>
