@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="450.0" maxWidth="700.0" minHeight="450.0" minWidth="700.0" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Admin.AdminCoordinatorController">
+<AnchorPane maxHeight="450.0" maxWidth="700.0" minHeight="450.0" minWidth="700.0" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Admin.controller.AdminCoordinatorController">
    <children>
       <HBox prefHeight="60.0" prefWidth="700.0" style="-fx-background-color: #18529D;">
          <children>
@@ -38,7 +38,7 @@
                <children>
                   <ImageView disable="true" fitHeight="272.0" fitWidth="216.0" layoutX="34.0" layoutY="34.0" opacity="0.12" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/logo_uv.png" />
+                        <Image url="@../../images/logo_uv.png" />
                      </image>
                   </ImageView>
                   <GridPane layoutX="9.0" layoutY="63.0" prefHeight="227.0" prefWidth="241.0">
@@ -115,7 +115,7 @@
                   </Label>
                   <ImageView fx:id="backArrow" fitHeight="36.0" fitWidth="37.0" layoutX="14.0" layoutY="16.0" onMouseClicked="#onBackArrowClicked" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/back_arrow_64px.png" />
+                        <Image url="@../../images/back_arrow_64px.png" />
                      </image>
                   </ImageView>
                </children>

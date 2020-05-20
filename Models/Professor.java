@@ -2,6 +2,7 @@ package Models;
 
 import DAO.DAOProfessor;
 import Exceptions.CustomException;
+import IDAO.IDAOProfessor;
 import javafx.collections.ObservableList;
 
 public class Professor extends User {
@@ -69,6 +70,6 @@ public class Professor extends User {
     }
 
     public void fillTableProfessor(ObservableList<Professor> listProfessor) {
-        listProfessor.addAll(DAOProfessor.getAll());
+        listProfessor.addAll(IDAOProfessor.getAll());
     }
 }

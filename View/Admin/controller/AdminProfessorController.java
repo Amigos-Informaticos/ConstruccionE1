@@ -1,4 +1,4 @@
-package View.Admin;
+package View.Admin.controller;
 
 
 import Models.Professor;
