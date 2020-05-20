@@ -1,4 +1,4 @@
-package View.ManageProjects;
+package View.coordinator.controller;
 
 import Models.Organization;
 import com.jfoenix.controls.JFXComboBox;

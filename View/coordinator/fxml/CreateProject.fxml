@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.*?>
-<AnchorPane minHeight="710.0" minWidth="700.0" prefHeight="710.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ManageProjects.CreateProjectController">
+<AnchorPane minHeight="710.0" minWidth="700.0" prefHeight="710.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.coordinator.controller.CreateProjectController">
    <children>
       <HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;">
          <children>

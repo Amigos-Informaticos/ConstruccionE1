@@ -1,4 +1,4 @@
-package View.ManageStudents;
+package View.coordinator.controller;
 
 import Exceptions.CustomException;
 import Models.Student;
