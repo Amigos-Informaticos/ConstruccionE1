@@ -22,9 +22,8 @@ public class TestsCoordinator {
 			exception.printStackTrace();
 		}
 	}
-
-
-
+	
+	
 	@Test
 	public void projectManagementTest(){
 		Project project = new Project();

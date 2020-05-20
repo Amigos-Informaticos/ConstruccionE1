@@ -1,7 +1,6 @@
 package IDAO;
 
 import Connection.DBConnection;
-import Exceptions.CustomException;
 import Models.Professor;
 
 public interface IDAOProfessor extends IDAOUser {

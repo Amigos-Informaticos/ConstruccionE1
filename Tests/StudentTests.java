@@ -79,11 +79,7 @@ public class StudentTests {
 	@Test
 	public void e_getSelections() {
 		Project project = new DAOProject().loadProject("Hackear la nasa");
-		try {
-			assertEquals(project.getName(), this.student.getSelection()[0].getName());
-		} catch (CustomException e) {
-			new Logger().log(e);
-		}
+		assertEquals(project.getName(), this.student.getSelection()[0].getName());
 	}
 	
 	@Test
@@ -97,12 +93,8 @@ public class StudentTests {
 	
 	@Test
 	public void g_deleteSelectedProject() {
-		try {
-			for (Project project: this.student.getSelection()) {
-				assertTrue(this.student.removeSelection(project.getName()));
-			}
-		} catch (CustomException e) {
-			new Logger().log(e);
+		for (Project project: this.student.getSelection()) {
+			assertTrue(this.student.removeSelection(project.getName()));
 		}
 	}
 	

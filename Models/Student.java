@@ -35,16 +35,9 @@ public class Student extends User {
 	
 	
 	public boolean signUp() throws CustomException {
-		boolean isRegistered = false;
-		if (this.isComplete()) {
-			DAOStudent daoStudent = new DAOStudent(this);
-			if (daoStudent.signUp()) {
-				isRegistered = true;
-			}
-		}
-		return isRegistered;
+		assert this.isComplete() : "Student is not complete: Student.signUp()";
+		return new DAOStudent(this).signUp();
 	}
-	
 	
 	public boolean login() {
 		return new DAOStudent(this).logIn();
@@ -63,24 +56,20 @@ public class Student extends User {
 	public boolean isComplete() {
 		return super.isComplete() && this.regNumber != null;
 	}
-
-
+	
 	
 	public boolean selectProject(String projectName) throws CustomException {
 		return new DAOStudent(this).selectProject(projectName);
 	}
 	
 	
-	public boolean removeSelection(String projectName) throws CustomException {
-		boolean removed = false;
-		if (this.isComplete() && projectName != null) {
-			DAOStudent daoStudent = new DAOStudent(this);
-			removed = daoStudent.deleteSelectedProject(projectName);
-		}
-		return removed;
+	public boolean removeSelection(String projectName) {
+		assert this.isComplete() : "Student is not complete: Student.removeSelection()";
+		assert projectName != null : "Project name is null: Student.removeSelection()";
+		return new DAOStudent(this).deleteSelectedProject(projectName);
 	}
 	
-	public Project[] getSelection() throws CustomException {
+	public Project[] getSelection() {
 		return new DAOStudent(this).getProjects();
 	}
 	
@@ -114,11 +103,6 @@ public class Student extends User {
 	}
 	
 	public boolean fillTableStudent(ObservableList<Student> listStudent) {
-		boolean filled = false;
-		DAOStudent daoStudent = new DAOStudent(this);
-		if (daoStudent.fillTableStudent(listStudent)) {
-			filled = true;
-		}
-		return filled;
+		return new DAOStudent(this).fillTableStudent(listStudent);
 	}
 }
