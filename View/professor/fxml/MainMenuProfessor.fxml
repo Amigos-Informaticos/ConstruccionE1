@@ -25,7 +25,7 @@
          </font></JFXButton>
       <ImageView fitHeight="224.0" fitWidth="172.0" layoutX="521.0" layoutY="90.0" opacity="0.23" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/logo_uv.png" />
+            <Image url="@../../images/logo_uv.png" />
          </image>
       </ImageView>
       <JFXButton layoutX="195.0" layoutY="197.0" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Proyectos" textAlignment="CENTER" textFill="WHITE">
@@ -40,17 +40,17 @@
       </JFXButton>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="284.0">
          <image>
-            <Image url="@../images/icon_organization.png" />
+            <Image url="@../../images/icon_organization.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="108.0">
          <image>
-            <Image url="@../images/icon_students.png" />
+            <Image url="@../../images/icon_students.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="197.0">
          <image>
-            <Image url="@../images/icon_project.png" />
+            <Image url="@../../images/icon_project.png" />
          </image>
       </ImageView>
    </children>

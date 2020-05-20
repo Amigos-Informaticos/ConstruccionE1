@@ -1,4 +1,4 @@
-package View.Admin.controller;
+package View.admin.controller;
 
 import Models.Coordinator;
 import Models.Shift;
