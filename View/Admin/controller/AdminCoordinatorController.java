@@ -1,7 +1,6 @@
 package View.Admin.controller;
 
 import Models.Coordinator;
-import Models.Professor;
 import Models.Shift;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;

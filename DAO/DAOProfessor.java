@@ -1,7 +1,6 @@
 package DAO;
 
 import Connection.DBConnection;
-import Exceptions.CustomException;
 import IDAO.IDAOProfessor;
 import Models.Professor;
 
@@ -120,7 +119,7 @@ public class DAOProfessor implements IDAOProfessor {
 		String[] names = {"idProfessor"};
 		return this.connection.select(query, values, names)[0][0];
 	}
-	
+
 	public static Professor[] get(Professor professor) {
 		return null;
 	}
