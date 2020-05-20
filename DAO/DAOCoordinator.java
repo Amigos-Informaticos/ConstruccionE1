@@ -113,13 +113,27 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 		String[][] resultQuery = this.connection.select(query, null, names);
 		return Integer.parseInt(resultQuery[0][0]) > 0;
 	}
-
+	
+	@Override
+	public String getShift() {
+		assert this.coordinator != null : "Professor is null: DAOCoordinator.getShift()";
+		assert this.coordinator.getEmail() != null :
+			"Professor's email is null: DAOProfessor.getShoft()";
+		String query = "SELECT turno FROM Turno " +
+			"INNER JOIN Coordinador ON Turno.idTurno = Coordinador.turno " +
+			"INNER JOIN Usuario ON Coordinador.idUsuario = Usuario.idUsuario " +
+			"WHERE Usuario.correoElectronico = ?";
+		String[] values = {this.coordinator.getEmail()};
+		String[] responses = {"turno"};
+		return this.connection.select(query, values, responses)[0][0];
+	}
+	
 	public static Coordinator[] getAll() {
 		String query =
-				"SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, status, fechaRegistro FROM " +
-						"Usuario INNER JOIN Coordinador ON Usuario.idUsuario = Coordinador.idUsuario";
+			"SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, status, fechaRegistro FROM " +
+				"Usuario INNER JOIN Coordinador ON Usuario.idUsuario = Coordinador.idUsuario";
 		String[] names =
-				{"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "status", "fechaRegistro"};
+			{"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "status", "fechaRegistro"};
 		String[][] responses = new DBConnection().select(query, null, names);
 		Coordinator[] coordinators = new Coordinator[responses.length];
 		for (int i = 0; i < responses.length; i++) {
@@ -139,10 +153,5 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 		String[] values = {this.coordinator.getEmail()};
 		String[] names = {"idCoordinator"};
 		return this.connection.select(query, values, names)[0][0];
-	}
-	
-	@Override
-	public String getShift() {
-		return null;
 	}
 }

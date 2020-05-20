@@ -1,7 +1,6 @@
 package DAO;
 
 import Connection.DBConnection;
-import Exceptions.CustomException;
 import IDAO.IDAOProfessor;
 import IDAO.Shift;
 import Models.Professor;
@@ -49,7 +48,7 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 		String[] values = {this.professor.getEmail()};
 		return this.connection.sendQuery(query, values);
 	}
-
+	
 	@Override
 	public boolean reactive() {
 		assert this.professor != null : "Professor is null : reactive()";
@@ -118,8 +117,16 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 	
 	@Override
 	public String getShift() {
-		String query = "SELECT turno FROM Turno INNER JOIN Profesor ON Turno.idTurno = Profesor.turno";
-		return null;
+		assert this.professor != null : "Professor is null: DAOProfessor.getShift()";
+		assert this.professor.getEmail() != null :
+			"Professor's email is null: DAOProfessor.getShoft()";
+		String query = "SELECT turno FROM Turno " +
+			"INNER JOIN Profesor ON Turno.idTurno = Profesor.turno " +
+			"INNER JOIN Usuario ON Profesor.idUsuario = Usuario.idUsuario " +
+			"WHERE Usuario.correoElectronico = ?";
+		String[] values = {this.professor.getEmail()};
+		String[] responses = {"turno"};
+		return this.connection.select(query, values, responses)[0][0];
 	}
 	
 	private String getIdProfessor() {
@@ -128,7 +135,7 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 		String[] names = {"idProfessor"};
 		return this.connection.select(query, values, names)[0][0];
 	}
-
+	
 	public static Professor[] get(Professor professor) {
 		return null;
 	}
