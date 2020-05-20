@@ -1,4 +1,4 @@
-package View.MainMenuStudent;
+package View.student.controller;
 
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
