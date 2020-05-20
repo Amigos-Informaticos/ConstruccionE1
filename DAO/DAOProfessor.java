@@ -24,6 +24,7 @@ public class DAOProfessor implements IDAOProfessor {
 	@Override
 	public boolean update(){
 		assert professor != null : "Professor is null : update()";
+		assert professor.isComplete() : "Professor is not complete : update()";
 		assert this.isActive() : "Professor has not a status active on the system";
 		boolean updated = false;
 		String query = "UPDATE Usuario SET nombres = ?, apellidos = ? WHERE correoElectronico = ?";

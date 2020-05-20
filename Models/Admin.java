@@ -1,7 +1,6 @@
 package Models;
 
 import DAO.DAOAdmin;
-import javafx.collections.ObservableList;
 import tools.Logger;
 
 import java.math.BigInteger;
@@ -23,15 +22,6 @@ public class Admin extends User {
 			this.setEmail(admin.getEmail());
 			this.setPassword(admin.getPassword());
 		}
-	}
-	
-	public boolean fillTableProfessor(ObservableList<Professor> listProfessor) {
-		boolean filled = false;
-		DAOAdmin daoAdmin = new DAOAdmin(this);
-		if (daoAdmin.fillTableProfessor(listProfessor)) {
-			filled = true;
-		}
-		return filled;
 	}
 	
 	public boolean isRegistered() {
