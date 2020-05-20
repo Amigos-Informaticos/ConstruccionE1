@@ -2,11 +2,10 @@ package DAO;
 
 import Connection.DBConnection;
 import IDAO.IDAOCoordinator;
-import IDAO.IDAOUser;
+import IDAO.Shift;
 import Models.Coordinator;
-import Models.Professor;
 
-public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
+public class DAOCoordinator implements IDAOCoordinator, Shift {
 	private Coordinator coordinator;
 	private final DBConnection connection = new DBConnection();
 	
@@ -134,12 +133,16 @@ public class DAOCoordinator implements IDAOUser, IDAOCoordinator {
 		}
 		return coordinators;
 	}
-
+	
 	private String getIdCoordinator() {
 		String query = "SELECT idUsuario AS idCoordinator FROM Usuario WHERE correoElectronico = ?";
 		String[] values = {this.coordinator.getEmail()};
 		String[] names = {"idCoordinator"};
 		return this.connection.select(query, values, names)[0][0];
 	}
-
+	
+	@Override
+	public String getShift() {
+		return null;
+	}
 }

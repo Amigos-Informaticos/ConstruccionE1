@@ -1,11 +1,11 @@
 package DAO;
 
 import Connection.DBConnection;
-import Exceptions.CustomException;
 import IDAO.IDAOProfessor;
+import IDAO.Shift;
 import Models.Professor;
 
-public class DAOProfessor implements IDAOProfessor {
+public class DAOProfessor implements IDAOProfessor, Shift {
 	private Professor professor;
 	private final DBConnection connection = new DBConnection();
 	
@@ -22,7 +22,7 @@ public class DAOProfessor implements IDAOProfessor {
 	}
 	
 	@Override
-	public boolean update(){
+	public boolean update() {
 		assert professor != null : "Professor is null : update()";
 		assert professor.isComplete() : "Professor is not complete : update()";
 		assert this.isActive() : "Professor has not a status active on the system";
@@ -39,17 +39,18 @@ public class DAOProfessor implements IDAOProfessor {
 		}
 		return updated;
 	}
+	
 	@Override
-	public boolean delete(){
+	public boolean delete() {
 		assert this.professor != null : "Professor null is null : delete()";
 		assert this.isActive() : "Professor is not active : delete()";
 		String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
 		String[] values = {this.professor.getEmail()};
 		return this.connection.sendQuery(query, values);
 	}
-
+	
 	@Override
-	public boolean reactive(){
+	public boolean reactive() {
 		assert this.professor != null : "Professor is null : reactive()";
 		assert !this.isActive() : "Professor is not active : reactive()";
 		String query = "UPDATE Usuario SET status = 1 WHERE correoElectronico = ?";
@@ -58,7 +59,7 @@ public class DAOProfessor implements IDAOProfessor {
 	}
 	
 	@Override
-	public boolean logIn(){
+	public boolean logIn() {
 		assert this.isRegistered() : "Professor is not registered: DAOProfessor.logIn()";
 		assert this.isActive() : "Professor is not active: DAOProfessor.logIn()";
 		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ? " +
@@ -85,7 +86,7 @@ public class DAOProfessor implements IDAOProfessor {
 		return signedUp;
 	}
 	
-	public boolean isActive(){
+	public boolean isActive() {
 		assert this.professor != null : "Professor is null: DAOProfessor.isActive()";
 		assert this.professor.getEmail() != null :
 			"Professor's email is null: DAOProfessor.isActive()";
@@ -114,6 +115,12 @@ public class DAOProfessor implements IDAOProfessor {
 		return this.connection.select(query, values, names)[0][0];
 	}
 	
+	@Override
+	public String getShift() {
+		String query = "SELECT turno FROM Turno INNER JOIN Profesor ON Turno.idTurno = Profesor.turno";
+		return null;
+	}
+	
 	private String getIdProfessor() {
 		String query = "SELECT idUsuario AS idProfessor FROM Usuario WHERE correoElectronico = ?";
 		String[] values = {this.professor.getEmail()};
@@ -128,7 +135,7 @@ public class DAOProfessor implements IDAOProfessor {
 				"FROM Usuario INNER JOIN Profesor ON Usuario.idUsuario = Profesor.idUsuario " +
 				"INNER JOIN Turno ON Profesor.turno = Turno.idTurno WHERE status = 1";
 		String[] names =
-		{"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "turno"};
+			{"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "turno"};
 		String[][] responses = new DBConnection().select(query, null, names);
 		Professor[] professors = new Professor[responses.length];
 		for (int i = 0; i < responses.length; i++) {
