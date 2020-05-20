@@ -1,4 +1,4 @@
-package View.ManageOrganizations;
+package View.coordinator.controller;
 
 import Exceptions.CustomException;
 import Models.Address;

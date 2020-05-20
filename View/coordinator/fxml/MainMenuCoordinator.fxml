@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainMenuCoordinator.MainMenuCoordinatorController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.coordinator.controller.MainMenuCoordinatorController">
    <children>
       <ImageView disable="true" fitHeight="427.0" fitWidth="350.0" layoutX="350.0" layoutY="9.0" opacity="0.23" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/logo_uv.png" />
+            <Image url="@../../images/logo_uv.png" />
          </image>
       </ImageView>
       <HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -40,17 +40,17 @@
       </JFXButton>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="284.0">
          <image>
-            <Image url="@../images/icon_organization.png" />
+            <Image url="@../../images/icon_organization.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="108.0">
          <image>
-            <Image url="@../images/icon_students.png" />
+            <Image url="@../../images/icon_students.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="197.0">
          <image>
-            <Image url="@../images/icon_project.png" />
+            <Image url="@../../images/icon_project.png" />
          </image>
       </ImageView>
    </children>

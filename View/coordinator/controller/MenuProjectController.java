@@ -1,4 +1,4 @@
-package View.ManageProjects;
+package View.coordinator.controller;
 
 import View.MainController;
 import javafx.fxml.FXML;
