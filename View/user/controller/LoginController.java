@@ -1,4 +1,4 @@
-package View.Login;
+package View.user.controller;
 
 import Models.User;
 import View.MainController;
