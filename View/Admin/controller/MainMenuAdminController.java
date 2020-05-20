@@ -1,4 +1,4 @@
-package View.MainMenuAdmin;
+package View.Admin.controller;
 
 import View.MainController;
 import javafx.fxml.FXML;
