@@ -1,4 +1,4 @@
-package View.Admin.controller;
+package View.admin.controller;
 
 import View.MainController;
 import javafx.fxml.FXML;
