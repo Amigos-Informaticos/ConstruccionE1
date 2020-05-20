@@ -1,4 +1,4 @@
-package View.MainMenuCoordinator;
+package View.coordinator.controller;
 
 import View.MainController;
 import javafx.fxml.FXML;
