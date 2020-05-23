@@ -1,12 +1,10 @@
 package Tests;
 
 import DAO.DAOProfessor;
-import Exceptions.CustomException;
 import Models.Professor;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import tools.P;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -71,7 +69,7 @@ public class DAOProfesorTests {
 		System.out.println(getDAOProfesor().getIdShift());
 		assertNotNull(getDAOProfesor().getIdShift());
 	}
-	
+	/*
 	@Test
 	public void z_getAll() {
 		for (Professor professor: DAOProfessor.getAll()) {
@@ -79,6 +77,8 @@ public class DAOProfesorTests {
 			P.pln(professor.getNames());
 		}
 	}
+
+	 */
 	
 	private DAOProfessor getDAOProfesor() {
 		return new DAOProfessor(getInstanceProfesor());
