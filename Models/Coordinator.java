@@ -6,8 +6,34 @@ import javafx.collections.ObservableList;
 
 public class Coordinator extends User {
 	private String personalNo;
-	
-	
+	private String registrationDate;
+	private String dischargeDate;
+	private String shift;
+
+	public String getShift() {
+		return shift;
+	}
+
+	public void setShift(String shift) {
+		this.shift = shift;
+	}
+
+	public String getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(String registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
+	public String getDischargeDate() {
+		return dischargeDate;
+	}
+
+	public void setDischargeDate(String dischargeDate) {
+		this.dischargeDate = dischargeDate;
+	}
+
 	public Coordinator() {
 	}
 	
@@ -15,6 +41,14 @@ public class Coordinator extends User {
 	                   String personalNo) {
 		super(names, lastNames, email, password);
 		this.personalNo = personalNo;
+	}
+
+	public Coordinator(String names, String lastNames, String email, String password,
+					   String personalNo, String registrationDate, String dischargeDate) {
+		super(names, lastNames, email, password);
+		this.personalNo = personalNo;
+		this.registrationDate = registrationDate;
+		this.dischargeDate = dischargeDate;
 	}
 	
 	public Coordinator(Coordinator coordinator) {
@@ -90,5 +124,9 @@ public class Coordinator extends User {
 
 	public void fillTableCoordinator(ObservableList<Coordinator> listCoordinator) {
 		listCoordinator.addAll(DAOCoordinator.getAll());
+	}
+
+	public Coordinator[] getAll(){
+		return DAOCoordinator.getAll();
 	}
 }
