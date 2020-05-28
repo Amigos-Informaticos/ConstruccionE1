@@ -1,7 +1,7 @@
 package Tests;
 
 import DAO.DAOProfessor;
-import Exceptions.CustomException;
+import IDAO.IDAOProfessor;
 import Models.Professor;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -74,7 +74,7 @@ public class DAOProfesorTests {
 	
 	@Test
 	public void z_getAll() {
-		for (Professor professor: DAOProfessor.getAll()) {
+		for (Professor professor: IDAOProfessor.getAll()) {
 			assertNotNull(professor.getNames());
 			P.pln(professor.getNames());
 		}
