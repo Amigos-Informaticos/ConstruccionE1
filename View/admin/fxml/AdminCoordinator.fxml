@@ -208,21 +208,13 @@
                                     <Insets left="50.0" />
                                  </padding>
                               </Label>
-                              <Label text="Estatus" textFill="#18529d" GridPane.rowIndex="8">
-                                 <padding>
-                                    <Insets left="20.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="System Bold" size="18.0" />
-                                 </font>
-                              </Label>
                               <Label fx:id="lblStatus" GridPane.rowIndex="9">
                                  <GridPane.margin>
                                     <Insets left="50.0" />
                                  </GridPane.margin>
                               </Label>
                               <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="10" />
-                              <Label text="Fecha de registro" textFill="#18529d" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                              <Label text="Fecha de registro" textFill="#18529d" GridPane.rowIndex="8">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>

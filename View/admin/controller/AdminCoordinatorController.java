@@ -1,5 +1,6 @@
 package View.admin.controller;
 
+import DAO.DAOCoordinator;
 import Models.Coordinator;
 import Models.Shift;
 import View.MainController;
@@ -13,15 +14,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import tools.Logger;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminCoordinatorController implements Initializable {
@@ -54,15 +53,17 @@ public class AdminCoordinatorController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        coordinator = DAOCoordinator.getAll()[0];
+        fillDetailsCoordinator(coordinator);
         listCoordinator = FXCollections.observableArrayList();
         listShift = FXCollections.observableArrayList();
-        new Coordinator().fillTableCoordinator(listCoordinator);
         new Shift().fillShift(listShift);
-        tableViewCoordinator.setItems(listCoordinator);
         cmbShift.setItems(listShift);
+        /*new Coordinator().fillTableCoordinator(listCoordinator);
+        tableViewCoordinator.setItems(listCoordinator);
         clmnEmail.setCellValueFactory(new PropertyValueFactory<Coordinator,String>("email"));
         clmnNames.setCellValueFactory(new PropertyValueFactory<Coordinator,String>("names"));
-        clmnLastNames.setCellValueFactory(new PropertyValueFactory<Coordinator,String>("lastnames"));
+        clmnLastNames.setCellValueFactory(new PropertyValueFactory<Coordinator,String>("lastnames"));*/
         eventManager();
 
     }
@@ -129,19 +130,26 @@ public class AdminCoordinatorController implements Initializable {
 
     @FXML
     public void delete(){
-        try{
-            if(tableViewCoordinator.getSelectionModel().getSelectedItem().delete()){
-                listCoordinator.remove(tableViewCoordinator.getSelectionModel().getSelectedIndex());
-            } else{
-                MainController.alert(
-                        Alert.AlertType.INFORMATION,
-                        "No se pudo eliminar al profesor",
-                        "Pulse aceptar para continuar"
-                );
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("");
+        alert.setContentText("¿Desea eliminar al coordinador?");
+        alert.showAndWait();
+        if(alert.getResult() == ButtonType.OK){
+            try{
+                if(tableViewCoordinator.getSelectionModel().getSelectedItem().delete()){
+                    listCoordinator.remove(tableViewCoordinator.getSelectionModel().getSelectedIndex());
+                } else{
+                    MainController.alert(
+                            Alert.AlertType.INFORMATION,
+                            "No se pudo eliminar al profesor",
+                            "Pulse aceptar para continuar"
+                    );
+                }
+            }catch(AssertionError e){
+                new Logger().log(e.getMessage());
             }
-        }catch(AssertionError e){
-            new Logger().log(e.getMessage());
         }
+
     }
 
 
@@ -191,6 +199,8 @@ public class AdminCoordinatorController implements Initializable {
         lblLastnames.setText(coordinator.getLastnames());
         lblEmail.setText(coordinator.getEmail());
         lblPersonalNo.setText(coordinator.getPersonalNo());
+        lblRegistrationDate.setText(coordinator.getRegistrationDate());
+        lblDischargeDate.setText(coordinator.getDischargeDate());
     }
     private void enableRegister(){
         txtEmail.setDisable(false);
