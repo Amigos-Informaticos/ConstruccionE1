@@ -1,6 +1,7 @@
 package Tests;
 
 import DAO.DAOProfessor;
+import Exceptions.CustomException;
 import IDAO.IDAOProfessor;
 import Models.Professor;
 import org.junit.FixMethodOrder;
