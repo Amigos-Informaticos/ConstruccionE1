@@ -30,41 +30,31 @@ public class DAOStudent implements IDAOStudent {
 		this.student = student;
 	}
 	
-	public String getId() throws CustomException {
-		String id;
-		if (this.student != null && this.student.getEmail() != null &&
-			new DAOStudent(this.student).isRegistered()) {
-			String query = "SELECT idUsuario FROM Usuario WHERE correoElectronico = ?";
-			String[] values = {this.student.getEmail()};
-			String[] names = {"idUsuario"};
-			id = new DBConnection().select(query, values, names)[0][0];
-		} else {
-			throw new CustomException(
-				"Null Pointer Exception: getId()",
-				"NullPointerException", "NullEmail", "StudentNotRegistered"
-			);
-		}
-		return id;
+	public String getId() {
+		assert this.student != null : "This Student is null: DAOStudent.getId()";
+		assert this.student.getEmail() != null : "This Student email is null: DAOStudent.getId()";
+		assert new DAOStudent(this.student).isRegistered() :
+			"Student isnt registered: DAOStudent.getId()";
+		String query = "SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?";
+		String[] values = {this.student.getEmail()};
+		String[] names = {"idMiembro"};
+		return new DBConnection().select(query, values, names)[0][0];
 	}
 	
 	@Override
 	public boolean update() {
 		boolean updated = false;
-		if (this.isRegistered()) {
-			String query = "UPDATE Usuario SET nombres = ?, apellidos = ?, correoElectronico = ?, "
-				+ "contrasena = ? WHERE correoElectronico = ?";
-			String[] values = {this.student.getNames(), this.student.getLastnames(),
-				this.student.getEmail(), this.student.getPassword(),
-				this.student.getEmail()};
-			if (this.connection.sendQuery(query, values)) {
-				query = "UPDATE Practicante SET Matricula = ? WHERE idUsuario = (SELECT " +
-					"idUsuario" + " " + "FROM Usuario WHERE correoElectronico = ?)";
-				values = new String[]{this.student.getRegNumber(),
-					this.student.getEmail()};
-				if (this.connection.sendQuery(query, values)) {
-					updated = true;
-				}
-			}
+		assert this.isRegistered() : "This Student isnt registered: DAOStudent.update()";
+		String query = "UPDATE MiembroFEI SET nombres = ?, apellidos = ?, correoElectronico = ?, "
+			+ "contrasena = ? WHERE correoElectronico = ?";
+		String[] values = {this.student.getNames(), this.student.getLastnames(),
+			this.student.getEmail(), this.student.getPassword(),
+			this.student.getEmail()};
+		if (this.connection.sendQuery(query, values)) {
+			query = "UPDATE Practicante SET matricula = ? WHERE idMiembro = " +
+				"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
+			values = new String[]{this.student.getRegNumber(), this.student.getEmail()};
+			updated = this.connection.sendQuery(query, values);
 		}
 		return updated;
 	}
@@ -75,25 +65,20 @@ public class DAOStudent implements IDAOStudent {
 		assert this.student != null : "Student is null: DAOStudent.delete()";
 		assert this.isRegistered() : "Student is not registered: DAOStudent.delete()";
 		if (this.isActive()) {
-			String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
+			String query = "UPDATE MiembroFEI SET estaActivo = 0 WHERE correoElectronico = ?";
 			String[] values = {this.student.getEmail()};
-			if (this.connection.sendQuery(query, values)) {
-				deleted = true;
-			}
-		} else {
-			deleted = true;
+			deleted = this.connection.sendQuery(query, values);
 		}
 		return deleted;
 	}
 	
 	@Override
 	public boolean logIn() {
-		boolean loggedIn;
 		assert this.student != null : "Student is null: DAOStudent.logIn()";
 		assert this.student.getEmail() != null : "Student.getEmail is null: DAOStudent.logIn()";
 		assert this.isActive() : "Student is inactive: DAOStudent.logIn()";
-		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario " +
-			"WHERE correoElectronico = ? AND contrasena = ? AND status = 1";
+		String query = "SELECT COUNT(idMiembro) AS TOTAL FROM MiembroFEI " +
+			"WHERE correoElectronico = ? AND contrasena = ? AND estaActivo = 1";
 		String[] values = {this.student.getEmail(),
 			this.student.getPassword()};
 		String[] names = {"TOTAL"};
