@@ -5,33 +5,37 @@ import Exceptions.CustomException;
 
 public class Project {
 	
-	private String
-		name,
-		methodology,
-		generalObjective,
-		mediateObjective,
-		immediateObjective,
-		resources,
-		responsibilities,
-		status,
-		area,
-		responsible,
-		idPeriod,
-		idOrganization;
-	
+	private String name;
+	private String description;
+	private String methodology;
+	private String generalObjective;
+	private String mediateObjective;
+	private String immediateObjective;
+	private String resources;
+	private String responsibilities;
+	private String status;
+	private String capacity;
+	private String area;
+	private String responsible;
+	private String idPeriod;
+	private String idOrganization;
+
 	public Project(String name,
-	               String methodology,
-	               String generalObjective,
-	               String mediateObjective,
-	               String immediateObjective,
-	               String resources,
-	               String responsibilities,
-	               String status,
-	               String area,
-	               String responsible,
-	               String idPeriod,
-	               String idOrganization) {
+				   String description,
+				   String methodology,
+				   String generalObjective,
+				   String mediateObjective,
+				   String immediateObjective,
+				   String resources,
+				   String responsibilities,
+				   String status,
+				   String capacity,
+				   String area,
+				   String responsible,
+				   String idPeriod,
+				   String idOrganization) {
 		this.name = name;
+		this.description = description;
 		this.methodology = methodology;
 		this.generalObjective = generalObjective;
 		this.mediateObjective = mediateObjective;
@@ -39,31 +43,18 @@ public class Project {
 		this.resources = resources;
 		this.responsibilities = responsibilities;
 		this.status = status;
+		this.capacity = capacity;
 		this.area = area;
 		this.responsible = responsible;
 		this.idPeriod = idPeriod;
 		this.idOrganization = idOrganization;
 	}
-	
+
 	public Project() {
 		DAOProject dao = new DAOProject(this);
 	}
 
-	public Project(String name,
-				   String methodology,
-				   String generalObjective,
-				   String mediateObjective,
-				   String immediateObjective,
-				   String resources,
-				   String responsibilities) {
-		this.name = name;
-		this.methodology = methodology;
-		this.generalObjective = generalObjective;
-		this.mediateObjective = mediateObjective;
-		this.immediateObjective = immediateObjective;
-		this.resources = resources;
-		this.responsibilities = responsibilities;
-	}
+
 
 	public String getName() {
 		return name;
@@ -71,6 +62,14 @@ public class Project {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	public String getMethodology() {
@@ -104,7 +103,9 @@ public class Project {
 	public void setImmediateObjective(String immediateObjective) {
 		this.immediateObjective = immediateObjective;
 	}
-	
+
+
+
 	public String getResources() {
 		return resources;
 	}
@@ -127,6 +128,14 @@ public class Project {
 	
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(String capacity) {
+		this.capacity = capacity;
 	}
 	
 	public String getArea() {
