@@ -14,7 +14,7 @@
             <Image url="@../../images/logo_uv.png" />
          </image>
       </ImageView>
-      <HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox maxHeight="60.0" maxWidth="350.0" prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Separator prefHeight="5.0" prefWidth="83.0" />
             <Label text="Coordinador" textFill="WHITE">

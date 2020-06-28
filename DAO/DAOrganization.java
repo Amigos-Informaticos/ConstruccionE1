@@ -19,10 +19,10 @@ public class DAOrganization implements IDAOrganization {
 		String query;
 		String[] values;
 		if (!this.isRegistered()) {
-			query = "INSERT INTO Organizacion (nombre, status, idSector) VALUES (?, 1, ?)";
+			query = "INSERT INTO Organizacion (nombre, estaActivo, idSector) VALUES (?, 1, ?)";
 			values = new String[]{this.organization.getName(), this.organization.getSector().getId()};
 		} else {
-			query = "UPDATE Organizacion SET status = 1 WHERE nombre = ?";
+			query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
 			values = new String[]{this.organization.getName()};
 		}
 		return this.connection.sendQuery(query, values);
@@ -41,7 +41,7 @@ public class DAOrganization implements IDAOrganization {
 		assert this.organization != null : "Organization is null: DAOrganization.delete()";
 		assert this.isRegistered() : "Organization is not registered: DAOrganization.delete()";
 		assert this.isActive() : "Organization is not active: DAOrganization.delete()";
-		String query = "UPDATE Organizacion SET status = 0 WHERE nombre = ?";
+		String query = "UPDATE Organizacion SET estaActivo = 0 WHERE nombre = ?";
 		String[] values = {this.organization.getName()};
 		return this.connection.sendQuery(query, values);
 	}
@@ -52,9 +52,9 @@ public class DAOrganization implements IDAOrganization {
 		assert this.organization.getName() != null :
 			"Organization's name is null: DAOrganization.isActive()";
 		assert this.isRegistered() : "Organization is not registered: DAOrganization.isActive()";
-		String query = "SELECT status FROM Organizacion WHERE nombre = ?";
+		String query = "SELECT estaActivo FROM Organizacion WHERE nombre = ?";
 		String[] values = {this.organization.getName()};
-		String[] names = {"status"};
+		String[] names = {"estaActivo"};
 		return this.connection.select(query, values, names)[0][0].equals("1");
 	}
 	
@@ -63,7 +63,7 @@ public class DAOrganization implements IDAOrganization {
 		assert this.organization != null : "Organization is null: DAOrganization.reactivate()";
 		assert this.isRegistered() : "Organization is not registered: DAOrganization.reactivate()";
 		assert this.isActive() : "Organization is not active: DAOrganization.reactivate()";
-		String query = "UPDATE Organizacion SET status = 1 WHERE nombre = ?";
+		String query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
 		String[] values = {this.organization.getName()};
 		return this.connection.sendQuery(query, values);
 	}
@@ -104,7 +104,7 @@ public class DAOrganization implements IDAOrganization {
 /*
 	public boolean fillTableOrganization(ObservableList<Organization> listOrganization) {
 		boolean filled = false;
-		String query = "SELECT nombre FROM Organizacion WHERE status = 1";
+		String query = "SELECT nombre FROM Organizacion WHERE estaActivo = 1";
 		String[] names = {"nombre"};
 		String[][] select = this.connection.select(query, null, names);
 		for (int row = 0; row < select.length; row++) {
@@ -122,7 +122,7 @@ public class DAOrganization implements IDAOrganization {
 
 	public boolean fillOrganizationNames(ObservableList<String> listOrganization) {
 		boolean filled = false;
-		String query = "SELECT nombre FROM Organizacion WHERE status = 1";
+		String query = "SELECT nombre FROM Organizacion WHERE estaActivo = 1";
 		for (String[] nombre: this.connection.select(query, null, new String[]{"nombre"})) {
 			listOrganization.add(nombre[0]);
 			filled = true;
