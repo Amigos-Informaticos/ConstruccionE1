@@ -57,20 +57,15 @@ public class Activity {
 	public boolean create() {
 		boolean created = false;
 		if (this.isComplete()) {
-			DAOActivity activity = new DAOActivity(this);
-			if (activity.create()) {
-				created = true;
-			}
+			created = new DAOActivity(this).create();
 		}
 		return created;
 	}
 	
 	public boolean update() {
-		boolean updated = false;
+		boolean updated;
 		DAOActivity activity = new DAOActivity(this);
-		if (activity.update()) {
-			updated = true;
-		}
+		updated = activity.update();
 		return updated;
 	}
 	
@@ -81,9 +76,6 @@ public class Activity {
 	}
 	
 	public String getIdActivity() {
-		String idActivity = null;
-		DAOActivity daoActivity = new DAOActivity(this);
-		idActivity = daoActivity.getIdActivity();
-		return idActivity;
+		return new DAOActivity(this).getIdActivity();
 	}
 }

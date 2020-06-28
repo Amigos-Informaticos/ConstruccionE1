@@ -33,6 +33,11 @@ public class Student extends User {
 		this.regNumber = regNumber;
 	}
 	
+	public Student get(String email) {
+		Student student = new Student();
+		student.setEmail(email);
+		return DAOStudent.get(student);
+	}
 	
 	public boolean signUp() throws CustomException {
 		assert this.isComplete() : "Student is not complete: Student.signUp()";
@@ -58,7 +63,7 @@ public class Student extends User {
 	}
 	
 	
-	public boolean selectProject(String projectName) throws CustomException {
+	public boolean selectProject(String projectName) {
 		return new DAOStudent(this).selectProject(projectName);
 	}
 	
