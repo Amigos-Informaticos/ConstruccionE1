@@ -33,18 +33,17 @@ public class DAOProject implements IDAOProject {
 					"responsabilidades, estaActivo, cupo, area, responsable, idPeriodo, idOrganizacion)" +
 					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 				String[] values = {this.project.getName(),
-						this.project.getMethodology(),
-						this.project.getGeneralObjective(),
-						this.project.getMediateObjective(),
-						this.project.getImmediateObjective(),
-						this.project.getResources(),
-						this.project.getResponsibilities(),
-						this.project.getStatus(),
-						this.project.getCapacity(),
-						this.project.getArea(),
-						this.project.getResponsible(),
-						this.project.getIdPeriod(),
-						this.project.getIdOrganization()
+					this.project.getMethodology(),
+					this.project.getGeneralObjective(),
+					this.project.getMediateObjective(),
+					this.project.getImmediateObjective(),
+					this.project.getResources(),
+					this.project.getResponsibilities(),
+					this.project.getStatus(),
+					this.project.getArea(),
+					this.project.getResponsible(),
+					this.project.getIdPeriod(),
+					this.project.getIdOrganization()
 				};
 				if (this.connection.sendQuery(query, values)) {
 					signedUp = true;
@@ -212,6 +211,7 @@ public class DAOProject implements IDAOProject {
 						"responsabilidades"};
 		String[][] responses = new DBConnection().select(query, null, names);
 		Project[] projects = new Project[responses.length];
+		//TODO Cambiar al constructor adecuado
 		for (int i = 0; i < responses.length; i++) {
 			projects[i] = new Project(
 					responses[i][0],
@@ -221,13 +221,13 @@ public class DAOProject implements IDAOProject {
 					responses[i][4],
 					responses[i][5],
 					responses[i][6],
-					responses[i][7],
-					responses[i][8],
-					responses[i][9],
-					responses[i][10],
-					responses[i][11],
-					responses[i][12],
-					responses[i][13]
+					null,
+					null,
+					null,
+					null,
+					null,
+					null,
+					null
 			);
 		}
 		return projects;

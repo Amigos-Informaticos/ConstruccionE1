@@ -1,19 +1,26 @@
 package Tests;
 
 import DAO.DAOStudent;
+import Exceptions.CustomException;
 import Models.Student;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import tools.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DAOStudentTests {
 	
 	@Test
 	public void a_signUpPracticante() {
-		//assertTrue(getInstancePracticante().register());
+		try {
+			assertTrue(getInstancePracticante().signUp());
+		} catch (CustomException e) {
+			new Logger().log(e);
+		}
 	}
 	
 	@Test
@@ -79,8 +86,8 @@ public class DAOStudentTests {
 	}
 	
 	@Test
-	public void Z_deletePracticante() {
-		//assertTrue(getDAOPracticante().delete());
+	public void z_deletePracticante() {
+		assertTrue(getDAOPracticante().delete());
 	}
 	
 	private DAOStudent getDAOPracticante() {
