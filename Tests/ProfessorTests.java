@@ -18,7 +18,7 @@ public class ProfessorTests {
             "profesor1@hotmail.com",
             "profesor123",
             "N000003",
-            "1"
+            "Matutino"
     );
 
     @Test
