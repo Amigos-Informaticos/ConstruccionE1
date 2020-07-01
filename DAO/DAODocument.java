@@ -2,6 +2,7 @@ package DAO;
 
 import Connection.DBConnection;
 import Models.Document;
+import Models.Student;
 import tools.File;
 import tools.Logger;
 
@@ -52,11 +53,20 @@ public class DAODocument {
 			statement.setString(4, authorEmail);
 			statement.executeUpdate();
 			this.connection.closeConnection();
+			this.document.setTitle(fullTitle);
 			saved = true;
 		} catch (FileNotFoundException | SQLException e) {
 			new Logger().log(e);
 		}
 		return saved;
+	}
+	
+	public boolean saveReport(Student student, String type) {
+		if (this.save(student.getEmail())) {
+			String query = "INSERT INTO Reporte " +
+				"(idDocumento, calificacion, observacion, temporalidad, asignacion)";
+		}
+		return true;
 	}
 	
 	public boolean getFile() {
