@@ -7,27 +7,12 @@ import javafx.collections.ObservableList;
 public class Organization {
     private String name;
     private Address address;
-    private Sector sector;
-    private TelephoneNumber tel;
+    private String sector;
 
     public Organization(){}
 
     public Organization(String name) {
         this.name = name;
-    }
-
-    public Organization(String name,
-                        String street,
-                        String no,
-                        String colony,
-                        String locality,
-                        String tel,
-                        String tel2,
-                        String sector) {
-        this.name = name;
-        this.address = new Address(street,no,colony,locality);
-        this.sector = new Sector(sector);
-        this.tel = new TelephoneNumber(tel,tel2);
     }
 
     public String getName() {
@@ -38,19 +23,11 @@ public class Organization {
         this.name = name;
     }
 
-    public TelephoneNumber getTel() {
-        return tel;
-    }
-
-    public void setTel(TelephoneNumber tel) {
-        this.tel = tel;
-    }
-
-    public Sector getSector() {
+    public String getSector() {
         return sector;
     }
 
-    public void setSector(Sector sector) {
+    public void setSector(String sector) {
         this.sector = sector;
     }
 
@@ -75,7 +52,6 @@ public class Organization {
 
     public boolean isComplete() {
         return this.name != null &&
-                this.tel != null &&
                 this.address != null &&
                 this.sector != null;
     }
