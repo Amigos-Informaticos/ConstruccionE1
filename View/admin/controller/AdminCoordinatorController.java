@@ -53,7 +53,7 @@ public class AdminCoordinatorController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        coordinator = DAOCoordinator.getAll()[0];
+        coordinator = DAOCoordinator.getAll()[0]; //TODO Cambiar método getAll() por getActivate().
         fillDetailsCoordinator(coordinator);
         listCoordinator = FXCollections.observableArrayList();
         listShift = FXCollections.observableArrayList();
@@ -129,7 +129,7 @@ public class AdminCoordinatorController implements Initializable {
     }
 
     @FXML
-    public void delete(){
+    public void delete() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("");
         alert.setContentText("¿Desea eliminar al coordinador?");
