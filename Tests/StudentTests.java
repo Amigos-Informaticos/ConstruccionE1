@@ -69,11 +69,7 @@ public class StudentTests {
 	
 	@Test
 	public void d_selectProject() {
-		try {
-			assertTrue(this.student.selectProject("Hackear la nasa"));
-		} catch (CustomException e) {
-			new Logger().log(e);
-		}
+		assertTrue(this.student.selectProject("Hackear la nasa"));
 	}
 	
 	@Test
@@ -113,7 +109,7 @@ public class StudentTests {
 	}
 	
 	@Test
-	public void k_deleteStudent() {
+	public void z_deleteStudent() {
 		assertTrue(this.student.delete());
 	}
 }
