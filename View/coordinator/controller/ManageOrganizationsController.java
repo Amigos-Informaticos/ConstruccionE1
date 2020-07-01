@@ -3,8 +3,6 @@ package View.coordinator.controller;
 import Exceptions.CustomException;
 import Models.Address;
 import Models.Organization;
-import Models.Sector;
-import Models.TelephoneNumber;
 import View.MainController;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -50,7 +48,6 @@ public class ManageOrganizationsController implements Initializable {
     ObservableList<String> listSector;
 
     private Organization organization;
-    private TelephoneNumber telephoneNumber;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,7 +57,6 @@ public class ManageOrganizationsController implements Initializable {
         clmnName.setCellValueFactory(new PropertyValueFactory<Organization, String>("name"));
 
         listSector = FXCollections.observableArrayList();
-        new Sector().fillSector(listSector);
         cmbSector.setItems(listSector);
 
         eventManager();
@@ -75,13 +71,11 @@ public class ManageOrganizationsController implements Initializable {
                         if(newValue != null){
                             organization = newValue;
                             txtName.setText(newValue.getName());
-                            txtTel1.setText(newValue.getTel().getNumber());
-                            txtTel2.setText(newValue.getTel().getNumber2());
                             txtStreet.setText(newValue.getAddress().getStreet());
                             txtNo.setText(newValue.getAddress().getNo());
                             txtColony.setText(newValue.getAddress().getColony());
                             txtLocality.setText(newValue.getAddress().getLocality());
-                            cmbSector.setValue(newValue.getSector().getName());
+                            cmbSector.setValue(newValue.getSector());
                             enableEdit();
                         } else {
                             cleanFormProfessor();
@@ -105,8 +99,7 @@ public class ManageOrganizationsController implements Initializable {
         try {
             if(organization.isComplete()){
                 if(organization.signUp() &&
-                        organization.getAddress().signUp(organization.getId()) &&
-                        organization.getTel().signUp(organization.getId())){
+                        organization.getAddress().signUp(organization.getId())){
 
 
 
@@ -145,18 +138,10 @@ public class ManageOrganizationsController implements Initializable {
         return address;
     }
 
-    public TelephoneNumber instanceTel(){
-        TelephoneNumber tel = new TelephoneNumber();
-        tel.setNumber(txtTel1.getText());
-        tel.setNumber2(txtTel2.getText());
-        return tel;
-    }
-
 
     public void instanceOrganization(Organization organization){
         organization.setName(txtName.getText());
         organization.setAddress(instanceAddress());
-        organization.setTel(instanceTel());
-        organization.setSector(new Sector(cmbSector.getValue()));
+        organization.setSector(cmbSector.getValue());
     }
 }

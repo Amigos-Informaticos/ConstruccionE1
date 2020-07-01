@@ -2,6 +2,7 @@ package Tests;
 
 import Exceptions.CustomException;
 import Models.Coordinator;
+import Models.Organization;
 import Models.Project;
 import Models.Student;
 import org.junit.Test;
@@ -28,6 +29,7 @@ public class TestsCoordinator {
 	public void projectManagementTest(){
 		Project project = new Project();
 		project.setName("Hackear el pentagono");
+		project.setDescription("Hackear el pentágono con un tamagotchi");
 		project.setMethodology("A punta de hacer pings");
 		project.setGeneralObjective("Descubrir secretos");
 		project.setMediateObjective("Dominar el mundo");
@@ -35,9 +37,9 @@ public class TestsCoordinator {
 		project.setResources("Dos computadoras y un Xiaomi");
 		project.setResponsibilities("Echarle ganas y pararse temprano");
 		project.setStatus("1");
-		project.setArea("1");
+		project.setArea("Desarrollo");
 		project.setEmailResponsible("correoResponsable1@correo.com");
-		project.setPeriod("1");
+		project.setPeriod("FEB-JUN 2020");
 		project.setOrganization("1");
 		Student student = new Student("Efrain",
 										"Arenas",
@@ -68,5 +70,12 @@ public class TestsCoordinator {
 				"N000222"
 		);
 		angel.signUp();
+	}
+
+	@Test
+	public void signUpOrganization(){
+		Organization organization = new Organization();
+		organization.setName("Diamond Casino & Resort");
+		organization.setSector("Turistico");
 	}
 }
