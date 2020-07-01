@@ -1,8 +1,8 @@
 package View.admin.controller;
 
 import DAO.DAOCoordinator;
+import IDAO.Shift;
 import Models.Coordinator;
-import Models.Shift;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -57,7 +57,7 @@ public class AdminCoordinatorController implements Initializable {
         fillDetailsCoordinator(coordinator);
         listCoordinator = FXCollections.observableArrayList();
         listShift = FXCollections.observableArrayList();
-        new Shift().fillShift(listShift);
+        Shift.fillShift(listShift);
         cmbShift.setItems(listShift);
         /*new Coordinator().fillTableCoordinator(listCoordinator);
         tableViewCoordinator.setItems(listCoordinator);
