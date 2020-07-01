@@ -109,20 +109,23 @@ public class AdminProfessorController implements Initializable {
         this.instanceProfessor(professor);
         try {
             if (professor.isComplete()) {
-                //professor = tblViewProfessor.getSelectionModel().getSelectedItem();
-                instanceProfessor(professor);
-                if (/*tblViewProfessor.getSelectionModel().getSelectedItem()*/professor.update()) {
+                if (professor.update()) {
+                    MainController.alert(
+                            Alert.AlertType.INFORMATION,
+                            "Profesor modificado satisfactoriamente",
+                            "Pulse aceptar para continuar"
+                    );
                     listProfessor.set(tblViewProfessor.getSelectionModel().getSelectedIndex(), professor);
                 } else {
                     MainController.alert(
-                            Alert.AlertType.WARNING,
+                            Alert.AlertType.ERROR,
                             "No se pudo actualizar al profesor",
                             "Pulse aceptar para continuar"
                     );
                 }
             } else {
                 MainController.alert(
-                        Alert.AlertType.INFORMATION,
+                        Alert.AlertType.WARNING,
                         "LLene todos los campos correctamente",
                         "Pulse aceptar para continuar"
                 );
@@ -137,23 +140,20 @@ public class AdminProfessorController implements Initializable {
         alert.setHeaderText("");
         alert.setContentText("¿Desea eliminar al coordinador?");
         alert.showAndWait();
-        if(alert.getResult()== ButtonType.YES){
-            System.out.println("Sí");
-        }else {
-            System.out.println("No");
-        }
-        try{
-            if(tblViewProfessor.getSelectionModel().getSelectedItem().delete()){
-                listProfessor.remove(tblViewProfessor.getSelectionModel().getSelectedIndex());
-            } else{
-                MainController.alert(
-                        Alert.AlertType.INFORMATION,
-                        "No se pudo eliminar al profesor",
-                        "Pulse aceptar para continuar"
-                );
+        if(alert.getResult()== ButtonType.OK){
+            try{
+                if(tblViewProfessor.getSelectionModel().getSelectedItem().delete()){
+                    listProfessor.remove(tblViewProfessor.getSelectionModel().getSelectedIndex());
+                } else{
+                    MainController.alert(
+                            Alert.AlertType.INFORMATION,
+                            "No se pudo eliminar al profesor",
+                            "Pulse aceptar para continuar"
+                    );
+                }
+            }catch(AssertionError e){
+                new Logger().log(e.getMessage());
             }
-        }catch(AssertionError e){
-            new Logger().log(e.getMessage());
         }
     }
     public void eventManager(){

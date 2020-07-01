@@ -9,12 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProfessorTests {
     private Professor professor = new Professor(
-            "Dr. Knucles",
+            "",
             "Knowledge",
             "test@hotmail.com",
             "profesor123",
-            "N000003",
-            "Matutino"
+            "N0000004",
+            "Vespertino"
     );
 
     @Test
