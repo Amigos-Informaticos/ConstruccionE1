@@ -16,6 +16,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -108,9 +109,9 @@ public class AdminProfessorController implements Initializable {
         this.instanceProfessor(professor);
         try {
             if (professor.isComplete()) {
-                Professor professor = tblViewProfessor.getSelectionModel().getSelectedItem();
+                //professor = tblViewProfessor.getSelectionModel().getSelectedItem();
                 instanceProfessor(professor);
-                if (tblViewProfessor.getSelectionModel().getSelectedItem().update()) {
+                if (/*tblViewProfessor.getSelectionModel().getSelectedItem()*/professor.update()) {
                     listProfessor.set(tblViewProfessor.getSelectionModel().getSelectedIndex(), professor);
                 } else {
                     MainController.alert(
@@ -132,6 +133,15 @@ public class AdminProfessorController implements Initializable {
     }
     @FXML
     public void delete(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("");
+        alert.setContentText("¿Desea eliminar al coordinador?");
+        alert.showAndWait();
+        if(alert.getResult()== ButtonType.YES){
+            System.out.println("Sí");
+        }else {
+            System.out.println("No");
+        }
         try{
             if(tblViewProfessor.getSelectionModel().getSelectedItem().delete()){
                 listProfessor.remove(tblViewProfessor.getSelectionModel().getSelectedIndex());

@@ -27,11 +27,11 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 		assert professor.isComplete() : "Professor is not complete : update()";
 		assert this.isActive() : "Professor has not a status active on the system";
 		boolean updated = false;
-		String query = "UPDATE Usuario SET nombres = ?, apellidos = ? WHERE correoElectronico = ?";
+		String query = "UPDATE MiembroFEI SET nombres = ?, apellidos = ? WHERE correoElectronico = ?";
 		String[] values = {this.professor.getNames(), this.professor.getLastnames(),
 			this.professor.getEmail()};
 		if (this.connection.sendQuery(query, values)) {
-			query = "UPDATE Profesor SET noPersonal = ?, turno = ? WHERE idUsuario = ?";
+			query = "UPDATE Profesor SET noPersonal = ?, turno = ? WHERE idMiembro = ?";
 			values = new String[]{this.professor.getPersonalNo(), this.getIdShift(), this.getIdProfessor()};
 			if (this.connection.sendQuery(query, values)) {
 				updated = true;
@@ -44,7 +44,7 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 	public boolean delete() {
 		assert this.professor != null : "Professor null is null : delete()";
 		assert this.isActive() : "Professor is not active : delete()";
-		String query = "UPDATE Usuario SET status = 0 WHERE correoElectronico = ?";
+		String query = "UPDATE MiembroFEI SET estaActivo = 0 WHERE correoElectronico = ?";
 		String[] values = {this.professor.getEmail()};
 		return this.connection.sendQuery(query, values);
 	}
@@ -53,7 +53,7 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 	public boolean reactive() {
 		assert this.professor != null : "Professor is null : reactive()";
 		assert !this.isActive() : "Professor is not active : reactive()";
-		String query = "UPDATE Usuario SET status = 1 WHERE correoElectronico = ?";
+		String query = "UPDATE MiembroFEI SET status = 1 WHERE correoElectronico = ?";
 		String[] values = {this.professor.getEmail()};
 		return this.connection.sendQuery(query, values);
 	}
@@ -62,7 +62,7 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 	public boolean logIn() {
 		assert this.isRegistered() : "Professor is not registered: DAOProfessor.logIn()";
 		assert this.isActive() : "Professor is not active: DAOProfessor.logIn()";
-		String query = "SELECT COUNT(idUsuario) AS TOTAL FROM Usuario WHERE correoElectronico = ? " +
+		String query = "SELECT COUNT(idMiembro AS TOTAL FROM MiembroFEI WHERE correoElectronico = ? " +
 			"AND contrasena = ?";
 		String[] values = {this.professor.getEmail(), this.professor.getPassword()};
 		String[] names = {"TOTAL"};
@@ -73,13 +73,13 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 	public boolean signUp() {
 		assert this.professor.isComplete() : "Professor not complete: DAOProfessor.signUp()";
 		boolean signedUp = false;
-		String query = "INSERT INTO Usuario (nombres, apellidos, correoElectronico, contrasena, status)" +
-			"VALUES (?, ?, ?, ?, ?)";
+		String query = "INSERT INTO MiembroFEI (nombres, apellidos, correoElectronico, contrasena, estaActivo," +
+				" registrador) VALUES (?, ?, ?, ?, ?, ?)";
 		String[] values = {this.professor.getNames(), this.professor.getLastnames(),
-			this.professor.getEmail(), this.professor.getPassword(), "1"};
+			this.professor.getEmail(), this.professor.getPassword(), "1","1"};
 		if (this.connection.sendQuery(query, values)) {
-			query = "INSERT INTO Profesor (idUsuario, fechaRegistro, noPersonal, turno) VALUES " +
-				"((SELECT idUsuario FROM Usuario WHERE correoElectronico = ?), (SELECT CURRENT_DATE), ?, ?)";
+			query = "INSERT INTO Profesor (idMiembro, fechaRegistro, noPersonal, turno) VALUES " +
+				"((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?), (SELECT CURRENT_DATE), ?, ?)";
 			values = new String[]{this.professor.getEmail(), this.professor.getPersonalNo(), this.getIdShift()};
 			signedUp = this.connection.sendQuery(query, values);
 		}
@@ -130,9 +130,9 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 	}
 	
 	private String getIdProfessor() {
-		String query = "SELECT idUsuario AS idProfessor FROM Usuario WHERE correoElectronico = ?";
+		String query = "SELECT idMiembro AS idProfessor FROM MiembroFEI WHERE correoElectronico = ?";
 		String[] values = {this.professor.getEmail()};
-		String[] names = {"idProfessor"};
+		String[] names = {"idMiembro"};
 		return this.connection.select(query, values, names)[0][0];
 	}
 	
