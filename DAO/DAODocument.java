@@ -49,7 +49,9 @@ public class DAODocument {
 			statement.setString(1, fullTitle);
 			statement.setString(2, this.document.getType());
 			statement.setBinaryStream(3, fis, (int) file.length());
-			statement.setString(1, authorEmail);
+			statement.setString(4, authorEmail);
+			statement.executeUpdate();
+			this.connection.closeConnection();
 			saved = true;
 		} catch (FileNotFoundException | SQLException e) {
 			new Logger().log(e);

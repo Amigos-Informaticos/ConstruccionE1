@@ -26,7 +26,7 @@ public class DocumentTests {
 			"Documento de prueba",
 			"Normal",
 			new Date(),
-			new File("./Connection/DBConnection.java"),
+			new File("src/Connection/DBConnection.java"),
 			student);
 	}
 	
