@@ -376,21 +376,21 @@ public class DAOStudent implements IDAOStudent {
 		assert documentPath != null : "Document Path is null: DAOStudent.replyActivity()";
 		assert File.exists(documentPath) : "File doesnt exists: DAOStudent.replyActivity()";
 		assert activityName != null : "Activity name is null: DAOStudent.replyActivity()";
-		String query = "SELECT COUNT(idActividad) AS TOTAL FROM Actividad WHERE titulo = ?";
-		String[] values = { activityName };
+		String query = "SELECT COUNT(idActividad) AS TOTAL FROM Actividad " +
+			"WHERE titulo = ? AND idPracticante = ?";
+		String[] values = { activityName, this.getId() };
 		String[] names = { "TOTAL" };
 		if (this.connection.select(query, values, names)[0][0].equals("1")) {
 			try {
 				java.io.File file = new java.io.File(documentPath);
 				FileInputStream fis = new FileInputStream(file);
-				query = "UPDATE Actividad SET documento = ?, " +
-					"fechaEntrega = (SELECT CURRENT_DATE()) " +
-					"WHERE titulo = ? AND idPracticante = ?";
+				query = "INSERT INTO Documento (titulo, fecha, tipo, archivo, autor) " +
+					"VALUES (?, (SELECT CURRENT_DATE()), 'Actividad', ?, ?)";
 				this.connection.openConnection();
 				PreparedStatement statement =
 					this.connection.getConnection().prepareStatement(query);
-				statement.setBinaryStream(1, fis, (int) file.length());
-				statement.setString(2, activityName);
+				statement.setString(1, activityName);
+				statement.setBinaryStream(2, fis, (int) file.length());
 				statement.setString(3, getId());
 				statement.executeUpdate();
 				this.connection.closeConnection();
