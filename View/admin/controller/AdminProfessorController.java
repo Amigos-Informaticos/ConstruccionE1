@@ -1,8 +1,8 @@
 package View.admin.controller;
 
 
+import IDAO.Shift;
 import Models.Professor;
-import Models.Shift;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -56,7 +56,7 @@ public class AdminProfessorController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         listShift = FXCollections.observableArrayList();
         listProfessor = FXCollections.observableArrayList();
-        new Shift().fillShift(listShift);
+        Shift.fillShift(listShift);
         new Professor().fillTableProfessor(listProfessor);
         cmbShift.setItems(listShift);
         tblViewProfessor.setItems(listProfessor);
