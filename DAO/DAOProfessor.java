@@ -72,6 +72,7 @@ public class DAOProfessor implements IDAOProfessor, Shift {
     @Override
     public boolean signUp() {
         assert this.professor.isComplete() : "Professor not complete: DAOProfessor.signUp()";
+        assert !this.professor.isRegistered() : "Professor already registered: DAOProfessor.signUp()";
         boolean signedUp = false;
         String query = "INSERT INTO MiembroFEI (nombres, apellidos, correoElectronico, contrasena, estaActivo," +
                 " registrador) VALUES (?, ?, ?, ?, ?, ?)";

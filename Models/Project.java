@@ -16,50 +16,18 @@ public class Project {
 	private String status;
 	private String capacity;
 	private String area;
-	private String responsible;
-	private String idPeriod;
-	private String idOrganization;
+	private String emailResponsible;
+	private String period;
+    private String organization;
+	private String startDate;
+	private String endDate;
 
-	public Project(String name,
-				   String description,
-				   String methodology,
-				   String generalObjective,
-				   String mediateObjective,
-				   String immediateObjective,
-				   String resources,
-				   String responsibilities,
-				   String status,
-				   String capacity,
-				   String area,
-				   String responsible,
-				   String idPeriod,
-				   String idOrganization) {
-		this.name = name;
-		this.description = description;
-		this.methodology = methodology;
-		this.generalObjective = generalObjective;
-		this.mediateObjective = mediateObjective;
-		this.immediateObjective = immediateObjective;
-		this.resources = resources;
-		this.responsibilities = responsibilities;
-		this.status = status;
-		this.capacity = capacity;
-		this.area = area;
-		this.responsible = responsible;
-		this.idPeriod = idPeriod;
-		this.idOrganization = idOrganization;
-	}
-
-	public Project() {
-		DAOProject dao = new DAOProject(this);
-	}
-
-
+	public Project() {}
 
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -71,61 +39,59 @@ public class Project {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public String getMethodology() {
 		return methodology;
 	}
-	
+
 	public void setMethodology(String methodology) {
 		this.methodology = methodology;
 	}
-	
+
 	public String getGeneralObjective() {
 		return generalObjective;
 	}
-	
+
 	public void setGeneralObjective(String generalObjective) {
 		this.generalObjective = generalObjective;
 	}
-	
+
 	public String getMediateObjective() {
 		return mediateObjective;
 	}
-	
+
 	public void setMediateObjective(String mediateObjective) {
 		this.mediateObjective = mediateObjective;
 	}
-	
+
 	public String getImmediateObjective() {
 		return immediateObjective;
 	}
-	
+
 	public void setImmediateObjective(String immediateObjective) {
 		this.immediateObjective = immediateObjective;
 	}
 
-
-
 	public String getResources() {
 		return resources;
 	}
-	
+
 	public void setResources(String resources) {
 		this.resources = resources;
 	}
-	
+
 	public String getResponsibilities() {
 		return responsibilities;
 	}
-	
+
 	public void setResponsibilities(String responsibilities) {
 		this.responsibilities = responsibilities;
 	}
-	
+
 	public String getStatus() {
 		return status;
 	}
-	
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
@@ -137,39 +103,55 @@ public class Project {
 	public void setCapacity(String capacity) {
 		this.capacity = capacity;
 	}
-	
+
 	public String getArea() {
 		return area;
 	}
-	
+
 	public void setArea(String area) {
 		this.area = area;
 	}
-	
-	public String getResponsible() {
-		return responsible;
+
+	public String getEmailResponsible() {
+		return emailResponsible;
 	}
-	
-	public void setResponsible(String responsible) {
-		this.responsible = responsible;
+
+	public void setEmailResponsible(String emailResponsible) {
+		this.emailResponsible = emailResponsible;
 	}
-	
-	public String getIdPeriod() {
-		return idPeriod;
+
+	public String getPeriod() {
+		return period;
 	}
-	
-	public void setIdPeriod(String idPeriod) {
-		this.idPeriod = idPeriod;
+
+	public void setPeriod(String period) {
+		this.period = period;
 	}
-	
-	public String getIdOrganization() {
-		return idOrganization;
+
+	public String getOrganization() {
+		return organization;
 	}
-	
-	public void setIdOrganization(String idOrganization) {
-		this.idOrganization = idOrganization;
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
 	}
-	
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
 	public boolean isComplete() {
 		return this.name != null &&
 			this.methodology != null &&
@@ -180,9 +162,9 @@ public class Project {
 			this.responsibilities != null &&
 			this.status != null &&
 			this.area != null &&
-			this.responsible != null &&
-			this.idPeriod != null &&
-			this.idOrganization != null;
+			this.emailResponsible != null &&
+			this.period != null &&
+			this.organization != null;
 	}
 	
 	public boolean register() throws CustomException {

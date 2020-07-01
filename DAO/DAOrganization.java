@@ -20,7 +20,8 @@ public class DAOrganization implements IDAOrganization {
 		String[] values;
 		if (!this.isRegistered()) {
 			query = "INSERT INTO Organizacion (nombre, estaActivo, idSector) VALUES (?, 1, ?)";
-			values = new String[]{this.organization.getName(), this.organization.getSector().getId()};
+			values = new String[]{this.organization.getName(),
+					this.getIdSector(this.organization.getSector())};
 		} else {
 			query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
 			values = new String[]{this.organization.getName()};
@@ -86,14 +87,6 @@ public class DAOrganization implements IDAOrganization {
 		String[][] select = this.connection.select(query, null, names);
 		for (int row = 0; row < select.length; row++) {
 			listOrganization.add(new Organization(
-				select[row][0],
-				select[row][1],
-				select[row][2],
-				select[row][3],
-				select[row][4],
-				select[row][5],
-				select[row][6],
-				select[row][7]
 			));
 			if (!filled) {
 				filled = true;
@@ -101,23 +94,6 @@ public class DAOrganization implements IDAOrganization {
 		}
 		return filled;
 	}
-/*
-	public boolean fillTableOrganization(ObservableList<Organization> listOrganization) {
-		boolean filled = false;
-		String query = "SELECT nombre FROM Organizacion WHERE estaActivo = 1";
-		String[] names = {"nombre"};
-		String[][] select = this.connection.select(query, null, names);
-		for (int row = 0; row < select.length; row++) {
-			listOrganization.add(new Organization(
-					select[row][0]
-			));
-			if (!filled) {
-				filled = true;
-			}
-		}
-		return filled;
-	}
- */
 
 
 	public boolean fillOrganizationNames(ObservableList<String> listOrganization) {
@@ -134,6 +110,32 @@ public class DAOrganization implements IDAOrganization {
 		String query = "SELECT idOrganizacion FROM Organizacion WHERE nombre = ?";
 		String[] values = {organization.getName()};
 		String[] names ={"idOrganizacion"};
+		return this.connection.select(query, values, names)[0][0];
+	}
+
+
+	public boolean signUpTellephoneNumber(String telephoneNumber){
+		String query = "INSERT INTO TelefonoOrganizacion " +
+						"(telefono, idOrganizacion) " +
+						"VALUES (?,?)";
+		String[] values = {telephoneNumber, this.getId()};
+		return this.connection.sendQuery(query,values);
+	}
+
+	public boolean fillSector(ObservableList<String> listSector) {
+		boolean filled = false;
+		String query = "SELECT sector FROM Sector";
+		for (String[] sector: this.connection.select(query, null, new String[]{"sector"})) {
+			listSector.add(sector[0]);
+			filled = true;
+		}
+		return filled;
+	}
+
+	public String getIdSector(String sector){
+		String query = "SELECT idSector FROM Sector WHERE sector = ?";
+		String[] values = {sector};
+		String[] names ={"idSector"};
 		return this.connection.select(query, values, names)[0][0];
 	}
 }
