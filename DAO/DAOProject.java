@@ -211,6 +211,7 @@ public class DAOProject implements IDAOProject {
 						"responsabilidades"};
 		String[][] responses = new DBConnection().select(query, null, names);
 		Project[] projects = new Project[responses.length];
+		//TODO Cambiar al constructor adecuado
 		for (int i = 0; i < responses.length; i++) {
 			projects[i] = new Project(
 					responses[i][0],
@@ -219,7 +220,14 @@ public class DAOProject implements IDAOProject {
 					responses[i][3],
 					responses[i][4],
 					responses[i][5],
-					responses[i][6]
+					responses[i][6],
+					null,
+					null,
+					null,
+					null,
+					null,
+					null,
+					null
 			);
 		}
 		return projects;

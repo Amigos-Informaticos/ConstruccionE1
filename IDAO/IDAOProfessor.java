@@ -8,8 +8,8 @@ public interface IDAOProfessor extends IDAOUser {
         String query =
                 "SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, " +
                         "Turno.turno AS turno " +
-                        "FROM Usuario INNER JOIN Profesor ON Usuario.idUsuario = Profesor.idUsuario " +
-                        "INNER JOIN Turno ON Profesor.turno = Turno.idTurno WHERE status = 1";
+                        "FROM MiembroFEI INNER JOIN Profesor ON MiembroFEI.idMiembro = Profesor.idMiembro " +
+                        "INNER JOIN Turno ON Profesor.turno = Turno.idTurno WHERE estaActivo = 1";
         String[] names =
                 {"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "turno"};
         String[][] responses = new DBConnection().select(query, null, names);
