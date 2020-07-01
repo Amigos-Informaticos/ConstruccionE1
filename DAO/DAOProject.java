@@ -28,22 +28,39 @@ public class DAOProject implements IDAOProject {
 		boolean signedUp = false;
 		if (this.project.isComplete()) {
 			if (!this.isRegistered() && !this.isActive()) {
-				String query = "INSERT INTO Proyecto (nombre, metodologia, " +
-					"objetivoGeneral, objetivoMediato, objetivoInmediato, recursos, " +
-					"responsabilidades, estaActivo, cupo, area, responsable, idPeriodo, idOrganizacion)" +
-					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				String query = "INSERT INTO Proyecto (nombre, " +
+						"descripcion, " +
+						"metodologia, " +
+						"objetivoGeneral, " +
+						"objetivoMediato, " +
+						"objetivoInmediato, " +
+						"recursos, " +
+						"responsabilidades, " +
+						"estaActivo, " +
+						"cupo, " +
+						"area, " +
+						"responsable, " +
+						"idPeriodo, " +
+						"idOrganizacion, " +
+						"fechaInicio, " +
+						"fechaFin)" +
+					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 				String[] values = {this.project.getName(),
-					this.project.getMethodology(),
-					this.project.getGeneralObjective(),
-					this.project.getMediateObjective(),
-					this.project.getImmediateObjective(),
-					this.project.getResources(),
-					this.project.getResponsibilities(),
-					this.project.getStatus(),
-					this.project.getArea(),
-					this.project.getResponsible(),
-					this.project.getIdPeriod(),
-					this.project.getIdOrganization()
+								this.project.getDescription(),
+								this.project.getMethodology(),
+								this.project.getGeneralObjective(),
+								this.project.getMediateObjective(),
+								this.project.getImmediateObjective(),
+								this.project.getResources(),
+								this.project.getResponsibilities(),
+								this.project.getStatus(),
+								this.project.getCapacity(),
+								getIdArea(),
+								this.project.getEmailResponsible(),
+								getIdPeriod(),
+								getIdOrganization(),
+								this.project.getStartDate(),
+								this.project.getEndDate()
 				};
 				if (this.connection.sendQuery(query, values)) {
 					signedUp = true;
@@ -102,9 +119,9 @@ public class DAOProject implements IDAOProject {
 				project.setResponsibilities(projectReturned[0][7]);
 				project.setStatus(projectReturned[0][8]);
 				project.setArea(projectReturned[0][9]);
-				project.setResponsible(projectReturned[0][10]);
-				project.setIdPeriod(projectReturned[0][11]);
-				project.setIdOrganization(projectReturned[0][12]);
+				project.setEmailResponsible(projectReturned[0][10]);
+				project.setPeriod(projectReturned[0][11]);
+				project.setOrganization(projectReturned[0][12]);
 			}
 		}
 		return project;
@@ -179,6 +196,42 @@ public class DAOProject implements IDAOProject {
 		return id;
 	}
 
+	public String getIdOrganization(){
+		String id = "0";
+		String query = "SELECT idOrganizacion FROM Organizacion WHERE nombre = ?;";
+		String[] values = {this.project.getOrganization()};
+		String[] names = {"idOrganizacion"};
+		String[][] result = this.connection.select(query,values,names);
+		if(!result[0][0].equals("")){
+			id = result[0][0];
+		}
+		return  id;
+	}
+
+	public String getIdPeriod(){
+		String id = "0";
+		String query = "SELECT idPeriodo FROM Periodo WHERE periodo = ?;";
+		String[] values = {this.project.getPeriod()};
+		String[] names = {"idPeriodo"};
+		String[][] result = this.connection.select(query,values,names);
+		if(!result[0][0].equals("")){
+			id = result[0][0];
+		}
+		return  id;
+	}
+
+	public String getIdArea(){
+		String id = "0";
+		String query = "SELECT idArea FROM Area WHERE area = ?;";
+		String[] values = {this.project.getArea()};
+		String[] names = {"idArea"};
+		String[][] result = this.connection.select(query,values,names);
+		if(!result[0][0].equals("")){
+			id = result[0][0];
+		}
+		return  id;
+	}
+
 	public boolean haveStudents(){
 		boolean withStudents = false;
 		String query = "SELECT idProyecto FROM PracticanteProyecto WHERE idProyecto = ?";
@@ -211,24 +264,26 @@ public class DAOProject implements IDAOProject {
 						"responsabilidades"};
 		String[][] responses = new DBConnection().select(query, null, names);
 		Project[] projects = new Project[responses.length];
-		//TODO Cambiar al constructor adecuado
 		for (int i = 0; i < responses.length; i++) {
-			projects[i] = new Project(
-					responses[i][0],
-					responses[i][1],
-					responses[i][2],
-					responses[i][3],
-					responses[i][4],
-					responses[i][5],
-					responses[i][6],
-					null,
-					null,
-					null,
-					null,
-					null,
-					null,
-					null
-			);
+			projects[i] = new Project();
+			projects[i].setName(responses[i][0]);
+			projects[i].setDescription(responses[i][1]);
+			projects[i].setMethodology(responses[i][2]);
+			projects[i].setGeneralObjective(responses[i][3]);
+			projects[i].setMediateObjective(responses[i][4]);
+			projects[i].setImmediateObjective(responses[i][5]);
+			projects[i].setResources(responses[i][6]);
+			projects[i].setResponsibilities(responses[i][7]);
+			projects[i].setStatus(responses[i][8]);
+			projects[i].setCapacity(responses[i][9]);
+			projects[i].setArea(responses[i][10]);
+			projects[i].setEmailResponsible(responses[i][11]);
+			projects[i].setPeriod(responses[i][12]);
+			projects[i].setOrganization(responses[i][13]);
+			projects[i].setStartDate(responses[i][14]);
+			projects[i].setEndDate(responses[i][15]);
+
+
 		}
 		return projects;
 	}

@@ -36,9 +36,9 @@ public class TestsCoordinator {
 		project.setResponsibilities("Echarle ganas y pararse temprano");
 		project.setStatus("1");
 		project.setArea("1");
-		project.setResponsible("correoResponsable1@correo.com");
-		project.setIdPeriod("1");
-		project.setIdOrganization("1");
+		project.setEmailResponsible("correoResponsable1@correo.com");
+		project.setPeriod("1");
+		project.setOrganization("1");
 		Student student = new Student("Efrain",
 										"Arenas",
 										"efrain@correo.com",
