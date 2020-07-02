@@ -12,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestsCoordinator {
 	Coordinator coordinator = new Coordinator();
-
+	
 	@Test
-	public void studentManagementTest(){
-		Student student = new Student("Efrain","Arenas","efrain@arenas.com","contrasenia123","s18012138");
+	public void studentManagementTest() {
+		Student student = new Student("Efrain", "Arenas", "efrain@arenas.com", "contrasenia123", "s18012138");
 		try {
 			assertTrue(coordinator.signUpStudent(student));
 			assertTrue(coordinator.deleteStudent(student));
@@ -26,7 +26,7 @@ public class TestsCoordinator {
 	
 	
 	@Test
-	public void projectManagementTest(){
+	public void projectManagementTest() {
 		Project project = new Project();
 		project.setName("Hackear el pentagono");
 		project.setDescription("Hackear el pentágono con un tamagotchi");
@@ -42,40 +42,41 @@ public class TestsCoordinator {
 		project.setPeriod("FEB-JUN 2020");
 		project.setOrganization("1");
 		Student student = new Student("Efrain",
-										"Arenas",
-										"efrain@correo.com",
-										"contrasenia123",
-										"s18012138");
-
-
+			"Arenas",
+			"efrain@correo.com",
+			"contrasenia123",
+			"s18012138");
+		
+		
 		try {
 			assertTrue(coordinator.signUpProject(project));
 			assertTrue(coordinator.signUpStudent(student));
 			student.selectProject("Hackear el pentagono");
-			coordinator.assignProject(student,"Hackear el pentagono");
+			coordinator.assignProject(student, "Hackear el pentagono");
 			assertTrue(coordinator.deleteProject(project));
 			assertTrue(coordinator.deleteStudent(student));
 		} catch (CustomException e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Test
-	public void signUpCoordinator(){
+	public void signUpCoordinator() {
 		Coordinator angel = new Coordinator(
-				"Angel Juan",
-				"Sanchez",
-				"ajs@hotmail.com",
-				"angel123",
-				"N000222"
+			"Angel Juan",
+			"Sanchez",
+			"ajs@hotmail.com",
+			"angel123",
+			"N000222"
 		);
 		angel.signUp();
 	}
-
+	
 	@Test
-	public void signUpOrganization(){
+	public void signUpOrganization() throws CustomException {
 		Organization organization = new Organization();
 		organization.setName("Diamond Casino & Resort");
 		organization.setSector("Turistico");
+		organization.signUp();
 	}
 }
