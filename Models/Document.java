@@ -66,7 +66,7 @@ public class Document {
 			this.date != null;
 	}
 	
-	public boolean save(String authorId) {
-		return new DAODocument(this).save(authorId);
+	public boolean save() {
+		return new DAODocument(this).save(this.author.getEmail());
 	}
 }

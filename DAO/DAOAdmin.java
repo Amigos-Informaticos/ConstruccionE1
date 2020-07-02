@@ -13,8 +13,8 @@ public class DAOAdmin {
 	
 	public boolean isRegistered() {
 		assert this.admin != null;
-		String query = "SELECT COUNT(Administrador.idUsuario) AS TOTAL " +
-			"FROM Usuario INNER JOIN Administrador " +
+		String query = "SELECT COUNT(Administrador.idMiembro) AS TOTAL " +
+			"FROM MiembroFEI INNER JOIN Administrador " +
 			"WHERE correoElectronico = ? AND contrasena = ?";
 		String[] values = {this.admin.getEmail(), this.admin.getPassword()};
 		String[] responses = {"TOTAL"};

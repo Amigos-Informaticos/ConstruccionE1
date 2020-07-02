@@ -90,4 +90,20 @@ public class Logger {
 	public void log(Exception exception) {
 		this.log(exception, true);
 	}
+	
+	public static void staticLog(String text, boolean send) {
+		new Logger().log(text, send);
+	}
+	
+	public static void staticLog(String text) {
+		new Logger().log(text);
+	}
+	
+	public static void staticLog(Exception exception, boolean send) {
+		new Logger().log(exception, send);
+	}
+	
+	public static void staticLog(Exception exception) {
+		new Logger().log(exception);
+	}
 }
