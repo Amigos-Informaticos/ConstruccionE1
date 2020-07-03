@@ -15,28 +15,47 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CreateProjectController implements Initializable {
-    @FXML private static JFXComboBox<String> cmbOrganizations;
+    @FXML private JFXComboBox<String> cmbOrganizations;
 
     @FXML private static JFXTextField txtName;
-    @FXML private static JFXTextArea txtDescription;
-    @FXML private static JFXTextField txtGeneralObjective;
-    @FXML private static JFXTextField txtMediateObjective;
-    @FXML private static JFXTextField txtInmediateObjective;
-    @FXML private static JFXTextField txtMethodology;
-    @FXML private static JFXTextArea txtResources;
-    @FXML private static JFXTextArea txtResponsibilities;
-    @FXML private static JFXTextField txtCapacity;
-    @FXML private static JFXTextField txtPositionResponsible;
-    @FXML private static JFXTextField txtEmailResponsible;
-    @FXML private static JFXTextField txtNameResponsible;
-    @FXML private static JFXTextField txtLastnameResponsible;
-    @FXML private static JFXComboBox<String> cmbArea;
+    @FXML private JFXTextArea txtDescription;
+    @FXML private JFXTextField txtGeneralObjective;
+    @FXML private JFXTextField txtMediateObjective;
+    @FXML private JFXTextField txtInmediateObjective;
+    @FXML private JFXTextField txtMethodology;
+    @FXML private JFXTextArea txtResources;
+    @FXML private JFXTextArea txtResponsibilities;
+    @FXML private JFXTextField txtCapacity;
+    @FXML private JFXTextField txtPositionResponsible;
+    @FXML private JFXTextField txtEmailResponsible;
+    @FXML private JFXTextField txtNameResponsible;
+    @FXML private JFXTextField txtLastnameResponsible;
+    @FXML private JFXComboBox<String> cmbArea;
 
     @FXML private JFXTextField[] txtNamesOfActivity = new JFXTextField[6];
     @FXML private JFXTextField[] txtDatesOfActivity = new JFXTextField[6];
 
-    @FXML private static JFXDatePicker initialDate;
-    @FXML private static JFXDatePicker finalDate;
+    @FXML private JFXDatePicker txtInitialDate;
+    @FXML private JFXDatePicker txtFinalDate;
+
+    private static String name;
+    private static String description;
+    private static String generalObjective;
+    private static String mediateObjective;
+    private static String inmediateObjective;
+    private static String methodology;
+    private static String resources;
+    private static String responsibilities;
+    private static String capacity;
+    private static String positionResponsible;
+    private static String emailResponsible;
+    private static String nameResponsible;
+    private static String lastnameResponsible;
+    private static String area;
+
+    private static String initialDate;
+    private static String finalDate;
+
 
     ObservableList<String> listOrganizations;
 
@@ -51,6 +70,20 @@ public class CreateProjectController implements Initializable {
         MainController.activate("ProjectCalendarization",
                                 "Calendarizacion de Proyecto",
                                 MainController.Sizes.MID);
+        name = txtName.getText();
+        description = txtDescription.getText();
+        generalObjective = txtGeneralObjective.getText();
+        mediateObjective = txtMediateObjective.getText();
+        inmediateObjective = txtInmediateObjective.getText();
+        methodology = txtMethodology.getText();
+        resources = txtResources.getText();
+        responsibilities = txtResponsibilities.getText();
+        capacity = txtCapacity.getText();
+        positionResponsible = txtPositionResponsible.getText();
+        emailResponsible = txtEmailResponsible.getText();
+        nameResponsible = txtNameResponsible.getText();
+        lastnameResponsible = txtLastnameResponsible.getText();
+
     }
 
     public CalendarizedActivity instanceCalendarizedActivity(int month){
@@ -72,5 +105,9 @@ public class CreateProjectController implements Initializable {
 
     public void onClickBack(MouseEvent clickEvent){
         MainController.activate("CreateProject","Crear Proyecto", MainController.Sizes.LARGE);
+        txtName.setText(name);
+        txtDescription.setText(description);
+        txtGeneralObjective.setText(generalObjective);
+        txtMediateObjective.setText(mediateObjective);
     }
 }
