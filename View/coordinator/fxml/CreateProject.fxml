@@ -61,15 +61,15 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <JFXTextField focusColor="#28ad56" layoutX="72.0" layoutY="603.0" prefHeight="25.0" prefWidth="179.0" promptText="Nombres">
+      <JFXTextField fx:id="txtNameResponsible" focusColor="#28ad56" layoutX="72.0" layoutY="603.0" prefHeight="25.0" prefWidth="179.0" promptText="Nombres">
          <font>
             <Font name="System Italic" size="12.0" />
          </font></JFXTextField>
-      <JFXTextField focusColor="#28ad56" layoutX="266.0" layoutY="603.0" prefHeight="25.0" prefWidth="179.0" promptText="Apellidos">
+      <JFXTextField fx:id="txtLastnameResponsible" focusColor="#28ad56" layoutX="266.0" layoutY="603.0" prefHeight="25.0" prefWidth="179.0" promptText="Apellidos">
          <font>
             <Font name="System Italic" size="12.0" />
          </font></JFXTextField>
-      <JFXTextField focusColor="#28ad56" layoutX="266.0" layoutY="565.0" prefHeight="25.0" prefWidth="179.0" promptText="Correo electrónico">
+      <JFXTextField fx:id="txtEmailResponsible" focusColor="#28ad56" layoutX="266.0" layoutY="565.0" prefHeight="25.0" prefWidth="179.0" promptText="Correo electrónico">
          <font>
             <Font name="System Italic" size="12.0" />
          </font></JFXTextField>
@@ -89,34 +89,34 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </JFXButton>
-      <JFXTextField layoutX="250.0" layoutY="179.0" prefHeight="25.0" prefWidth="360.0" />
+      <JFXTextField fx:id="GeneralObjective" layoutX="250.0" layoutY="179.0" prefHeight="25.0" prefWidth="360.0" />
       <Label layoutX="57.0" layoutY="291.0" text="METODOLOGÍA:" textFill="#18529d">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <JFXTextField layoutX="250.0" layoutY="291.0" prefHeight="25.0" prefWidth="360.0" />
-      <JFXTextArea focusColor="#28ad56" layoutX="59.0" layoutY="356.0" prefHeight="49.0" prefWidth="554.0" />
-      <JFXTextArea focusColor="#28ad56" layoutX="73.0" layoutY="119.0" prefHeight="49.0" prefWidth="540.0" />
+      <JFXTextField fx:id="txtMethodology" layoutX="250.0" layoutY="291.0" prefHeight="25.0" prefWidth="360.0" />
+      <JFXTextArea fx:id="txtResources" focusColor="#28ad56" layoutX="59.0" layoutY="356.0" prefHeight="49.0" prefWidth="554.0" />
+      <JFXTextArea fx:id="txtDescription" focusColor="#28ad56" layoutX="73.0" layoutY="119.0" prefHeight="49.0" prefWidth="540.0" />
       <Label layoutX="64.0" layoutY="99.0" text="DESCRIPCIÓN:" textFill="#18529d">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <JFXTextField focusColor="#28ad56" layoutX="76.0" layoutY="565.0" prefHeight="25.0" prefWidth="179.0" promptText="Cargo">
+      <JFXTextField fx:id="txtPositionResponsible" focusColor="#28ad56" layoutX="76.0" layoutY="565.0" prefHeight="25.0" prefWidth="179.0" promptText="Cargo">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="250.0" layoutY="214.0" prefHeight="25.0" prefWidth="360.0" />
-      <JFXTextField layoutX="250.0" layoutY="249.0" prefHeight="25.0" prefWidth="360.0" />
-      <JFXComboBox layoutX="495.0" layoutY="509.0" prefHeight="25.0" prefWidth="123.0" promptText="Area" />
-      <JFXTextArea focusColor="#28ad56" layoutX="59.0" layoutY="445.0" prefHeight="49.0" prefWidth="554.0" />
+      <JFXTextField fx:id="txtInmediateObjective" layoutX="250.0" layoutY="214.0" prefHeight="25.0" prefWidth="360.0" />
+      <JFXTextField fx:id="txtMediateObjective" layoutX="250.0" layoutY="249.0" prefHeight="25.0" prefWidth="360.0" />
+      <JFXComboBox fx:id="cmbArea" layoutX="495.0" layoutY="509.0" prefHeight="25.0" prefWidth="123.0" promptText="Area" />
+      <JFXTextArea fx:id="txtResponsibilities" focusColor="#28ad56" layoutX="59.0" layoutY="445.0" prefHeight="49.0" prefWidth="554.0" />
       <Label layoutX="495.0" layoutY="542.0" text="Cupo:" textFill="#18529d">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <JFXTextField layoutX="555.0" layoutY="543.0" prefHeight="25.0" prefWidth="64.0" />
+      <JFXTextField fx:id="txtCapacity" layoutX="555.0" layoutY="543.0" prefHeight="25.0" prefWidth="64.0" />
    </children>
 </AnchorPane>
