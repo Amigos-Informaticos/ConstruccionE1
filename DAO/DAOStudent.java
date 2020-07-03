@@ -33,8 +33,7 @@ public class DAOStudent implements IDAOStudent {
 	public String getId() {
 		assert this.student != null : "This Student is null: DAOStudent.getId()";
 		assert this.student.getEmail() != null : "This Student email is null: DAOStudent.getId()";
-		assert new DAOStudent(this.student).isRegistered() :
-			"Student isnt registered: DAOStudent.getId()";
+		assert this.isRegistered() : "Student isnt registered: DAOStudent.getId()";
 		String query = "SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?";
 		String[] values = { this.student.getEmail() };
 		String[] names = { "idMiembro" };
@@ -88,6 +87,7 @@ public class DAOStudent implements IDAOStudent {
 	@Override
 	public boolean signUp() throws CustomException {
 		assert this.student != null : "Student is null: DAOStudent.signUp()";
+		assert this.student.isComplete() : "Student is incomplete: DAOStudent.signUp()";
 		boolean signedUp;
 		if (!this.isRegistered()) {
 			String query = "INSERT INTO MiembroFEI (nombres, apellidos, correoElectronico, " +
@@ -95,9 +95,13 @@ public class DAOStudent implements IDAOStudent {
 			String[] values = { this.student.getNames(), this.student.getLastnames(),
 				this.student.getEmail(), this.student.getPassword() };
 			if (this.connection.sendQuery(query, values)) {
-				query = "INSERT INTO Practicante (idMiembro, matricula) VALUES " +
-					"((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?), ?)";
-				values = new String[]{ this.student.getEmail(), this.student.getRegNumber() };
+				query = "INSERT INTO Practicante (idMiembro, matricula, profesorCalificador) " +
+					"VALUES (?, ?, ?)";
+				values = new String[]{
+					this.getId(),
+					this.student.getRegNumber(),
+					DAOProfessor.getId(this.student.getProfessor().getEmail())
+				};
 				signedUp = this.connection.sendQuery(query, values);
 			} else {
 				throw new CustomException("Could not sign up into User: DAOStudent.signUp()",

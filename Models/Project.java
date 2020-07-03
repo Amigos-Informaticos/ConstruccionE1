@@ -17,7 +17,7 @@ public class Project {
 	private String status;
 	private String capacity;
 	private String area;
-	private String emailResponsible;
+	private ProjectResponsible responsible;
 	private String period;
 	private Organization organization;
 	private String startDate;
@@ -114,12 +114,12 @@ public class Project {
 		this.area = area;
 	}
 	
-	public String getEmailResponsible() {
-		return emailResponsible;
+	public ProjectResponsible getResponsible() {
+		return responsible;
 	}
 	
-	public void setEmailResponsible(String emailResponsible) {
-		this.emailResponsible = emailResponsible;
+	public void setResponsible(ProjectResponsible responsible) {
+		this.responsible = responsible;
 	}
 	
 	public String getPeriod() {
@@ -164,7 +164,7 @@ public class Project {
 			this.responsibilities != null &&
 			this.status != null &&
 			this.area != null &&
-			this.emailResponsible != null &&
+			this.responsible != null &&
 			this.period != null &&
 			this.organization != null;
 	}
