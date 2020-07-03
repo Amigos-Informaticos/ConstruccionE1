@@ -1,13 +1,11 @@
 package View.coordinator.controller;
 
 import Models.CalendarizedActivity;
-import Models.Organization;
 import View.MainController;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -44,13 +42,7 @@ public class CreateProjectController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if(location.toString().substring(location.toString().lastIndexOf('/') + 1).equals("CreateProject.fxml")){
-            listOrganizations = FXCollections.observableArrayList();
-            new Organization().fillOrganizationNames(listOrganizations);
-            cmbOrganizations.setItems(listOrganizations);
-        }else{
 
-        }
 
     }
 
@@ -63,7 +55,7 @@ public class CreateProjectController implements Initializable {
 
     public CalendarizedActivity instanceCalendarizedActivity(int month){
         CalendarizedActivity calendarizedActivity = new CalendarizedActivity();
-        calendarizedActivity.setName(txtDatesOfActivity[month].getText());
+        calendarizedActivity.setName(txtNamesOfActivity[month].getText());
         calendarizedActivity.setDate(txtDatesOfActivity[month].getText());
         return calendarizedActivity;
     }
@@ -79,6 +71,6 @@ public class CreateProjectController implements Initializable {
     }
 
     public void onClickBack(MouseEvent clickEvent){
-        MainController.activate("CreateProjectController","Crear Proyecto", MainController.Sizes.LARGE);
+        MainController.activate("CreateProject","Crear Proyecto", MainController.Sizes.LARGE);
     }
 }
