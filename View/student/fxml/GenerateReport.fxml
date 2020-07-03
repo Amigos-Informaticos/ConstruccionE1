@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.student.controller.GenerateReport">
+   <children>
+      <HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;">
+         <children>
+            <ImageView onMouseClicked="#volver" fitHeight="59.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/icon_back_white.png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="10.0" top="10.0" />
+               </HBox.margin>
+            </ImageView>
+            <Label text="Generar Reporte" textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <Label layoutX="161.0" layoutY="70.0" text="Actividades" />
+      <Separator layoutX="326.0" layoutY="69.0" opacity="0.5" orientation="VERTICAL" prefHeight="332.0" prefWidth="0.0" style="-fx-background-color: #000000;" />
+      <Separator layoutX="452.0" layoutY="69.0" opacity="0.5" orientation="VERTICAL" prefHeight="332.0" prefWidth="0.0" style="-fx-background-color: #000000;" />
+      <Separator layoutX="570.0" layoutY="69.0" opacity="0.5" orientation="VERTICAL" prefHeight="332.0" prefWidth="0.0" style="-fx-background-color: #000000;" />
+      <JFXTextField layoutX="14.0" layoutY="86.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="14.0" layoutY="157.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="14.0" layoutY="231.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="14.0" layoutY="308.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="15.0" layoutY="376.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="340.0" layoutY="86.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="340.0" layoutY="157.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="340.0" layoutY="231.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="340.0" layoutY="308.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="340.0" layoutY="376.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="464.0" layoutY="86.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="464.0" layoutY="157.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="464.0" layoutY="231.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="464.0" layoutY="308.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField layoutX="464.0" layoutY="376.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXDatePicker layoutX="583.0" layoutY="86.0" prefHeight="25.0" prefWidth="108.0" />
+      <JFXDatePicker layoutX="583.0" layoutY="157.0" prefHeight="25.0" prefWidth="108.0" />
+      <JFXDatePicker layoutX="583.0" layoutY="231.0" prefHeight="25.0" prefWidth="108.0" />
+      <JFXDatePicker layoutX="583.0" layoutY="308.0" prefHeight="25.0" prefWidth="108.0" />
+      <JFXDatePicker layoutX="583.0" layoutY="376.0" prefHeight="25.0" prefWidth="108.0" />
+      <JFXButton layoutX="580.0" layoutY="411.0" prefHeight="25.0" prefWidth="108.0" style="-fx-background-color: #28AD56;" text="Aceptar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

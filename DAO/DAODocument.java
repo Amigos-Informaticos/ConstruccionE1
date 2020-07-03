@@ -1,7 +1,9 @@
 package DAO;
 
 import Connection.DBConnection;
+import Exceptions.CustomException;
 import Models.Document;
+import Models.Student;
 import tools.File;
 import tools.Logger;
 
@@ -52,9 +54,25 @@ public class DAODocument {
 			statement.setString(4, authorEmail);
 			statement.executeUpdate();
 			this.connection.closeConnection();
+			this.document.setTitle(fullTitle);
 			saved = true;
 		} catch (FileNotFoundException | SQLException e) {
 			new Logger().log(e);
+		}
+		return saved;
+	}
+	
+	public boolean saveReport(Student student, String type) throws CustomException {
+		boolean saved;
+		if (student.isRegistered() && this.save(student.getEmail())) {
+			String studentId = new DAOStudent(student).getId();
+			String query = "INSERT INTO Reporte " +
+				"(idDocumento, temporalidad, asignacion) VALUES (?, ?, " +
+				"(SELECT idPracticante FROM Asignacion WHERE idPracticante = ? AND estaActivo =1))";
+			String[] values = { this.getId(), type, studentId };
+			saved = this.connection.sendQuery(query, values);
+		} else {
+			saved = false;
 		}
 		return saved;
 	}

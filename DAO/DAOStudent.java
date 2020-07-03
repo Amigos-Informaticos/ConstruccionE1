@@ -147,10 +147,10 @@ public class DAOStudent implements IDAOStudent {
 	}
 	
 	public static Student get(Student student) {
-		DBConnection connection = new DBConnection();
-		Student returnStudent;
 		assert student != null : "Student is null: DAOStudent.get()";
 		assert new DAOStudent(student).isRegistered() : "Student not registered: DAOStudent.get()";
+		DBConnection connection = new DBConnection();
+		Student returnStudent;
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, " +
 			"matricula FROM MiembroFEI INNER JOIN Practicante " +
 			"ON MiembroFEI.idMiembro = Practicante.idMiembro " +
