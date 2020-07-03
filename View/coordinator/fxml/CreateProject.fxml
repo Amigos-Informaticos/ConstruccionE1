@@ -30,7 +30,7 @@
             <Insets left="20.0" top="10.0" />
          </padding>
       </HBox>
-      <JFXTextField focusColor="#28ad56" layoutX="165.0" layoutY="60.0" prefHeight="25.0" prefWidth="457.0" />
+      <JFXTextField fx:id="txtName" focusColor="#28ad56" layoutX="165.0" layoutY="60.0" prefHeight="25.0" prefWidth="457.0" />
       <Label layoutX="64.0" layoutY="64.0" text="NOMBRE:" textFill="#18529d">
          <font>
             <Font name="System Bold" size="17.0" />
