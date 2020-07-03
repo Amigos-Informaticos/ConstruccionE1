@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Organization {
 	private String name;
-	private String[] phoneNumber;
+	private String[] phoneNumber = new String[0];
 	private String sector;
 	private final Map<String, String> address = new HashMap<>();
 	
@@ -27,6 +27,25 @@ public class Organization {
 	
 	public void setPhoneNumber(String[] phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+	
+	public void addPhoneNumber(String phoneNumber) {
+		String[] aux = this.phoneNumber;
+		this.phoneNumber = new String[aux.length + 1];
+		if (aux.length >= 0) System.arraycopy(aux, 0, this.phoneNumber, 0, aux.length);
+		this.phoneNumber[aux.length] = phoneNumber;
+	}
+	
+	public void deletePhoneNumber(String phoneNumber) {
+		String[] aux = this.phoneNumber;
+		this.phoneNumber = new String[aux.length - 1];
+		int counter = 0;
+		for (String number: aux) {
+			if (!number.equals(phoneNumber)) {
+				this.phoneNumber[counter] = number;
+				counter++;
+			}
+		}
 	}
 	
 	public String getSector() {
@@ -50,14 +69,7 @@ public class Organization {
 	}
 	
 	public boolean signUp() throws CustomException {
-		boolean isRegistered = false;
-		if (this.isComplete()) {
-			DAOrganization daoOrganization = new DAOrganization(this);
-			if (daoOrganization.signUp()) {
-				isRegistered = true;
-			}
-		}
-		return isRegistered;
+		return new DAOrganization(this).signUp();
 	}
 	
 	public boolean isComplete() {
@@ -113,7 +125,6 @@ public class Organization {
 	}
 	
 	public String getId() {
-		DAOrganization daOrganization = new DAOrganization(this);
-		return daOrganization.getId();
+		return new DAOrganization(this).getId();
 	}
 }

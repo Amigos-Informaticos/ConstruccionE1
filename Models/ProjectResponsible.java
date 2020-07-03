@@ -4,6 +4,7 @@ public class ProjectResponsible {
     private String email;
     private String names;
     private String lastNames;
+    private Organization organization;
     
     public ProjectResponsible() {
     }
@@ -26,6 +27,14 @@ public class ProjectResponsible {
     
     public String getLastNames() {
         return lastNames;
+    }
+    
+    public Organization getOrganization() {
+        return organization;
+    }
+    
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
     
     public void setLastNames(String lastNames) {

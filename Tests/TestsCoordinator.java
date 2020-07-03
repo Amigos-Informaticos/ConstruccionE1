@@ -75,8 +75,16 @@ public class TestsCoordinator {
 	@Test
 	public void signUpOrganization() throws CustomException {
 		Organization organization = new Organization();
-		organization.setName("Diamond Casino & Resort");
-		organization.setSector("Turistico");
-		organization.signUp();
+		organization.setName("Organizacion 1");
+		organization.setSector("Videojuegos");
+		organization.setAddress(
+			"Revillagigedo",
+			"1928",
+			"Centro",
+			"Veracruz"
+		);
+		organization.addPhoneNumber("2291763687");
+		organization.addPhoneNumber("1660748");
+		assertTrue(organization.signUp());
 	}
 }

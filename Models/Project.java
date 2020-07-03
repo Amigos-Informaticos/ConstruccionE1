@@ -1,6 +1,7 @@
 package Models;
 
 import DAO.DAOProject;
+import DAO.DAOrganization;
 import Exceptions.CustomException;
 
 public class Project {
@@ -18,140 +19,141 @@ public class Project {
 	private String area;
 	private String emailResponsible;
 	private String period;
-    private String organization;
+	private Organization organization;
 	private String startDate;
 	private String endDate;
-
-	public Project() {}
-
+	
+	public Project() {
+	}
+	
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 	public String getDescription() {
 		return description;
 	}
-
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	
 	public String getMethodology() {
 		return methodology;
 	}
-
+	
 	public void setMethodology(String methodology) {
 		this.methodology = methodology;
 	}
-
+	
 	public String getGeneralObjective() {
 		return generalObjective;
 	}
-
+	
 	public void setGeneralObjective(String generalObjective) {
 		this.generalObjective = generalObjective;
 	}
-
+	
 	public String getMediateObjective() {
 		return mediateObjective;
 	}
-
+	
 	public void setMediateObjective(String mediateObjective) {
 		this.mediateObjective = mediateObjective;
 	}
-
+	
 	public String getImmediateObjective() {
 		return immediateObjective;
 	}
-
+	
 	public void setImmediateObjective(String immediateObjective) {
 		this.immediateObjective = immediateObjective;
 	}
-
+	
 	public String getResources() {
 		return resources;
 	}
-
+	
 	public void setResources(String resources) {
 		this.resources = resources;
 	}
-
+	
 	public String getResponsibilities() {
 		return responsibilities;
 	}
-
+	
 	public void setResponsibilities(String responsibilities) {
 		this.responsibilities = responsibilities;
 	}
-
+	
 	public String getStatus() {
 		return status;
 	}
-
+	
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
+	
 	public String getCapacity() {
 		return capacity;
 	}
-
+	
 	public void setCapacity(String capacity) {
 		this.capacity = capacity;
 	}
-
+	
 	public String getArea() {
 		return area;
 	}
-
+	
 	public void setArea(String area) {
 		this.area = area;
 	}
-
+	
 	public String getEmailResponsible() {
 		return emailResponsible;
 	}
-
+	
 	public void setEmailResponsible(String emailResponsible) {
 		this.emailResponsible = emailResponsible;
 	}
-
+	
 	public String getPeriod() {
 		return period;
 	}
-
+	
 	public void setPeriod(String period) {
 		this.period = period;
 	}
-
-	public String getOrganization() {
+	
+	public Organization getOrganization() {
 		return organization;
 	}
-
+	
 	public void setOrganization(String organization) {
-		this.organization = organization;
+		this.organization = DAOrganization.getByName(organization);
 	}
-
+	
 	public String getStartDate() {
 		return startDate;
 	}
-
+	
 	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-
+	
 	public String getEndDate() {
 		return endDate;
 	}
-
+	
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-
+	
 	public boolean isComplete() {
 		return this.name != null &&
 			this.methodology != null &&

@@ -21,17 +21,25 @@ public class DAOrganization implements IDAOrganization {
 		String query;
 		String[] values;
 		if (!this.isRegistered()) {
+			String sector = this.organization.getSector();
+			if (!this.isSectorRegistered(sector)) {
+				this.registerSector(sector);
+			}
 			query = "INSERT INTO Organizacion (nombre, estaActivo, idSector) VALUES (?, 1, ?)";
 			values = new String[]{ this.organization.getName(), this.getIdSector() };
 		} else {
 			query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
 			values = new String[]{ this.organization.getName() };
 		}
-		return this.connection.sendQuery(query, values) && this.registerAddress();
+		return this.connection.sendQuery(query, values) &&
+			this.registerAddress() &&
+			this.signUpTellephoneNumber();
 	}
 	
 	@Override
 	public boolean isRegistered() {
+		assert this.organization.getName() != null :
+			"Organization's name is null: DAOrganization.isRegistered()";
 		String query = "SELECT COUNT (idOrganizacion) AS TOTAL FROM Organizacion " +
 			"WHERE nombre = ? AND estaActivo = 1";
 		String[] values = { this.organization.getName() };
@@ -179,5 +187,37 @@ public class DAOrganization implements IDAOrganization {
 			}
 		}
 		return filled;
+	}
+	
+	public static Organization getByName(String organizationName) {
+		assert organizationName != null : "Name is null: DAOrganization.getByName()";
+		DBConnection connection = new DBConnection();
+		Organization organization = new Organization();
+		organization.setName(organizationName);
+		if (new DAOrganization(organization).isRegistered()) {
+			String query = "SELECT Sector.sector, calle, numero, colonia, localidad " +
+				"FROM Organizacion INNER JOIN Sector ON Organizacion.idSector = Sector.idSector " +
+				"INNER JOIN Direccion ON Organizacion.idOrganizacion = Direccion.idOrganizacion " +
+				"WHERE Organizacion.nombre = ? AND Organizacion.estaActivo = 1";
+			String[] values = { organizationName };
+			String[] columns =
+				new String[]{ "sector", "calle", "numero", "colonia", "localidad" };
+			String[] responses = connection.select(query, values, columns)[0];
+			organization.setSector(responses[0]);
+			organization.setAddress(
+				responses[1],
+				responses[2],
+				responses[3],
+				responses[4]
+			);
+			query = "SELECT telefono FROM TelefonoOrganizacion WHERE idOrganizacion = ?";
+			values = new String[]{ new DAOrganization(organization).getId() };
+			columns = new String[]{ "telefono" };
+			responses = connection.select(query, values, columns)[0];
+			for (String number: responses) {
+				organization.addPhoneNumber(number);
+			}
+		}
+		return organization;
 	}
 }
