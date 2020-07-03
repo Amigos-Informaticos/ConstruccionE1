@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 
 public class Student extends User {
 	private String regNumber;
+	private Professor professor;
 	
 	public Student() {
 	}
@@ -39,6 +40,14 @@ public class Student extends User {
 		return DAOStudent.get(student);
 	}
 	
+	public Professor getProfessor() {
+		return professor;
+	}
+	
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
+	}
+	
 	public boolean signUp() throws CustomException {
 		assert this.isComplete() : "Student is not complete: Student.signUp()";
 		return new DAOStudent(this).signUp();
@@ -59,7 +68,9 @@ public class Student extends User {
 	}
 	
 	public boolean isComplete() {
-		return super.isComplete() && this.regNumber != null;
+		return super.isComplete() &&
+			this.regNumber != null &&
+			this.professor != null;
 	}
 	
 	

@@ -32,7 +32,7 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 			this.professor.getEmail() };
 		if (this.connection.sendQuery(query, values)) {
 			query = "UPDATE Profesor SET noPersonal = ?, turno = ? WHERE idMiembro = ?";
-			values = new String[]{ this.professor.getPersonalNo(), this.getIdShift(), this.getIdProfessor() };
+			values = new String[]{ this.professor.getPersonalNo(), this.getIdShift(), this.getId() };
 			if (this.connection.sendQuery(query, values)) {
 				updated = true;
 			}
@@ -102,8 +102,9 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 	public boolean isRegistered() {
 		assert this.professor != null;
 		assert this.professor.getEmail() != null;
-		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL FROM MiembroFEI INNER JOIN Profesor " +
-			"ON MiembroFEI.idMiembro = Profesor.idMiembro WHERE correoElectronico = ?";
+		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL " +
+			"FROM MiembroFEI INNER JOIN Profesor ON MiembroFEI.idMiembro = Profesor.idMiembro " +
+			"WHERE correoElectronico = ?";
 		String[] values = { this.professor.getEmail() };
 		String[] names = { "TOTAL" };
 		return this.connection.select(query, values, names)[0][0].equals("1");
@@ -130,11 +131,18 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 		return this.connection.select(query, values, responses)[0][0];
 	}
 	
-	public String getIdProfessor() {
+	public String getId() {
+		assert this.professor.getEmail() != null : "Professor's email is null: DAOProfessor.getId()";
 		String query = "SELECT idMiembro AS idProfessor FROM MiembroFEI WHERE correoElectronico = ?";
 		String[] values = { this.professor.getEmail() };
 		String[] names = { "idMiembro" };
 		return this.connection.select(query, values, names)[0][0];
+	}
+	
+	public static String getId(String professorEmail) {
+		Professor professor = new Professor();
+		professor.setEmail(professorEmail);
+		return new DAOProfessor(professor).getId();
 	}
 	
 	public static Professor[] get(Professor professor) {
