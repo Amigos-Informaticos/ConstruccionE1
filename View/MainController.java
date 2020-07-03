@@ -22,7 +22,7 @@ public class MainController extends Application {
 	private static final HashMap<String, String> screens = new HashMap<>();
 	private static final HashMap<Sizes, double[]> size = new HashMap<>();
 	private static Sizes currentSize = null;
-	private static Map<String, Object> controllerMemory = new HashMap<>();
+	private static final Map<String, Object> controllerMemory = new HashMap<>();
 	
 	public enum Sizes {
 		SMALL,
@@ -31,7 +31,11 @@ public class MainController extends Application {
 	}
 	
 	public static void save(String varName, Object data) {
-		controllerMemory.put(varName, data);
+		if (controllerMemory.containsKey(varName)) {
+			controllerMemory.replace(varName, data);
+		} else {
+			controllerMemory.put(varName, data);
+		}
 	}
 	
 	public static Object get(String varName) {
