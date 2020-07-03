@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.student.fxml.AddActivityPlan">
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.student.controller.AddActivityPlan">
    <children>
       <ImageView disable="true" fitHeight="417.0" fitWidth="389.0" layoutX="194.0" layoutY="17.0" opacity="0.08" pickOnBounds="true" preserveRatio="true">
          <image>
