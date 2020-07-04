@@ -68,6 +68,36 @@ public class CreateProjectController implements Initializable {
 	private JFXTextField month6Activity = new JFXTextField();
 
 	@FXML
+	private JFXDatePicker month1DateActivity = new JFXDatePicker();
+	@FXML
+	private JFXDatePicker month2DateActivity = new JFXDatePicker();
+	@FXML
+	private JFXDatePicker month3DateActivity = new JFXDatePicker();
+	@FXML
+	private JFXDatePicker month4DateActivity = new JFXDatePicker();
+	@FXML
+	private JFXDatePicker month5DateActivity = new JFXDatePicker();
+	@FXML
+	private JFXDatePicker month6DateActivity = new JFXDatePicker();
+
+	JFXTextField[] namesOfActivities = {month1Activity,
+							month2Activity,
+							month3Activity,
+							month4Activity,
+							month5Activity,
+							month6Activity};
+
+	JFXDatePicker[] dateOfActivities = {month1DateActivity,
+										month2DateActivity,
+										month3DateActivity,
+										month4DateActivity,
+										month5DateActivity,
+										month6DateActivity};
+
+
+	CalendarizedActivity[] calendarizedActivities = new CalendarizedActivity[6];
+
+	@FXML
 	private JFXDatePicker initialDate;
 	@FXML
 	private JFXDatePicker finalDate;
@@ -77,7 +107,7 @@ public class CreateProjectController implements Initializable {
 
 	private Project project = new Project();
 
-	CalendarizedActivity[] calendarizedActivities = new CalendarizedActivity[6];
+
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -133,21 +163,19 @@ public class CreateProjectController implements Initializable {
 			MainController.Sizes.MID);
 	}
 	
-	public CalendarizedActivity instanceCalendarizedActivity(int month) {
-		CalendarizedActivity calendarizedActivity = new CalendarizedActivity();
-		calendarizedActivity.setName(txtNamesOfActivity[month].getText());
-		calendarizedActivity.setDate(txtDatesOfActivity[month].getText());
-		return calendarizedActivity;
-	}
-	
 	public void onClickOk(MouseEvent clickEvent) {
-		calendarizedActivities = new CalendarizedActivity[6];
+		CalendarizedActivity[] calendarizedActivities = new CalendarizedActivity[6];
 		for (int i = 0; i < 6; i++) {
-			if (!txtNamesOfActivity[i].getText().equals("")) {
-				calendarizedActivities[i] = instanceCalendarizedActivity(i);
+			if (!namesOfActivities[i].getText().equals("")) {
+				calendarizedActivities[i].setName(namesOfActivities[i].getText());
+				calendarizedActivities[i].setName(dateOfActivities[i].getValue().toString());
 			}
 		}
-		
+		MainController.save("initialDate",initialDate.getValue().toString());
+		MainController.save("finalDate",finalDate.getValue().toString());
+		MainController.save("calendarizedActivities",calendarizedActivities);
+
+
 	}
 	
 	public void onClickBack(MouseEvent clickEvent) {
@@ -156,7 +184,10 @@ public class CreateProjectController implements Initializable {
 
 	public void signUp(){
 		instanceProject();
-		project.setCalendarizedActivities(calendarizedActivities);
+		CalendarizedActivity[] activities =(CalendarizedActivity[]) MainController.get("calendarizedActivities");
+		project.setCalendarizedActivities(activities);
+		project.setStartDate(MainController.get("initialDate").toString());
+		project.setEndDate(MainController.get("finalDate").toString());
 		try {
 			if(project.isComplete()){
 				if(project.register()){
