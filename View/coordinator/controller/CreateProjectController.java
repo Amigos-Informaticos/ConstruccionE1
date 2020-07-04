@@ -10,7 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
-import tools.P;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -62,13 +61,11 @@ public class CreateProjectController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		loadValues(location.toString());
+		loadValues();
 	}
 	
-	public void loadValues(String location) {
-		String file = location.substring(location.lastIndexOf('/') + 1);
-		P.p(file);
-		if (file.equals("CreateProject.fxml") &&
+	public void loadValues() {
+		if (MainController.getStageName().equals("CreateProject") &&
 			MainController.has("name")) {
 			txtName.setText(
 				MainController.get("name").toString()
@@ -84,7 +81,7 @@ public class CreateProjectController implements Initializable {
 			txtPositionResponsible.setText(MainController.get("positionResponsible").toString());
 			txtEmailResponsible.setText(MainController.get("emailResponsible").toString());
 			txtNameResponsible.setText(MainController.get("nameResponsible").toString());
-			txtLastnameResponsible.setText(MainController.get("lastNameResponsible").toString());
+			txtLastnameResponsible.setText(MainController.get("lastnameResponsible").toString());
 		}
 	}
 	
@@ -93,6 +90,17 @@ public class CreateProjectController implements Initializable {
 		MainController.clearMemory();
 		MainController.save("name", txtName.getText());
 		MainController.save("description",txtDescription.getText());
+		MainController.save("generalObjective",txtGeneralObjective.getText());
+		MainController.save("mediateObjective",txtMediateObjective.getText());
+		MainController.save("inmediateObjective",txtInmediateObjective.getText());
+		MainController.save("methodology",txtMethodology.getText());
+		MainController.save("resources",txtResources.getText());
+		MainController.save("responsibilities",txtResponsibilities.getText());
+		MainController.save("capacity",txtCapacity.getText());
+		MainController.save("positionResponsible",txtPositionResponsible.getText());
+		MainController.save("emailResponsible",txtEmailResponsible.getText());
+		MainController.save("nameResponsible",txtNameResponsible.getText());
+		MainController.save("lastnameResponsible",txtLastnameResponsible.getText());
 		MainController.activate("ProjectCalendarization",
 			"Calendarizacion de Proyecto",
 			MainController.Sizes.MID);
