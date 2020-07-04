@@ -4,6 +4,7 @@ import Connection.DBConnection;
 import Exceptions.CustomException;
 import IDAO.IDAOProject;
 import Models.Project;
+import javafx.collections.ObservableList;
 
 public class DAOProject implements IDAOProject {
 	private Project project;
@@ -274,5 +275,15 @@ public class DAOProject implements IDAOProject {
 			projects[i].setEndDate(responses[i][15]);
 		}
 		return projects;
+	}
+
+	public boolean fillAreaTable(ObservableList<String> listAreas){
+		boolean filled = false;
+		String query = "SELECT area FROM Area";
+		for (String[] name: this.connection.select(query, null, new String[]{ "area" })) {
+			listAreas.add(name[0]);
+			filled = true;
+		}
+		return filled;
 	}
 }

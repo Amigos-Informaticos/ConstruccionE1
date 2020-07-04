@@ -145,8 +145,8 @@ public class DAOrganization implements IDAOrganization {
 	public boolean fillOrganizationNames(ObservableList<String> listOrganization) {
 		boolean filled = false;
 		String query = "SELECT nombre FROM Organizacion WHERE estaActivo = 1";
-		for (String[] nombre: this.connection.select(query, null, new String[]{ "nombre" })) {
-			listOrganization.add(nombre[0]);
+		for (String[] name: this.connection.select(query, null, new String[]{ "nombre" })) {
+			listOrganization.add(name[0]);
 			filled = true;
 		}
 		return filled;

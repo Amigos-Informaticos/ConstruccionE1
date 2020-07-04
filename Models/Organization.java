@@ -106,18 +106,18 @@ public class Organization {
 		return reactivated;
 	}
 	
-	public boolean fillTableOrganization(ObservableList<Organization> listOrganization) {
+	public static boolean fillTableOrganization(ObservableList<Organization> listOrganization) {
 		boolean filled = false;
-		DAOrganization daoOrg = new DAOrganization(this);
+		DAOrganization daoOrg = new DAOrganization(new Organization());
 		if (daoOrg.fillTableOrganization(listOrganization)) {
 			filled = true;
 		}
 		return filled;
 	}
 	
-	public boolean fillOrganizationNames(ObservableList<String> listOrganization) {
+	public static boolean fillOrganizationNames(ObservableList<String> listOrganization) {
 		boolean filled = false;
-		DAOrganization daoOrganization = new DAOrganization(this);
+		DAOrganization daoOrganization = new DAOrganization(new Organization());
 		if (daoOrganization.fillOrganizationNames(listOrganization)) {
 			filled = true;
 		}
@@ -127,4 +127,11 @@ public class Organization {
 	public String getId() {
 		return new DAOrganization(this).getId();
 	}
+
+	public static Organization getByName(String name){
+		DAOrganization daOrganization = new DAOrganization(new Organization());
+		return DAOrganization.getByName(name);
+	}
+
+
 }

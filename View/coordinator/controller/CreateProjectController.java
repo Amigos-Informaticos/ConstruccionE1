@@ -1,15 +1,22 @@
 package View.coordinator.controller;
 
+import Exceptions.CustomException;
 import Models.CalendarizedActivity;
+import Models.Organization;
+import Models.Project;
+import Models.ProjectResponsible;
 import View.MainController;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
+import tools.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,18 +53,31 @@ public class CreateProjectController implements Initializable {
 	private JFXTextField txtLastnameResponsible;
 	@FXML
 	private JFXComboBox<String> cmbArea;
-	
+
 	@FXML
-	private JFXTextField[] txtNamesOfActivity = new JFXTextField[6];
+	private JFXTextField month1Activity = new JFXTextField();
 	@FXML
-	private JFXTextField[] txtDatesOfActivity = new JFXTextField[6];
-	
+	private JFXTextField month2Activity = new JFXTextField();
+	@FXML
+	private JFXTextField month3Activity = new JFXTextField();
+	@FXML
+	private JFXTextField month4Activity = new JFXTextField();
+	@FXML
+	private JFXTextField month5Activity = new JFXTextField();
+	@FXML
+	private JFXTextField month6Activity = new JFXTextField();
+
 	@FXML
 	private JFXDatePicker initialDate;
 	@FXML
 	private JFXDatePicker finalDate;
 	
 	ObservableList<String> listOrganizations;
+	ObservableList<String> listAreas;
+
+	private Project project = new Project();
+
+	CalendarizedActivity[] calendarizedActivities = new CalendarizedActivity[6];
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -65,23 +85,30 @@ public class CreateProjectController implements Initializable {
 	}
 	
 	public void loadValues() {
-		if (MainController.getStageName().equals("CreateProject") &&
-			MainController.has("name")) {
-			txtName.setText(
-				MainController.get("name").toString()
-			);
-			txtDescription.setText(MainController.get("description").toString());
-			txtGeneralObjective.setText(MainController.get("generalObjective").toString());
-			txtMediateObjective.setText(MainController.get("mediateObjective").toString());
-			txtInmediateObjective.setText(MainController.get("inmediateObjective").toString());
-			txtMethodology.setText(MainController.get("methodology").toString());
-			txtResources.setText(MainController.get("resources").toString());
-			txtResponsibilities.setText(MainController.get("responsibilities").toString());
-			txtCapacity.setText(MainController.get("capacity").toString());
-			txtPositionResponsible.setText(MainController.get("positionResponsible").toString());
-			txtEmailResponsible.setText(MainController.get("emailResponsible").toString());
-			txtNameResponsible.setText(MainController.get("nameResponsible").toString());
-			txtLastnameResponsible.setText(MainController.get("lastnameResponsible").toString());
+		if (MainController.getStageName().equals("CreateProject")) {
+			listOrganizations = FXCollections.observableArrayList();
+			Organization.fillOrganizationNames(listOrganizations);
+			cmbOrganizations.setItems(listOrganizations);
+
+			listAreas = FXCollections.observableArrayList();
+			Project.fillAreaTable(listAreas);
+			cmbArea.setItems(listAreas);
+			if (MainController.has("name")) {
+				txtName.setText(MainController.get("name").toString());
+				txtDescription.setText(MainController.get("description").toString());
+				txtGeneralObjective.setText(MainController.get("generalObjective").toString());
+				txtMediateObjective.setText(MainController.get("mediateObjective").toString());
+				txtInmediateObjective.setText(MainController.get("inmediateObjective").toString());
+				txtMethodology.setText(MainController.get("methodology").toString());
+				txtResources.setText(MainController.get("resources").toString());
+				txtResponsibilities.setText(MainController.get("responsibilities").toString());
+				txtCapacity.setText(MainController.get("capacity").toString());
+				txtPositionResponsible.setText(MainController.get("positionResponsible").toString());
+				txtEmailResponsible.setText(MainController.get("emailResponsible").toString());
+				txtNameResponsible.setText(MainController.get("nameResponsible").toString());
+				txtLastnameResponsible.setText(MainController.get("lastnameResponsible").toString());
+
+			}
 		}
 	}
 	
@@ -114,7 +141,7 @@ public class CreateProjectController implements Initializable {
 	}
 	
 	public void onClickOk(MouseEvent clickEvent) {
-		CalendarizedActivity[] calendarizedActivities = new CalendarizedActivity[6];
+		calendarizedActivities = new CalendarizedActivity[6];
 		for (int i = 0; i < 6; i++) {
 			if (!txtNamesOfActivity[i].getText().equals("")) {
 				calendarizedActivities[i] = instanceCalendarizedActivity(i);
@@ -125,5 +152,52 @@ public class CreateProjectController implements Initializable {
 	
 	public void onClickBack(MouseEvent clickEvent) {
 		MainController.activate("CreateProject", "Crear Proyecto", MainController.Sizes.LARGE);
+	}
+
+	public void signUp(){
+		instanceProject();
+		project.setCalendarizedActivities(calendarizedActivities);
+		try {
+			if(project.isComplete()){
+				if(project.register()){
+					MainController.alert(Alert.AlertType.INFORMATION,
+							"Proyecto registrado",
+							"El Proyecto se registró exitosamente");
+				}else{
+					MainController.alert(Alert.AlertType.INFORMATION,
+							"Error con Base de Datos",
+							"No se pudo conectar con Base de Datos");
+				}
+			}else{
+				MainController.alert(
+						Alert.AlertType.INFORMATION,
+						"IncorrectEntries",
+						"Debe llenar los datos correctamente"
+				);
+			}
+		} catch (CustomException e) {
+			new Logger().log(e.getMessage());
+		}
+	}
+
+	public void instanceProject(){
+		project.setName(txtName.getText());
+		project.setDescription(txtDescription.getText());
+		project.setGeneralObjective(txtGeneralObjective.getText());
+		project.setMediateObjective(txtMediateObjective.getText());
+		project.setImmediateObjective(txtInmediateObjective.getText());
+		project.setMethodology(txtMethodology.getText());
+		project.setResources(txtResources.getText());
+		project.setResponsibilities(txtResponsibilities.getText());
+		project.setCapacity(txtCapacity.getText());
+		project.setOrganization(Organization.getByName(cmbOrganizations.getValue()));
+
+		ProjectResponsible projectResponsible = new ProjectResponsible();
+		projectResponsible.setPosition(txtPositionResponsible.getText());
+		projectResponsible.setEmail(txtEmailResponsible.getText());
+		projectResponsible.setNames(txtNameResponsible.getText());
+		projectResponsible.setLastNames(txtLastnameResponsible.getText());
+
+		project.setResponsible(projectResponsible);
 	}
 }
