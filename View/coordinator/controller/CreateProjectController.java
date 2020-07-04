@@ -73,6 +73,18 @@ public class CreateProjectController implements Initializable {
 			txtName.setText(
 				MainController.get("name").toString()
 			);
+			txtDescription.setText(MainController.get("description").toString());
+			txtGeneralObjective.setText(MainController.get("generalObjective").toString());
+			txtMediateObjective.setText(MainController.get("mediateObjective").toString());
+			txtInmediateObjective.setText(MainController.get("inmediateObjective").toString());
+			txtMethodology.setText(MainController.get("methodology").toString());
+			txtResources.setText(MainController.get("resources").toString());
+			txtResponsibilities.setText(MainController.get("responsibilities").toString());
+			txtCapacity.setText(MainController.get("capacity").toString());
+			txtPositionResponsible.setText(MainController.get("positionResponsible").toString());
+			txtEmailResponsible.setText(MainController.get("emailResponsible").toString());
+			txtNameResponsible.setText(MainController.get("nameResponsible").toString());
+			txtLastnameResponsible.setText(MainController.get("lastNameResponsible").toString());
 		}
 	}
 	
@@ -80,6 +92,7 @@ public class CreateProjectController implements Initializable {
 	public void onClickCalendarization(MouseEvent clickEvent) {
 		MainController.clearMemory();
 		MainController.save("name", txtName.getText());
+		MainController.save("description",txtDescription.getText());
 		MainController.activate("ProjectCalendarization",
 			"Calendarizacion de Proyecto",
 			MainController.Sizes.MID);
