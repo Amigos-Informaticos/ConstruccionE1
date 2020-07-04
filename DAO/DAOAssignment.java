@@ -25,7 +25,7 @@ public class DAOAssignment {
 			"Assignment is incomplete: DAOAssignment.assignProject()";
 		String studentId = new DAOStudent(this.assignment.getStudent()).getId();
 		String projectId = new DAOProject(this.assignment.getProject()).getId();
-		String professorId = new DAOProfessor(this.assignment.getProfessor()).getIdProfessor();
+		String professorId = new DAOProfessor(this.assignment.getProfessor()).getId();
 		String query = "SELECT COUNT(idPracticante) AS TOTAL FROM Asignacion " +
 			"WHERE idPracticante = ? AND idProyecto = ? AND estaActivo = 1";
 		String[] values = { studentId, studentId };

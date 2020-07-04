@@ -11,6 +11,7 @@ import tools.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MainController extends Application {
 	private static Stage stage;
@@ -21,11 +22,32 @@ public class MainController extends Application {
 	private static final HashMap<String, String> screens = new HashMap<>();
 	private static final HashMap<Sizes, double[]> size = new HashMap<>();
 	private static Sizes currentSize = null;
+	private static final Map<String, Object> controllerMemory = new HashMap<>();
 	
 	public enum Sizes {
 		SMALL,
 		MID,
 		LARGE
+	}
+	
+	public static void save(String varName, Object data) {
+		if (controllerMemory.containsKey(varName)) {
+			controllerMemory.replace(varName, data);
+		} else {
+			controllerMemory.put(varName, data);
+		}
+	}
+	
+	public static Object get(String varName) {
+		return controllerMemory.get(varName);
+	}
+	
+	public static void clearMemory() {
+		controllerMemory.clear();
+	}
+	
+	public static boolean has(String varName) {
+		return controllerMemory.containsKey(varName);
 	}
 	
 	public static User getUser() {
@@ -86,9 +108,9 @@ public class MainController extends Application {
 	}
 	
 	public static void loadSizes() {
-		size.put(Sizes.SMALL, new double[]{310.0, 450.0});
-		size.put(Sizes.MID, new double[]{700.0, 450.0});
-		size.put(Sizes.LARGE, new double[]{700.0, 710.0});
+		size.put(Sizes.SMALL, new double[]{ 310.0, 450.0 });
+		size.put(Sizes.MID, new double[]{ 700.0, 450.0 });
+		size.put(Sizes.LARGE, new double[]{ 700.0, 710.0 });
 	}
 	
 	public static void alert(Alert.AlertType type, String header, String message) {

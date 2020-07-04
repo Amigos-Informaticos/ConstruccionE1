@@ -26,56 +26,49 @@ public class DAOProject implements IDAOProject {
 	@Override
 	public boolean signUp() throws CustomException {
 		boolean signedUp = false;
-		if (this.project.isComplete()) {
-			if (!this.isRegistered() && !this.isActive()) {
-				String query = "INSERT INTO Proyecto (nombre, " +
-					"descripcion, " +
-					"metodologia, " +
-					"objetivoGeneral, " +
-					"objetivoMediato, " +
-					"objetivoInmediato, " +
-					"recursos, " +
-					"responsabilidades, " +
-					"estaActivo, " +
-					"cupo, " +
-					"area, " +
-					"responsable, " +
-					"idPeriodo, " +
-					"idOrganizacion, " +
-					"fechaInicio, " +
-					"fechaFin)" +
-					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-				String[] values = { this.project.getName(),
-					this.project.getDescription(),
-					this.project.getMethodology(),
-					this.project.getGeneralObjective(),
-					this.project.getMediateObjective(),
-					this.project.getImmediateObjective(),
-					this.project.getResources(),
-					this.project.getResponsibilities(),
-					this.project.getStatus(),
-					this.project.getCapacity(),
-					getIdArea(),
-					this.project.getEmailResponsible(),
-					getIdPeriod(),
-					getIdOrganization(),
-					this.project.getStartDate(),
-					this.project.getEndDate()
-				};
-				if (this.connection.sendQuery(query, values)) {
-					signedUp = true;
-				}
-			} else if (this.isRegistered() && !this.isActive()) {
-				String query = "UPDATE Proyecto SET estaActivo = 1 WHERE nombre = ?";
-				String[] values = { this.project.getName() };
-				if (this.connection.sendQuery(query, values)) {
-					signedUp = true;
-				}
-			} else if (this.isActive()) {
-				throw new CustomException("Project already registered and active");
+		assert this.project.isComplete() : "Project is incomplete: DAOProject.signUp()";
+		if (!this.isRegistered() && !this.isActive()) {
+			String query = "INSERT INTO Proyecto (nombre, " +
+				"descripcion, " +
+				"metodologia, " +
+				"objetivoGeneral, " +
+				"objetivoMediato, " +
+				"objetivoInmediato, " +
+				"recursos, " +
+				"responsabilidades, " +
+				"cupo, " +
+				"area, " +
+				"responsable, " +
+				"idPeriodo, " +
+				"idOrganizacion, " +
+				"fechaInicio, " +
+				"fechaFin)" +
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String[] values = { this.project.getName(),
+				this.project.getDescription(),
+				this.project.getMethodology(),
+				this.project.getGeneralObjective(),
+				this.project.getMediateObjective(),
+				this.project.getImmediateObjective(),
+				this.project.getResources(),
+				this.project.getResponsibilities(),
+				this.project.getCapacity(),
+				getIdArea(),
+				this.project.getResponsible().getEmail(),
+				getIdPeriod(),
+				getIdOrganization(),
+				this.project.getStartDate(),
+				this.project.getEndDate()
+			};
+			signedUp = this.connection.sendQuery(query, values);
+		} else if (this.isRegistered() && !this.isActive()) {
+			String query = "UPDATE Proyecto SET estaActivo = 1 WHERE nombre = ?";
+			String[] values = { this.project.getName() };
+			if (this.connection.sendQuery(query, values)) {
+				signedUp = true;
 			}
-		} else {
-			throw new CustomException("Null pointer exception");
+		} else if (this.isActive()) {
+			throw new CustomException("Project already registered and active");
 		}
 		return signedUp;
 	}
@@ -106,22 +99,22 @@ public class DAOProject implements IDAOProject {
 				String[] results = { "idProyecto", "nombre", "metodologia", "objetivoGeneral",
 					"objetivoMediato", "objetivoInmediato", "recursos", "responsabilidades",
 					"estaActivo", "area", "responsable", "idPeriodo", "idOrganizacion" };
-				String[][] projectReturned = this.connection.select(query, values, results);
+				String[] projectReturned = this.connection.select(query, values, results)[0];
 				
 				project = new Project();
 				
-				project.setName(projectReturned[0][1]);
-				project.setMethodology(projectReturned[0][2]);
-				project.setGeneralObjective(projectReturned[0][3]);
-				project.setMediateObjective(projectReturned[0][4]);
-				project.setImmediateObjective(projectReturned[0][5]);
-				project.setResources(projectReturned[0][6]);
-				project.setResponsibilities(projectReturned[0][7]);
-				project.setStatus(projectReturned[0][8]);
-				project.setArea(projectReturned[0][9]);
-				project.setEmailResponsible(projectReturned[0][10]);
-				project.setPeriod(projectReturned[0][11]);
-				project.setOrganization(projectReturned[0][12]);
+				project.setName(projectReturned[1]);
+				project.setMethodology(projectReturned[2]);
+				project.setGeneralObjective(projectReturned[3]);
+				project.setMediateObjective(projectReturned[4]);
+				project.setImmediateObjective(projectReturned[5]);
+				project.setResources(projectReturned[6]);
+				project.setResponsibilities(projectReturned[7]);
+				project.setStatus(projectReturned[8]);
+				project.setArea(projectReturned[9]);
+				project.setResponsible(DAOProjectResponsible.get(projectReturned[10]));
+				project.setPeriod(projectReturned[11]);
+				project.setOrganization(projectReturned[12]);
 			}
 		}
 		return project;
@@ -274,7 +267,7 @@ public class DAOProject implements IDAOProject {
 			projects[i].setStatus(responses[i][8]);
 			projects[i].setCapacity(responses[i][9]);
 			projects[i].setArea(responses[i][10]);
-			projects[i].setEmailResponsible(responses[i][11]);
+			projects[i].setResponsible(DAOProjectResponsible.get(responses[i][11]));
 			projects[i].setPeriod(responses[i][12]);
 			projects[i].setOrganization(responses[i][13]);
 			projects[i].setStartDate(responses[i][14]);

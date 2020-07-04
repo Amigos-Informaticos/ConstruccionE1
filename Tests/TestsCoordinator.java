@@ -1,5 +1,6 @@
 package Tests;
 
+import DAO.DAOProjectResponsible;
 import Exceptions.CustomException;
 import Models.Coordinator;
 import Models.Organization;
@@ -38,7 +39,7 @@ public class TestsCoordinator {
 		project.setResponsibilities("Echarle ganas y pararse temprano");
 		project.setStatus("1");
 		project.setArea("Desarrollo");
-		project.setEmailResponsible("correoResponsable1@correo.com");
+		project.setResponsible(DAOProjectResponsible.get("correoResponsable1@correo.com"));
 		project.setPeriod("FEB-JUN 2020");
 		project.setOrganization("1");
 		Student student = new Student("Efrain",
