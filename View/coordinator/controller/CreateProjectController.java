@@ -10,7 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
-import tools.P;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -62,13 +61,11 @@ public class CreateProjectController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		loadValues(location.toString());
+		loadValues();
 	}
 	
-	public void loadValues(String location) {
-		String file = location.substring(location.lastIndexOf('/') + 1);
-		P.p(file);
-		if (file.equals("CreateProject.fxml") &&
+	public void loadValues() {
+		if (MainController.getStageName().equals("CreateProject") &&
 			MainController.has("name")) {
 			txtName.setText(
 				MainController.get("name").toString()

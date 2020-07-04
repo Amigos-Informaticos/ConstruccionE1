@@ -1,7 +1,5 @@
 package tools;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -39,6 +37,15 @@ public class Dir {
 		return this.path.toString();
 	}
 	
+	public Path getParentPath() {
+		return this.path.getParent();
+	}
+	
+	public String getStringParentPath() {
+		return this.path != null && this.path.getParent() != null ?
+			this.path.getParent().toString() : "";
+	}
+	
 	public boolean mkdir() {
 		if (this.path != null && !Dir.exists(this.path)) {
 			Dir.mkdir(this.path);
@@ -56,15 +63,11 @@ public class Dir {
 	}
 	
 	public static boolean mkdir(String path) {
-		if (Dir.exists(path)) {
-			return false;
-		}
-		try {
-			Files.createDirectory(Paths.get(path));
+		if (new Dir(path).getStringParentPath().equals("")) {
 			return true;
-		} catch (IOException e) {
-			P.err(e);
-			return false;
+		} else {
+			return new Dir(new Dir(path).getStringParentPath()).mkdir() &&
+				new java.io.File(path).mkdirs();
 		}
 	}
 	

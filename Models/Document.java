@@ -69,4 +69,8 @@ public class Document {
 	public boolean save() {
 		return new DAODocument(this).save(this.author.getEmail());
 	}
+	
+	public boolean downloadFile() {
+		return new DAODocument(this).downloadFile();
+	}
 }

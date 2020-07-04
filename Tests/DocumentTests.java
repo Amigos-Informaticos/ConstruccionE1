@@ -5,6 +5,7 @@ import Models.Student;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import tools.Dir;
 import tools.File;
 
 import java.util.Date;
@@ -31,7 +32,17 @@ public class DocumentTests {
 	}
 	
 	@Test
+	public void prueba() {
+		Dir.mkdir("Downloads/a/b/");
+	}
+	
+	@Test
 	public void a_saveDocument() {
 		assertTrue(this.getDocument().save());
+	}
+	
+	@Test
+	public void b_downloadDocument() {
+		assertTrue(this.getDocument().downloadFile());
 	}
 }
