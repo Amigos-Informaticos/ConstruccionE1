@@ -54,6 +54,8 @@ public class CreateProjectController implements Initializable {
 	private JFXTextField txtLastnameResponsible;
 	@FXML
 	private JFXComboBox<String> cmbArea;
+	@FXML
+	private JFXComboBox<String> cmbPeriod;
 
 	@FXML
 	private JFXTextField month1Activity = new JFXTextField();
@@ -95,9 +97,6 @@ public class CreateProjectController implements Initializable {
 										month5DateActivity,
 										month6DateActivity};
 
-
-	CalendarizedActivity[] calendarizedActivities = new CalendarizedActivity[6];
-
 	@FXML
 	private JFXDatePicker initialDate;
 	@FXML
@@ -105,9 +104,9 @@ public class CreateProjectController implements Initializable {
 	
 	ObservableList<String> listOrganizations;
 	ObservableList<String> listAreas;
+	ObservableList<String> listPeriods;
 
 	private Project project = new Project();
-
 
 	
 	@Override
@@ -124,6 +123,12 @@ public class CreateProjectController implements Initializable {
 			listAreas = FXCollections.observableArrayList();
 			Project.fillAreaTable(listAreas);
 			cmbArea.setItems(listAreas);
+
+			listPeriods = FXCollections.observableArrayList();
+			listPeriods.add("FEB-JUL");
+			listPeriods.add("AGO-ENE");
+			cmbPeriod.setItems(listPeriods);
+
 			if (MainController.has("name")) {
 				txtName.setText(MainController.get("name").toString());
 				txtDescription.setText(MainController.get("description").toString());
@@ -138,7 +143,6 @@ public class CreateProjectController implements Initializable {
 				txtEmailResponsible.setText(MainController.get("emailResponsible").toString());
 				txtNameResponsible.setText(MainController.get("nameResponsible").toString());
 				txtLastnameResponsible.setText(MainController.get("lastnameResponsible").toString());
-
 			}
 		}else{
 			if(MainController.has("initialDate")){
@@ -184,15 +188,10 @@ public class CreateProjectController implements Initializable {
 	
 	public void onClickOk(MouseEvent clickEvent) {
 		CalendarizedActivity[] calendarizedActivities = new CalendarizedActivity[6];
-		for (int i = 0; i < 6; i++) {
-			if (!namesOfActivities[i].getText().equals("")) {
-				calendarizedActivities[i].setName(namesOfActivities[i].getText());
-				calendarizedActivities[i].setName(dateOfActivities[i].getValue().toString());
-			}
-		}
+
 		MainController.save("initialDate",initialDate.getValue());
 		MainController.save("finalDate",finalDate.getValue());
-		//MainController.save("calendarizedActivities",calendarizedActivities);
+
 		MainController.save("month1Activity",month1Activity.getText());
 		MainController.save("month2Activity",month2Activity.getText());
 		MainController.save("month3Activity",month3Activity.getText());
@@ -215,10 +214,24 @@ public class CreateProjectController implements Initializable {
 
 	public void signUp(){
 		instanceProject();
-		CalendarizedActivity[] activities =(CalendarizedActivity[]) MainController.get("calendarizedActivities");
-		project.setCalendarizedActivities(activities);
+		/*
+		CalendarizedActivity[] activities = new CalendarizedActivity[6];
+		activities[0].setName((String) MainController.get("Month1Activity"));
+		activities[0].setDate((String) MainController.get("Month1DateActivty"));
+		activities[1].setName((String) MainController.get("Month2Activity"));
+		activities[1].setDate((String) MainController.get("Month2DateActivty"));
+		activities[2].setName((String) MainController.get("Month3Activity"));
+		activities[2].setDate((String) MainController.get("Month3DateActivty"));
+		activities[3].setName((String) MainController.get("Month4Activity"));
+		activities[3].setDate((String) MainController.get("Month4DateActivty"));
+		activities[4].setName((String) MainController.get("Month5Activity"));
+		activities[4].setDate((String) MainController.get("Month5DateActivty"));
+		activities[5].setName((String) MainController.get("Month6Activity"));
+		activities[5].setDate((String) MainController.get("Month6DateActivty"));
+		 */
 		project.setStartDate(MainController.get("initialDate").toString());
 		project.setEndDate(MainController.get("finalDate").toString());
+		//project.setCalendarizedActivities(activities);
 		try {
 			if(project.isComplete()){
 				if(project.register()){
@@ -251,14 +264,17 @@ public class CreateProjectController implements Initializable {
 		project.setMethodology(txtMethodology.getText());
 		project.setResources(txtResources.getText());
 		project.setResponsibilities(txtResponsibilities.getText());
-		project.setCapacity(txtCapacity.getText());
+		project.setCapacity(Integer.parseInt(txtCapacity.getText()));
 		project.setOrganization(Organization.getByName(cmbOrganizations.getValue()));
+		project.setPeriod(cmbPeriod.getValue());
+		project.setArea(cmbArea.getValue());
 
 		ProjectResponsible projectResponsible = new ProjectResponsible();
 		projectResponsible.setPosition(txtPositionResponsible.getText());
 		projectResponsible.setEmail(txtEmailResponsible.getText());
 		projectResponsible.setNames(txtNameResponsible.getText());
 		projectResponsible.setLastNames(txtLastnameResponsible.getText());
+		projectResponsible.setOrganization(Organization.getByName(cmbOrganizations.getValue()));
 
 		project.setResponsible(projectResponsible);
 	}

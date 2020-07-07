@@ -22,6 +22,7 @@ public class Project {
 	private Organization organization;
 	private String startDate;
 	private String endDate;
+	private CalendarizedActivity[] calendarizedActivities;
 	
 	public Project() {
 	}
@@ -149,9 +150,18 @@ public class Project {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	
+
+	public CalendarizedActivity[] getCalendarizedActivities() {
+		return calendarizedActivities;
+	}
+
+	public void setCalendarizedActivities(CalendarizedActivity[] calendarizedActivities) {
+		this.calendarizedActivities = calendarizedActivities;
+	}
+
 	public boolean isComplete() {
 		return this.name != null &&
+				this.description != null &&
 			this.methodology != null &&
 			this.generalObjective != null &&
 			this.mediateObjective != null &&
@@ -195,5 +205,14 @@ public class Project {
 	public static void fillTable(ObservableList<Project> projectsList) {
 		Project[] projects = DAOProject.getAll();
 		projectsList.addAll(projects);
+	}
+
+	public static boolean fillAreaTable(ObservableList<String> listAreas){
+		boolean filled = false;
+		DAOProject daoProject = new DAOProject();
+		if(daoProject.fillAreaTable(listAreas)){
+			filled = true;
+		}
+		return filled;
 	}
 }
