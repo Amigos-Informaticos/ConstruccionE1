@@ -1,18 +1,66 @@
 package Tests;
 
 import DAO.DAOProjectResponsible;
+import DAO.DAOrganization;
 import Exceptions.CustomException;
 import Models.Coordinator;
 import Models.Organization;
 import Models.Project;
+import Models.ProjectResponsible;
 import Models.Student;
 import org.junit.Test;
+import tools.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class TestsCoordinator {
 	Coordinator coordinator = new Coordinator();
+	
+	public Organization getOrganization() {
+		Organization organization = new Organization();
+		organization.setName("Organizacion 1");
+		organization.setSector("Videojuegos");
+		organization.setAddress(
+			"Revillagigedo",
+			"1928",
+			"Centro",
+			"Veracruz"
+		);
+		organization.addPhoneNumber("2291763687");
+		organization.addPhoneNumber("1660748");
+		return organization;
+	}
+	
+	public Project getProject() {
+		Project project = new Project();
+		project.setName("Proyecto1");
+		project.setDescription("Esel primer proyecto jaja");
+		project.setMethodology("Cascada ágil");
+		project.setGeneralObjective("Objetivo general");
+		project.setMediateObjective("Objetivo mediato");
+		project.setImmediateObjective("ganar jaja");
+		project.setResources("todos los recursos del mundo");
+		project.setResponsibilities("Llegar temprano e irse por las tortas");
+		project.setCapacity(3);
+		project.setArea("Vigilancia");
+		project.setResponsible(this.getResponsible());
+		project.setPeriod("FEB-JUN 2020");
+		project.setOrganization(this.getOrganization());
+		project.setStartDate("2020-07-19");
+		project.setEndDate("2020-09-07");
+		return project;
+	}
+	
+	public ProjectResponsible getResponsible() {
+		ProjectResponsible responsible = new ProjectResponsible();
+		responsible.setEmail("responsible@gmail.com");
+		responsible.setNames("Responsable Miguel");
+		responsible.setLastNames("Apellidos responsable");
+		responsible.setPosition("Intendente");
+		responsible.setOrganization(DAOrganization.getByName("Organizacion 1"));
+		return responsible;
+	}
 	
 	@Test
 	public void studentManagementTest() {
@@ -37,7 +85,6 @@ public class TestsCoordinator {
 		project.setImmediateObjective("Empezar manana");
 		project.setResources("Dos computadoras y un Xiaomi");
 		project.setResponsibilities("Echarle ganas y pararse temprano");
-		project.setStatus("1");
 		project.setArea("Desarrollo");
 		project.setResponsible(DAOProjectResponsible.get("correoResponsable1@correo.com"));
 		project.setPeriod("FEB-JUN 2020");
@@ -75,17 +122,15 @@ public class TestsCoordinator {
 	
 	@Test
 	public void signUpOrganization() throws CustomException {
-		Organization organization = new Organization();
-		organization.setName("Organizacion 1");
-		organization.setSector("Videojuegos");
-		organization.setAddress(
-			"Revillagigedo",
-			"1928",
-			"Centro",
-			"Veracruz"
-		);
-		organization.addPhoneNumber("2291763687");
-		organization.addPhoneNumber("1660748");
-		assertTrue(organization.signUp());
+		assertTrue(this.getOrganization().signUp());
+	}
+	
+	@Test
+	public void registerProject() {
+		try {
+			assertTrue(this.getProject().register());
+		} catch (CustomException e) {
+			Logger.staticLog(e);
+		}
 	}
 }

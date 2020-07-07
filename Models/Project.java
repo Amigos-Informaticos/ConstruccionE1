@@ -3,6 +3,7 @@ package Models;
 import DAO.DAOProject;
 import DAO.DAOrganization;
 import Exceptions.CustomException;
+import javafx.collections.ObservableList;
 
 public class Project {
 	
@@ -14,14 +15,15 @@ public class Project {
 	private String immediateObjective;
 	private String resources;
 	private String responsibilities;
-	private String status;
-	private String capacity;
+	private int capacity;
 	private String area;
 	private ProjectResponsible responsible;
 	private String period;
 	private Organization organization;
 	private String startDate;
 	private String endDate;
+	private CalendarizedActivity[] calendarizedActivities;
+	private Coordinator coordinator;
 	
 	public Project() {
 	}
@@ -90,19 +92,11 @@ public class Project {
 		this.responsibilities = responsibilities;
 	}
 	
-	public String getStatus() {
-		return status;
-	}
-	
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
-	public String getCapacity() {
+	public int getCapacity() {
 		return capacity;
 	}
 	
-	public void setCapacity(String capacity) {
+	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
 	
@@ -138,6 +132,10 @@ public class Project {
 		this.organization = DAOrganization.getByName(organization);
 	}
 	
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+	
 	public String getStartDate() {
 		return startDate;
 	}
@@ -153,16 +151,32 @@ public class Project {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	
+
+	public Coordinator getCoordinator() {
+		return coordinator;
+	}
+
+	public void setCoordinator(Coordinator coordinator) {
+		this.coordinator = coordinator;
+	}
+
+	public CalendarizedActivity[] getCalendarizedActivities() {
+		return calendarizedActivities;
+	}
+
+	public void setCalendarizedActivities(CalendarizedActivity[] calendarizedActivities) {
+		this.calendarizedActivities = calendarizedActivities;
+	}
+
 	public boolean isComplete() {
 		return this.name != null &&
+				this.description != null &&
 			this.methodology != null &&
 			this.generalObjective != null &&
 			this.mediateObjective != null &&
 			this.immediateObjective != null &&
 			this.resources != null &&
 			this.responsibilities != null &&
-			this.status != null &&
 			this.area != null &&
 			this.responsible != null &&
 			this.period != null &&
@@ -170,14 +184,7 @@ public class Project {
 	}
 	
 	public boolean register() throws CustomException {
-		boolean isRegistered = false;
-		if (this.isComplete()) {
-			DAOProject daoProject = new DAOProject(this);
-			if (daoProject.signUp()) {
-				isRegistered = true;
-			}
-		}
-		return isRegistered;
+		return new DAOProject(this).signUp();
 	}
 	
 	public boolean deleteProject() throws CustomException {
@@ -202,5 +209,19 @@ public class Project {
 	public boolean isRegistered() {
 		DAOProject daoProject = new DAOProject(this);
 		return daoProject.isRegistered();
+	}
+	
+	public static void fillTable(ObservableList<Project> projectsList) {
+		Project[] projects = DAOProject.getAll();
+		projectsList.addAll(projects);
+	}
+
+	public static boolean fillAreaTable(ObservableList<String> listAreas){
+		boolean filled = false;
+		DAOProject daoProject = new DAOProject();
+		if(daoProject.fillAreaTable(listAreas)){
+			filled = true;
+		}
+		return filled;
 	}
 }
