@@ -24,10 +24,10 @@ public class DocumentTests {
 	
 	public Document getDocument() {
 		return new Document(
-			"Documento de prueba",
+			"Documento de prueba(1)",
 			"Normal",
 			new Date(),
-			new File("src/Connection/DBConnection.java"),
+			new File("/home/w3edd/Fonts/FiraCode.ttf"),
 			student);
 	}
 	
@@ -44,5 +44,10 @@ public class DocumentTests {
 	@Test
 	public void b_downloadDocument() {
 		assertTrue(this.getDocument().downloadFile());
+	}
+	
+	@Test
+	public void c_saveLocally() {
+		assertTrue(this.getDocument().saveLocally());
 	}
 }

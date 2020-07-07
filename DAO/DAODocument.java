@@ -10,6 +10,8 @@ import tools.Logger;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -80,6 +82,21 @@ public class DAODocument {
 		return saved;
 	}
 	
+	public boolean saveLocally() {
+		assert this.document.isComplete() : "Document is incomplete: DAODocument.saveLocally()";
+		assert this.document.getFile().exists() : "File doesnt exists: DAODocument.saveLocally()";
+		
+		try {
+			File file = new File("LocalFiles/" + this.document.getFile().getName());
+			Dir.mkdir("LocalFiles");
+			file.create();
+			Files.copy(this.document.getFile().getPath(), file.getPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
 	public boolean downloadFile() {
 		assert this.document != null : "Document is null: DAODocument.getFile()";
 		assert this.document.isComplete() : "Document is incomplete: DAODocument.getFile()";
@@ -92,7 +109,7 @@ public class DAODocument {
 		query = "SELECT archivo, path FROM Documento WHERE titulo = ?";
 		columns = new String[]{ "archivo", "path" };
 		String[] responses = this.connection.select(query, values, columns)[0];
-		File file = new File("Downloads/" + responses[1]);
+		File file = new File("LocalFiles/Downloads/" + responses[1]);
 		Dir.mkdir(file.getStringParentPath());
 		got = file.write(responses[0]);
 		this.document.setFile(file);
