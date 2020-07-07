@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import tools.Logger;
 
@@ -113,11 +114,12 @@ public class MainController extends Application {
 		size.put(Sizes.LARGE, new double[]{ 700.0, 710.0 });
 	}
 	
-	public static void alert(Alert.AlertType type, String header, String message) {
+	public static boolean alert(Alert.AlertType type, String header, String message) {
 		Alert alert = new Alert(type);
 		alert.setHeaderText(header);
 		alert.setContentText(message);
-		alert.show();
+		alert.showAndWait();
+		return alert.getResult()== ButtonType.OK;
 	}
 	
 	public static void hit(String name, String title, Sizes size) {
