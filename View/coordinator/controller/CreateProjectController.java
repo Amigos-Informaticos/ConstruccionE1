@@ -19,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import tools.Logger;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class CreateProjectController implements Initializable {
@@ -139,12 +140,17 @@ public class CreateProjectController implements Initializable {
 				txtLastnameResponsible.setText(MainController.get("lastnameResponsible").toString());
 
 			}
+		}else{
+			if(MainController.has("initialDate")){
+				initialDate.setValue((LocalDate) MainController.get("initialDate"));
+				finalDate.setValue((LocalDate) MainController.get("finalDate"));
+			}
+
 		}
 	}
 	
 	@FXML
 	public void onClickCalendarization(MouseEvent clickEvent) {
-		MainController.clearMemory();
 		MainController.save("name", txtName.getText());
 		MainController.save("description",txtDescription.getText());
 		MainController.save("generalObjective",txtGeneralObjective.getText());
@@ -171,11 +177,10 @@ public class CreateProjectController implements Initializable {
 				calendarizedActivities[i].setName(dateOfActivities[i].getValue().toString());
 			}
 		}
-		MainController.save("initialDate",initialDate.getValue().toString());
-		MainController.save("finalDate",finalDate.getValue().toString());
+		MainController.save("initialDate",initialDate.getValue());
+		MainController.save("finalDate",finalDate.getValue());
 		MainController.save("calendarizedActivities",calendarizedActivities);
-
-
+		MainController.activate("CreateProject","Crear Proyecto",MainController.Sizes.LARGE);
 	}
 	
 	public void onClickBack(MouseEvent clickEvent) {
