@@ -50,6 +50,10 @@ public class MainController extends Application {
 		return controllerMemory.containsKey(varName);
 	}
 	
+	public static String getStageName() {
+		return name;
+	}
+	
 	public static User getUser() {
 		return user;
 	}
@@ -78,7 +82,7 @@ public class MainController extends Application {
 	
 	public static void activate(String name) {
 		try {
-			MainController.name=name;
+			MainController.name = name;
 			Scene newScene = new Scene(
 				FXMLLoader.load(MainController.class.getResource(screens.get(name))));
 			MainController.stage.setScene(newScene);
@@ -144,9 +148,5 @@ public class MainController extends Application {
 		MainController.loadSizes();
 		MainController.activate(MainController.name);
 		MainController.stage.show();
-	}
-
-	public static String getStageName() {
-		return name;
 	}
 }

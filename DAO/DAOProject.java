@@ -29,6 +29,9 @@ public class DAOProject implements IDAOProject {
 		boolean signedUp = false;
 		assert this.project.isComplete() : "Project is incomplete: DAOProject.signUp()";
 		if (!this.isRegistered() && !this.isActive()) {
+			if(!this.project.getResponsible().isRegistered()){
+				this.project.getResponsible().signUp();
+			}
 			String query = "INSERT INTO Proyecto (nombre, " +
 				"descripcion, " +
 				"metodologia, " +
@@ -43,7 +46,7 @@ public class DAOProject implements IDAOProject {
 				"idPeriodo, " +
 				"idOrganizacion, " +
 				"fechaInicio, " +
-				"fechaFin)" +
+				"fechaFin) " +
 				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			String[] values = { this.project.getName(),
 				this.project.getDescription(),
@@ -53,11 +56,11 @@ public class DAOProject implements IDAOProject {
 				this.project.getImmediateObjective(),
 				this.project.getResources(),
 				this.project.getResponsibilities(),
-				this.project.getCapacity(),
+				String.valueOf(this.project.getCapacity()),
 				getIdArea(),
 				this.project.getResponsible().getEmail(),
 				getIdPeriod(),
-				getIdOrganization(),
+				this.project.getOrganization().getId(),
 				this.project.getStartDate(),
 				this.project.getEndDate()
 			};
@@ -99,7 +102,7 @@ public class DAOProject implements IDAOProject {
 				query = "SELECT * FROM Proyecto WHERE nombre = ?";
 				String[] results = { "idProyecto", "nombre", "metodologia", "objetivoGeneral",
 					"objetivoMediato", "objetivoInmediato", "recursos", "responsabilidades",
-					"estaActivo", "area", "responsable", "idPeriodo", "idOrganizacion" };
+					"area", "responsable", "idPeriodo", "idOrganizacion" };
 				String[] projectReturned = this.connection.select(query, values, results)[0];
 				
 				project = new Project();
@@ -111,7 +114,6 @@ public class DAOProject implements IDAOProject {
 				project.setImmediateObjective(projectReturned[5]);
 				project.setResources(projectReturned[6]);
 				project.setResponsibilities(projectReturned[7]);
-				project.setStatus(projectReturned[8]);
 				project.setArea(projectReturned[9]);
 				project.setResponsible(DAOProjectResponsible.get(projectReturned[10]));
 				project.setPeriod(projectReturned[11]);
@@ -178,6 +180,26 @@ public class DAOProject implements IDAOProject {
 		return reactivated;
 	}
 	
+	public void registerArea() {
+		String query = "SELECT COUNT(area) AS TOTAL FROM Area WHERE area = ?";
+		String[] values = { this.project.getArea() };
+		String[] columns = { "TOTAL" };
+		if (this.connection.select(query, values, columns)[0][0].equals("0")) {
+			query = "INSERT INTO Area (area) VALUES (?)";
+			this.connection.sendQuery(query, values);
+		}
+	}
+	
+	public void registerPeriod() {
+		String query = "SELECT COUNT(periodo) AS TOTAL FROM Periodo WHERE periodo = ?";
+		String[] values = { this.project.getPeriod() };
+		String[] columns = { "TOTAL" };
+		if (this.connection.select(query, values, columns)[0][0].equals("0")) {
+			query = "INSERT INTO Periodo (periodo) VALUES (?)";
+			this.connection.sendQuery(query, values);
+		}
+	}
+	
 	public String getId() {
 		String id = "0";
 		String query = "SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1;";
@@ -197,27 +219,28 @@ public class DAOProject implements IDAOProject {
 	}
 	
 	public String getIdPeriod() {
-		String id = "0";
-		String query = "SELECT idPeriodo FROM Periodo WHERE periodo = ?;";
+		String query = "SELECT COUNT(periodo) AS TOTAL FROM Periodo WHERE periodo = ?";
 		String[] values = { this.project.getPeriod() };
-		String[] names = { "idPeriodo" };
-		String[][] result = this.connection.select(query, values, names);
-		if (!result[0][0].equals("")) {
-			id = result[0][0];
+		String[] columns = { "TOTAL" };
+		if (this.connection.select(query, values, columns)[0][0].equals("0")) {
+			this.registerPeriod();
 		}
-		return id;
+		query = "SELECT idPeriodo FROM Periodo WHERE periodo = ?;";
+		String[] names = { "idPeriodo" };
+		return this.connection.select(query, values, names)[0][0];
 	}
 	
 	public String getIdArea() {
-		String id = "0";
-		String query = "SELECT idArea FROM Area WHERE area = ?;";
+		String query = "SELECT COUNT(area) AS TOTAL FROM Area WHERE area = ?";
 		String[] values = { this.project.getArea() };
-		String[] names = { "idArea" };
-		String[][] result = this.connection.select(query, values, names);
-		if (!result[0][0].equals("")) {
-			id = result[0][0];
+		String[] columns = { "TOTAL" };
+		if (this.connection.select(query, values, columns)[0][0].equals("0")) {
+			this.registerArea();
 		}
-		return id;
+		query = "SELECT idArea FROM Area WHERE area = ?";
+		values = new String[]{ this.project.getArea() };
+		String[] names = { "idArea" };
+		return this.connection.select(query, values, names)[0][0];
 	}
 	
 	public boolean haveStudents() {
@@ -265,8 +288,7 @@ public class DAOProject implements IDAOProject {
 			projects[i].setImmediateObjective(responses[i][5]);
 			projects[i].setResources(responses[i][6]);
 			projects[i].setResponsibilities(responses[i][7]);
-			projects[i].setStatus(responses[i][8]);
-			projects[i].setCapacity(responses[i][9]);
+			projects[i].setCapacity(Integer.parseInt(responses[i][9]));
 			projects[i].setArea(responses[i][10]);
 			projects[i].setResponsible(DAOProjectResponsible.get(responses[i][11]));
 			projects[i].setPeriod(responses[i][12]);

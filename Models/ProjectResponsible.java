@@ -1,5 +1,7 @@
 package Models;
 
+import DAO.DAOProjectResponsible;
+
 public class ProjectResponsible {
 	private String email;
 	private String names;
@@ -54,5 +56,13 @@ public class ProjectResponsible {
 		return this.email != null &&
 			this.names != null &&
 			this.lastNames != null;
+	}
+	
+	public boolean signUp() {
+		return new DAOProjectResponsible(this).signUp();
+	}
+	
+	public boolean isRegistered() {
+		return new DAOProjectResponsible(this).isRegistered();
 	}
 }

@@ -4,11 +4,14 @@ import Connection.DBConnection;
 import Exceptions.CustomException;
 import Models.Document;
 import Models.Student;
+import tools.Dir;
 import tools.File;
 import tools.Logger;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -23,6 +26,7 @@ public class DAODocument {
 	public boolean save(String authorEmail) {
 		assert this.document != null : "Document is null: DAODocument.save()";
 		assert this.document.isComplete() : "Document is incomplete: DAODocument.save()";
+		assert this.document.getFile().exists() : "File doesnt exists: DAODocument.save()";
 		
 		String query = "SELECT COUNT(idMiembro) AS TOTAL FROM MiembroFEI " +
 			"WHERE correoElectronico = ?";
@@ -39,9 +43,9 @@ public class DAODocument {
 			this.document.getTitle() + "(" + occurrences + ")" :
 			this.document.getTitle();
 		
-		query = "INSERT INTO Documento (titulo, fecha, tipo, archivo, autor) " +
+		query = "INSERT INTO Documento (titulo, fecha, tipo, archivo, autor, path) " +
 			"VALUES (?, (SELECT CURRENT_DATE()), ?, ?, " +
-			"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?))";
+			"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?), ?)";
 		java.io.File file = new java.io.File(this.document.getFile().getStringPath());
 		try {
 			FileInputStream fis = new FileInputStream(file);
@@ -52,6 +56,7 @@ public class DAODocument {
 			statement.setString(2, this.document.getType());
 			statement.setBinaryStream(3, fis, (int) file.length());
 			statement.setString(4, authorEmail);
+			statement.setString(5, this.document.getFile().getStringPath());
 			statement.executeUpdate();
 			this.connection.closeConnection();
 			this.document.setTitle(fullTitle);
@@ -77,20 +82,36 @@ public class DAODocument {
 		return saved;
 	}
 	
-	public boolean getFile() {
+	public boolean saveLocally() {
+		assert this.document.isComplete() : "Document is incomplete: DAODocument.saveLocally()";
+		assert this.document.getFile().exists() : "File doesnt exists: DAODocument.saveLocally()";
+		
+		try {
+			File file = new File("LocalFiles/" + this.document.getFile().getName());
+			Dir.mkdir("LocalFiles");
+			file.create();
+			Files.copy(this.document.getFile().getPath(), file.getPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean downloadFile() {
 		assert this.document != null : "Document is null: DAODocument.getFile()";
 		assert this.document.isComplete() : "Document is incomplete: DAODocument.getFile()";
-		boolean got = false;
+		boolean got;
 		
 		String query = "SELECT COUNT(titulo) AS TOTAL FROM Documento WHERE titulo = ?";
 		String[] values = { this.document.getTitle() };
 		String[] columns = { "TOTAL" };
 		assert this.connection.select(query, values, columns)[0][0].equals("1");
-		query = "SELECT archivo FROM Documento WHERE titulo = ?";
-		columns = new String[]{ "archivo" };
-		String text = this.connection.select(query, values, columns)[0][0];
-		File file = new File(this.document.getFile().getStringPath());
-		file.write(text);
+		query = "SELECT archivo, path FROM Documento WHERE titulo = ?";
+		columns = new String[]{ "archivo", "path" };
+		String[] responses = this.connection.select(query, values, columns)[0];
+		File file = new File("LocalFiles/Downloads/" + responses[1]);
+		Dir.mkdir(file.getStringParentPath());
+		got = file.write(responses[0]);
 		this.document.setFile(file);
 		return got;
 	}

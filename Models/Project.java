@@ -15,16 +15,14 @@ public class Project {
 	private String immediateObjective;
 	private String resources;
 	private String responsibilities;
-	private String status;
-	private String capacity;
+	private int capacity;
 	private String area;
 	private ProjectResponsible responsible;
 	private String period;
 	private Organization organization;
 	private String startDate;
 	private String endDate;
-	private CalendarizedActivity[] calendarizedActivities = new CalendarizedActivity[6];
-
+	
 	public Project() {
 	}
 	
@@ -92,19 +90,11 @@ public class Project {
 		this.responsibilities = responsibilities;
 	}
 	
-	public String getStatus() {
-		return status;
-	}
-	
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
-	public String getCapacity() {
+	public int getCapacity() {
 		return capacity;
 	}
 	
-	public void setCapacity(String capacity) {
+	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
 	
@@ -140,6 +130,10 @@ public class Project {
 		this.organization = DAOrganization.getByName(organization);
 	}
 	
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+	
 	public String getStartDate() {
 		return startDate;
 	}
@@ -155,45 +149,23 @@ public class Project {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
-	public CalendarizedActivity[] getCalendarizedActivities() {
-		return calendarizedActivities;
-	}
-
-	public void setCalendarizedActivities(CalendarizedActivity[] calendarizedActivities) {
-		this.calendarizedActivities = calendarizedActivities;
-	}
 	
 	public boolean isComplete() {
 		return this.name != null &&
-				this.description != null &&
 			this.methodology != null &&
 			this.generalObjective != null &&
 			this.mediateObjective != null &&
 			this.immediateObjective != null &&
 			this.resources != null &&
 			this.responsibilities != null &&
-			this.status != null &&
 			this.area != null &&
 			this.responsible != null &&
 			this.period != null &&
-			this.organization != null &&
-				this.calendarizedActivities != null;
+			this.organization != null;
 	}
 	
 	public boolean register() throws CustomException {
-		boolean isRegistered = false;
-		if (this.isComplete()) {
-			DAOProject daoProject = new DAOProject(this);
-			if (daoProject.signUp()) {
-				isRegistered = true;
-			}
-		}
-		return isRegistered;
+		return new DAOProject(this).signUp();
 	}
 	
 	public boolean deleteProject() throws CustomException {
@@ -219,9 +191,9 @@ public class Project {
 		DAOProject daoProject = new DAOProject(this);
 		return daoProject.isRegistered();
 	}
-
-	public static boolean fillAreaTable(ObservableList<String> listAreas){
-		DAOProject daoProject = new DAOProject();
-		return daoProject.fillAreaTable(listAreas);
+	
+	public static void fillTable(ObservableList<Project> projectsList) {
+		Project[] projects = DAOProject.getAll();
+		projectsList.addAll(projects);
 	}
 }

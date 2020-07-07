@@ -145,6 +145,33 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 		return new DAOProfessor(professor).getId();
 	}
 	
+	public static Professor getByEmail(String email) {
+		assert email != null : "Email is null: DAOProfessor.getByEmail()";
+		DBConnection connection = new DBConnection();
+		Professor professor = null;
+		String query = "SELECT COUNT(correoElectronico) AS TOTAL " +
+			"FROM MiembroFEI WHERE correoElectronico = ?";
+		String[] values = { email };
+		String[] columns = { "TOTAL" };
+		if (connection.select(query, values, columns)[0][0].equals("1")) {
+			query = "SELECT nombres, apellidos, contrasena, noPersonal, Turno.turno AS turno " +
+				"FROM MiembroFEI INNER JOIN Profesor ON MiembroFEI.idMiembro = Profesor.idMiembro " +
+				"INNER JOIN Turno ON Profesor.turno = Turno.idTurno " +
+				"WHERE correoElectronico = ? AND estaActivo = 1";
+			columns = new String[]{ "nombres", "apellidos", "contrasena", "noPersonal", "turno" };
+			String[] responses = connection.select(query, values, columns)[0];
+			professor = new Professor(
+				responses[0],
+				responses[1],
+				email,
+				responses[2],
+				responses[3],
+				responses[4]
+			);
+		}
+		return professor;
+	}
+	
 	public static Professor[] get(Professor professor) {
 		return null;
 	}

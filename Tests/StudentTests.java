@@ -1,5 +1,6 @@
 package Tests;
 
+import DAO.DAOProfessor;
 import DAO.DAOProject;
 import Exceptions.CustomException;
 import Models.Project;
@@ -50,9 +51,10 @@ public class StudentTests {
 	@Test
 	public void a_signUpStudent() {
 		try {
+			this.student.setProfessor(DAOProfessor.getByEmail("joo@hotmail.com"));
 			assertTrue(this.student.signUp());
 		} catch (CustomException e) {
-			new Logger().log(e);
+			Logger.staticLog(e);
 		}
 	}
 	

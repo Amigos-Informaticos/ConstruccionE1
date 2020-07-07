@@ -66,6 +66,16 @@ public class File implements Serializable {
 		return this.path;
 	}
 	
+	public Path getParentPath() {
+		assert this.path != null;
+		return this.path.getParent();
+	}
+	
+	public String getStringParentPath() {
+		assert this.path != null;
+		return this.path.getParent().toString();
+	}
+	
 	public boolean create() {
 		if (this.path != null) {
 			return File.create(this.path.toString());
@@ -79,13 +89,11 @@ public class File implements Serializable {
 	
 	public static boolean create(Path path) {
 		boolean created = false;
-		if (!File.exists(path)) {
-			try {
-				Files.createFile(path);
-				created = true;
-			} catch (IOException e) {
-				P.err(e.getMessage());
-			}
+		try {
+			Files.createFile(path);
+			created = true;
+		} catch (IOException e) {
+			P.err(e.getMessage());
 		}
 		return created;
 	}
