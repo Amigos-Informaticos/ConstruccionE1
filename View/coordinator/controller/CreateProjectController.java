@@ -230,7 +230,9 @@ public class CreateProjectController implements Initializable {
 		activities[5].setDate((String) MainController.get("Month6DateActivty"));
 		 */
 		project.setStartDate(MainController.get("initialDate").toString());
+		System.out.println(project.getStartDate());
 		project.setEndDate(MainController.get("finalDate").toString());
+		System.out.println(project.getEndDate());
 		//project.setCalendarizedActivities(activities);
 		try {
 			if(project.isComplete()){
