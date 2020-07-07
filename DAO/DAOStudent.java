@@ -118,7 +118,6 @@ public class DAOStudent implements IDAOStudent {
 		assert this.student != null : "Student is null: DAOStudent.isRegistered()";
 		assert this.student.getEmail() != null : "Students email is null: DAOStudent.isRegistered()";
 		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL FROM MiembroFEI " +
-			"INNER JOIN Practicante ON MiembroFEI.idMiembro = Practicante.idMiembro " +
 			"WHERE correoElectronico = ?";
 		String[] values = { this.student.getEmail() };
 		String[] names = { "TOTAL" };
