@@ -83,14 +83,14 @@ public class CreateProjectController implements Initializable {
 	@FXML
 	private JFXDatePicker month6DateActivity = new JFXDatePicker();
 
-	JFXTextField[] namesOfActivities = {month1Activity,
+	private @FXML JFXTextField[] namesOfActivities = {month1Activity,
 							month2Activity,
 							month3Activity,
 							month4Activity,
 							month5Activity,
 							month6Activity};
 
-	JFXDatePicker[] dateOfActivities = {month1DateActivity,
+	private @FXML JFXDatePicker[] dateOfActivities = {month1DateActivity,
 										month2DateActivity,
 										month3DateActivity,
 										month4DateActivity,
@@ -102,9 +102,9 @@ public class CreateProjectController implements Initializable {
 	@FXML
 	private JFXDatePicker finalDate;
 	
-	ObservableList<String> listOrganizations;
-	ObservableList<String> listAreas;
-	ObservableList<String> listPeriods;
+	private ObservableList<String> listOrganizations;
+	private ObservableList<String> listAreas;
+	private ObservableList<String> listPeriods;
 
 	private Project project = new Project();
 

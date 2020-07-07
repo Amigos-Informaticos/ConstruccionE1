@@ -23,6 +23,7 @@ public class Project {
 	private String startDate;
 	private String endDate;
 	private CalendarizedActivity[] calendarizedActivities;
+	private Coordinator coordinator;
 	
 	public Project() {
 	}
@@ -149,6 +150,14 @@ public class Project {
 	
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	public Coordinator getCoordinator() {
+		return coordinator;
+	}
+
+	public void setCoordinator(Coordinator coordinator) {
+		this.coordinator = coordinator;
 	}
 
 	public CalendarizedActivity[] getCalendarizedActivities() {
