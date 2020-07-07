@@ -144,6 +144,19 @@ public class CreateProjectController implements Initializable {
 			if(MainController.has("initialDate")){
 				initialDate.setValue((LocalDate) MainController.get("initialDate"));
 				finalDate.setValue((LocalDate) MainController.get("finalDate"));
+				month1Activity.setText((String) MainController.get("month1Activity"));
+				month2Activity.setText((String) MainController.get("month2Activity"));
+				month3Activity.setText((String) MainController.get("month3Activity"));
+				month4Activity.setText((String) MainController.get("month4Activity"));
+				month5Activity.setText((String) MainController.get("month5Activity"));
+				month6Activity.setText((String) MainController.get("month6Activity"));
+
+				month1DateActivity.setValue((LocalDate) MainController.get("month1DateActivity"));
+				month2DateActivity.setValue((LocalDate) MainController.get("month2DateActivity"));
+				month3DateActivity.setValue((LocalDate) MainController.get("month3DateActivity"));
+				month4DateActivity.setValue((LocalDate) MainController.get("month4DateActivity"));
+				month5DateActivity.setValue((LocalDate) MainController.get("month5DateActivity"));
+				month6DateActivity.setValue((LocalDate) MainController.get("month6DateActivity"));
 			}
 
 		}
@@ -179,7 +192,20 @@ public class CreateProjectController implements Initializable {
 		}
 		MainController.save("initialDate",initialDate.getValue());
 		MainController.save("finalDate",finalDate.getValue());
-		MainController.save("calendarizedActivities",calendarizedActivities);
+		//MainController.save("calendarizedActivities",calendarizedActivities);
+		MainController.save("month1Activity",month1Activity.getText());
+		MainController.save("month2Activity",month2Activity.getText());
+		MainController.save("month3Activity",month3Activity.getText());
+		MainController.save("month4Activity",month4Activity.getText());
+		MainController.save("month5Activity",month5Activity.getText());
+		MainController.save("month6Activity",month6Activity.getText());
+
+		MainController.save("month1DateActivity",month1DateActivity.getValue());
+		MainController.save("month2DateActivity",month2DateActivity.getValue());
+		MainController.save("month3DateActivity",month3DateActivity.getValue());
+		MainController.save("month4DateActivity",month4DateActivity.getValue());
+		MainController.save("month5DateActivity",month5DateActivity.getValue());
+		MainController.save("month6DateActivity",month6DateActivity.getValue());
 		MainController.activate("CreateProject","Crear Proyecto",MainController.Sizes.LARGE);
 	}
 	
