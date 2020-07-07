@@ -70,6 +70,18 @@ public class CreateProjectController implements Initializable {
 			txtName.setText(
 				MainController.get("name").toString()
 			);
+			txtDescription.setText(MainController.get("description").toString());
+			txtGeneralObjective.setText(MainController.get("generalObjective").toString());
+			txtMediateObjective.setText(MainController.get("mediateObjective").toString());
+			txtInmediateObjective.setText(MainController.get("inmediateObjective").toString());
+			txtMethodology.setText(MainController.get("methodology").toString());
+			txtResources.setText(MainController.get("resources").toString());
+			txtResponsibilities.setText(MainController.get("responsibilities").toString());
+			txtCapacity.setText(MainController.get("capacity").toString());
+			txtPositionResponsible.setText(MainController.get("positionResponsible").toString());
+			txtEmailResponsible.setText(MainController.get("emailResponsible").toString());
+			txtNameResponsible.setText(MainController.get("nameResponsible").toString());
+			txtLastnameResponsible.setText(MainController.get("lastnameResponsible").toString());
 		}
 	}
 	
@@ -77,6 +89,18 @@ public class CreateProjectController implements Initializable {
 	public void onClickCalendarization(MouseEvent clickEvent) {
 		MainController.clearMemory();
 		MainController.save("name", txtName.getText());
+		MainController.save("description",txtDescription.getText());
+		MainController.save("generalObjective",txtGeneralObjective.getText());
+		MainController.save("mediateObjective",txtMediateObjective.getText());
+		MainController.save("inmediateObjective",txtInmediateObjective.getText());
+		MainController.save("methodology",txtMethodology.getText());
+		MainController.save("resources",txtResources.getText());
+		MainController.save("responsibilities",txtResponsibilities.getText());
+		MainController.save("capacity",txtCapacity.getText());
+		MainController.save("positionResponsible",txtPositionResponsible.getText());
+		MainController.save("emailResponsible",txtEmailResponsible.getText());
+		MainController.save("nameResponsible",txtNameResponsible.getText());
+		MainController.save("lastnameResponsible",txtLastnameResponsible.getText());
 		MainController.activate("ProjectCalendarization",
 			"Calendarizacion de Proyecto",
 			MainController.Sizes.MID);

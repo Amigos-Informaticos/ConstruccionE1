@@ -89,7 +89,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </JFXButton>
-      <JFXTextField fx:id="GeneralObjective" layoutX="250.0" layoutY="179.0" prefHeight="25.0" prefWidth="360.0" />
+      <JFXTextField fx:id="txtGeneralObjective" layoutX="250.0" layoutY="179.0" prefHeight="25.0" prefWidth="360.0" />
       <Label layoutX="57.0" layoutY="291.0" text="METODOLOGÍA:" textFill="#18529d">
          <font>
             <Font name="System Bold" size="17.0" />
