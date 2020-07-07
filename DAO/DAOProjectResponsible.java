@@ -18,15 +18,15 @@ public class DAOProjectResponsible {
 			"Responsible is not complete: DAOProjectResponsible.signUp()";
 		assert this.projectResponsible.getOrganization().isComplete() :
 			"Responsible organization is not complete: DAOProjectResponsible.signUp()";
-		String query =
-			"INSERT INTO Responsable " +
-				"(correoElectronico, nombres, apellidos, estaActivo, organizacion) " +
-				"VALUES (?, ?, ?, 1, ?)";
+		String query = "INSERT INTO Responsable " +
+			"(correoElectronico, nombres, apellidos, estaActivo, organizacion, cargo) " +
+			"VALUES (?, ?, ?, 1, ?, ?)";
 		String[] values = {
 			this.projectResponsible.getEmail(),
 			this.projectResponsible.getNames(),
 			this.projectResponsible.getLastNames(),
-			this.projectResponsible.getOrganization().getId()
+			this.projectResponsible.getOrganization().getId(),
+			this.projectResponsible.getPosition()
 		};
 		return this.connection.sendQuery(query, values);
 	}
