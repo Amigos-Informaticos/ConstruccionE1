@@ -30,12 +30,12 @@
          </opaqueInsets></HBox>
       <AnchorPane layoutX="1.0" layoutY="60.0" prefHeight="390.0" prefWidth="468.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0">
          <children>
-            <TableView onMouseClicked="#checkProject" layoutX="350.0" prefHeight="338.0" prefWidth="350.0">
+            <TableView fx:id="projectTable" layoutX="350.0" prefHeight="338.0" prefWidth="350.0">
               <columns>
-                <TableColumn prefWidth="349.0" text="Proyecto" />
+                <TableColumn fx:id="tableColumn" prefWidth="349.0" text="Proyecto" />
               </columns>
             </TableView>
-            <Label layoutX="15.0" layoutY="14.0" prefHeight="34.0" prefWidth="323.0" text="Nombre" textAlignment="CENTER" textFill="#18529d">
+            <Label fx:id="name" layoutX="15.0" layoutY="14.0" prefHeight="34.0" prefWidth="323.0" text="Nombre" textAlignment="CENTER" textFill="#18529d">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -60,12 +60,12 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <JFXTextArea layoutX="17.0" layoutY="100.0" prefHeight="50.0" prefWidth="316.0" />
-            <JFXTextArea layoutX="16.0" layoutY="172.0" prefHeight="50.0" prefWidth="323.0" />
-            <JFXTextArea layoutX="17.0" layoutY="251.0" prefHeight="34.0" prefWidth="323.0" />
-            <JFXTextField layoutX="17.0" layoutY="305.0" />
-            <JFXTextField layoutX="17.0" layoutY="349.0" prefHeight="25.0" prefWidth="316.0" />
-            <JFXButton layoutX="572.0" layoutY="346.0" style="-fx-background-color: #28AD56;" text="Seleccionar" textFill="WHITE">
+            <JFXTextArea fx:id="generalObjective" layoutX="17.0" layoutY="100.0" prefHeight="50.0" prefWidth="316.0" />
+            <JFXTextArea fx:id="resources" layoutX="16.0" layoutY="172.0" prefHeight="50.0" prefWidth="323.0" />
+            <JFXTextArea fx:id="responsabilities" layoutX="17.0" layoutY="251.0" prefHeight="34.0" prefWidth="323.0" />
+            <JFXTextField fx:id="area" layoutX="17.0" layoutY="305.0" />
+            <JFXTextField fx:id="organization" layoutX="17.0" layoutY="349.0" prefHeight="25.0" prefWidth="316.0" />
+            <JFXButton layoutX="572.0" layoutY="346.0" onMouseClicked="#selectProject" style="-fx-background-color: #28AD56;" text="Seleccionar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

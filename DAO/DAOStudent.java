@@ -76,7 +76,9 @@ public class DAOStudent implements IDAOStudent {
 		assert this.student != null : "Student is null: DAOStudent.logIn()";
 		assert this.student.getEmail() != null : "Student.getEmail is null: DAOStudent.logIn()";
 		assert this.isActive() : "Student is inactive: DAOStudent.logIn()";
-		String query = "SELECT COUNT(idMiembro) AS TOTAL FROM MiembroFEI " +
+		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL " +
+			"FROM MiembroFEI INNER JOIN Practicante " +
+			"ON MiembroFEI.idMiembro = Practicante.idMiembro " +
 			"WHERE correoElectronico = ? AND contrasena = ? AND estaActivo = 1";
 		String[] values = { this.student.getEmail(),
 			this.student.getPassword() };
@@ -205,11 +207,10 @@ public class DAOStudent implements IDAOStudent {
 		assert this.student != null : "Student is null: DAOStudent.getProjects()";
 		assert this.student.isComplete() : "Student is incomplete: DAOStudent.getProjects()";
 		assert this.isActive() : "Student is inactive: DAOStudent.getProjects()";
-		String query = "SELECT nombre " + "FROM Proyecto INNER JOIN Solicitud ON " +
+		String query = "SELECT nombre FROM Proyecto INNER JOIN Solicitud ON " +
 			"Proyecto.idProyecto = Solicitud.idProyecto WHERE Solicitud.idMiembro = " +
-			"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?) " +
-			"AND Proyecto.estaActivo = 1";
-		String[] values = { this.student.getEmail() };
+			"? AND Proyecto.estaActivo = 1";
+		String[] values = { this.getId() };
 		String[] names = { "nombre" };
 		String[][] results = this.connection.select(query, values, names);
 		

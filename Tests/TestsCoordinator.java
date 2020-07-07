@@ -1,5 +1,6 @@
 package Tests;
 
+import DAO.DAOProject;
 import DAO.DAOProjectResponsible;
 import DAO.DAOrganization;
 import Exceptions.CustomException;
@@ -10,6 +11,7 @@ import Models.ProjectResponsible;
 import Models.Student;
 import org.junit.Test;
 import tools.Logger;
+import tools.P;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -131,6 +133,13 @@ public class TestsCoordinator {
 			assertTrue(this.getProject().register());
 		} catch (CustomException e) {
 			Logger.staticLog(e);
+		}
+	}
+	
+	@Test
+	public void getAllProjects() {
+		for (Project project: DAOProject.getAll()) {
+			P.pln(project.getName());
 		}
 	}
 }

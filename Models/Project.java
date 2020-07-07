@@ -4,6 +4,7 @@ import DAO.DAOProject;
 import DAO.DAOrganization;
 import Exceptions.CustomException;
 import javafx.collections.ObservableList;
+import tools.P;
 
 public class Project {
 	
@@ -194,6 +195,8 @@ public class Project {
 	
 	public static void fillTable(ObservableList<Project> projectsList) {
 		Project[] projects = DAOProject.getAll();
-		projectsList.addAll(projects);
+		for (Project project: projects) {
+			projectsList.add(project);
+		}
 	}
 }
