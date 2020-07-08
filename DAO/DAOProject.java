@@ -77,19 +77,19 @@ public class DAOProject implements IDAOProject {
 		}
 		return signedUp;
 	}
-
-	public boolean registCalendarizedActivities(){
+	
+	public boolean registCalendarizedActivities() {
 		boolean registered = true;
 		CalendarizedActivity[] calendarizedActivities = project.getCalendarizedActivities();
 		String query = "INSERT INTO ActividadCalendarizada (nombre,fecha,idProyecto) VALUES (?,?,?)";
-		for (int i = 0; i < 6; i++) {
-			String[] values = {calendarizedActivities[i].getName(),
-								calendarizedActivities[i].getDate(),
-								this.getId()};
-			if(calendarizedActivities[i].getName() != null){
-				if(!this.connection.sendQuery(query,values)){
-					registered = false;
-				}
+		for (int i = 0; i < calendarizedActivities.length; i++) {
+			String[] values = {
+				calendarizedActivities[i].getName(),
+				calendarizedActivities[i].getDate(),
+				this.getId()
+			};
+			if (calendarizedActivities[i].getName() != null) {
+				registered = this.connection.sendQuery(query, values);
 			}
 		}
 		return registered;
@@ -136,7 +136,7 @@ public class DAOProject implements IDAOProject {
 				project.setArea(this.getAreaById(projectReturned[9]));
 				project.setResponsible(DAOProjectResponsible.get(projectReturned[10]));
 				project.setPeriod(getPeriodById(projectReturned[11]));
-				project.setOrganization(DAOrganization.getNameById(projectReturned[12])  );
+				project.setOrganization(DAOrganization.getNameById(projectReturned[12]));
 			}
 		}
 		return project;
@@ -257,19 +257,19 @@ public class DAOProject implements IDAOProject {
 		String[] names = { "idArea" };
 		return this.connection.select(query, values, names)[0][0];
 	}
-
-	public String getAreaById(String idArea){
+	
+	public String getAreaById(String idArea) {
 		String query = "SELECT area FROM Area WHERE idArea = ?";
-		String[] values = {idArea};
-		String[] names = {"area"};
-		return this.connection.select(query,values,names)[0][0];
+		String[] values = { idArea };
+		String[] names = { "area" };
+		return this.connection.select(query, values, names)[0][0];
 	}
-
-	public String getPeriodById(String idPeriod){
+	
+	public String getPeriodById(String idPeriod) {
 		String query = "SELECT periodo FROM Periodo WHERE idPeriodo = ?";
-		String[] values = {idPeriod};
-		String[] names = {"periodo"};
-		return this.connection.select(query,values,names)[0][0];
+		String[] values = { idPeriod };
+		String[] names = { "periodo" };
+		return this.connection.select(query, values, names)[0][0];
 	}
 	
 	public boolean haveStudents() {
