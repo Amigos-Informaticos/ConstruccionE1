@@ -129,7 +129,7 @@ public class DAOProject implements IDAOProject {
 		if (this.project != null && this.isRegistered()) {
 			if (this.isActive()) {
 				if (this.haveStudents()) {
-					String query = "DELETE FROM PracticanteProyecto WHERE idProyecto = ?;";
+					String query = "DELETE FROM Asignacion WHERE idProyecto = ?;";
 					String[] values = { this.getId() };
 					if (!this.connection.sendQuery(query, values)) {
 						throw new CustomException
@@ -138,11 +138,7 @@ public class DAOProject implements IDAOProject {
 				}
 				String query = "UPDATE Proyecto SET estaActivo = 0 WHERE nombre = ?;";
 				String[] values = { this.project.getName() };
-				
-				if (this.connection.sendQuery(query, values)) {
-					
-					deleted = true;
-				}
+				deleted = this.connection.sendQuery(query, values);
 			} else {
 				deleted = true;
 			}
@@ -301,7 +297,7 @@ public class DAOProject implements IDAOProject {
 	public static Project getByName(String name) {
 		assert name != null : "Name is null: DAOProject.getByName()";
 		DBConnection connection = new DBConnection();
-		Project project = null;
+		Project project;
 		String query = "SELECT Proyecto.nombre, metodologia, objetivoGeneral, objetivoMediato, " +
 			"objetivoInmediato, recursos, responsabilidades, cupo, descripcion, Area.area, " +
 			"responsable, Periodo.periodo, Organizacion.nombre, fechaInicio, fechaFin " +
