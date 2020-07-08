@@ -131,7 +131,6 @@ public class MainController extends Application {
 		alert.setContentText(message);
 		alert.showAndWait();
 		return alert.getResult()== ButtonType.OK;
-		alert.showAndWait();
 	}
 
 	public static File fileExplorer() {
