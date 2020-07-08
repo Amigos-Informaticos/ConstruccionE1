@@ -49,8 +49,13 @@ public class Student extends User {
 	}
 	
 	public boolean signUp() throws CustomException {
+		boolean signedUp = false;
 		assert this.isComplete() : "Student is not complete: Student.signUp()";
-		return new DAOStudent(this).signUp();
+		DAOStudent daoStudent = new DAOStudent(this);
+		if(daoStudent.signUp() && daoStudent.assignProfessor()){
+			signedUp = true;
+		}
+		return signedUp;
 	}
 	
 	public boolean login() {

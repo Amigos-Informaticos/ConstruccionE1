@@ -1,9 +1,11 @@
 package View.coordinator.controller;
 
 import Exceptions.CustomException;
+import Models.Professor;
 import Models.Student;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
 import tools.Logger;
 
 import java.net.URL;
@@ -25,7 +28,7 @@ public class ManageStudentController implements Initializable {
 	@FXML private TableColumn<Student, String> clmnName;
 	@FXML private TableColumn<Student, String> clmnLastame;
 	@FXML private TableColumn<Student, String> clmnRegno;
-
+	@FXML private JFXComboBox<Professor> cmbProfessor;
 
 	
 	@FXML JFXTextField txtName;
@@ -36,7 +39,8 @@ public class ManageStudentController implements Initializable {
 
 	@FXML JFXButton btnRegister;
 	
-	ObservableList<Student> listStudent;
+	private ObservableList<Student> listStudent;
+	private ObservableList<Professor> listProfessor;
 
 	private Student student;
 
@@ -50,8 +54,25 @@ public class ManageStudentController implements Initializable {
 		clmnLastame.setCellValueFactory(new PropertyValueFactory<Student, String>("lastnames"));
 		clmnRegno.setCellValueFactory(new PropertyValueFactory<Student, String>("regNumber"));
 
+		listProfessor = FXCollections.observableArrayList();
+		new Professor().fillTableProfessor(listProfessor);
+		cmbProfessor.setItems(listProfessor);
 		eventManager();
+
+		cmbProfessor.setConverter(new StringConverter<Professor>() {
+			@Override
+			public String toString(Professor professor) {
+				return professor.getNames();
+			}
+			@Override
+			public Professor fromString(String string) {
+				return null;
+			}
+		});
+
 	}
+
+
 
 	public void eventManager(){
 		tblViewStudent.getSelectionModel().selectedItemProperty().addListener(
@@ -64,8 +85,10 @@ public class ManageStudentController implements Initializable {
 							txtName.setText(newValue.getNames());
 							txtLastname.setText(newValue.getLastnames());
 							txtEmail.setText(newValue.getEmail());
-							txtRegNo.setText(newValue.getPassword());
+							txtRegNo.setText(newValue.getRegNumber());
 							txtPassword.setText(newValue.getPassword());
+							student = tblViewStudent.getSelectionModel().getSelectedItem();
+							MainController.save("student",student);
 							enableEdit();
 						} else {
 							cleanFormStudent();
@@ -125,6 +148,21 @@ public class ManageStudentController implements Initializable {
 		student.setRegNumber(txtRegNo.getText());
 		student.setEmail(txtEmail.getText());
 		student.setPassword(txtPassword.getText());
+		student.setProfessor(cmbProfessor.getValue());
+	}
+
+	@FXML
+	private void checkProject(){
+		try {
+			if(student.getProject()==null){
+				MainController.activate("AssignProject","Asignar Proyecto", MainController.Sizes.MID);
+			}else{
+				MainController.save("Project",student.getProject());
+				MainController.activate("ViewProject","Ver Proyecto");
+			}
+		} catch (CustomException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
