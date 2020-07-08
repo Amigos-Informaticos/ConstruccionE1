@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,11 +46,12 @@ public class ViewProjectController implements Initializable {
     @FXML
     private JFXTextField txtPeriod;
 
+    private Project project = (Project) MainController.get("Project");
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Project project = (Project) MainController.get("Project");
+
 
         txtOrganization.setText(project.getOrganization().getName());
         txtName.setText(project.getName());
@@ -69,5 +71,11 @@ public class ViewProjectController implements Initializable {
         txtCapacity.setText(String.valueOf(project.getCapacity()));
         txtArea.setText(project.getArea());
         txtPeriod.setText(project.getPeriod());
+    }
+
+    public void delete(){
+        if(MainController.alert(Alert.AlertType.CONFIRMATION,
+                "Eliminar Proyecto",
+                "¿Seguro que desea eliminar el Proyecto?"))
     }
 }

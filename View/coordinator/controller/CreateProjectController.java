@@ -248,7 +248,6 @@ public class CreateProjectController implements Initializable {
 			activities[i] = new CalendarizedActivity();
 			
 		}
-		activities[0] = new CalendarizedActivity();
 		activities[0].setName((String) MainController.get("Month1Activity"));
 		activities[0].setDate((String) MainController.get("Month1DateActivty"));
 		activities[1].setName((String) MainController.get("Month2Activity"));
