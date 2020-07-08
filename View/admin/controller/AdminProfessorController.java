@@ -195,6 +195,7 @@ public class AdminProfessorController implements Initializable {
             String temp = event.getCode().toString();
             if(!event.getCode().toString().matches("[a-zA-Z]")
                     && event.getCode() != KeyCode.BACK_SPACE
+                    && event.getCode() != KeyCode.SPACE
                     && event.getCode() != KeyCode.SHIFT){
                 if(event.getEventType() == KeyEvent.KEY_PRESSED){
                     willConsume = true;
