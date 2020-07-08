@@ -14,6 +14,7 @@ import org.junit.Test;
 import tools.Logger;
 import tools.P;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -148,6 +149,7 @@ public class TestsCoordinator {
 	@Test
 	public void getAllProjects() {
 		for (Project project: DAOProject.getAll()) {
+			assertNotNull(project);
 			P.pln(project.getName());
 		}
 	}
@@ -155,6 +157,7 @@ public class TestsCoordinator {
 	@Test
 	public void getRequestedProjects() {
 		for (Project project: Assignment.requestedProjects(student)) {
+			assertNotNull(project);
 			P.pln(project.getName());
 		}
 	}

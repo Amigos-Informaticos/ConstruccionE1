@@ -44,9 +44,11 @@ public class LoginController implements Initializable {
 							break;
 						case "Coordinator":
 							user = new Coordinator();
+							break;
 						case "Admin":
 							user = new Admin();
 							break;
+						default:
 					}
 					user.setEmail(emailField.getText().trim());
 					user.setPassword(passwordField.getText().trim());

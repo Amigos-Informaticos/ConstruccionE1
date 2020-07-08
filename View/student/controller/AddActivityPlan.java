@@ -4,7 +4,6 @@ import View.MainController;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.input.MouseEvent;
 import tools.File;
 
 import java.net.URL;
@@ -34,6 +33,7 @@ public class AddActivityPlan implements Initializable {
 			MainController.Sizes.MID);
 	}
 	
-	public void saveFile(MouseEvent mouseEvent) {
+	public void saveFile() {
+	
 	}
 }
