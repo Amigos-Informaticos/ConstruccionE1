@@ -28,9 +28,9 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
                         this.coordinator.getEmail(),
                         this.coordinator.getPassword(), "1"};
         if (this.connection.sendQuery(query, values)) {
-            query = "INSERT INTO Coordinador (idMiembro, noPersonal, fechaRegistro, turno, adminRegistrador) VALUES " +
+            query = "INSERT INTO Coordinador (idMiembro, noPersonal, fechaRegistro, turno, registrador) VALUES " +
                     "((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?),?,(SELECT CURRENT_DATE), ?,?)";
-            values = new String[]{this.coordinator.getEmail(), this.coordinator.getPersonalNo(),"1", "16"};
+            values = new String[]{this.coordinator.getEmail(), this.coordinator.getPersonalNo(), "1", "16"}; //TODO Agregar getIdCoordinator() y getIdAdmin
             signedUp = this.connection.sendQuery(query, values);
         }
         return signedUp;
@@ -119,7 +119,7 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
     public String getShift() {
         assert this.coordinator != null : "Professor is null: DAOCoordinator.getShift()";
         assert this.coordinator.getEmail() != null :
-                "Professor's email is null: DAOProfessor.getShoft()";
+                "Professor's email is null: DAOProfessor.getShift()";
         String query = "SELECT turno FROM Turno " +
                 "INNER JOIN Coordinador ON Turno.idTurno = Coordinador.turno " +
                 "INNER JOIN MiembroFEI ON Coordinador.idMiembro = MiembroFEI.idMiembro " +
@@ -130,15 +130,21 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
     }
 
     public static Coordinator getActive() {
-    	Coordinator coordinator = null;
-        String query = "SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, estaActivo, fechaRegistro FROM " +
-                "MiembroFEI INNER JOIN Coordinador ON MiembroFEI.idMiembro = Coordinador.idMiembro WHERE estaActivo = 1";
-		String[] names ={"nombres, apellidos, correoElectronico, contrasena, noPersonal, estaActivo, fechaRegistro"};
+        Coordinator coordinator = new Coordinator();;
+        String query = "SELECT nombres, apellidos, correoElectronico, contrasena noPersonal, fechaRegistro, Turno.turno FROM " +
+                "MiembroFEI INNER JOIN Coordinador ON MiembroFEI.idMiembro = Coordinador.idMiembro INNER JOIN Turno ON " +
+                "Turno.idTurno = Coordinador.turno WHERE estaActivo = 1";
+        String[] names = {"nombres", "apellidos", "correoElectronico","contrasena","noPersonal","fechaRegistro","turno"};
         String[][] responses = new DBConnection().select(query, null, names);
-
-        coordinator = new Coordinator(
-
-		);
+        if(responses.length>0){
+            coordinator.setNames(responses[0][0]);
+            coordinator.setLastnames(responses[0][1]);
+            coordinator.setEmail(responses[0][2]);
+            coordinator.setPassword(responses[0][3]);
+            coordinator.setPersonalNo(responses[0][4]);
+            coordinator.setRegistrationDate(responses[0][5]);
+            coordinator.setShift(responses[0][6]);
+        }
         return coordinator;
     }
 
@@ -148,7 +154,7 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
                         "MiembroFEI INNER JOIN Coordinador ON MiembroFEI.idMiembro = Coordinador.idMiembro WHERE estaActivo=1";
         String[] names =
                 {"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "estaActivo", "fechaRegistro",
-						"fechaBaja"};
+                        "fechaBaja"};
         String[][] responses = new DBConnection().select(query, null, names);
         Coordinator[] coordinators = new Coordinator[responses.length];
         for (int i = 0; i < responses.length; i++) {
@@ -158,8 +164,8 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
                     responses[i][2],
                     responses[i][3],
                     responses[i][4],
-					responses[i][6],
-					responses[i][7]
+                    responses[i][6],
+                    responses[i][7]
             );
         }
         return coordinators;
@@ -171,6 +177,7 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
         String[] names = {"idCoordinator"};
         return this.connection.select(query, values, names)[0][0];
     }
+
     public String getIdShift() {
         String query = "SELECT Turno.idTurno AS Turno FROM Turno WHERE turno = ?";
         String[] values = {this.coordinator.getShift()};

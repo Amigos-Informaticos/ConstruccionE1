@@ -8,74 +8,84 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import tools.Logger;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AdminCoordinatorController implements Initializable {
-    @FXML private TableView<Coordinator> tableViewCoordinator;
-    @FXML private TableColumn<Coordinator, String> clmnEmail;
-    @FXML private TableColumn<Coordinator, String> clmnNames;
-    @FXML private TableColumn<Coordinator, String> clmnLastNames;
+    @FXML
+    private TableView<Coordinator> tableViewCoordinator;
+    @FXML
+    private TableColumn<Coordinator, String> clmnEmail;
+    @FXML
+    private TableColumn<Coordinator, String> clmnNames;
+    @FXML
+    private TableColumn<Coordinator, String> clmnLastNames;
 
-    @FXML private Label lblNames;
-    @FXML private Label lblLastnames;
-    @FXML private Label lblEmail;
-    @FXML private Label lblPersonalNo;
-    @FXML private Label lblStatus;
-    @FXML private Label lblRegistrationDate;
-    @FXML private Label lblDischargeDate;
+    @FXML
+    private Label lblNames;
+    @FXML
+    private Label lblLastnames;
+    @FXML
+    private Label lblEmail;
+    @FXML
+    private Label lblPersonalNo;
+    @FXML
+    private Label lblShift;
+    @FXML
+    private Label lblRegistrationDate;
 
-    @FXML private JFXButton btnDelete;
-    @FXML private JFXButton btnRegister;
-    @FXML private JFXButton btnUpdate;
-    @FXML private JFXTextField txtEmail;
-    @FXML private JFXPasswordField pwdPassword;
-    @FXML private JFXTextField txtNames;
-    @FXML private JFXTextField txtLastNames;
-    @FXML private JFXTextField txtNoPersonal;
-    @FXML private JFXComboBox<String> cmbShift;
+    @FXML
+    private JFXButton btnDelete;
+    @FXML
+    private JFXButton btnRegister;
+    @FXML
+    private JFXButton btnUpdate;
+    @FXML
+    private JFXTextField txtEmail;
+    @FXML
+    private JFXPasswordField pwdPassword;
+    @FXML
+    private JFXTextField txtNames;
+    @FXML
+    private JFXTextField txtLastNames;
+    @FXML
+    private JFXTextField txtNoPersonal;
+    @FXML
+    private JFXComboBox<String> cmbShift;
 
-    private ObservableList<Coordinator> listCoordinator;
     private ObservableList<String> listShift;
     private Coordinator coordinator;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        coordinator = DAOCoordinator.getAll()[0]; //TODO Cambiar método getAll() por getActivate().
-        fillDetailsCoordinator(coordinator);
-        listCoordinator = FXCollections.observableArrayList();
+        Coordinator coordinator = new Coordinator();
+        if (coordinator.isAnother()) {
+            coordinator = DAOCoordinator.getActive();
+            fillDetailsCoordinator(coordinator);
+            enableEdit();
+        } else {
+            enableRegister();
+        }
         listShift = FXCollections.observableArrayList();
         Shift.fillShift(listShift);
         cmbShift.setItems(listShift);
-        /*new Coordinator().fillTableCoordinator(listCoordinator);
-        tableViewCoordinator.setItems(listCoordinator);
-        clmnEmail.setCellValueFactory(new PropertyValueFactory<Coordinator,String>("email"));
-        clmnNames.setCellValueFactory(new PropertyValueFactory<Coordinator,String>("names"));
-        clmnLastNames.setCellValueFactory(new PropertyValueFactory<Coordinator,String>("lastnames"));*/
-        eventManager();
-
     }
 
     @FXML
-    public void signUp(){
-         coordinator = new Coordinator();
+    public void signUp() {
+        coordinator = new Coordinator();
         this.instanceCoordinator(coordinator);
         try {
-            if(coordinator.isComplete()){
-                if(coordinator.signUp()){
-                    listCoordinator.add(coordinator);
+            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "") && coordinator.isComplete()) {
+                if (coordinator.signUp()) {
                     MainController.alert(
                             Alert.AlertType.INFORMATION,
                             "Coordinador registrado correctamente",
@@ -99,8 +109,9 @@ public class AdminCoordinatorController implements Initializable {
             new Logger().log(e.getMessage());
         }
     }
+
     @FXML
-    public void update(){
+    public void update() {
         coordinator = new Coordinator();
         this.instanceCoordinator(coordinator);
         try {
@@ -108,7 +119,7 @@ public class AdminCoordinatorController implements Initializable {
                 Coordinator coordinator = tableViewCoordinator.getSelectionModel().getSelectedItem();
                 instanceCoordinator(coordinator);
                 if (tableViewCoordinator.getSelectionModel().getSelectedItem().update()) {
-                    listCoordinator.set(tableViewCoordinator.getSelectionModel().getSelectedIndex(), coordinator);
+
                 } else {
                     MainController.alert(
                             Alert.AlertType.WARNING,
@@ -123,86 +134,61 @@ public class AdminCoordinatorController implements Initializable {
                         "Pulse aceptar para continuar"
                 );
             }
-        } catch(AssertionError e){
+        } catch (AssertionError e) {
             new Logger().log(e.getMessage());
         }
     }
 
     @FXML
     public void delete() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("");
-        alert.setContentText("¿Desea eliminar al coordinador?");
-        alert.showAndWait();
-        if(alert.getResult() == ButtonType.OK){
-            try{
-                if(tableViewCoordinator.getSelectionModel().getSelectedItem().delete()){
-                    listCoordinator.remove(tableViewCoordinator.getSelectionModel().getSelectedIndex());
-                } else{
+        if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?","")){
+            try {
+                if (coordinator.delete()) {
+                } else {
                     MainController.alert(
                             Alert.AlertType.INFORMATION,
                             "No se pudo eliminar al profesor",
                             "Pulse aceptar para continuar"
                     );
                 }
-            }catch(AssertionError e){
+            } catch (AssertionError e) {
                 new Logger().log(e.getMessage());
             }
         }
 
     }
 
-
-    public void eventManager(){
-        tableViewCoordinator.getSelectionModel().selectedItemProperty().addListener(
-                new ChangeListener<Coordinator>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Coordinator> observable, Coordinator oldValue,
-                                        Coordinator newValue) {
-                        if(newValue != null){
-                            coordinator = newValue;
-                            txtEmail.setText(newValue.getEmail());
-                            txtNames.setText(newValue.getNames());
-                            txtLastNames.setText(newValue.getLastnames());
-                            txtNoPersonal.setText(newValue.getPersonalNo());
-                            fillDetailsCoordinator(newValue);
-                            enableEdit();
-                        } else {
-                            coordinator = null;
-                            cleanFormCoordinator();
-                            enableRegister();
-                        }
-                    }
-                }
-        );
-    }
-
     @FXML
-    public void onBackArrowClicked(MouseEvent event){
+    public void onBackArrowClicked(MouseEvent event) {
         MainController.activate("MainMenuAdmin", "Menú Administrador", MainController.Sizes.MID);
     }
-    private void instanceCoordinator(Coordinator coordinator){
+
+    private void instanceCoordinator(Coordinator coordinator) {
         coordinator.setEmail(txtEmail.getText());
         coordinator.setPassword(pwdPassword.getText());
         coordinator.setNames(txtNames.getText());
         coordinator.setLastnames(txtLastNames.getText());
         coordinator.setPersonalNo(txtNoPersonal.getText());
     }
-    private void cleanFormCoordinator(){
+
+    private void cleanFormCoordinator() {
         txtEmail.setText(null);
         txtNames.setText(null);
         txtLastNames.setText(null);
         txtNoPersonal.setText(null);
     }
+
     private void fillDetailsCoordinator(Coordinator coordinator) {
+        assert coordinator.isComplete() : "Coordinator isn't complete on AdminCoordinatorController.fillDetailsCoordinator()";
         lblNames.setText(coordinator.getNames());
         lblLastnames.setText(coordinator.getLastnames());
         lblEmail.setText(coordinator.getEmail());
         lblPersonalNo.setText(coordinator.getPersonalNo());
+        lblShift.setText(coordinator.getShift());
         lblRegistrationDate.setText(coordinator.getRegistrationDate());
-        lblDischargeDate.setText(coordinator.getDischargeDate());
     }
-    private void enableRegister(){
+
+    private void enableRegister() {
         txtEmail.setDisable(false);
         pwdPassword.setDisable(false);
 
@@ -210,7 +196,8 @@ public class AdminCoordinatorController implements Initializable {
         btnUpdate.setDisable(true);
         btnRegister.setDisable(false);
     }
-    private void enableEdit(){
+
+    private void enableEdit() {
         txtEmail.setDisable(true);
         pwdPassword.setDisable(true);
 
