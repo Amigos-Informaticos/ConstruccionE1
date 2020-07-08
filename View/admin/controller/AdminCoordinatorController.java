@@ -144,6 +144,8 @@ public class AdminCoordinatorController implements Initializable {
         if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?","")){
             try {
                 if (coordinator.delete()) {
+                    enableRegister();
+                    cleanFormCoordinator();
                 } else {
                     MainController.alert(
                             Alert.AlertType.INFORMATION,
