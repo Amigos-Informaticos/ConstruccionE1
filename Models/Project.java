@@ -184,7 +184,12 @@ public class Project {
 	}
 	
 	public boolean register() throws CustomException {
-		return new DAOProject(this).signUp();
+		boolean registered = false;
+		DAOProject daoProject = new DAOProject(this);
+		if(daoProject.signUp()&&daoProject.registCalendarizedActivities()){
+			registered = true;
+		}
+		return registered;
 	}
 	
 	public boolean deleteProject() throws CustomException {

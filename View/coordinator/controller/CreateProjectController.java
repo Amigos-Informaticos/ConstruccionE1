@@ -58,44 +58,30 @@ public class CreateProjectController implements Initializable {
 	private JFXComboBox<String> cmbPeriod;
 
 	@FXML
-	private JFXTextField month1Activity = new JFXTextField();
+	private JFXTextField month1Activity;
 	@FXML
-	private JFXTextField month2Activity = new JFXTextField();
+	private JFXTextField month2Activity;
 	@FXML
-	private JFXTextField month3Activity = new JFXTextField();
+	private JFXTextField month3Activity;
 	@FXML
-	private JFXTextField month4Activity = new JFXTextField();
+	private JFXTextField month4Activity;
 	@FXML
-	private JFXTextField month5Activity = new JFXTextField();
+	private JFXTextField month5Activity;
 	@FXML
-	private JFXTextField month6Activity = new JFXTextField();
+	private JFXTextField month6Activity;
 
 	@FXML
-	private JFXDatePicker month1DateActivity = new JFXDatePicker();
+	private JFXDatePicker month1DateActivity;
 	@FXML
-	private JFXDatePicker month2DateActivity = new JFXDatePicker();
+	private JFXDatePicker month2DateActivity;
 	@FXML
-	private JFXDatePicker month3DateActivity = new JFXDatePicker();
+	private JFXDatePicker month3DateActivity;
 	@FXML
-	private JFXDatePicker month4DateActivity = new JFXDatePicker();
+	private JFXDatePicker month4DateActivity;
 	@FXML
-	private JFXDatePicker month5DateActivity = new JFXDatePicker();
+	private JFXDatePicker month5DateActivity;
 	@FXML
-	private JFXDatePicker month6DateActivity = new JFXDatePicker();
-
-	private @FXML JFXTextField[] namesOfActivities = {month1Activity,
-							month2Activity,
-							month3Activity,
-							month4Activity,
-							month5Activity,
-							month6Activity};
-
-	private @FXML JFXDatePicker[] dateOfActivities = {month1DateActivity,
-										month2DateActivity,
-										month3DateActivity,
-										month4DateActivity,
-										month5DateActivity,
-										month6DateActivity};
+	private JFXDatePicker month6DateActivity;
 
 	@FXML
 	private JFXDatePicker initialDate;
@@ -214,26 +200,6 @@ public class CreateProjectController implements Initializable {
 
 	public void signUp(){
 		instanceProject();
-		/*
-		CalendarizedActivity[] activities = new CalendarizedActivity[6];
-		activities[0].setName((String) MainController.get("Month1Activity"));
-		activities[0].setDate((String) MainController.get("Month1DateActivty"));
-		activities[1].setName((String) MainController.get("Month2Activity"));
-		activities[1].setDate((String) MainController.get("Month2DateActivty"));
-		activities[2].setName((String) MainController.get("Month3Activity"));
-		activities[2].setDate((String) MainController.get("Month3DateActivty"));
-		activities[3].setName((String) MainController.get("Month4Activity"));
-		activities[3].setDate((String) MainController.get("Month4DateActivty"));
-		activities[4].setName((String) MainController.get("Month5Activity"));
-		activities[4].setDate((String) MainController.get("Month5DateActivty"));
-		activities[5].setName((String) MainController.get("Month6Activity"));
-		activities[5].setDate((String) MainController.get("Month6DateActivty"));
-		 */
-		project.setStartDate(MainController.get("initialDate").toString());
-		System.out.println(project.getStartDate());
-		project.setEndDate(MainController.get("finalDate").toString());
-		System.out.println(project.getEndDate());
-		//project.setCalendarizedActivities(activities);
 		try {
 			if(project.isComplete()){
 				if(project.register()){
@@ -270,14 +236,41 @@ public class CreateProjectController implements Initializable {
 		project.setOrganization(Organization.getByName(cmbOrganizations.getValue()));
 		project.setPeriod(cmbPeriod.getValue());
 		project.setArea(cmbArea.getValue());
+		project.setStartDate(MainController.get("initialDate").toString());
+		project.setEndDate(MainController.get("finalDate").toString());
+		project.setResponsible(this.instanceResponsible());
+		project.setCalendarizedActivities(this.instanceActivities());
+	}
 
+	public CalendarizedActivity[] instanceActivities(){
+		CalendarizedActivity[] activities = new CalendarizedActivity[6];
+		for (int i = 0; i < 6; i++) {
+			activities[i] = new CalendarizedActivity();
+			
+		}
+		activities[0] = new CalendarizedActivity();
+		activities[0].setName((String) MainController.get("Month1Activity"));
+		activities[0].setDate((String) MainController.get("Month1DateActivty"));
+		activities[1].setName((String) MainController.get("Month2Activity"));
+		activities[1].setDate((String) MainController.get("Month2DateActivty"));
+		activities[2].setName((String) MainController.get("Month3Activity"));
+		activities[2].setDate((String) MainController.get("Month3DateActivty"));
+		activities[3].setName((String) MainController.get("Month4Activity"));
+		activities[3].setDate((String) MainController.get("Month4DateActivty"));
+		activities[4].setName((String) MainController.get("Month5Activity"));
+		activities[4].setDate((String) MainController.get("Month5DateActivty"));
+		activities[5].setName((String) MainController.get("Month6Activity"));
+		activities[5].setDate((String) MainController.get("Month6DateActivty"));
+		return activities;
+	}
+
+	public ProjectResponsible instanceResponsible(){
 		ProjectResponsible projectResponsible = new ProjectResponsible();
 		projectResponsible.setPosition(txtPositionResponsible.getText());
 		projectResponsible.setEmail(txtEmailResponsible.getText());
 		projectResponsible.setNames(txtNameResponsible.getText());
 		projectResponsible.setLastNames(txtLastnameResponsible.getText());
 		projectResponsible.setOrganization(Organization.getByName(cmbOrganizations.getValue()));
-
-		project.setResponsible(projectResponsible);
+		return projectResponsible;
 	}
 }
