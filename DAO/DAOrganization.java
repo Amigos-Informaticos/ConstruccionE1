@@ -220,4 +220,16 @@ public class DAOrganization implements IDAOrganization {
 		}
 		return organization;
 	}
+
+	public static Organization getNameById(String idOrganization) {
+		Organization organization = new Organization();
+		String query = "SELECT nombre FROM Organizacion WHERE idOrganizacion = ?";
+		String[] values = {idOrganization};
+		String[] names = {"nombre"};
+
+		DBConnection connection = new DBConnection();
+		organization.setName(connection.select(query,values,names)[0][0]);
+		return organization;
+	}
+
 }
