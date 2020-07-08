@@ -76,7 +76,7 @@ public class AdminProfessorController implements Initializable {
         professor = new Professor();
         this.instanceProfessor(professor);
         try {
-            if(professor.isComplete()){
+            if(MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro?","") && professor.isComplete()){
                 if(professor.signUp()){
                     listProfessor.add(professor);
                     MainController.alert(

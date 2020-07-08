@@ -115,21 +115,25 @@ public class AdminCoordinatorController implements Initializable {
         coordinator = new Coordinator();
         this.instanceCoordinator(coordinator);
         try {
-            if (coordinator.isComplete()) {
-                Coordinator coordinator = tableViewCoordinator.getSelectionModel().getSelectedItem();
+            if (MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro?","") &&
+                    coordinator.isComplete()) {
                 instanceCoordinator(coordinator);
-                if (tableViewCoordinator.getSelectionModel().getSelectedItem().update()) {
-
+                if(coordinator.update()){
+                    MainController.alert(
+                            Alert.AlertType.INFORMATION,
+                            "Coordinador registrado exitosamente",
+                            "Pulse aceptar para continua"
+                    );
                 } else {
                     MainController.alert(
-                            Alert.AlertType.WARNING,
+                            Alert.AlertType.ERROR,
                             "No se pudo actualizar al coordinador",
                             "Pulse aceptar para continuar"
                     );
                 }
             } else {
                 MainController.alert(
-                        Alert.AlertType.INFORMATION,
+                        Alert.AlertType.WARNING,
                         "LLene todos los campos correctamente",
                         "Pulse aceptar para continuar"
                 );
@@ -171,6 +175,7 @@ public class AdminCoordinatorController implements Initializable {
         coordinator.setNames(txtNames.getText());
         coordinator.setLastnames(txtLastNames.getText());
         coordinator.setPersonalNo(txtNoPersonal.getText());
+        coordinator.setShift(cmbShift.getValue());
     }
 
     private void cleanFormCoordinator() {
