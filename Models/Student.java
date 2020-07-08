@@ -121,4 +121,8 @@ public class Student extends User {
 	public boolean fillTableStudent(ObservableList<Student> listStudent) {
 		return new DAOStudent(this).fillTableStudent(listStudent);
 	}
+	
+	public boolean hasActivityPlan() {
+		return new DAOStudent(this).hasActivityPlan();
+	}
 }
