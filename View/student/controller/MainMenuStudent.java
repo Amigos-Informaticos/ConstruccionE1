@@ -4,25 +4,28 @@ import View.MainController;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainMenuStudent implements Initializable {
-	@FXML
-	private JFXButton solicitarProyecto;
-	@FXML
-	private JFXButton generarReporte;
-	@FXML
-	private JFXButton anadirActividad;
 	
+	@FXML
+	public JFXButton solicitarProyecto;
+	
+	@FXML
+	public JFXButton generarReporte;
+	
+	@FXML
+	public JFXButton anadirActividad;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 	
 	}
 	
-	public void solicitar() {
+	public void chooseProject(MouseEvent mouseEvent) {
 		MainController.activate(
 			"ChooseProject",
 			"Solicitar Proyecto",
@@ -30,15 +33,16 @@ public class MainMenuStudent implements Initializable {
 		);
 	}
 	
-	public void generar() {
+	public void generateProject(MouseEvent mouseEvent) {
 		MainController.activate(
 			"GenerateReport",
 			"Generar Reporte",
 			MainController.Sizes.MID
 		);
+		
 	}
 	
-	public void aniadir() {
+	public void addActivity(MouseEvent mouseEvent) {
 		MainController.activate(
 			"AddActivityPlan",
 			"Añadir Plan de Actividades",

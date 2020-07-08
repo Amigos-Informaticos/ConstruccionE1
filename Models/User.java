@@ -126,17 +126,17 @@ public class User {
 		auxiliaryAdministrator.setEmail(this.getEmail());
 		auxiliaryAdministrator.setCleanPassword(this.getPassword());
 		try {
-			if (auxiliaryStudent.isRegistered()) {
+			if (auxiliaryStudent.login()) {
 				type = "Student";
-			} else if (auxiliaryProfessor.isRegistered()) {
+			} else if (auxiliaryProfessor.logIn()) {
 				type = "Professor";
-			} else if (auxiliaryCoordinator.isRegistered()) {
+			} else if (auxiliaryCoordinator.logIn()) {
 				type = "Coordinator";
-			} else if (auxiliaryAdministrator.isRegistered()) {
+			} else if (auxiliaryAdministrator.login()) {
 				type = "Admin";
 			}
 		} catch (CustomException e) {
-			new Logger().log(e);
+			Logger.staticLog(e);
 		}
 		return type;
 	}

@@ -57,4 +57,12 @@ public class Assignment {
 			this.project.isComplete() &&
 			this.professor.isComplete();
 	}
+	
+	public static boolean saveRequest(Student student, Project project) {
+		return DAOAssignment.saveRequest(student, project);
+	}
+	
+	public static Project[] requestedProjects(Student student) {
+		return DAOAssignment.requestedProjects(student);
+	}
 }

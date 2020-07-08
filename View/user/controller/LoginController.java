@@ -1,5 +1,9 @@
 package View.user.controller;
 
+import Models.Admin;
+import Models.Coordinator;
+import Models.Professor;
+import Models.Student;
 import Models.User;
 import View.MainController;
 import com.jfoenix.controls.JFXPasswordField;
@@ -7,7 +11,6 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import tools.P;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,9 +25,6 @@ public class LoginController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		P.p(
-			location.toString().substring(location.toString().lastIndexOf('/') + 1)
-		);
 	}
 	
 	public void onClickLogIn() {
@@ -35,8 +35,24 @@ public class LoginController implements Initializable {
 				user.setPassword(passwordField.getText().trim());
 				String type = user.getType();
 				if (!"null".equals(type)) {
-					MainController.setUser(user);
-					MainController.setType(type);
+					switch (type) {
+						case "Student":
+							user = new Student();
+							break;
+						case "Professor":
+							user = new Professor();
+							break;
+						case "Coordinator":
+							user = new Coordinator();
+							break;
+						case "Admin":
+							user = new Admin();
+							break;
+						default:
+					}
+					user.setEmail(emailField.getText().trim());
+					user.setPassword(passwordField.getText().trim());
+					MainController.save("user", user);
 					MainController.activate(
 						"MainMenu" + type,
 						"Menu Principal " + type,

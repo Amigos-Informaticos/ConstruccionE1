@@ -27,9 +27,12 @@ public class Admin extends User {
 	public boolean isRegistered() {
 		return new DAOAdmin(this).isRegistered();
 	}
-
-
-	public String getHashedPassword(String password){
+	
+	public boolean login() {
+		return new DAOAdmin(this).login();
+	}
+	
+	public String getHashedPassword(String password) {
 		String hashedPassword = null;
 		try {
 			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
@@ -40,7 +43,7 @@ public class Admin extends User {
 				hashed.insert(0, "0");
 			}
 			hashedPassword = hashed.toString();
-
+			
 		} catch (NoSuchAlgorithmException e) {
 			new Logger().log(e);
 		}
