@@ -4,12 +4,7 @@ import DAO.DAOProject;
 import DAO.DAOProjectResponsible;
 import DAO.DAOrganization;
 import Exceptions.CustomException;
-import Models.Assignment;
-import Models.Coordinator;
-import Models.Organization;
-import Models.Project;
-import Models.ProjectResponsible;
-import Models.Student;
+import Models.*;
 import org.junit.Test;
 import tools.Logger;
 import tools.P;
@@ -159,6 +154,38 @@ public class TestsCoordinator {
 		for (Project project: Assignment.requestedProjects(student)) {
 			assertNotNull(project);
 			P.pln(project.getName());
+		}
+	}
+
+	@Test
+	public void testCalendarization(){
+		CalendarizedActivity[] calendarizedActivities = new CalendarizedActivity[6];
+		for (int i = 0; i < 6; i++) {
+			calendarizedActivities[i] = new CalendarizedActivity();
+			calendarizedActivities[i].setName("ac"+i);
+			calendarizedActivities[i].setDate("2020-10-11");
+		}
+		Project project = new Project();
+		project.setName("Proyecto Genial");
+		project.setDescription("Esel primer proyecto jaja");
+		project.setMethodology("Cascada ágil");
+		project.setGeneralObjective("Objetivo general");
+		project.setMediateObjective("Objetivo mediato");
+		project.setImmediateObjective("ganar jaja");
+		project.setResources("todos los recursos del mundo");
+		project.setResponsibilities("Llegar temprano e irse por las tortas");
+		project.setCapacity(3);
+		project.setArea("Vigilancia");
+		project.setResponsible(this.getResponsible());
+		project.setPeriod("FEB-JUN");
+		project.setOrganization(this.getOrganization());
+		project.setStartDate("2020-07-19");
+		project.setEndDate("2020-09-07");
+		project.setCalendarizedActivities(calendarizedActivities);
+		try {
+			project.register();
+		} catch (CustomException e) {
+			e.printStackTrace();
 		}
 	}
 }

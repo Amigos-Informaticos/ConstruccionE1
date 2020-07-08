@@ -89,6 +89,18 @@ public class DAOCoordinatorTests {
         }
     }
 
+    @Test
+    public void z_getActive(){
+        Coordinator coordinator = null;
+        coordinator = DAOCoordinator.getActive();
+        System.out.println(coordinator);
+        assertTrue(coordinator.isComplete());
+    }
+
+    @Test
+    public void isAnother(){
+        assertTrue(new Coordinator().isAnother());
+    }
     private DAOProfessor getDAOProfesor() {
         return new DAOProfessor(getInstanceProfesor());
     }
