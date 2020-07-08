@@ -227,4 +227,13 @@ public class Project {
 		}
 		return filled;
 	}
+
+	public static boolean fillAreaTable(ObservableList<String> listAreas){
+		boolean filled = false;
+		DAOProject daoProject = new DAOProject();
+		if(daoProject.fillAreaTable(listAreas)){
+			filled = true;
+		}
+		return filled;
+	}
 }
