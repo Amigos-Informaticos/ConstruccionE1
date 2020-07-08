@@ -4,7 +4,6 @@ import DAO.DAOProject;
 import DAO.DAOrganization;
 import Exceptions.CustomException;
 import javafx.collections.ObservableList;
-import tools.P;
 
 public class Project {
 	
@@ -152,26 +151,26 @@ public class Project {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-
+	
 	public Coordinator getCoordinator() {
 		return coordinator;
 	}
-
+	
 	public void setCoordinator(Coordinator coordinator) {
 		this.coordinator = coordinator;
 	}
-
+	
 	public CalendarizedActivity[] getCalendarizedActivities() {
 		return calendarizedActivities;
 	}
-
+	
 	public void setCalendarizedActivities(CalendarizedActivity[] calendarizedActivities) {
 		this.calendarizedActivities = calendarizedActivities;
 	}
-
+	
 	public boolean isComplete() {
 		return this.name != null &&
-				this.description != null &&
+			this.description != null &&
 			this.methodology != null &&
 			this.generalObjective != null &&
 			this.mediateObjective != null &&
@@ -218,22 +217,14 @@ public class Project {
 			projectsList.add(project);
 		}
 	}
-
-	public static boolean fillAreaTable(ObservableList<String> listAreas){
+	
+	public static boolean fillAreaTable(ObservableList<String> listAreas) {
 		boolean filled = false;
 		DAOProject daoProject = new DAOProject();
-		if(daoProject.fillAreaTable(listAreas)){
+		if (daoProject.fillAreaTable(listAreas)) {
 			filled = true;
 		}
 		return filled;
 	}
-
-	public static boolean fillAreaTable(ObservableList<String> listAreas){
-		boolean filled = false;
-		DAOProject daoProject = new DAOProject();
-		if(daoProject.fillAreaTable(listAreas)){
-			filled = true;
-		}
-		return filled;
-	}
+	
 }
