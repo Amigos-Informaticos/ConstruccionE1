@@ -130,7 +130,7 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
     }
 
     public static Coordinator getActive() {
-        Coordinator coordinator = new Coordinator();;
+        Coordinator coordinator = new Coordinator();
         String query = "SELECT nombres, apellidos, correoElectronico, contrasena noPersonal, fechaRegistro, Turno.turno FROM " +
                 "MiembroFEI INNER JOIN Coordinador ON MiembroFEI.idMiembro = Coordinador.idMiembro INNER JOIN Turno ON " +
                 "Turno.idTurno = Coordinador.turno WHERE estaActivo = 1";
