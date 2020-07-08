@@ -89,7 +89,6 @@ public class DAOProject implements IDAOProject {
 			if(calendarizedActivities[i].getName() != null){
 				if(!this.connection.sendQuery(query,values)){
 					registered = false;
-
 				}
 			}
 		}

@@ -3,8 +3,6 @@ package Models;
 public class CalendarizedActivity {
 	private String name;
 	private String date;
-
-	public CalendarizedActivity(){}
 	
 	public String getName() {
 		return name;
