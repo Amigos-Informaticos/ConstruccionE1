@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import tools.Logger;
 
@@ -124,13 +125,14 @@ public class MainController extends Application {
 		size.put(Sizes.LARGE, new double[]{ 700.0, 710.0 });
 	}
 	
-	public static void alert(Alert.AlertType type, String header, String message) {
+	public static boolean alert(Alert.AlertType type, String header, String message) {
 		Alert alert = new Alert(type);
 		alert.setHeaderText(header);
 		alert.setContentText(message);
 		alert.showAndWait();
+		return alert.getResult()== ButtonType.OK;
 	}
-	
+
 	public static File fileExplorer() {
 		MainController.stage.setTitle("Seleccione un archivo");
 		FileChooser fileChooser = new FileChooser();

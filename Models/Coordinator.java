@@ -129,4 +129,14 @@ public class Coordinator extends User {
 	public Coordinator[] getAll(){
 		return DAOCoordinator.getAll();
 	}
+
+	public Coordinator getActive(){return DAOCoordinator.getActive();}
+
+	public String toString(){
+		return getNames()+"\n" +
+				getLastnames()+"\n" +
+				getPersonalNo()+"\n"+
+				getShift()+"\n"+
+				getEmail()+"\n";
+	}
 }
