@@ -4,6 +4,7 @@ import DAO.DAOProject;
 import DAO.DAOProjectResponsible;
 import DAO.DAOrganization;
 import Exceptions.CustomException;
+import Models.Assignment;
 import Models.Coordinator;
 import Models.Organization;
 import Models.Project;
@@ -18,6 +19,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestsCoordinator {
 	Coordinator coordinator = new Coordinator();
+	private final Student student = new Student(
+		"Juan Gabriel",
+		"Lopez Doriga",
+		"jbld@correo.com",
+		"elmiguel123",
+		"S17012130"
+	);
+	
 	
 	public Organization getOrganization() {
 		Organization organization = new Organization();
@@ -139,6 +148,13 @@ public class TestsCoordinator {
 	@Test
 	public void getAllProjects() {
 		for (Project project: DAOProject.getAll()) {
+			P.pln(project.getName());
+		}
+	}
+	
+	@Test
+	public void getRequestedProjects() {
+		for (Project project: Assignment.requestedProjects(student)) {
 			P.pln(project.getName());
 		}
 	}

@@ -6,9 +6,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tools.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -127,6 +129,12 @@ public class MainController extends Application {
 		alert.setHeaderText(header);
 		alert.setContentText(message);
 		alert.showAndWait();
+	}
+	
+	public static File fileExplorer() {
+		MainController.stage.setTitle("Seleccione un archivo");
+		FileChooser fileChooser = new FileChooser();
+		return fileChooser.showOpenDialog(MainController.stage);
 	}
 	
 	public static void hit(String name, String title, Sizes size) {

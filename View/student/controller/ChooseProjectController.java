@@ -15,7 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,6 +35,8 @@ public class ChooseProjectController implements Initializable {
 	
 	private ObservableList<Project> projectObservableList;
 	
+	private Project[] selectedProjects;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		checkConditions();
@@ -44,11 +45,16 @@ public class ChooseProjectController implements Initializable {
 		projectTable.setItems(projectObservableList);
 		tableColumn.setCellValueFactory(new PropertyValueFactory<Project, String>("name"));
 		checkProject();
+		generalObjective.setEditable(false);
+		this.resources.setEditable(false);
+		responsabilities.setEditable(false);
+		area.setEditable(false);
+		organization.setEditable(false);
 	}
 	
 	public void checkConditions() {
-		Project[] projects = Assignment.requestedProjects((Student) MainController.get("user"));
-		if (projects.length >= 3) {
+		selectedProjects = Assignment.requestedProjects((Student) MainController.get("user"));
+		if (selectedProjects.length >= 3) {
 			MainController.alert(
 				Alert.AlertType.WARNING,
 				"Limite de proyectos seleccionados",
@@ -76,19 +82,24 @@ public class ChooseProjectController implements Initializable {
 			});
 	}
 	
-	public void selectProject(MouseEvent mouseEvent) {
+	public void selectProject() {
 		Project selectedProject = projectTable.getSelectionModel().getSelectedItem();
 		if (selectedProject != null) {
-			Assignment.saveRequest((Student) MainController.get("user"), selectedProject);
-			MainController.alert(
-				Alert.AlertType.INFORMATION,
-				"Proyecto seleccionado exitosamente",
-				"Pulse aceptar para continuar"
-			);
-			MainController.activate(
-				"MainMenuStudent",
-				"Menu Principal Practicante",
-				MainController.Sizes.MID);
+			if (isSelected(selectedProjects, selectedProject)) {
+				MainController.alert(
+					Alert.AlertType.WARNING,
+					"Proyecto ya seleccionado",
+					"El proyecto que intenta seleccionado ya ha sido seleccionado previamente"
+				);
+			} else {
+				Assignment.saveRequest((Student) MainController.get("user"), selectedProject);
+				MainController.alert(
+					Alert.AlertType.INFORMATION,
+					"Proyecto seleccionado exitosamente",
+					"Pulse aceptar para continuar"
+				);
+				exit();
+			}
 		} else {
 			MainController.alert(
 				Alert.AlertType.WARNING,
@@ -96,5 +107,23 @@ public class ChooseProjectController implements Initializable {
 				"Pulse aceptar para continuar"
 			);
 		}
+	}
+	
+	public boolean isSelected(Project[] selectedProjects, Project toSelect) {
+		boolean selected = false;
+		for (Project project: selectedProjects) {
+			if (project.getName().equals(toSelect.getName())) {
+				selected = true;
+				break;
+			}
+		}
+		return selected;
+	}
+	
+	public void exit() {
+		MainController.activate(
+			"MainMenuStudent",
+			"Menu Principal Practicante",
+			MainController.Sizes.MID);
 	}
 }

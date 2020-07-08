@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -11,14 +10,6 @@
    <children>
       <HBox prefHeight="60.0" prefWidth="350.0" spacing="15.0" style="-fx-background-color: #18529D;">
          <children>
-            <ImageView fitHeight="34.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../images/icon_back_white.png" />
-               </image>
-               <HBox.margin>
-                  <Insets left="5.0" top="10.0" />
-               </HBox.margin>
-            </ImageView>
             <Label text="Solicitar Proyecto" textFill="WHITE">
                <font>
                   <Font size="34.0" />
@@ -70,7 +61,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </JFXButton>
-            <JFXButton layoutX="444.0" layoutY="347.0" prefHeight="31.0" prefWidth="100.0" style="-fx-background-color: #b5b5b5;" text="Cancelar" textFill="WHITE">
+            <JFXButton layoutX="444.0" layoutY="347.0" onMouseClicked="#exit" prefHeight="31.0" prefWidth="100.0" style="-fx-background-color: #b5b5b5;" text="Cancelar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

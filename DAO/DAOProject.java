@@ -327,6 +327,7 @@ public class DAOProject implements IDAOProject {
 			"fechaFin"
 		};
 		String[] responses = connection.select(query, values, columns)[0];
+		project = new Project();
 		project.setName(responses[0]);
 		project.setDescription(responses[1]);
 		project.setMethodology(responses[2]);
