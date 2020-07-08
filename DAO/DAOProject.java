@@ -30,7 +30,7 @@ public class DAOProject implements IDAOProject {
 		boolean signedUp = false;
 		assert this.project.isComplete() : "Project is incomplete: DAOProject.signUp()";
 		if (!this.isRegistered() && !this.isActive()) {
-			if(!this.project.getResponsible().isRegistered()){
+			if (!this.project.getResponsible().isRegistered()) {
 				this.project.getResponsible().signUp();
 			}
 			String query = "INSERT INTO Proyecto (nombre, " +
@@ -287,8 +287,7 @@ public class DAOProject implements IDAOProject {
 	public static Project[] getAll() {
 		String query = "SELECT Proyecto.nombre, metodologia, objetivoGeneral, objetivoMediato, " +
 			"objetivoInmediato, recursos, responsabilidades, cupo, descripcion, Area.area, " +
-			"responsable, Periodo.periodo, Organizacion.nombre, fechaInicio, fechaFin, " +
-			"Proyecto.estaActivo " +
+			"responsable, Periodo.periodo, Organizacion.nombre, fechaInicio, fechaFin " +
 			"FROM Proyecto INNER JOIN Area ON Proyecto.area = Area.idArea " +
 			"INNER JOIN Periodo ON Proyecto.idPeriodo = Periodo.idPeriodo " +
 			"INNER JOIN Organizacion ON Proyecto.idOrganizacion = Organizacion.idOrganizacion";
@@ -300,7 +299,7 @@ public class DAOProject implements IDAOProject {
 			"objetivoMediato",
 			"objetivoInmediato",
 			"recursos",
-			"estaActivo",
+			"responsabilidades",
 			"cupo",
 			"area",
 			"responsable",
@@ -321,18 +320,68 @@ public class DAOProject implements IDAOProject {
 			projects[i].setImmediateObjective(responses[i][5]);
 			projects[i].setResources(responses[i][6]);
 			projects[i].setResponsibilities(responses[i][7]);
-			projects[i].setCapacity(Integer.parseInt(responses[i][9]));
-			projects[i].setArea(responses[i][10]);
-			projects[i].setResponsible(DAOProjectResponsible.get(responses[i][11]));
-			projects[i].setPeriod(responses[i][12]);
-			projects[i].setOrganization(responses[i][13]);
-			projects[i].setStartDate(responses[i][14]);
-			projects[i].setEndDate(responses[i][15]);
+			projects[i].setCapacity(Integer.parseInt(responses[i][8]));
+			projects[i].setArea(responses[i][9]);
+			projects[i].setResponsible(DAOProjectResponsible.get(responses[i][10]));
+			projects[i].setPeriod(responses[i][11]);
+			projects[i].setOrganization(responses[i][12]);
+			projects[i].setStartDate(responses[i][13]);
+			projects[i].setEndDate(responses[i][14]);
 		}
 		return projects;
 	}
-
-	public boolean fillAreaTable(ObservableList<String> listAreas){
+	
+	public static Project getByName(String name) {
+		assert name != null : "Name is null: DAOProject.getByName()";
+		DBConnection connection = new DBConnection();
+		Project project = null;
+		String query = "SELECT Proyecto.nombre, metodologia, objetivoGeneral, objetivoMediato, " +
+			"objetivoInmediato, recursos, responsabilidades, cupo, descripcion, Area.area, " +
+			"responsable, Periodo.periodo, Organizacion.nombre, fechaInicio, fechaFin " +
+			"FROM Proyecto INNER JOIN Area ON Proyecto.area = Area.idArea " +
+			"INNER JOIN Periodo ON Proyecto.idPeriodo = Periodo.idPeriodo " +
+			"INNER JOIN Organizacion ON Proyecto.idOrganizacion = Organizacion.idOrganizacion " +
+			"WHERE Proyecto.nombre = ?";
+		String[] values = { name };
+		String[] columns = {
+			"Proyecto.nombre",
+			"descripcion",
+			"metodologia",
+			"objetivoGeneral",
+			"objetivoMediato",
+			"objetivoInmediato",
+			"recursos",
+			"responsabilidades",
+			"cupo",
+			"area",
+			"responsable",
+			"periodo",
+			"Organizacion.nombre",
+			"fechaInicio",
+			"fechaFin"
+		};
+		String[] responses = connection.select(query, values, columns)[0];
+		project = new Project();
+		project.setName(responses[0]);
+		project.setDescription(responses[1]);
+		project.setMethodology(responses[2]);
+		project.setGeneralObjective(responses[3]);
+		project.setMediateObjective(responses[4]);
+		project.setImmediateObjective(responses[5]);
+		project.setResources(responses[6]);
+		project.setResponsibilities(responses[7]);
+		project.setCapacity(Integer.parseInt(responses[8]));
+		project.setArea(responses[9]);
+		project.setResponsible(DAOProjectResponsible.get(responses[10]));
+		project.setPeriod(responses[11]);
+		project.setOrganization(responses[12]);
+		project.setStartDate(responses[13]);
+		project.setEndDate(responses[14]);
+		return project;
+		
+	}
+	
+	public boolean fillAreaTable(ObservableList<String> listAreas) {
 		boolean filled = false;
 		String query = "SELECT area FROM Area";
 		for (String[] name: this.connection.select(query, null, new String[]{ "area" })) {

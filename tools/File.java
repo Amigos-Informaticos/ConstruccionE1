@@ -15,7 +15,9 @@ public class File implements Serializable {
 	}
 	
 	public File(String path) {
-		this.path = Paths.get(path);
+		if (path != null && !path.equals("")) {
+			this.path = Paths.get(path);
+		}
 	}
 	
 	@Deprecated
@@ -27,11 +29,15 @@ public class File implements Serializable {
 	}
 	
 	public File(Path path) {
-		this.path = path;
+		if (path != null && !path.equals("")) {
+			this.path = path;
+		}
 	}
 	
 	public File(File file) {
-		this.path = file.getPath();
+		if (file != null) {
+			this.path = file.getPath();
+		}
 	}
 	
 	@Deprecated

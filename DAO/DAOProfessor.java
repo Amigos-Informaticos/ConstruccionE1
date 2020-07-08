@@ -62,8 +62,9 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 	public boolean logIn() {
 		assert this.isRegistered() : "Professor is not registered: DAOProfessor.logIn()";
 		assert this.isActive() : "Professor is not active: DAOProfessor.logIn()";
-		String query = "SELECT COUNT(idMiembro) AS TOTAL FROM MiembroFEI WHERE correoElectronico = ? " +
-			"AND contrasena = ?";
+		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL " +
+			"FROM MiembroFEI INNER JOIN Profesor ON MiembroFEI.idMiembro = Profesor.idMiembro " +
+			"WHERE correoElectronico = ? AND contrasena = ? AND estaActivo = 1";
 		String[] values = { this.professor.getEmail(), this.professor.getPassword() };
 		String[] names = { "TOTAL" };
 		return this.connection.select(query, values, names)[0][0].equals("1");
