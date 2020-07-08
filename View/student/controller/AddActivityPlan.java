@@ -21,6 +21,7 @@ public class AddActivityPlan implements Initializable {
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
+		fileName.setEditable(false);
 		verifyPrecondition();
 	}
 	

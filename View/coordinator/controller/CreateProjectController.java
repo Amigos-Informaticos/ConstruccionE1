@@ -173,8 +173,6 @@ public class CreateProjectController implements Initializable {
 	}
 	
 	public void onClickOk(MouseEvent clickEvent) {
-		CalendarizedActivity[] calendarizedActivities = new CalendarizedActivity[6];
-		
 		MainController.save("initialDate", initialDate.getValue());
 		MainController.save("finalDate", finalDate.getValue());
 		
@@ -247,18 +245,18 @@ public class CreateProjectController implements Initializable {
 		for (int i = 0; i < 6; i++) {
 			activities[i] = new CalendarizedActivity();
 		}
-		activities[0].setName((String) MainController.get("Month1Activity"));
-		activities[0].setDate((String) MainController.get("Month1DateActivty"));
-		activities[1].setName((String) MainController.get("Month2Activity"));
-		activities[1].setDate((String) MainController.get("Month2DateActivty"));
-		activities[2].setName((String) MainController.get("Month3Activity"));
-		activities[2].setDate((String) MainController.get("Month3DateActivty"));
-		activities[3].setName((String) MainController.get("Month4Activity"));
-		activities[3].setDate((String) MainController.get("Month4DateActivty"));
-		activities[4].setName((String) MainController.get("Month5Activity"));
-		activities[4].setDate((String) MainController.get("Month5DateActivty"));
-		activities[5].setName((String) MainController.get("Month6Activity"));
-		activities[5].setDate((String) MainController.get("Month6DateActivty"));
+		activities[0].setName((String) MainController.get("month1Activity"));
+		activities[0].setDate((String) MainController.get("month1DateActivty"));
+		activities[1].setName((String) MainController.get("month2Activity"));
+		activities[1].setDate((String) MainController.get("month2DateActivty"));
+		activities[2].setName((String) MainController.get("month3Activity"));
+		activities[2].setDate((String) MainController.get("month3DateActivty"));
+		activities[3].setName((String) MainController.get("month4Activity"));
+		activities[3].setDate((String) MainController.get("month4DateActivty"));
+		activities[4].setName((String) MainController.get("month5Activity"));
+		activities[4].setDate((String) MainController.get("month5DateActivty"));
+		activities[5].setName((String) MainController.get("month6Activity"));
+		activities[5].setDate((String) MainController.get("month6DateActivty"));
 		return activities;
 	}
 	

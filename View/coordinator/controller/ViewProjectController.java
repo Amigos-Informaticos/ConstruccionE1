@@ -73,9 +73,9 @@ public class ViewProjectController implements Initializable {
         txtPeriod.setText(project.getPeriod());
     }
 
-    public void delete(){
-        if(MainController.alert(Alert.AlertType.CONFIRMATION,
-                "Eliminar Proyecto",
-                "¿Seguro que desea eliminar el Proyecto?"))
+    public void delete() {
+        if (MainController.alert(Alert.AlertType.CONFIRMATION,
+            "Eliminar Proyecto",
+            "¿Seguro que desea eliminar el Proyecto?"));
     }
 }
