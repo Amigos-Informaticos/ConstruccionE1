@@ -343,8 +343,8 @@ public class DAOStudent implements IDAOStudent {
 		return deleted;
 	}
 	
-	public Project getProject() throws CustomException {
-		Project project;
+	public Project getProject() {
+		Project project = null;
 		assert this.student != null : "Student is null: DAOStudent.getProject()";
 		assert this.student.getEmail() != null : "Student's email is null: DAOStudent.getProject()";
 		assert this.isActive() : "Student is inactive: DAOStudent.getProject()";
@@ -360,8 +360,6 @@ public class DAOStudent implements IDAOStudent {
 			DAOProject daoProject = new DAOProject();
 			project = daoProject.loadProject(
 				this.connection.select(query, values, responses)[0][0]);
-		} else {
-			throw new CustomException("Project Not Set: getProject()", "ProjectNotSet");
 		}
 		return project;
 	}
@@ -420,6 +418,20 @@ public class DAOStudent implements IDAOStudent {
 			"WHERE idPracticante = ? AND titulo = ?";
 		String[] values = { this.getId(), activityName };
 		return this.connection.sendQuery(query, values);
+	}
+	
+	public boolean hasActivityPlan() {
+		assert this.student != null : "Student is null: DAOStudent.getActivityPlan()";
+		assert this.isActive() : "Student is not active: DAOStudent.getActivityPlan()";
+		boolean hasPlan = false;
+		if (this.getProject() != null) {
+			String query = "SELECT COUNT(idDocumento) AS TOTAL FROM Documento " +
+				"WHERE tipo = 'PlanActividades' AND autor = ?";
+			String[] values = { this.getId() };
+			String[] columns = { "TOTAL" };
+			hasPlan = this.connection.select(query, values, columns)[0][0].equals("1");
+		}
+		return hasPlan;
 	}
 	
 	public boolean fillTableStudent(ObservableList<Student> listStudent) {
