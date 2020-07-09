@@ -79,7 +79,11 @@ public class ViewProjectController implements Initializable {
                 "Eliminar Proyecto",
                 "¿Seguro que desea eliminar el Proyecto?")){
             try {
-                project.deleteProject();
+                if (project.deleteProject()) {
+                    MainController.alert(Alert.AlertType.INFORMATION,
+                            "Proyecto eliminado",
+                            "Proyecto eliminado exitosamente");
+                }
             } catch (CustomException e) {
                 e.printStackTrace();
             }
