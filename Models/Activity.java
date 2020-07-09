@@ -8,6 +8,7 @@ public class Activity {
 	private String startDate;
 	private String deliveryDate;
 	private Student student;
+	private Professor professor;
 	
 	public Student getStudent() {
 		return student;
@@ -24,8 +25,6 @@ public class Activity {
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
 	}
-	
-	private Professor professor;
 	
 	public String getTitle() {
 		return title;

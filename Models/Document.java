@@ -84,7 +84,6 @@ public class Document {
 		assert this.isComplete() : "Document is incomplete: Document.generateAssignmentDocument()";
 		assert this.file.getPath() != null :
 			"File path is null: Document.generateAssignmentDocument()";
-		boolean generated = false;
 		PdfWriter pdfWriter = new PdfWriter(file.getStringPath());
 		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
 		com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);

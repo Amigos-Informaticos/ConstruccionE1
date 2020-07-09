@@ -51,32 +51,32 @@ public class CUPF1 {
 	}
 	
 	@Test
-	public void a_registerProfessor() {
+	public void aRegisterProfessor() {
 		assertTrue(getProfessor().signUp());
 	}
 	
 	@Test
-	public void b_registerStudent() {
+	public void bRegisterStudent() {
 		assertTrue(getStudent().signUp());
 	}
 	
 	@Test
-	public void c_generateActivity() {
+	public void cGenerateActivity() {
 		assertTrue(getActivity().create());
 	}
 	
 	@Test
-	public void d_deleteActivity() {
+	public void dDeleteActivity() {
 		assertTrue(getActivity().delete());
 	}
 	
 	@Test
-	public void e_deleteStudent() {
+	public void eDeleteStudent() {
 		assertTrue(getStudent().delete());
 	}
 	
 	@Test
-	public void f_deleteProfessor() {
+	public void fDeleteProfessor() {
 		assertTrue(getProfessor().delete());
 	}
 }

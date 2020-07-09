@@ -97,17 +97,17 @@ public class CUC {
 	}
 	
 	@Test
-	public void a_registerOrganization() {
+	public void aRegisterOrganization() {
 		assertTrue(getOrganization().signUp());
 	}
 	
 	@Test
-	public void b_registerStudent() {
+	public void bRegisterStudent() {
 		assertTrue(getStudent().signUp());
 	}
 	
 	@Test
-	public void c_registerProyect() {
+	public void cRegisterProyect() {
 		Project project = getProject();
 		CalendarizedActivity[] activities = {
 			new CalendarizedActivity("Hacer diseno", "2020-05-01"),
@@ -119,23 +119,23 @@ public class CUC {
 	}
 	
 	@Test
-	public void d_assignProject() throws FileNotFoundException {
+	public void dAssignProject() throws FileNotFoundException {
 		Assignment assignment = new Assignment(getStudent(), getProject(), getCoordinator());
 		assertTrue(assignment.assignProject());
 	}
 	
 	@Test
-	public void e_removeProject() {
+	public void eRemoveProject() {
 		assertTrue(new Assignment(getStudent(), getProject(), getCoordinator()).removeAssignment());
 	}
 	
 	@Test
-	public void f_deleteStudent() {
+	public void fDeleteStudent() {
 		assertTrue(getStudent().delete());
 	}
 	
 	@Test
-	public void z_clean() {
+	public void zClean() {
 		assertTrue(getProject().deleteProject());
 		assertTrue(getResponsible().delete());
 		assertTrue(getOrganization().delete());
