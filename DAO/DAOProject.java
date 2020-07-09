@@ -9,7 +9,7 @@ import javafx.collections.ObservableList;
 
 public class DAOProject implements IDAOProject {
 	private Project project;
-	protected DBConnection connection;
+	private final DBConnection connection;
 	
 	public DAOProject() {
 		this.connection = new DBConnection();

@@ -4,10 +4,7 @@ package View.admin.controller;
 import IDAO.Shift;
 import Models.Professor;
 import View.MainController;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,7 +13,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -76,7 +72,7 @@ public class AdminProfessorController implements Initializable {
         professor = new Professor();
         this.instanceProfessor(professor);
         try {
-            if(MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro?","") && professor.isComplete()){
+            if(MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro que desea registrar?","") && professor.isComplete()){
                 if(professor.signUp()){
                     listProfessor.add(professor);
                     MainController.alert(
@@ -136,11 +132,7 @@ public class AdminProfessorController implements Initializable {
     }
     @FXML
     public void delete(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("");
-        alert.setContentText("¿Desea eliminar al coordinador?");
-        alert.showAndWait();
-        if(alert.getResult()== ButtonType.OK){
+        if(MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro que desea eliminar?","")){
             try{
                 if(tblViewProfessor.getSelectionModel().getSelectedItem().delete()){
                     listProfessor.remove(tblViewProfessor.getSelectionModel().getSelectedIndex());

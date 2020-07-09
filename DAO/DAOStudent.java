@@ -150,6 +150,21 @@ public class DAOStudent implements IDAOStudent {
 		}
 		return students;
 	}
+
+	public static Student[] getAllByProfessor(){
+		Student[] students;
+		DBConnection connection = new DBConnection();
+		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
+				"FROM MiembroFEI INNER JOIN ProfesorPracticante WHERE MiembroFEI.estaActivo = 1";
+		String[] names = { "nombres", "apellidos", "correoElectronico", "contrasena", "matricula" };
+		String[][] results = connection.select(query, null, names);
+		students = new Student[results.length];
+		for (int i = 0; i < results.length; i++) {
+			students[i] = new Student(results[i][0], results[i][1], results[i][2],
+					results[i][3], results[i][4]);
+		}
+		return students;
+	}
 	
 	public static Student get(Student student) {
 		assert student != null : "Student is null: DAOStudent.get()";
