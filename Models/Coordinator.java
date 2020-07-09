@@ -9,6 +9,7 @@ public class Coordinator extends User {
 	private String registrationDate;
 	private String dischargeDate;
 	private String shift;
+	private Admin registrator;
 
 	public String getShift() {
 		return shift;

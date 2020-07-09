@@ -22,7 +22,7 @@ public class DAOActivity implements IDAOActivity {
 				"(idPracticante, titulo, descripcion, fechaCreacion, fechaCierre) " +
 				"VALUES ((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?), " +
 				"?, ?, (SELECT SYSDATE()), ?)";
-		String[] values = { "edsonn1999@hotmail.com", this.activity.getTitle(), this.activity.getDescription(),
+		String[] values = {"edsonn1999@hotmail.com", this.activity.getTitle(), this.activity.getDescription(),
 			this.activity.getDeliveryDate() };
 		if (this.connection.sendQuery(query, values)) {
 			this.activity.setStartDate(this.getStartDate());

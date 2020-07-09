@@ -7,6 +7,7 @@ public class Activity {
 	private String description;
 	private String startDate;
 	private String deliveryDate;
+
 	
 	public Activity() {
 		title = null;
