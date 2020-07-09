@@ -5,6 +5,8 @@ import DAO.DAOrganization;
 import Exceptions.CustomException;
 import javafx.collections.ObservableList;
 
+import java.util.Collections;
+
 public class Project {
 	
 	private String name;
@@ -218,9 +220,7 @@ public class Project {
 	
 	public static void fillTable(ObservableList<Project> projectsList) {
 		Project[] projects = DAOProject.getAll();
-		for (Project project: projects) {
-			projectsList.add(project);
-		}
+		Collections.addAll(projectsList, projects);
 	}
 	
 	public static boolean fillAreaTable(ObservableList<String> listAreas) {

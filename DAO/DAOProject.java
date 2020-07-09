@@ -113,7 +113,7 @@ public class DAOProject implements IDAOProject {
 		Project project = null;
 		if (name != null) {
 			String query =
-				"SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ? AND estaActivo =1";
+				"SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ? AND estaActivo = 1";
 			String[] values = { name };
 			String[] names = { "TOTAL" };
 			if (this.connection.select(query, values, names)[0][0].equals("1")) {
