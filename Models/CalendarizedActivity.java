@@ -4,6 +4,14 @@ public class CalendarizedActivity {
 	private String name;
 	private String date;
 	
+	public CalendarizedActivity() {
+	}
+	
+	public CalendarizedActivity(String name, String date) {
+		this.name = name;
+		this.date = date;
+	}
+	
 	public String getName() {
 		return name;
 	}

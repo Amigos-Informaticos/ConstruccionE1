@@ -74,17 +74,29 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 	@Override
 	public boolean signUp() {
 		assert this.professor.isComplete() : "Professor not complete: DAOProfessor.signUp()";
-		assert !this.professor.isRegistered() : "Professor already registered: DAOProfessor.signUp()";
 		boolean signedUp = false;
-		String query = "INSERT INTO MiembroFEI (nombres, apellidos, correoElectronico, contrasena, estaActivo," +
-			" registrador) VALUES (?, ?, ?, ?, ?, ?)";
-		String[] values = { this.professor.getNames(), this.professor.getLastnames(),
-			this.professor.getEmail(), this.professor.getPassword(), "1", "1" };
-		if (this.connection.sendQuery(query, values)) {
-			query = "INSERT INTO Profesor (idMiembro, fechaRegistro, noPersonal, turno) VALUES " +
-				"((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?), (SELECT CURRENT_DATE), ?, ?)";
-			values = new String[]{ this.professor.getEmail(), this.professor.getPersonalNo(), this.getIdShift() };
-			signedUp = this.connection.sendQuery(query, values);
+		if (!this.isRegistered()) {
+			String query = "INSERT INTO MiembroFEI " +
+				"(nombres, apellidos, correoElectronico, contrasena, estaActivo, registrador) " +
+				"VALUES (?, ?, ?, ?, ?, ?)";
+			String[] values = { this.professor.getNames(), this.professor.getLastnames(),
+				this.professor.getEmail(), this.professor.getPassword(), "1", "1" };
+			if (this.connection.sendQuery(query, values)) {
+				query = "INSERT INTO Profesor (idMiembro, fechaRegistro, noPersonal, turno) " +
+					"VALUES ((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?), " +
+					"(SELECT CURRENT_DATE), ?, ?)";
+				values = new String[]{
+					this.professor.getEmail(),
+					this.professor.getPersonalNo(),
+					this.professor.getShift()
+				};
+				signedUp = this.connection.sendQuery(query, values);
+			}
+		} else {
+			if (!this.isActive()) {
+				this.reactive();
+				signedUp = true;
+			}
 		}
 		return signedUp;
 	}
@@ -135,7 +147,7 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 	
 	public String getId() {
 		assert this.professor.getEmail() != null : "Professor's email is null: DAOProfessor.getId()";
-		String query = "SELECT idMiembro AS idProfessor FROM MiembroFEI WHERE correoElectronico = ?";
+		String query = "SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?";
 		String[] values = { this.professor.getEmail() };
 		String[] names = { "idMiembro" };
 		return this.connection.select(query, values, names)[0][0];

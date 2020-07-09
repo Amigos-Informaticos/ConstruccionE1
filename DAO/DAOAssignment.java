@@ -2,6 +2,7 @@ package DAO;
 
 import Connection.DBConnection;
 import Models.Assignment;
+import Models.Document;
 import Models.Project;
 import Models.Student;
 
@@ -21,7 +22,7 @@ public class DAOAssignment {
 		this.assignment = assignment;
 	}
 	
-	public boolean assignProject() {
+	public boolean assignProject(Document document) {
 		boolean assigned;
 		assert this.assignment.isComplete() :
 			"Assignment is incomplete: DAOAssignment.assignProject()";
@@ -32,10 +33,17 @@ public class DAOAssignment {
 			"WHERE idPracticante = ? AND idProyecto = ? AND estaActivo = 1";
 		String[] values = { studentId, studentId };
 		String[] columns = { "TOTAL" };
+		String documentId = new DAODocument(document).getId();
 		if (this.connection.select(query, values, columns)[0][0].equals("0")) {
-			query = "INSERT INTO Asignacion (idPracticante, idProyecto, profesorCalificador) " +
-				"VALUES (?, ?, ?)";
-			values = new String[]{ studentId, projectId, professorId };
+			query = "INSERT INTO Asignacion (idPracticante, idProyecto, profesorCalificador, " +
+				"documentoAsignacion, estaActivo) " +
+				"VALUES (?, ?, ?, ?, 1)";
+			values = new String[]{
+				studentId,
+				projectId,
+				professorId,
+				documentId
+			};
 			assigned = this.connection.sendQuery(query, values);
 		} else {
 			assigned = false;

@@ -2,7 +2,6 @@ package Models;
 
 import DAO.DAOProject;
 import DAO.DAOrganization;
-import Exceptions.CustomException;
 import javafx.collections.ObservableList;
 
 import java.util.Collections;
@@ -26,9 +25,6 @@ public class Project {
 	private String endDate;
 	private CalendarizedActivity[] calendarizedActivities;
 	private Coordinator coordinator;
-	
-	public Project() {
-	}
 	
 	public String getName() {
 		return name;
@@ -163,7 +159,7 @@ public class Project {
 	}
 	
 	public CalendarizedActivity[] getCalendarizedActivities() {
-		return calendarizedActivities;
+		return this.calendarizedActivities;
 	}
 	
 	public void setCalendarizedActivities(CalendarizedActivity[] calendarizedActivities) {
@@ -185,16 +181,16 @@ public class Project {
 			this.organization != null;
 	}
 	
-	public boolean register() throws CustomException {
+	public boolean register() {
 		boolean registered = false;
 		DAOProject daoProject = new DAOProject(this);
-		if(daoProject.signUp()&&daoProject.registCalendarizedActivities()){
+		if (daoProject.signUp()) {
 			registered = true;
 		}
 		return registered;
 	}
 	
-	public boolean deleteProject() throws CustomException {
+	public boolean deleteProject() {
 		return new DAOProject(this).delete();
 	}
 	

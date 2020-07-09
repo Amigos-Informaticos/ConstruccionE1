@@ -1,18 +1,24 @@
 package Models;
 
 import DAO.DAOAssignment;
+import tools.File;
+import tools.P;
+
+import java.io.FileNotFoundException;
 
 public class Assignment {
 	private Student student;
 	private Project project;
 	private Professor professor;
+	private Coordinator coordinator;
 	private float score;
 	
-	public Assignment(Student student, Project project) {
+	public Assignment(Student student, Project project, Coordinator coordinator) {
 		this.student = student;
 		this.project = project;
 		student.loadProfessor();
 		this.professor = student.getProfessor();
+		this.coordinator = coordinator;
 	}
 	
 	public Student getStudent() {
@@ -47,8 +53,26 @@ public class Assignment {
 		this.professor = professor;
 	}
 	
-	public boolean assignProject() {
-		return new DAOAssignment(this).assignProject();
+	public Coordinator getCoordinator() {
+		return coordinator;
+	}
+	
+	public void setCoordinator(Coordinator coordinator) {
+		this.coordinator = coordinator;
+	}
+	
+	public boolean assignProject() throws FileNotFoundException {
+		Document document = new Document();
+		document.setTitle("Documento de asignacion");
+		document.setAuthor(this.coordinator);
+		document.setFile(new File("asignacion.pdf"));
+		document.setType("DocumentoAsignacion");
+		boolean generated = document.generateAssignmentDocument(this);
+		document.save();
+		boolean assigned = new DAOAssignment(this).assignProject(document);
+		P.pln(generated);
+		P.pln(assigned);
+		return assigned && generated;
 	}
 	
 	public boolean isComplete() {
@@ -60,6 +84,10 @@ public class Assignment {
 			this.professor.isComplete();
 	}
 	
+	public boolean removeAssignment() {
+		return new DAOAssignment(this).removeAssignment();
+	}
+	
 	public static boolean saveRequest(Student student, Project project) {
 		return DAOAssignment.saveRequest(student, project);
 	}
@@ -67,4 +95,5 @@ public class Assignment {
 	public static Project[] requestedProjects(Student student) {
 		return DAOAssignment.requestedProjects(student);
 	}
+	
 }

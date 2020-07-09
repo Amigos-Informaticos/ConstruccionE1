@@ -1,6 +1,5 @@
 package View.coordinator.controller;
 
-import Exceptions.CustomException;
 import Models.Organization;
 import View.MainController;
 import com.jfoenix.controls.JFXComboBox;
@@ -15,7 +14,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import tools.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -99,31 +97,27 @@ public class ManageOrganizationsController implements Initializable {
 	public void signUp() {
 		Organization organization = new Organization();
 		this.instanceOrganization(organization);
-		try {
-			if (organization.isComplete()) {
-				if (organization.signUp()) {
-					listOrganization.add(organization);
-					MainController.alert(
-						Alert.AlertType.INFORMATION,
-						"Organizacion registrada exitosamente",
-						"Pulse aceptar para continuar"
-					);
-				} else {
-					MainController.alert(
-						Alert.AlertType.WARNING,
-						"Error al conectar con la base de datos",
-						"Pulse aceptar para continuar"
-					);
-				}
-			} else {
+		if (organization.isComplete()) {
+			if (organization.signUp()) {
+				listOrganization.add(organization);
 				MainController.alert(
 					Alert.AlertType.INFORMATION,
-					"Llene todos los campos correctamente",
+					"Organizacion registrada exitosamente",
+					"Pulse aceptar para continuar"
+				);
+			} else {
+				MainController.alert(
+					Alert.AlertType.WARNING,
+					"Error al conectar con la base de datos",
 					"Pulse aceptar para continuar"
 				);
 			}
-		} catch (CustomException e) {
-			new Logger().log(e.getCauseMessage());
+		} else {
+			MainController.alert(
+				Alert.AlertType.INFORMATION,
+				"Llene todos los campos correctamente",
+				"Pulse aceptar para continuar"
+			);
 		}
 	}
 	

@@ -1,7 +1,6 @@
 package DAO;
 
 import Connection.DBConnection;
-import Exceptions.CustomException;
 import IDAO.IDAOProject;
 import Models.CalendarizedActivity;
 import Models.Project;
@@ -26,10 +25,10 @@ public class DAOProject implements IDAOProject {
 	}
 	
 	@Override
-	public boolean signUp() throws CustomException {
+	public boolean signUp() {
 		boolean signedUp = false;
 		assert this.project.isComplete() : "Project is incomplete: DAOProject.signUp()";
-		if (!this.isRegistered() && !this.isActive()) {
+		if (!this.isRegistered()) {
 			if (!this.project.getResponsible().isRegistered()) {
 				this.project.getResponsible().signUp();
 			}
@@ -65,30 +64,29 @@ public class DAOProject implements IDAOProject {
 				this.project.getStartDate(),
 				this.project.getEndDate()
 			};
-			signedUp = this.connection.sendQuery(query, values);
+			signedUp = this.connection.sendQuery(query, values) &&
+				this.registCalendarizedActivities();
 		} else if (this.isRegistered() && !this.isActive()) {
 			String query = "UPDATE Proyecto SET estaActivo = 1 WHERE nombre = ?";
 			String[] values = { this.project.getName() };
 			if (this.connection.sendQuery(query, values)) {
 				signedUp = true;
 			}
-		} else if (this.isActive()) {
-			throw new CustomException("Project already registered and active");
 		}
 		return signedUp;
 	}
 	
 	public boolean registCalendarizedActivities() {
 		boolean registered = true;
-		CalendarizedActivity[] calendarizedActivities = project.getCalendarizedActivities();
+		CalendarizedActivity[] calendarizedActivities = this.project.getCalendarizedActivities();
 		String query = "INSERT INTO ActividadCalendarizada (nombre,fecha,idProyecto) VALUES (?,?,?)";
-		for (int i = 0; i < calendarizedActivities.length; i++) {
+		for (CalendarizedActivity calendarizedActivity: calendarizedActivities) {
 			String[] values = {
-				calendarizedActivities[i].getName(),
-				calendarizedActivities[i].getDate(),
+				calendarizedActivity.getName(),
+				calendarizedActivity.getDate(),
 				this.getId()
 			};
-			if (calendarizedActivities[i].getName() != null) {
+			if (calendarizedActivity.getName() != null) {
 				registered = this.connection.sendQuery(query, values);
 			}
 		}
@@ -143,17 +141,14 @@ public class DAOProject implements IDAOProject {
 	}
 	
 	@Override
-	public boolean delete() throws CustomException {
+	public boolean delete() {
 		boolean deleted = false;
 		if (this.project != null && this.isRegistered()) {
 			if (this.isActive()) {
 				if (this.haveStudents()) {
 					String query = "DELETE FROM Asignacion WHERE idProyecto = ?;";
 					String[] values = { this.getId() };
-					if (!this.connection.sendQuery(query, values)) {
-						throw new CustomException
-							("Impossible to delete the relation between Project and Student");
-					}
+					this.connection.sendQuery(query, values);
 				}
 				String query = "UPDATE Proyecto SET estaActivo = 0 WHERE nombre = ?;";
 				String[] values = { this.project.getName() };

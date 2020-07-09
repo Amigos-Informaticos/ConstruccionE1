@@ -87,10 +87,10 @@ public class DAOStudent implements IDAOStudent {
 	}
 	
 	@Override
-	public boolean signUp() throws CustomException {
+	public boolean signUp() {
 		assert this.student != null : "Student is null: DAOStudent.signUp()";
 		assert this.student.isComplete() : "Student is incomplete: DAOStudent.signUp()";
-		boolean signedUp;
+		boolean signedUp = false;
 		if (!this.isRegistered()) {
 			String query = "INSERT INTO MiembroFEI (nombres, apellidos, correoElectronico, " +
 				"contrasena, estaActivo) VALUES (?, ?, ?, ?, 1)";
@@ -105,20 +105,11 @@ public class DAOStudent implements IDAOStudent {
 					DAOProfessor.getId(this.student.getProfessor().getEmail())
 				};
 				signedUp = this.connection.sendQuery(query, values);
-			} else {
-				throw new CustomException("Could not sign up into User: DAOStudent.signUp()",
-					"NotSignUpUser");
 			}
 		} else {
 			signedUp = this.reactive();
 		}
 		return signedUp;
-	}
-	
-	public boolean assignProfessor() {
-		String query = "INSERT INTO ProfesorPracticante VALUES (?,?)";
-		String[] values = { DAOProfessor.getId(this.student.getProfessor().getEmail()), this.getId() };
-		return this.connection.sendQuery(query, values);
 	}
 	
 	@Override
@@ -156,18 +147,18 @@ public class DAOStudent implements IDAOStudent {
 		}
 		return students;
 	}
-
-	public static Student[] getAllByProfessor(){
+	
+	public static Student[] getAllByProfessor() {
 		Student[] students;
 		DBConnection connection = new DBConnection();
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
-				"FROM MiembroFEI INNER JOIN ProfesorPracticante WHERE MiembroFEI.estaActivo = 1";
+			"FROM MiembroFEI INNER JOIN ProfesorPracticante WHERE MiembroFEI.estaActivo = 1";
 		String[] names = { "nombres", "apellidos", "correoElectronico", "contrasena", "matricula" };
 		String[][] results = connection.select(query, null, names);
 		students = new Student[results.length];
 		for (int i = 0; i < results.length; i++) {
 			students[i] = new Student(results[i][0], results[i][1], results[i][2],
-					results[i][3], results[i][4]);
+				results[i][3], results[i][4]);
 		}
 		return students;
 	}

@@ -3,7 +3,6 @@ package Models;
 import DAO.DAODocument;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Style;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
 import tools.File;
@@ -11,23 +10,20 @@ import tools.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
-import java.util.Date;
 import java.util.Locale;
 
 public class Document {
 	private String title;
 	private String type;
-	private Date date;
 	private File file;
 	private User author;
 	
 	public Document() {
 	}
 	
-	public Document(String title, String type, Date date, File file, User author) {
+	public Document(String title, String type, File file, User author) {
 		this.title = title;
 		this.type = type;
-		this.date = date;
 		this.file = file;
 		this.author = author;
 	}
@@ -52,14 +48,6 @@ public class Document {
 		this.file = file;
 	}
 	
-	public Date getDate() {
-		return date;
-	}
-	
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	
 	public File getFile() {
 		return file;
 	}
@@ -74,8 +62,7 @@ public class Document {
 	
 	public boolean isComplete() {
 		return this.title != null &&
-			this.type != null &&
-			this.date != null;
+			this.type != null;
 	}
 	
 	public boolean save() {
@@ -101,13 +88,12 @@ public class Document {
 		PdfWriter pdfWriter = new PdfWriter(file.getStringPath());
 		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
 		com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
-		Style style = new Style();
 		String[] date = new String[3];
 		date[0] = String.valueOf(LocalDate.now().getDayOfMonth());
 		date[1] = LocalDate.now().getMonth().getDisplayName(
 			TextStyle.FULL, new Locale("es", "ES"));
 		date[2] = String.valueOf(LocalDate.now().getYear());
-		String fullName = assignment.getStudent().getNames() +
+		String fullName = assignment.getStudent().getNames() + " " +
 			assignment.getStudent().getLastnames();
 		String regNumber = assignment.getStudent().getRegNumber();
 		String proyectName = assignment.getProject().getName();
@@ -172,6 +158,6 @@ public class Document {
 		document.add(coordinator);
 		document.flush();
 		document.close();
-		return generated;
+		return true;
 	}
 }

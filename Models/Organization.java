@@ -1,7 +1,6 @@
 package Models;
 
 import DAO.DAOrganization;
-import Exceptions.CustomException;
 import javafx.collections.ObservableList;
 
 import java.util.HashMap;
@@ -68,7 +67,7 @@ public class Organization {
 		return this.address;
 	}
 	
-	public boolean signUp() throws CustomException {
+	public boolean signUp() {
 		return new DAOrganization(this).signUp();
 	}
 	
@@ -83,7 +82,7 @@ public class Organization {
 		return daOrganization.isRegistered();
 	}
 	
-	public boolean delete() throws CustomException {
+	public boolean delete() {
 		boolean deleted = false;
 		DAOrganization daOrganization = new DAOrganization(this);
 		if (daOrganization.delete()) {
