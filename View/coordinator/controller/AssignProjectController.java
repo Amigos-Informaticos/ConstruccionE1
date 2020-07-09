@@ -25,7 +25,7 @@ public class AssignProjectController implements Initializable {
 
     @FXML public TableView<Project> projectTable;
 
-    private Student student = (Student) MainController.get("student");
+    private Student student = new Student();
     private ObservableList<Project> projectObservableList;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -33,38 +33,26 @@ public class AssignProjectController implements Initializable {
         Project.fillTable(projectObservableList);
         projectTable.setItems(projectObservableList);
         tableColumn.setCellValueFactory(new PropertyValueFactory<Project, String>("name"));
-
-        lbName.setText(student.getNames() + " " + student.getLastnames());
-        lbEmail.setText(student.getEmail());
-        lbRegNo.setText(student.getRegNumber());
     }
 
     public void assign(){
         Project project = projectTable.getSelectionModel().getSelectedItem();
-
-        if (project!=null) {
-            Assignment assignment = new Assignment(student,project);
-            if(MainController.alert(Alert.AlertType.CONFIRMATION,"Confirmar Asignacion",
-                    "¿Esta seguro de que quiere asignar el practicante "
-                            + student.getNames() +
-                            " al proyecto "+project.getName()+"?")) {
-                if(assignment.assignProject()){
-                    MainController.alert(Alert.AlertType.INFORMATION,
-                            "Asignación registrada",
-                            "Asignacon realizada exitosamente");
-                }else {
-                    MainController.alert(Alert.AlertType.ERROR,"DatabaseError","No se pudo establecer conexión con la Base de Datos");
-                    exit();
-                }
+        Assignment assignment = new Assignment(student,project);
+        if(MainController.alert(Alert.AlertType.CONFIRMATION,"Confirmar Asignacion",
+                "¿Esta seguro de que quiere asignar el practicante "
+                        + student.getNames() +
+                        " al proyecto "+project.getName()+"?")) {
+            if(assignment.assignProject()){
+                MainController.alert(Alert.AlertType.INFORMATION,
+                        "Asignación registrada",
+                        "Asignacon realizada exitosamente");
+            }else {
+                MainController.alert(Alert.AlertType.ERROR,"DatabaseError","No se pudo establecer conexión con la Base de Datos");
+                exit();
             }
-        }else{
-            MainController.alert(Alert.AlertType.WARNING,"Sin Proyecto Seleccionado", "No ha seleccionado ningun Proyecto");
         }
 
     }
-
-
-
     public void exit() {
         MainController.activate(
                 "ManageStudents",
