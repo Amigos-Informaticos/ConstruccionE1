@@ -62,6 +62,12 @@ public class GenerateReport implements Initializable {
 				"Su proyecto no ha registrado ninguna actividad calendarizada"
 			);
 			exit();
+		} else {
+			JFXTextField[] names = { name1, name2, name3, name4, name5 };
+			for (int i = 0; i < this.activities.length; i++) {
+				names[i].setText(this.activities[i].getName());
+				names[i].setEditable(false);
+			}
 		}
 	}
 	
@@ -88,5 +94,26 @@ public class GenerateReport implements Initializable {
 	}
 	
 	public void accept(MouseEvent mouseEvent) {
+		JFXTextField[] names = { name1, name2, name3, name4, name5 };
+		JFXTextField[] plannedDates = { planned1, planned2, planned3, planned4, planned5 };
+		JFXTextField[] realDates = { real1, real2, real3, real4, real5 };
+		JFXDatePicker[] pickedDates = { date1, date2, date3, date4, date5 };
+		
+	}
+	
+	private boolean checkFields() {
+		boolean ok = true;
+		JFXTextField[] fields = { name1, name2, name3, name4, name5,
+			planned1, planned2, planned3, planned4, planned5,
+			real1, real2, real3, real4, real5 };
+		JFXDatePicker[] pickedDates = { date1, date2, date3, date4, date5 };
+		int counter = 0;
+		while (ok && counter < fields.length) {
+			if (fields[counter].getText().equals("")) {
+				ok = false;
+			}
+			counter++;
+		}
+		return ok;
 	}
 }
