@@ -1,5 +1,6 @@
 package Models;
 
+import DAO.DAOProfessor;
 import DAO.DAOStudent;
 import Exceptions.CustomException;
 import javafx.collections.ObservableList;
@@ -23,6 +24,7 @@ public class Student extends User {
 			this.setEmail(student.getEmail());
 			this.setCleanPassword(student.getPassword());
 			this.setRegNumber(student.getRegNumber());
+			this.setProfessor(student.getProfessor());
 		}
 	}
 	
@@ -48,11 +50,22 @@ public class Student extends User {
 		this.professor = professor;
 	}
 	
+	public boolean loadProfessor() {
+		assert this.getEmail() != null : "Email is null: Student.loadProfessor()";
+		boolean set = false;
+		Professor professor = DAOProfessor.getByStudent(this);
+		if (professor != null) {
+			set = true;
+			this.setProfessor(professor);
+		}
+		return set;
+	}
+	
 	public boolean signUp() throws CustomException {
 		boolean signedUp = false;
 		assert this.isComplete() : "Student is not complete: Student.signUp()";
 		DAOStudent daoStudent = new DAOStudent(this);
-		if(daoStudent.signUp() && daoStudent.assignProfessor()){
+		if (daoStudent.signUp() && daoStudent.assignProfessor()) {
 			signedUp = true;
 		}
 		return signedUp;
@@ -119,7 +132,7 @@ public class Student extends User {
 		return new DAOStudent(this).deleteReply(activityName);
 	}
 	
-	public boolean isRegistered() throws CustomException {
+	public boolean isRegistered() {
 		return new DAOStudent(this).isRegistered();
 	}
 	
@@ -129,5 +142,10 @@ public class Student extends User {
 	
 	public boolean hasActivityPlan() {
 		return new DAOStudent(this).hasActivityPlan();
+	}
+
+	public Project[] getProjects(){
+		DAOStudent daoStudent = new DAOStudent(this);
+		return daoStudent.getProjects();
 	}
 }

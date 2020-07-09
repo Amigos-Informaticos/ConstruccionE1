@@ -17,8 +17,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GenerateReport implements Initializable {
-	
-	
 	public JFXTextField name1;
 	public JFXTextField name2;
 	public JFXTextField name3;
@@ -98,7 +96,15 @@ public class GenerateReport implements Initializable {
 		JFXTextField[] plannedDates = { planned1, planned2, planned3, planned4, planned5 };
 		JFXTextField[] realDates = { real1, real2, real3, real4, real5 };
 		JFXDatePicker[] pickedDates = { date1, date2, date3, date4, date5 };
-		
+		if (checkFields()) {
+			
+		} else {
+			MainController.alert(
+				Alert.AlertType.WARNING,
+				"Campos vacíos",
+				"No se han llenado los campos"
+			);
+		}
 	}
 	
 	private boolean checkFields() {
@@ -110,6 +116,13 @@ public class GenerateReport implements Initializable {
 		int counter = 0;
 		while (ok && counter < fields.length) {
 			if (fields[counter].getText().equals("")) {
+				ok = false;
+			}
+			counter++;
+		}
+		counter = 0;
+		while (ok && counter < pickedDates.length) {
+			if (pickedDates[counter].getValue() == null) {
 				ok = false;
 			}
 			counter++;

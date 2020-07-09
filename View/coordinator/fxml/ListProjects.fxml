@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.coordinator.fxml.AssignProject">
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.coordinator.controller.ListProjectsController">
    <children>
       <HBox prefHeight="73.0" prefWidth="350.0" style="-fx-background-color: #18529D;">
          <children>
@@ -37,9 +37,9 @@
             <Insets left="30.0" />
          </padding>
       </HBox>
-      <TableView layoutX="175.0" layoutY="73.0" prefHeight="377.0" prefWidth="350.0">
+      <TableView fx:id="tblProject" layoutX="175.0" layoutY="73.0" prefHeight="377.0" prefWidth="350.0">
         <columns>
-          <TableColumn prefWidth="349.0" text="Proyecto" />
+          <TableColumn fx:id="clmNameProject" prefWidth="349.0" text="Proyecto" />
         </columns>
       </TableView>
    </children>

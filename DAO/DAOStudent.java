@@ -114,11 +114,11 @@ public class DAOStudent implements IDAOStudent {
 		}
 		return signedUp;
 	}
-
-	public boolean assignProfessor(){
+	
+	public boolean assignProfessor() {
 		String query = "INSERT INTO ProfesorPracticante VALUES (?,?)";
-		String[] values = {DAOProfessor.getId(this.student.getProfessor().getEmail()),this.getId()};
-		return this.connection.sendQuery(query,values);
+		String[] values = { DAOProfessor.getId(this.student.getProfessor().getEmail()), this.getId() };
+		return this.connection.sendQuery(query, values);
 	}
 	
 	@Override
@@ -437,7 +437,9 @@ public class DAOStudent implements IDAOStudent {
 	public boolean fillTableStudent(ObservableList<Student> listStudent) {
 		boolean filled = false;
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
-			"FROM MiembroFEI INNER JOIN Practicante on MiembroFEI.idMiembro = Practicante.idMiembro";
+			"FROM MiembroFEI INNER JOIN Practicante " +
+			"ON MiembroFEI.idMiembro = Practicante.idMiembro " +
+			"WHERE estaActivo = 1";
 		String[] names = { "nombres", "apellidos", "correoElectronico", "contrasena", "matricula" };
 		String[][] select = this.connection.select(query, null, names);
 		int row = 0;
