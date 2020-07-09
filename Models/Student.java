@@ -15,7 +15,6 @@ public class Student extends User {
 	public Student(String names, String lastnames, String email, String password, String regNumber) {
 		super(names, lastnames, email, password);
 		this.regNumber = regNumber;
-		this.professor = DAOProfessor.getByStudent(this);
 	}
 	
 	public Student(Student student) {
@@ -25,6 +24,7 @@ public class Student extends User {
 			this.setEmail(student.getEmail());
 			this.setCleanPassword(student.getPassword());
 			this.setRegNumber(student.getRegNumber());
+			this.setProfessor(student.getProfessor());
 		}
 	}
 	
