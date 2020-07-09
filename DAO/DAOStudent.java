@@ -114,6 +114,12 @@ public class DAOStudent implements IDAOStudent {
 		}
 		return signedUp;
 	}
+
+	public boolean assignProfessor(){
+		String query = "INSERT INTO ProfesorPracticante VALUES (?,?)";
+		String[] values = {DAOProfessor.getId(this.student.getProfessor().getEmail()),this.getId()};
+		return this.connection.sendQuery(query,values);
+	}
 	
 	@Override
 	public boolean isRegistered() {

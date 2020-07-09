@@ -13,7 +13,7 @@
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                     <children>
-                        <GridPane prefHeight="215.0" prefWidth="341.0">
+                        <GridPane layoutY="14.0" prefHeight="215.0" prefWidth="341.0">
                             <columnConstraints>
                                 <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="165.0" minWidth="10.0" prefWidth="116.0" />
                                 <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="225.0" />
@@ -82,10 +82,10 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox prefHeight="25.0" prefWidth="234.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <JFXComboBox fx:id="cmbProfessor" prefHeight="25.0" prefWidth="234.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                             </children>
                         </GridPane>
-                        <HBox layoutY="278.0" prefHeight="100.0" prefWidth="341.0" spacing="15.0">
+                        <HBox layoutY="305.0" prefHeight="73.0" prefWidth="341.0" spacing="15.0">
                             <children>
                                 <JFXButton fx:id="btnRegister" onAction="#signUp" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Registrar" textFill="WHITE">
                                     <font>
@@ -107,6 +107,11 @@
                                 <Insets left="15.0" right="15.0" />
                             </padding>
                         </HBox>
+                  <JFXButton layoutX="100.0" layoutY="263.0" onAction="#checkProject" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #18529D;" text="Ver Proyecto" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </JFXButton>
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="360.0">
