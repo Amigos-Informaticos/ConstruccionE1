@@ -143,4 +143,9 @@ public class Student extends User {
 	public boolean hasActivityPlan() {
 		return new DAOStudent(this).hasActivityPlan();
 	}
+
+	public Project[] getProjects(){
+		DAOStudent daoStudent = new DAOStudent(this);
+		return daoStudent.getProjects();
+	}
 }
