@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import tools.File;
-import tools.P;
 
 import java.net.URL;
 import java.util.Date;
@@ -27,7 +26,6 @@ public class AddActivityPlan implements Initializable {
 	
 	private void verifyPrecondition() {
 		boolean has = ((Student) MainController.get("user")).hasActivityPlan();
-		P.pln(has);
 		if (has) {
 			MainController.alert(
 				Alert.AlertType.WARNING,
