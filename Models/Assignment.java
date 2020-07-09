@@ -11,6 +11,8 @@ public class Assignment {
 	public Assignment(Student student, Project project) {
 		this.student = student;
 		this.project = project;
+		student.loadProfessor();
+		this.professor = student.getProfessor();
 	}
 	
 	public Student getStudent() {

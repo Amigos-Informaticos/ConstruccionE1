@@ -4,6 +4,7 @@ import Connection.DBConnection;
 import IDAO.IDAOProfessor;
 import IDAO.Shift;
 import Models.Professor;
+import Models.Student;
 
 public class DAOProfessor implements IDAOProfessor, Shift {
 	private Professor professor;
@@ -173,7 +174,35 @@ public class DAOProfessor implements IDAOProfessor, Shift {
 		return professor;
 	}
 	
-	public static Professor[] get(Professor professor) {
-		return null;
+	public static Professor getByStudent(Student student) {
+		assert student != null : "Student is null: DAOProfessor.getByStudent()";
+		assert student.getEmail() != null : "Student's email is null: DAOProfessor.getByStudent()";
+		assert student.isRegistered() : "Student is not registered: DAOProfessor.getByStudent()";
+		DBConnection connection = new DBConnection();
+		Professor professor;
+		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, " +
+			"Turno.turno AS turno " +
+			"FROM MiembroFEI INNER JOIN Profesor ON MiembroFEI.idMiembro = Profesor.idMiembro " +
+			"INNER JOIN Turno ON Turno.idturno = Profesor.turno " +
+			"INNER JOIN Practicante ON Profesor.idMiembro = Practicante.profesorCalificador " +
+			"WHERE Practicante.idMiembro = ?";
+		String[] values = { new DAOStudent(student).getId() };
+		String[] columns = {
+			"nombres",
+			"apellidos",
+			"correoElectronico",
+			"contrasena",
+			"noPersonal",
+			"turno"
+		};
+		String[] responses = connection.select(query, values, columns)[0];
+		professor = new Professor();
+		professor.setNames(responses[0]);
+		professor.setLastnames(responses[1]);
+		professor.setEmail(responses[2]);
+		professor.setPassword(responses[3]);
+		professor.setPersonalNo(responses[4]);
+		professor.setShift(responses[5]);
+		return professor;
 	}
 }
