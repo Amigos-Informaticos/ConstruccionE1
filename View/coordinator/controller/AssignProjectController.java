@@ -25,7 +25,7 @@ public class AssignProjectController implements Initializable {
 
     @FXML public TableView<Project> projectTable;
 
-    private Student student = new Student();
+    private Student student = (Student) MainController.get("student");
     private ObservableList<Project> projectObservableList;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
