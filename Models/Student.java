@@ -61,11 +61,11 @@ public class Student extends User {
 		return set;
 	}
 	
-	public boolean signUp() throws CustomException {
+	public boolean signUp() {
 		boolean signedUp = false;
 		assert this.isComplete() : "Student is not complete: Student.signUp()";
 		DAOStudent daoStudent = new DAOStudent(this);
-		if (daoStudent.signUp() && daoStudent.assignProfessor()) {
+		if (daoStudent.signUp()) {
 			signedUp = true;
 		}
 		return signedUp;
@@ -143,8 +143,8 @@ public class Student extends User {
 	public boolean hasActivityPlan() {
 		return new DAOStudent(this).hasActivityPlan();
 	}
-
-	public Project[] getProjects(){
+	
+	public Project[] getProjects() {
 		DAOStudent daoStudent = new DAOStudent(this);
 		return daoStudent.getProjects();
 	}

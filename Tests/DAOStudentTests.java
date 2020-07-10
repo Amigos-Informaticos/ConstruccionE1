@@ -1,12 +1,10 @@
 package Tests;
 
 import DAO.DAOStudent;
-import Exceptions.CustomException;
 import Models.Student;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import tools.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,11 +14,7 @@ public class DAOStudentTests {
 	
 	@Test
 	public void a_signUpPracticante() {
-		try {
-			assertTrue(getInstancePracticante().signUp());
-		} catch (CustomException e) {
-			new Logger().log(e);
-		}
+		assertTrue(getInstancePracticante().signUp());
 	}
 	
 	@Test

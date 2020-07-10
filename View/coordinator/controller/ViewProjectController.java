@@ -1,6 +1,5 @@
 package View.coordinator.controller;
 
-import Exceptions.CustomException;
 import Models.Project;
 import View.MainController;
 import com.jfoenix.controls.JFXTextArea;
@@ -78,14 +77,10 @@ public class ViewProjectController implements Initializable {
         if(MainController.alert(Alert.AlertType.CONFIRMATION,
                 "Eliminar Proyecto",
                 "¿Seguro que desea eliminar el Proyecto?")){
-            try {
-                if (project.deleteProject()) {
-                    MainController.alert(Alert.AlertType.INFORMATION,
-                            "Proyecto eliminado",
-                            "Proyecto eliminado exitosamente");
-                }
-            } catch (CustomException e) {
-                e.printStackTrace();
+            if (project.deleteProject()) {
+                MainController.alert(Alert.AlertType.INFORMATION,
+                        "Proyecto eliminado",
+                        "Proyecto eliminado exitosamente");
             }
         }
     }

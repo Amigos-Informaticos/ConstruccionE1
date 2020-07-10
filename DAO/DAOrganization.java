@@ -18,6 +18,7 @@ public class DAOrganization implements IDAOrganization {
 		assert this.organization != null : "Organization is null: DAOrganization.signUp()";
 		assert this.organization.isComplete() :
 			"Organization is incomplete: DAOrganization.signUp()";
+		boolean signed;
 		String query;
 		String[] values;
 		if (!this.isRegistered()) {
@@ -27,13 +28,15 @@ public class DAOrganization implements IDAOrganization {
 			}
 			query = "INSERT INTO Organizacion (nombre, estaActivo, idSector) VALUES (?, 1, ?)";
 			values = new String[]{ this.organization.getName(), this.getIdSector() };
+			signed = this.connection.sendQuery(query, values) &&
+				this.registerAddress() &&
+				this.signUpTellephoneNumber();
 		} else {
 			query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
 			values = new String[]{ this.organization.getName() };
+			signed = this.connection.sendQuery(query, values);
 		}
-		return this.connection.sendQuery(query, values) &&
-			this.registerAddress() &&
-			this.signUpTellephoneNumber();
+		return signed;
 	}
 	
 	@Override
@@ -41,7 +44,7 @@ public class DAOrganization implements IDAOrganization {
 		assert this.organization.getName() != null :
 			"Organization's name is null: DAOrganization.isRegistered()";
 		String query = "SELECT COUNT (idOrganizacion) AS TOTAL FROM Organizacion " +
-			"WHERE nombre = ? AND estaActivo = 1";
+			"WHERE nombre = ?";
 		String[] values = { this.organization.getName() };
 		String[] names = { "TOTAL" };
 		return this.connection.select(query, values, names)[0][0].equals("1");
@@ -220,16 +223,16 @@ public class DAOrganization implements IDAOrganization {
 		}
 		return organization;
 	}
-
+	
 	public static Organization getNameById(String idOrganization) {
 		Organization organization = new Organization();
 		String query = "SELECT nombre FROM Organizacion WHERE idOrganizacion = ?";
-		String[] values = {idOrganization};
-		String[] names = {"nombre"};
-
+		String[] values = { idOrganization };
+		String[] names = { "nombre" };
+		
 		DBConnection connection = new DBConnection();
-		organization.setName(connection.select(query,values,names)[0][0]);
+		organization.setName(connection.select(query, values, names)[0][0]);
 		return organization;
 	}
-
+	
 }

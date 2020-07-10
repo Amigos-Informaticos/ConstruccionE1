@@ -4,9 +4,14 @@ import DAO.DAOProject;
 import DAO.DAOProjectResponsible;
 import DAO.DAOrganization;
 import Exceptions.CustomException;
-import Models.*;
+import Models.Assignment;
+import Models.CalendarizedActivity;
+import Models.Coordinator;
+import Models.Organization;
+import Models.Project;
+import Models.ProjectResponsible;
+import Models.Student;
 import org.junit.Test;
-import tools.Logger;
 import tools.P;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -128,17 +133,13 @@ public class TestsCoordinator {
 	}
 	
 	@Test
-	public void signUpOrganization() throws CustomException {
+	public void signUpOrganization() {
 		assertTrue(this.getOrganization().signUp());
 	}
 	
 	@Test
 	public void registerProject() {
-		try {
-			assertTrue(this.getProject().register());
-		} catch (CustomException e) {
-			Logger.staticLog(e);
-		}
+		assertTrue(this.getProject().register());
 	}
 	
 	@Test
@@ -182,10 +183,6 @@ public class TestsCoordinator {
 		project.setStartDate("2020-07-19");
 		project.setEndDate("2020-09-07");
 		project.setCalendarizedActivities(calendarizedActivities);
-		try {
-			project.register();
-		} catch (CustomException e) {
-			e.printStackTrace();
-		}
+		project.register();
 	}
 }

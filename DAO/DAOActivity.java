@@ -16,19 +16,19 @@ public class DAOActivity implements IDAOActivity {
 	public boolean create() {
 		assert this.activity != null : "Activity null on create()";
 		assert this.activity.isComplete() : "Some atribute is empty";
-		boolean created = false;
 		String query =
 			"INSERT INTO Actividad " +
-				"(idPracticante, titulo, descripcion, fechaCreacion, fechaCierre) " +
-				"VALUES ((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?), " +
-				"?, ?, (SELECT SYSDATE()), ?)";
-		String[] values = { "edsonn1999@hotmail.com", this.activity.getTitle(), this.activity.getDescription(),
-			this.activity.getDeliveryDate() };
-		if (this.connection.sendQuery(query, values)) {
-			this.activity.setStartDate(this.getStartDate());
-			created = true;
-		}
-		return created;
+				"(idPracticante, titulo, descripcion, fechaCreacion, fechaCierre, " +
+				"profesorAsignador) " +
+				"VALUES (?, ?, ?, (SELECT SYSDATE()), ?, ?)";
+		String[] values = {
+			new DAOStudent(this.activity.getStudent()).getId(),
+			this.activity.getTitle(),
+			this.activity.getDescription(),
+			this.activity.getDeliveryDate(),
+			new DAOProfessor(this.activity.getProfessor()).getId()
+		};
+		return this.connection.sendQuery(query, values);
 	}
 	
 	@Override
@@ -46,8 +46,8 @@ public class DAOActivity implements IDAOActivity {
 	public boolean delete() {
 		assert this.activity != null : "Activity null on delete()";
 		assert this.isRegistered() : "Activity not registered on delete()";
-		String query = "DELETE FROM Actividad WHERE fechaCreacion = ?";
-		String[] values = { this.activity.getStartDate() };
+		String query = "DELETE FROM Actividad WHERE Actividad.idActividad = ?";
+		String[] values = { this.getIdActivity() };
 		return this.connection.sendQuery(query, values);
 	}
 	

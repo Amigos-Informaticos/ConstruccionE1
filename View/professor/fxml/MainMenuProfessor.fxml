@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.professor.controller.MainMenuProfessorController">
    <children>
       <HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -21,7 +21,7 @@
             </Label>
          </children>
       </HBox>
-      <JFXButton layoutX="195.0" layoutY="108.0" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Generar actividad" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton layoutX="195.0" layoutY="108.0" onMouseClicked="#onClickGenerateActivity" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Generar actividad" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font></JFXButton>
@@ -30,21 +30,16 @@
             <Image url="@../../images/logo_uv.png" />
          </image>
       </ImageView>
-      <JFXButton layoutX="195.0" layoutY="197.0" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Proyectos" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton layoutX="195.0" layoutY="197.0" onMouseClicked="#onClickEvaluateReport" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Evaluar reporte" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="195.0" layoutY="284.0" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Organizaciones" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton layoutX="195.0" layoutY="284.0" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Añadir formato de presentación" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="284.0">
-         <image>
-            <Image url="@../../images/icon_organization.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="108.0">
          <image>
             <Image url="@../../images/icon_students.png" />

@@ -1,6 +1,5 @@
 package View.coordinator.controller;
 
-import Exceptions.CustomException;
 import Models.CalendarizedActivity;
 import Models.Organization;
 import Models.Project;
@@ -16,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
-import tools.Logger;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -198,26 +196,22 @@ public class CreateProjectController implements Initializable {
 	
 	public void signUp() {
 		instanceProject();
-		try {
-			if (project.isComplete()) {
-				if (project.register()) {
-					MainController.alert(Alert.AlertType.INFORMATION,
-						"Proyecto registrado",
-						"El Proyecto se registró exitosamente");
-				} else {
-					MainController.alert(Alert.AlertType.INFORMATION,
-						"Error con Base de Datos",
-						"No se pudo conectar con Base de Datos");
-				}
+		if (project.isComplete()) {
+			if (project.register()) {
+				MainController.alert(Alert.AlertType.INFORMATION,
+					"Proyecto registrado",
+					"El Proyecto se registró exitosamente");
 			} else {
-				MainController.alert(
-					Alert.AlertType.INFORMATION,
-					"IncorrectEntries",
-					"Debe llenar los datos correctamente"
-				);
+				MainController.alert(Alert.AlertType.INFORMATION,
+					"Error con Base de Datos",
+					"No se pudo conectar con Base de Datos");
 			}
-		} catch (CustomException e) {
-			new Logger().log(e.getMessage());
+		} else {
+			MainController.alert(
+				Alert.AlertType.INFORMATION,
+				"IncorrectEntries",
+				"Debe llenar los datos correctamente"
+			);
 		}
 	}
 	
