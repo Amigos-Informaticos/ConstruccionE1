@@ -184,7 +184,7 @@ public class Project {
 	public boolean register() {
 		boolean registered = false;
 		DAOProject daoProject = new DAOProject(this);
-		if (daoProject.signUp()) {
+		if (daoProject.signUp() && daoProject.registCalendarizedActivities()) {
 			registered = true;
 		}
 		return registered;

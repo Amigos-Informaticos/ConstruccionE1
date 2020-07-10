@@ -81,6 +81,10 @@ public class ViewProjectController implements Initializable {
                 MainController.alert(Alert.AlertType.INFORMATION,
                         "Proyecto eliminado",
                         "Proyecto eliminado exitosamente");
+            }else {
+                MainController.alert(Alert.AlertType.ERROR,
+                        "Sin conexión con BD",
+                        "Sin conexión con Base de Datos");
             }
         }
     }

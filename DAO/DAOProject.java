@@ -64,8 +64,7 @@ public class DAOProject implements IDAOProject {
 				this.project.getStartDate(),
 				this.project.getEndDate()
 			};
-			signedUp = this.connection.sendQuery(query, values) &&
-				this.registCalendarizedActivities();
+			signedUp = this.connection.sendQuery(query, values);
 		} else if (this.isRegistered() && !this.isActive()) {
 			String query = "UPDATE Proyecto SET estaActivo = 1 WHERE nombre = ?";
 			String[] values = { this.project.getName() };

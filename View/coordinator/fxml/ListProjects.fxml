@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -37,10 +38,15 @@
             <Insets left="30.0" />
          </padding>
       </HBox>
-      <TableView fx:id="tblProject" layoutX="175.0" layoutY="73.0" prefHeight="377.0" prefWidth="350.0">
+      <TableView fx:id="tblProject" layoutX="175.0" layoutY="73.0" onMouseClicked="#selectProject" prefHeight="377.0" prefWidth="350.0">
         <columns>
           <TableColumn fx:id="clmNameProject" prefWidth="349.0" text="Proyecto" />
         </columns>
       </TableView>
+      <JFXButton layoutX="14.0" layoutY="85.0" onMouseClicked="#onClickBack" prefHeight="25.0" prefWidth="78.0" style="-fx-background-color: #18529D;" text="Atrás" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

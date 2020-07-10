@@ -113,6 +113,15 @@ public class Organization {
 		}
 		return filled;
 	}
+
+	public static boolean fillSector(ObservableList<String> listOrganization) {
+		boolean filled = false;
+		DAOrganization daoOrg = new DAOrganization(new Organization());
+		if (daoOrg.fillSector(listOrganization)) {
+			filled = true;
+		}
+		return filled;
+	}
 	
 	public static boolean fillOrganizationNames(ObservableList<String> listOrganization) {
 		boolean filled = false;

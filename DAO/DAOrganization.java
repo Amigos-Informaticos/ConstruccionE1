@@ -183,8 +183,14 @@ public class DAOrganization implements IDAOrganization {
 		};
 		String[][] select = this.connection.select(query, null, names);
 		for (int row = 0; row < select.length; row++) {
-			listOrganization.add(new Organization(
-			));
+			Organization organization = new Organization();
+			organization.setName(select[row][0]);
+			organization.setAddress(select[row][1],
+									select[row][2],
+									select[row][3],
+									select[row][4]);
+			organization.setSector(select[row][6]);
+			listOrganization.add(organization);
 			if (!filled) {
 				filled = true;
 			}
@@ -234,5 +240,7 @@ public class DAOrganization implements IDAOrganization {
 		organization.setName(connection.select(query, values, names)[0][0]);
 		return organization;
 	}
+
+
 	
 }

@@ -18,6 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
+import tools.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -169,6 +170,34 @@ public class ManageStudentController implements Initializable {
 			}
 		} catch (CustomException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void onClickBack(){
+		MainController.activate("MainMenuCoordinator","Menu", MainController.Sizes.MID);
+	}
+
+	@FXML
+	public void delete() {
+		if (MainController.alert(Alert.AlertType.CONFIRMATION,
+				"Eliminar Practicante",
+				"¿Está seguro que desea eliminar al Practicante seleccionado?")) {
+			try {
+				if (tblViewStudent.getSelectionModel().getSelectedItem().delete()) {
+					listStudent.remove(tblViewStudent.getSelectionModel().getSelectedIndex());
+					MainController.alert(Alert.AlertType.INFORMATION,
+							"Practicante eliminada",
+							"Organización eliminada exitosamente");
+				} else {
+					MainController.alert(
+							Alert.AlertType.INFORMATION,
+							"DBError",
+							"No se pudo establecer conexión con Base de Datos"
+					);
+				}
+			} catch (AssertionError e) {
+				new Logger().log(e.getMessage());
+			}
 		}
 	}
 	
