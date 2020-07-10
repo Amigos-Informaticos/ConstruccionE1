@@ -30,7 +30,7 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 		if (this.connection.sendQuery(query, values)) {
 			query = "INSERT INTO Coordinador (idMiembro, noPersonal, fechaRegistro, turno, registrador) VALUES " +
 				"((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?),?,(SELECT CURRENT_DATE), ?,?)";
-			values = new String[]{ this.coordinator.getEmail(), this.coordinator.getPersonalNo(), "1", "16" }; //TODO Agregar getIdCoordinator() y getIdAdmin
+			values = new String[]{ this.coordinator.getEmail(), this.coordinator.getPersonalNo(), "1", "16" };
 			signedUp = this.connection.sendQuery(query, values);
 		}
 		return signedUp;
