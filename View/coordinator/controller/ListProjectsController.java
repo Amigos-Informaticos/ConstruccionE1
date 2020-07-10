@@ -1,6 +1,7 @@
 package View.coordinator.controller;
 
 import Models.Project;
+import View.MainController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,5 +25,14 @@ public class ListProjectsController implements Initializable {
 		Project.fillTable(listProjects);
 		tblProject.setItems(listProjects);
 		clmNameProject.setCellValueFactory(new PropertyValueFactory<Project,String>("name"));
+	}
+
+	public void selectProject(){
+		MainController.save("project",tblProject.getSelectionModel().getSelectedItem());
+		MainController.activate("ViewProject","Ver Proyecto", MainController.Sizes.MID);
+	}
+
+	public void clickBack(){
+		MainController.activate("MenuProject","Proyectos", MainController.Sizes.MID);
 	}
 }

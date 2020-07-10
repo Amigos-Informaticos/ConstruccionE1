@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import tools.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,6 +56,7 @@ public class ManageOrganizationsController implements Initializable {
 		clmnName.setCellValueFactory(new PropertyValueFactory<Organization, String>("name"));
 		
 		listSector = FXCollections.observableArrayList();
+		new Organization().fillSector(listSector);
 		cmbSector.setItems(listSector);
 		
 		eventManager();
@@ -135,6 +137,32 @@ public class ManageOrganizationsController implements Initializable {
 		}
 		if (!txtTel2.getText().equals("")) {
 			organization.addPhoneNumber(txtTel2.getText());
+		}
+	}
+
+	public void onClickBack(){
+		MainController.activate("MainMenuCoordinator","Menu", MainController.Sizes.MID);
+	}
+
+	@FXML
+	public void delete(){
+		if(MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro que desea eliminar?","")){
+			try{
+				if(tblViewOrganization.getSelectionModel().getSelectedItem().delete()){
+					listOrganization.remove(tblViewOrganization.getSelectionModel().getSelectedIndex());
+					MainController.alert(Alert.AlertType.INFORMATION,
+							"Organización eliminada",
+							"Organización eliminada exitosamente");
+				} else{
+					MainController.alert(
+							Alert.AlertType.INFORMATION,
+							"DBError",
+							"No se pudo establecer conexión con Base de Datos"
+					);
+				}
+			}catch(AssertionError e){
+				new Logger().log(e.getMessage());
+			}
 		}
 	}
 }
