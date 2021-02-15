@@ -130,9 +130,9 @@ public class MainController extends Application {
 		alert.setHeaderText(header);
 		alert.setContentText(message);
 		alert.showAndWait();
-		return alert.getResult()== ButtonType.OK;
+		return alert.getResult() == ButtonType.OK;
 	}
-
+	
 	public static File fileExplorer() {
 		MainController.stage.setTitle("Seleccione un archivo");
 		FileChooser fileChooser = new FileChooser();

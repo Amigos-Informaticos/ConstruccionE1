@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import com.jfoenix.controls.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.student.controller.GenerateReport">
+
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.student.controller.GenerateReport">
    <children>
       <HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;">
          <children>
-            <ImageView onMouseClicked="#volver" fitHeight="59.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="59.0" fitWidth="28.0" onMouseClicked="#exit" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/icon_back_white.png" />
                </image>
@@ -35,87 +33,87 @@
       <Separator layoutX="326.0" layoutY="69.0" opacity="0.5" orientation="VERTICAL" prefHeight="332.0" prefWidth="0.0" style="-fx-background-color: #000000;" />
       <Separator layoutX="452.0" layoutY="69.0" opacity="0.5" orientation="VERTICAL" prefHeight="332.0" prefWidth="0.0" style="-fx-background-color: #000000;" />
       <Separator layoutX="570.0" layoutY="69.0" opacity="0.5" orientation="VERTICAL" prefHeight="332.0" prefWidth="0.0" style="-fx-background-color: #000000;" />
-      <JFXTextField layoutX="14.0" layoutY="86.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
+      <JFXTextField fx:id="name1" layoutX="14.0" layoutY="86.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="14.0" layoutY="157.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
+      <JFXTextField fx:id="name2" layoutX="14.0" layoutY="157.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="14.0" layoutY="231.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
+      <JFXTextField fx:id="name3" layoutX="14.0" layoutY="231.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="14.0" layoutY="308.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
+      <JFXTextField fx:id="name4" layoutX="14.0" layoutY="308.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="15.0" layoutY="376.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
+      <JFXTextField fx:id="name5" layoutX="15.0" layoutY="376.0" prefHeight="25.0" prefWidth="302.0" promptText="Actividad">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="340.0" layoutY="86.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
+      <JFXTextField fx:id="planned1" layoutX="340.0" layoutY="86.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="340.0" layoutY="157.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
+      <JFXTextField fx:id="planned2" layoutX="340.0" layoutY="157.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="340.0" layoutY="231.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
+      <JFXTextField fx:id="planned3" layoutX="340.0" layoutY="231.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="340.0" layoutY="308.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
+      <JFXTextField fx:id="planned4" layoutX="340.0" layoutY="308.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="340.0" layoutY="376.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
+      <JFXTextField fx:id="planned5" layoutX="340.0" layoutY="376.0" prefHeight="25.0" prefWidth="101.0" promptText="Planeado">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="464.0" layoutY="86.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
+      <JFXTextField fx:id="real1" layoutX="464.0" layoutY="86.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="464.0" layoutY="157.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
+      <JFXTextField fx:id="real2" layoutX="464.0" layoutY="157.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="464.0" layoutY="231.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
+      <JFXTextField fx:id="real3" layoutX="464.0" layoutY="231.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="464.0" layoutY="308.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
+      <JFXTextField fx:id="real4" layoutX="464.0" layoutY="308.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXTextField layoutX="464.0" layoutY="376.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
+      <JFXTextField fx:id="real5" layoutX="464.0" layoutY="376.0" prefHeight="25.0" prefWidth="101.0" promptText="Real">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
       </JFXTextField>
-      <JFXDatePicker layoutX="583.0" layoutY="86.0" prefHeight="25.0" prefWidth="108.0" />
-      <JFXDatePicker layoutX="583.0" layoutY="157.0" prefHeight="25.0" prefWidth="108.0" />
-      <JFXDatePicker layoutX="583.0" layoutY="231.0" prefHeight="25.0" prefWidth="108.0" />
-      <JFXDatePicker layoutX="583.0" layoutY="308.0" prefHeight="25.0" prefWidth="108.0" />
-      <JFXDatePicker layoutX="583.0" layoutY="376.0" prefHeight="25.0" prefWidth="108.0" />
-      <JFXButton layoutX="580.0" layoutY="411.0" prefHeight="25.0" prefWidth="108.0" style="-fx-background-color: #28AD56;" text="Aceptar" textFill="WHITE">
+      <JFXDatePicker fx:id="date1" layoutX="583.0" layoutY="86.0" prefHeight="25.0" prefWidth="108.0" />
+      <JFXDatePicker fx:id="date2" layoutX="583.0" layoutY="157.0" prefHeight="25.0" prefWidth="108.0" />
+      <JFXDatePicker fx:id="date3" layoutX="583.0" layoutY="231.0" prefHeight="25.0" prefWidth="108.0" />
+      <JFXDatePicker fx:id="date4" layoutX="583.0" layoutY="308.0" prefHeight="25.0" prefWidth="108.0" />
+      <JFXDatePicker fx:id="date5" layoutX="583.0" layoutY="376.0" prefHeight="25.0" prefWidth="108.0" />
+      <JFXButton layoutX="580.0" layoutY="411.0" onMouseClicked="#accept" prefHeight="25.0" prefWidth="108.0" style="-fx-background-color: #28AD56;" text="Aceptar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

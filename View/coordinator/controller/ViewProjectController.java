@@ -73,9 +73,19 @@ public class ViewProjectController implements Initializable {
         txtPeriod.setText(project.getPeriod());
     }
 
-    public void delete() {
-        if (MainController.alert(Alert.AlertType.CONFIRMATION,
-            "Eliminar Proyecto",
-            "¿Seguro que desea eliminar el Proyecto?"));
+    public void delete(){
+        if(MainController.alert(Alert.AlertType.CONFIRMATION,
+                "Eliminar Proyecto",
+                "¿Seguro que desea eliminar el Proyecto?")){
+            if (project.deleteProject()) {
+                MainController.alert(Alert.AlertType.INFORMATION,
+                        "Proyecto eliminado",
+                        "Proyecto eliminado exitosamente");
+            }else {
+                MainController.alert(Alert.AlertType.ERROR,
+                        "Sin conexión con BD",
+                        "Sin conexión con Base de Datos");
+            }
+        }
     }
 }

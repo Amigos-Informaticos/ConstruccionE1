@@ -8,10 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import tools.File;
-import tools.P;
 
 import java.net.URL;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class AddActivityPlan implements Initializable {
@@ -27,7 +25,6 @@ public class AddActivityPlan implements Initializable {
 	
 	private void verifyPrecondition() {
 		boolean has = ((Student) MainController.get("user")).hasActivityPlan();
-		P.pln(has);
 		if (has) {
 			MainController.alert(
 				Alert.AlertType.WARNING,
@@ -67,7 +64,6 @@ public class AddActivityPlan implements Initializable {
 		Document file = new Document(
 			selectedFile.getName(),
 			"PlanActividades",
-			new Date(),
 			selectedFile,
 			(Student) MainController.get("user")
 		);

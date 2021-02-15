@@ -1,6 +1,5 @@
 package View.coordinator.controller;
 
-import Exceptions.CustomException;
 import Models.Organization;
 import View.MainController;
 import com.jfoenix.controls.JFXComboBox;
@@ -57,6 +56,7 @@ public class ManageOrganizationsController implements Initializable {
 		clmnName.setCellValueFactory(new PropertyValueFactory<Organization, String>("name"));
 		
 		listSector = FXCollections.observableArrayList();
+		new Organization().fillSector(listSector);
 		cmbSector.setItems(listSector);
 		
 		eventManager();
@@ -99,31 +99,27 @@ public class ManageOrganizationsController implements Initializable {
 	public void signUp() {
 		Organization organization = new Organization();
 		this.instanceOrganization(organization);
-		try {
-			if (organization.isComplete()) {
-				if (organization.signUp()) {
-					listOrganization.add(organization);
-					MainController.alert(
-						Alert.AlertType.INFORMATION,
-						"Organizacion registrada exitosamente",
-						"Pulse aceptar para continuar"
-					);
-				} else {
-					MainController.alert(
-						Alert.AlertType.WARNING,
-						"Error al conectar con la base de datos",
-						"Pulse aceptar para continuar"
-					);
-				}
-			} else {
+		if (organization.isComplete()) {
+			if (organization.signUp()) {
+				listOrganization.add(organization);
 				MainController.alert(
 					Alert.AlertType.INFORMATION,
-					"Llene todos los campos correctamente",
+					"Organizacion registrada exitosamente",
+					"Pulse aceptar para continuar"
+				);
+			} else {
+				MainController.alert(
+					Alert.AlertType.WARNING,
+					"Error al conectar con la base de datos",
 					"Pulse aceptar para continuar"
 				);
 			}
-		} catch (CustomException e) {
-			new Logger().log(e.getCauseMessage());
+		} else {
+			MainController.alert(
+				Alert.AlertType.INFORMATION,
+				"Llene todos los campos correctamente",
+				"Pulse aceptar para continuar"
+			);
 		}
 	}
 	
@@ -141,6 +137,32 @@ public class ManageOrganizationsController implements Initializable {
 		}
 		if (!txtTel2.getText().equals("")) {
 			organization.addPhoneNumber(txtTel2.getText());
+		}
+	}
+
+	public void onClickBack(){
+		MainController.activate("MainMenuCoordinator","Menu", MainController.Sizes.MID);
+	}
+
+	@FXML
+	public void delete(){
+		if(MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro que desea eliminar?","")){
+			try{
+				if(tblViewOrganization.getSelectionModel().getSelectedItem().delete()){
+					listOrganization.remove(tblViewOrganization.getSelectionModel().getSelectedIndex());
+					MainController.alert(Alert.AlertType.INFORMATION,
+							"Organización eliminada",
+							"Organización eliminada exitosamente");
+				} else{
+					MainController.alert(
+							Alert.AlertType.INFORMATION,
+							"DBError",
+							"No se pudo establecer conexión con Base de Datos"
+					);
+				}
+			}catch(AssertionError e){
+				new Logger().log(e.getMessage());
+			}
 		}
 	}
 }

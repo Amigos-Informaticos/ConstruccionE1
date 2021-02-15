@@ -65,4 +65,8 @@ public class ProjectResponsible {
 	public boolean isRegistered() {
 		return new DAOProjectResponsible(this).isRegistered();
 	}
+	
+	public boolean delete() {
+		return new DAOProjectResponsible(this).delete();
+	}
 }

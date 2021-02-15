@@ -7,20 +7,23 @@ public class Activity {
 	private String description;
 	private String startDate;
 	private String deliveryDate;
-
+	private Student student;
+	private Professor professor;
 	
-	public Activity() {
-		title = null;
-		description = null;
-		startDate = null;
-		deliveryDate = null;
+	public Student getStudent() {
+		return student;
 	}
 	
-	public Activity(String title, String description, String deliveryDate, String file) {
-		this.title = title;
-		this.description = description;
-		this.startDate = null;
-		this.deliveryDate = deliveryDate;
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+	
+	public Professor getProfessor() {
+		return professor;
+	}
+	
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
 	}
 	
 	public String getTitle() {
@@ -63,6 +66,10 @@ public class Activity {
 		return created;
 	}
 	
+	public boolean delete() {
+		return new DAOActivity(this).delete();
+	}
+	
 	public boolean update() {
 		boolean updated;
 		DAOActivity activity = new DAOActivity(this);
@@ -73,7 +80,9 @@ public class Activity {
 	public boolean isComplete() {
 		return this.title != null &&
 			this.description != null &&
-			this.deliveryDate != null;
+			this.deliveryDate != null &&
+			this.student != null &&
+			this.professor != null;
 	}
 	
 	public String getIdActivity() {

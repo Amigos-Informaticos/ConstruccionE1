@@ -50,12 +50,8 @@ public class StudentTests {
 	
 	@Test
 	public void a_signUpStudent() {
-		try {
-			this.student.setProfessor(DAOProfessor.getByEmail("joo@hotmail.com"));
-			assertTrue(this.student.signUp());
-		} catch (CustomException e) {
-			Logger.staticLog(e);
-		}
+		this.student.setProfessor(DAOProfessor.getByEmail("joo@hotmail.com"));
+		assertTrue(this.student.signUp());
 	}
 	
 	@Test
