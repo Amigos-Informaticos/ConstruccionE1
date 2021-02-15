@@ -7,10 +7,10 @@ import Models.Professor;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import tools.Logger;
 import tools.P;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
@@ -24,7 +24,7 @@ public class DAOProfesorTests {
 		alexis.setEmail("ocha@hotmail.com");
 		alexis.setPassword("ocha1234");
 		alexis.setPersonalNo("N000002");
-		alexis.setShift("1");
+		alexis.setShift("Matutino");
 		assertTrue(daoProfessor.signUp());
 	}
 	
@@ -33,10 +33,10 @@ public class DAOProfesorTests {
 		Professor alexis = new Professor();
 		alexis.setNames("Alexis");
 		alexis.setLastnames("Alvarez");
-		alexis.setEmail("alexisao@hotmail.com");
+		alexis.setEmail("edsonmanuelcarballovera@gmail.com");
 		alexis.setPassword("alexis123");
 		alexis.setPersonalNo("N12345678");
-		alexis.setShift("1");
+		alexis.setShift("Vespertino");
 		DAOProfessor daoProfessor = new DAOProfessor(alexis);
 		assertTrue(daoProfessor.isRegistered());
 	}
@@ -44,17 +44,33 @@ public class DAOProfesorTests {
 	@Test
 	public void c_updateProfesor() {
 		Professor roberto = new Professor();
-		DAOProfessor daoProfessor = new DAOProfessor(roberto);
-		roberto.setNames("Alexis");
+		roberto.setNames("Ale");
 		roberto.setLastnames("Alvarez Ortega");
 		roberto.setEmail("alexisao@hotmail.com");
 		roberto.setPassword("alexis123");
 		roberto.setPersonalNo("N000001");
-		roberto.setShift("1");
-		try {
+		roberto.setShift("Vespertino");
+		DAOProfessor daoProfessor = new DAOProfessor(roberto);
+		try{
 			assertTrue(daoProfessor.update());
-		} catch (AssertionError e) {
-			e.printStackTrace();
+		}catch (Exception e){
+			Logger.staticLog(e,true);
+		}
+	}
+	@Test
+	public void d_getIdShift(){
+		Professor roberto = new Professor();
+		roberto.setNames("Ale");
+		roberto.setLastnames("Alvarez Ortega");
+		roberto.setEmail("alexisao@hotmail.com");
+		roberto.setPassword("alexis123");
+		roberto.setPersonalNo("N000001");
+		roberto.setShift("Matutino");
+		DAOProfessor daoProfessor = new DAOProfessor(roberto);
+		try{
+			assertEquals(daoProfessor.getIdShift(), "1");
+		}catch (Exception e){
+			Logger.staticLog(e,true);
 		}
 	}
 	
