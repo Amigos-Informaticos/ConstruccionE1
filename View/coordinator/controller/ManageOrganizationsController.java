@@ -66,6 +66,7 @@ public class ManageOrganizationsController implements Initializable {
 		if(new Organization().fillTableOrganization(listOrganization)){
 			tblViewOrganization.setItems(listOrganization);
 			clmnName.setCellValueFactory(new PropertyValueFactory<Organization, String>("name"));
+			System.out.println("ejecutado");
 		}
 	}
 	

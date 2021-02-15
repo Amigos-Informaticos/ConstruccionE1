@@ -201,6 +201,7 @@ public class DAOrganization implements IDAOrganization {
 				filled = true;
 			}
 		}
+		System.out.println("fill table");
 		return filled;
 	}
 	
