@@ -48,7 +48,7 @@ public class Professor extends User {
 		this.shift = shift;
 	}
 	
-	public boolean logIn() throws CustomException {
+	public boolean logIn() throws CustomException{
 		return new DAOProfessor(this).logIn();
 	}
 	
@@ -73,7 +73,7 @@ public class Professor extends User {
 	}
 	
 	public boolean isComplete() {
-		return super.isComplete() && personalNo != null && shift != null;
+		return super.isComplete() && (personalNo != null && !personalNo.equals("")) && shift != null;
 	}
 	
 	public void fillTableProfessor(ObservableList<Professor> listProfessor) {
