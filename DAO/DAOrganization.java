@@ -27,13 +27,13 @@ public class DAOrganization implements IDAOrganization {
 				this.registerSector(sector);
 			}
 			query = "INSERT INTO Organizacion (nombre, estaActivo, idSector) VALUES (?, 1, ?)";
-			values = new String[]{ this.organization.getName(), this.getIdSector() };
+			values = new String[] {this.organization.getName(), this.getIdSector()};
 			signed = this.connection.sendQuery(query, values) &&
 				this.registerAddress() &&
 				this.signUpTellephoneNumber();
 		} else {
 			query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
-			values = new String[]{ this.organization.getName() };
+			values = new String[] {this.organization.getName()};
 			signed = this.connection.sendQuery(query, values);
 		}
 		return signed;
@@ -45,9 +45,10 @@ public class DAOrganization implements IDAOrganization {
 			"Organization's name is null: DAOrganization.isRegistered()";
 		String query = "SELECT COUNT (idOrganizacion) AS TOTAL FROM Organizacion " +
 			"WHERE nombre = ?";
-		String[] values = { this.organization.getName() };
-		String[] names = { "TOTAL" };
-		return this.connection.select(query, values, names)[0][0].equals("1");
+		String[] values = {this.organization.getName()};
+		String[] names = {"TOTAL"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null && results[0][0].equals("1");
 	}
 	
 	@Override
@@ -56,7 +57,7 @@ public class DAOrganization implements IDAOrganization {
 		assert this.isRegistered() : "Organization is not registered: DAOrganization.delete()";
 		assert this.isActive() : "Organization is not active: DAOrganization.delete()";
 		String query = "UPDATE Organizacion SET estaActivo = 0 WHERE nombre = ?";
-		String[] values = { this.organization.getName() };
+		String[] values = {this.organization.getName()};
 		return this.connection.sendQuery(query, values);
 	}
 	
@@ -67,9 +68,10 @@ public class DAOrganization implements IDAOrganization {
 			"Organization's name is null: DAOrganization.isActive()";
 		assert this.isRegistered() : "Organization is not registered: DAOrganization.isActive()";
 		String query = "SELECT estaActivo FROM Organizacion WHERE nombre = ?";
-		String[] values = { this.organization.getName() };
-		String[] names = { "estaActivo" };
-		return this.connection.select(query, values, names)[0][0].equals("1");
+		String[] values = {this.organization.getName()};
+		String[] names = {"estaActivo"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null && results[0][0].equals("1");
 	}
 	
 	@Override
@@ -78,21 +80,21 @@ public class DAOrganization implements IDAOrganization {
 		assert this.isRegistered() : "Organization is not registered: DAOrganization.reactivate()";
 		assert this.isActive() : "Organization is not active: DAOrganization.reactivate()";
 		String query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
-		String[] values = { this.organization.getName() };
+		String[] values = {this.organization.getName()};
 		return this.connection.sendQuery(query, values);
 	}
 	
 	public String getId() {
 		String query = "SELECT idOrganizacion FROM Organizacion WHERE nombre = ?";
-		String[] values = { organization.getName() };
-		String[] names = { "idOrganizacion" };
-		return this.connection.select(query, values, names)[0][0];
+		String[] values = {organization.getName()};
+		String[] names = {"idOrganizacion"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null ? results[0][0] : "";
 	}
 	
 	public boolean signUpTellephoneNumber() {
 		String id = this.getId();
-		String query = "INSERT INTO TelefonoOrganizacion (idOrganizacion, telefono) " +
-			"VALUES ";
+		String query = "INSERT INTO TelefonoOrganizacion (idOrganizacion, telefono) VALUES ";
 		for (int i = 0; i < this.organization.getPhoneNumber().length; i++) {
 			query += "(" + id + ", ?)";
 			if (i < this.organization.getPhoneNumber().length - 1) {
@@ -122,7 +124,7 @@ public class DAOrganization implements IDAOrganization {
 		boolean registered;
 		if (!this.isSectorRegistered(sector)) {
 			String query = "INSERT INTO Sector (sector) VALUES (?)";
-			String[] values = { sector };
+			String[] values = {sector};
 			registered = this.connection.sendQuery(query, values);
 		} else {
 			registered = false;
@@ -133,22 +135,24 @@ public class DAOrganization implements IDAOrganization {
 	public boolean isSectorRegistered(String sector) {
 		assert sector != null : "Sector is null: DAOrganization.isSectorRegistered()";
 		String query = "SELECT COUNT(sector) AS TOTAL FROM Sector WHERE sector = ?";
-		String[] values = { sector };
-		String[] columns = { "TOTAL" };
-		return this.connection.select(query, values, columns)[0][0].equals("1");
+		String[] values = {sector};
+		String[] columns = {"TOTAL"};
+		String[][] results = this.connection.select(query, values, columns);
+		return results != null && results[0][0].equals("1");
 	}
 	
 	public String getIdSector() {
 		String query = "SELECT idSector FROM Sector WHERE sector = ?";
-		String[] values = { this.organization.getSector() };
-		String[] names = { "idSector" };
-		return this.connection.select(query, values, names)[0][0];
+		String[] values = {this.organization.getSector()};
+		String[] names = {"idSector"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null ? results[0][0] : "";
 	}
 	
 	public boolean fillOrganizationNames(ObservableList<String> listOrganization) {
 		boolean filled = false;
 		String query = "SELECT nombre FROM Organizacion WHERE estaActivo = 1";
-		for (String[] name: this.connection.select(query, null, new String[]{ "nombre" })) {
+		for (String[] name: this.connection.select(query, null, new String[] {"nombre"})) {
 			listOrganization.add(name[0]);
 			filled = true;
 		}
@@ -158,7 +162,7 @@ public class DAOrganization implements IDAOrganization {
 	public boolean fillSector(ObservableList<String> listSector) {
 		boolean filled = false;
 		String query = "SELECT sector FROM Sector";
-		for (String[] sector: this.connection.select(query, null, new String[]{ "sector" })) {
+		for (String[] sector: this.connection.select(query, null, new String[] {"sector"})) {
 			listSector.add(sector[0]);
 			filled = true;
 		}
@@ -186,9 +190,9 @@ public class DAOrganization implements IDAOrganization {
 			Organization organization = new Organization();
 			organization.setName(select[row][0]);
 			organization.setAddress(select[row][1],
-									select[row][2],
-									select[row][3],
-									select[row][4]);
+				select[row][2],
+				select[row][3],
+				select[row][4]);
 			organization.setSector(select[row][6]);
 			listOrganization.add(organization);
 			if (!filled) {
@@ -208,9 +212,9 @@ public class DAOrganization implements IDAOrganization {
 				"FROM Organizacion INNER JOIN Sector ON Organizacion.idSector = Sector.idSector " +
 				"INNER JOIN Direccion ON Organizacion.idOrganizacion = Direccion.idOrganizacion " +
 				"WHERE Organizacion.nombre = ? AND Organizacion.estaActivo = 1";
-			String[] values = { organizationName };
+			String[] values = {organizationName};
 			String[] columns =
-				new String[]{ "sector", "calle", "numero", "colonia", "localidad" };
+				new String[] {"sector", "calle", "numero", "colonia", "localidad"};
 			String[] responses = connection.select(query, values, columns)[0];
 			organization.setSector(responses[0]);
 			organization.setAddress(
@@ -220,8 +224,8 @@ public class DAOrganization implements IDAOrganization {
 				responses[4]
 			);
 			query = "SELECT telefono FROM TelefonoOrganizacion WHERE idOrganizacion = ?";
-			values = new String[]{ new DAOrganization(organization).getId() };
-			columns = new String[]{ "telefono" };
+			values = new String[] {new DAOrganization(organization).getId()};
+			columns = new String[] {"telefono"};
 			responses = connection.select(query, values, columns)[0];
 			for (String number: responses) {
 				organization.addPhoneNumber(number);
@@ -231,16 +235,17 @@ public class DAOrganization implements IDAOrganization {
 	}
 	
 	public static Organization getNameById(String idOrganization) {
-		Organization organization = new Organization();
+		Organization organization = null;
 		String query = "SELECT nombre FROM Organizacion WHERE idOrganizacion = ?";
-		String[] values = { idOrganization };
-		String[] names = { "nombre" };
-		
+		String[] values = {idOrganization};
+		String[] names = {"nombre"};
 		DBConnection connection = new DBConnection();
-		organization.setName(connection.select(query, values, names)[0][0]);
+		String[][] results = connection.select(query, values, names);
+		if (results != null) {
+			organization = new Organization();
+			organization.setName(connection.select(query, values, names)[0][0]);
+		}
 		return organization;
 	}
-
-
 	
 }

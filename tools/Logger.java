@@ -4,7 +4,6 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
 public class Logger {
 	private File log = null;
 	
@@ -39,7 +38,7 @@ public class Logger {
 	
 	public void init() {
 		if (this.log == null) {
-			this.log = new File("log.txt");
+			this.log = new File("log");
 		}
 	}
 	
@@ -73,8 +72,8 @@ public class Logger {
 			
 			this.log.write(exception.getMessage());
 			bot.addMessage(exception.getMessage());
-			
 			this.log.newLine();
+			
 			for (StackTraceElement element: exception.getStackTrace()) {
 				this.log.write(element.toString());
 				this.log.newLine();
