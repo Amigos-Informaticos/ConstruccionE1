@@ -28,9 +28,9 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 				this.coordinator.getEmail(),
 				this.coordinator.getPassword(), "1"};
 		if (this.connection.sendQuery(query, values)) {
-			query = "INSERT INTO Coordinador (idMiembro, noPersonal, fechaRegistro, turno, registrador) VALUES " +
-				"((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?),?,(SELECT CURRENT_DATE), ?,?)";
-			values = new String[] {this.coordinator.getEmail(), this.coordinator.getPersonalNo(), "1", "16"};
+			query = "INSERT INTO Coordinador (idMiembro, noPersonal, fechaRegistro, turno) VALUES " +
+				"((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?),?,(SELECT CURRENT_DATE), ?)";
+			values = new String[] {this.coordinator.getEmail(), this.coordinator.getPersonalNo(), "1"};
 			signedUp = this.connection.sendQuery(query, values);
 		}
 		return signedUp;
@@ -131,7 +131,6 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 			"WHERE MiembroFEI.correoElectronico = ?";
 		String[] values = {this.coordinator.getEmail()};
 		String[] responses = {"turno"};
-//		String
 		return this.connection.select(query, values, responses)[0][0];
 	}
 	
