@@ -131,8 +131,8 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 			"WHERE MiembroFEI.correoElectronico = ?";
 		String[] values = {this.coordinator.getEmail()};
 		String[] responses = {"turno"};
-//		String
-		return this.connection.select(query, values, responses)[0][0];
+		String[][] results = this.connection.select(query, values, responses);
+		return results != null ? results[0][0] : "";
 	}
 	
 	public static Coordinator getActive() {
