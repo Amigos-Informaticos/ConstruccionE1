@@ -332,12 +332,14 @@ public class DAOStudent implements IDAOStudent {
 		assert projectName != null : "ProjectName is null: DAOStudent.setProject()";
 		assert new DAOProject(projectName).isRegistered() :
 			"Project is not registered: DAOStudent.setProject()";
+		
 		boolean set;
 		String query =
 			"SELECT COUNT(idPracticante) AS TOTAL FROM Asignacion WHERE idPracticante = ?";
 		String[] values = {this.getId()};
 		String[] names = {"TOTAL"};
-		if (this.connection.select(query, values, names)[0][0].equals("0")) {
+		String[][] students = this.connection.select(query, values, names);
+		if (students != null && students[0][0].equals("0")) {
 			query = "INSERT INTO Asignacion (idPracticante, idProyecto) " +
 				"VALUES (?, (SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1))";
 			values = new String[] {this.getId(), projectName};
@@ -354,11 +356,13 @@ public class DAOStudent implements IDAOStudent {
 		assert this.student.getEmail() != null :
 			"Student's email is null: DAOStudent.deleteProject()";
 		assert this.isActive() : "Student is not active: DAOStudent.deleteProject()";
+		
 		String query =
 			"SELECT COUNT(idPracticante) AS TOTAL FROM Asignacion WHERE idPracticante = ?";
 		String[] values = {this.getId()};
 		String[] names = {"TOTAL"};
-		if (this.connection.select(query, values, names)[0][0].equals("1")) {
+		String[][] students = this.connection.select(query, values, names);
+		if (students != null && students[0][0].equals("1")) {
 			query = "DELETE FROM Asignacion WHERE idPracticante = ?";
 			deleted = this.connection.sendQuery(query, values);
 		}
@@ -366,22 +370,23 @@ public class DAOStudent implements IDAOStudent {
 	}
 	
 	public Project getProject() {
-		Project project = null;
 		assert this.student != null : "Student is null: DAOStudent.getProject()";
 		assert this.student.getEmail() != null : "Student's email is null: DAOStudent.getProject()";
 		assert this.isActive() : "Student is inactive: DAOStudent.getProject()";
+		
+		Project project = null;
 		String query =
 			"SELECT COUNT(idPracticante) AS TOTAL FROM Asignacion WHERE idPracticante = ?";
 		String[] values = {this.getId()};
 		String[] responses = {"TOTAL"};
-		if (this.connection.select(query, values, responses)[0][0].equals("1")) {
+		String[][] students = this.connection.select(query, values, responses);
+		if (students != null && students[0][0].equals("1")) {
 			query = "SELECT Proyecto.nombre FROM Proyecto INNER JOIN Asignacion " +
 				"ON Proyecto.idProyecto = Asignacion.idProyecto " +
 				"WHERE Asignacion.idPracticante = ?;";
 			responses = new String[] {"Proyecto.nombre"};
-			DAOProject daoProject = new DAOProject();
-			project = daoProject.loadProject(
-				this.connection.select(query, values, responses)[0][0]);
+			String[][] results = this.connection.select(query, values, responses);
+			project = results != null ? new DAOProject().loadProject(results[0][0]) : null;
 		}
 		return project;
 	}
@@ -391,6 +396,7 @@ public class DAOStudent implements IDAOStudent {
 		boolean reactivated = false;
 		assert this.student != null : "Student is null: DAOStudent.reactive()";
 		assert this.isRegistered() : "Student is not registered: DAOStudent.reactive()";
+		
 		if (!this.isActive()) {
 			String query = "UPDATE MiembroFEI SET estaActivo = 1 WHERE correoElectronico = ?";
 			String[] values = {this.student.getEmail()};
@@ -406,11 +412,13 @@ public class DAOStudent implements IDAOStudent {
 		assert documentPath != null : "Document Path is null: DAOStudent.replyActivity()";
 		assert File.exists(documentPath) : "File doesnt exists: DAOStudent.replyActivity()";
 		assert activityName != null : "Activity name is null: DAOStudent.replyActivity()";
+		
 		String query = "SELECT COUNT(idActividad) AS TOTAL FROM Actividad " +
 			"WHERE titulo = ? AND idPracticante = ?";
 		String[] values = {activityName, this.getId()};
 		String[] names = {"TOTAL"};
-		if (this.connection.select(query, values, names)[0][0].equals("1")) {
+		String[][] activities = this.connection.select(query, values, names);
+		if (activities != null && activities[0][0].equals("1")) {
 			try {
 				java.io.File file = new java.io.File(documentPath);
 				FileInputStream fis = new FileInputStream(file);
@@ -426,7 +434,7 @@ public class DAOStudent implements IDAOStudent {
 				this.connection.closeConnection();
 				replied = true;
 			} catch (FileNotFoundException | SQLException e) {
-				new Logger().log(e);
+				Logger.staticLog(e, true);
 			}
 		}
 		return replied;
@@ -436,6 +444,7 @@ public class DAOStudent implements IDAOStudent {
 		assert this.student != null : "Student is null: DAOStudent.deleteReply()";
 		assert this.isActive() : "Student is not active: DAOStudent.deleteReply()";
 		assert activityName != null : "Activity name is null: DAOStudent.deleteReply()";
+		
 		String query = "UPDATE Actividad SET documento = null, fechaEntrega = null " +
 			"WHERE idPracticante = ? AND titulo = ?";
 		String[] values = {this.getId(), activityName};
@@ -445,13 +454,15 @@ public class DAOStudent implements IDAOStudent {
 	public boolean hasActivityPlan() {
 		assert this.student != null : "Student is null: DAOStudent.getActivityPlan()";
 		assert this.isActive() : "Student is not active: DAOStudent.getActivityPlan()";
+		
 		boolean hasPlan = false;
 		if (this.getProject() != null) {
 			String query = "SELECT COUNT(idDocumento) AS TOTAL FROM Documento " +
 				"WHERE tipo = 'PlanActividades' AND autor = ?";
 			String[] values = {this.getId()};
 			String[] columns = {"TOTAL"};
-			hasPlan = this.connection.select(query, values, columns)[0][0].equals("1");
+			String[][] results = this.connection.select(query, values, columns);
+			hasPlan = results != null && results[0][0].equals("1");
 		}
 		return hasPlan;
 	}
