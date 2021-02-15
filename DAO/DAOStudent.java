@@ -34,21 +34,28 @@ public class DAOStudent implements IDAOStudent {
 		assert this.student != null : "This Student is null: DAOStudent.getId()";
 		assert this.student.getEmail() != null : "This Student email is null: DAOStudent.getId()";
 		assert this.isRegistered() : "Student isnt registered: DAOStudent.getId()";
+		
 		String query = "SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?";
 		String[] values = {this.student.getEmail()};
 		String[] names = {"idMiembro"};
-		return new DBConnection().select(query, values, names)[0][0];
+		String[][] results = this.connection.select(query, values, names);
+		return results != null ? results[0][0] : "";
 	}
 	
 	@Override
 	public boolean update() {
 		boolean updated = false;
 		assert this.isRegistered() : "This Student isnt registered: DAOStudent.update()";
+		
 		String query = "UPDATE MiembroFEI SET nombres = ?, apellidos = ?, correoElectronico = ?, "
 			+ "contrasena = ? WHERE correoElectronico = ?";
-		String[] values = {this.student.getNames(), this.student.getLastnames(),
-			this.student.getEmail(), this.student.getPassword(),
-			this.student.getEmail()};
+		String[] values = {
+			this.student.getNames(),
+			this.student.getLastnames(),
+			this.student.getEmail(),
+			this.student.getPassword(),
+			this.student.getEmail()
+		};
 		if (this.connection.sendQuery(query, values)) {
 			query = "UPDATE Practicante SET matricula = ? WHERE idMiembro = " +
 				"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
@@ -63,6 +70,7 @@ public class DAOStudent implements IDAOStudent {
 		boolean deleted = false;
 		assert this.student != null : "Student is null: DAOStudent.delete()";
 		assert this.isRegistered() : "Student is not registered: DAOStudent.delete()";
+		
 		if (this.isActive()) {
 			String query = "UPDATE MiembroFEI SET estaActivo = 0 WHERE correoElectronico = ?";
 			String[] values = {this.student.getEmail()};
@@ -76,12 +84,12 @@ public class DAOStudent implements IDAOStudent {
 		assert this.student != null : "Student is null: DAOStudent.logIn()";
 		assert this.student.getEmail() != null : "Student.getEmail is null: DAOStudent.logIn()";
 		assert this.isActive() : "Student is inactive: DAOStudent.logIn()";
+		
 		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL " +
 			"FROM MiembroFEI INNER JOIN Practicante " +
 			"ON MiembroFEI.idMiembro = Practicante.idMiembro " +
 			"WHERE correoElectronico = ? AND contrasena = ? AND estaActivo = 1";
-		String[] values = {this.student.getEmail(),
-			this.student.getPassword()};
+		String[] values = {this.student.getEmail(), this.student.getPassword()};
 		String[] names = {"TOTAL"};
 		String[][] results = this.connection.select(query, values, names);
 		return results != null && results[0][0].equals("1");
@@ -89,9 +97,10 @@ public class DAOStudent implements IDAOStudent {
 	
 	@Override
 	public boolean signUp() {
+		boolean signedUp = false;
 		assert this.student != null : "Student is null: DAOStudent.signUp()";
 		assert this.student.isComplete() : "Student is incomplete: DAOStudent.signUp()";
-		boolean signedUp = false;
+		
 		if (!this.isRegistered()) {
 			String query = "INSERT INTO MiembroFEI (nombres, apellidos, correoElectronico, " +
 				"contrasena, estaActivo) VALUES (?, ?, ?, ?, 1)";
@@ -117,6 +126,7 @@ public class DAOStudent implements IDAOStudent {
 	public boolean isRegistered() {
 		assert this.student != null : "Student is null: DAOStudent.isRegistered()";
 		assert this.student.getEmail() != null : "Students email is null: DAOStudent.isRegistered()";
+		
 		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL FROM MiembroFEI " +
 			"WHERE correoElectronico = ?";
 		String[] values = {this.student.getEmail()};
@@ -128,6 +138,7 @@ public class DAOStudent implements IDAOStudent {
 	public boolean isActive() {
 		assert this.student != null : "Student is null: DAOStudent.isActive()";
 		assert this.student.getEmail() != null : "Student.getEmail() is null: DAOStudent.isActive()";
+		
 		String query = "SELECT estaActivo FROM MiembroFEI WHERE correoElectronico = ?";
 		String[] values = {this.student.getEmail()};
 		String[] names = {"estaActivo"};
@@ -169,6 +180,7 @@ public class DAOStudent implements IDAOStudent {
 	public static Student get(Student student) {
 		assert student != null : "Student is null: DAOStudent.get()";
 		assert new DAOStudent(student).isRegistered() : "Student not registered: DAOStudent.get()";
+		
 		DBConnection connection = new DBConnection();
 		Student returnStudent;
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, " +
@@ -198,8 +210,9 @@ public class DAOStudent implements IDAOStudent {
 			"WHERE idMiembro = (SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
 		String[] values = {this.student.getEmail()};
 		String[] names = {"TOTAL"};
+		String[][] projects = this.connection.select(query, values, names);
+		int selectedProjects = projects != null ? Integer.parseInt(projects[0][0]) : 0;
 		
-		int selectedProjects = Integer.parseInt(this.connection.select(query, values, names)[0][0]);
 		if (selectedProjects < 3) {
 			query = "SELECT COUNT(idMiembro) AS TOTAL FROM Solicitud " +
 				"WHERE idMiembro = ? AND idProyecto = " +
@@ -222,6 +235,7 @@ public class DAOStudent implements IDAOStudent {
 		assert this.student != null : "Student is null: DAOStudent.getProjects()";
 		assert this.student.isComplete() : "Student is incomplete: DAOStudent.getProjects()";
 		assert this.isActive() : "Student is inactive: DAOStudent.getProjects()";
+		
 		String query = "SELECT nombre FROM Proyecto INNER JOIN Solicitud ON " +
 			"Proyecto.idProyecto = Solicitud.idProyecto WHERE Solicitud.idMiembro = " +
 			"? AND Proyecto.estaActivo = 1";
@@ -229,11 +243,10 @@ public class DAOStudent implements IDAOStudent {
 		String[] names = {"nombre"};
 		String[][] results = this.connection.select(query, values, names);
 		
-		if (results.length > 0) {
-			DAOProject daoProject = new DAOProject();
+		if (results != null && results.length > 0) {
 			proyectos = new Project[results.length];
 			for (int i = 0; i < results.length; i++) {
-				proyectos[i] = daoProject.loadProject(results[i][0]);
+				proyectos[i] = new DAOProject().loadProject(results[i][0]);
 			}
 		}
 		return proyectos;
@@ -249,19 +262,18 @@ public class DAOStudent implements IDAOStudent {
 		assert projectName != null : "ProjectName is null: DAOStudent.deleteSelectedProject()";
 		assert daoProject.isRegistered() :
 			"Project is not registered: DAOStudent.deleteSelectedProject()";
+		
 		boolean isSelected = false;
 		for (Project project: this.getProjects()) {
 			if (project != null && project.getName().equals(projectName)) {
-				isSelected = true;
+				String query = "DELETE FROM Solicitud WHERE idMiembro = " +
+					"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?) " +
+					"AND idProyecto = " +
+					"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1)";
+				String[] values = {this.student.getEmail(), projectName};
+				deleted = this.connection.sendQuery(query, values);
 				break;
 			}
-		}
-		if (isSelected) {
-			String query = "DELETE FROM Solicitud WHERE idMiembro = " +
-				"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?) AND idProyecto = " +
-				"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1)";
-			String[] values = {this.student.getEmail(), projectName};
-			deleted = this.connection.sendQuery(query, values);
 		}
 		return deleted;
 	}
@@ -274,6 +286,7 @@ public class DAOStudent implements IDAOStudent {
 		assert filePath != null : "FilePath is null: DAOStudent.addReport()";
 		assert title != null : "Title is null: DAOStudent.addReport()";
 		assert File.exists(filePath) : "File does not exists: DAOStudent.addReport()";
+		
 		try {
 			java.io.File file = new java.io.File(filePath);
 			FileInputStream fis = new FileInputStream(file);
@@ -295,7 +308,7 @@ public class DAOStudent implements IDAOStudent {
 			this.connection.closeConnection();
 			saved = true;
 		} catch (FileNotFoundException | SQLException e) {
-			new Logger().log(e);
+			Logger.staticLog(e, true);
 			throw new CustomException(e.getMessage());
 		}
 		return saved;
