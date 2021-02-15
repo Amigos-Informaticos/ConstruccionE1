@@ -45,14 +45,14 @@ public class ManageOrganizationsController implements Initializable {
 	
 	ObservableList<Organization> listOrganization;
 	ObservableList<String> listSector;
-	
+
 	private Organization organization;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		listOrganization = FXCollections.observableArrayList();
+		listSector = FXCollections.observableArrayList();
 		try{
-			listSector = FXCollections.observableArrayList();
 			new Organization().fillSector(listSector);
 			cmbSector.setItems(listSector);
 			fillTable();
