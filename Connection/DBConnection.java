@@ -15,7 +15,6 @@ public class DBConnection {
 	private String user = null;
 	private String password = null;
 	private Connection connection;
-	private final Logger logger = new Logger();
 	
 	public DBConnection() {
 		Configuration.loadConnection(this);
@@ -91,7 +90,7 @@ public class DBConnection {
 				this.connection = DriverManager.getConnection(this.url, this.user, this.password);
 				isOpen = true;
 			} catch (ClassNotFoundException | SQLException e) {
-				this.logger.log(e);
+				Logger.staticLog(e, true);
 			}
 		}
 		return isOpen;
@@ -103,7 +102,7 @@ public class DBConnection {
 				this.connection.close();
 			}
 		} catch (SQLException e) {
-			this.logger.log(e);
+			Logger.staticLog(e, true);
 		}
 	}
 	
@@ -120,7 +119,7 @@ public class DBConnection {
 			queryExecuted = statement.executeUpdate() > 0;
 			this.closeConnection();
 		} catch (SQLException e) {
-			this.logger.log(e);
+			Logger.staticLog(e, true);
 		}
 		return queryExecuted;
 	}
@@ -151,7 +150,7 @@ public class DBConnection {
 				}
 			}
 		} catch (SQLException e) {
-			this.logger.log(e);
+			Logger.staticLog(e, true);
 		}
 		return responses.length > 0 ? responses : null;
 	}

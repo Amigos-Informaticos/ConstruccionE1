@@ -18,12 +18,14 @@ public class DAOAdmin {
 			"WHERE correoElectronico = ? AND contrasena = ?";
 		String[] values = {this.admin.getEmail(), this.admin.getPassword()};
 		String[] responses = {"TOTAL"};
-		return this.connection.select(query, values, responses)[0][0].equals("1");
+		String[][] results = this.connection.select(query, values, responses);
+		return results != null && results[0][0].equals("1");
 	}
 	
 	public boolean login() {
 		assert this.admin != null : "Admin is null: DAOAdmin.login()";
 		assert this.admin.isComplete() : "Admin is incomplete";
+		
 		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL " +
 			"FROM MiembroFEI INNER JOIN Administrador " +
 			"ON MiembroFEI.idMiembro = Administrador.idMiembro " +

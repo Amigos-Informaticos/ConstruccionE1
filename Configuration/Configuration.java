@@ -16,10 +16,6 @@ public class Configuration {
 		return new File("src/Configuration/defaultConnection.config");
 	}
 	
-	public static boolean saveConnection(DBConnection connection) {
-		return saveToFile(connection, getConnectionConfigFile().getStringPath());
-	}
-	
 	public static boolean saveToFile(DBConnection connection, String path) {
 		boolean isSaved = false;
 		if (connection != null && connection.isReady() && path != null) {

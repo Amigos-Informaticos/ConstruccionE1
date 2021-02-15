@@ -201,7 +201,7 @@ public class Project {
 	
 	public boolean reactive() {
 		DAOProject daoProject = new DAOProject(this);
-		return daoProject.reactive();
+		return daoProject.reactivate();
 	}
 	
 	public boolean haveStudents() {

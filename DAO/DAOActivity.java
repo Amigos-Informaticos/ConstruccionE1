@@ -35,19 +35,20 @@ public class DAOActivity implements IDAOActivity {
 	public boolean update() {
 		assert this.activity.getStartDate() != null : "key startDate null on update()";
 		String query = "UPDATE Actividad SET titulo = ?, descripcion = ? WHERE fechaCreacion = ?";
-		String[] values = { this.activity.getTitle(),
+		String[] values = {
+			this.activity.getTitle(),
 			this.activity.getDescription(),
-			this.activity.getStartDate() };
+			this.activity.getStartDate()
+		};
 		return this.connection.sendQuery(query, values);
 	}
-	
 	
 	@Override
 	public boolean delete() {
 		assert this.activity != null : "Activity null on delete()";
 		assert this.isRegistered() : "Activity not registered on delete()";
 		String query = "DELETE FROM Actividad WHERE Actividad.idActividad = ?";
-		String[] values = { this.getIdActivity() };
+		String[] values = {this.getIdActivity()};
 		return this.connection.sendQuery(query, values);
 	}
 	
@@ -55,23 +56,26 @@ public class DAOActivity implements IDAOActivity {
 		assert this.activity != null : "Activity null on isRegistered()";
 		String query = "SELECT COUNT(idActividad) AS TOTAL FROM Actividad " +
 			"WHERE titulo = ? AND descripcion = ?";
-		String[] values = { this.activity.getTitle(), this.activity.getDescription() };
-		String[] names = { "TOTAL" };
-		return this.connection.select(query, values, names)[0][0].equals("1");
+		String[] values = {this.activity.getTitle(), this.activity.getDescription()};
+		String[] names = {"TOTAL"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null && results[0][0].equals("1");
 	}
 	
 	public String getIdActivity() {
 		assert this.isRegistered() : "Activity is not registered on getIdActivity()";
 		String query = "SELECT idActividad FROM Actividad WHERE titulo = ? AND descripcion = ?";
-		String[] values = { this.activity.getTitle(), this.activity.getDescription() };
-		String[] names = { "idActividad" };
-		return this.connection.select(query, values, names)[0][0];
+		String[] values = {this.activity.getTitle(), this.activity.getDescription()};
+		String[] names = {"idActividad"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null ? results[0][0] : "";
 	}
 	
 	public String getStartDate() {
 		String query = "SELECT fechaCreacion FROM Actividad WHERE titulo = ?";
-		String[] values = { this.activity.getTitle() };
-		String[] names = { "fechaInicio" };
-		return this.connection.select(query, values, names)[0][0];
+		String[] values = {this.activity.getTitle()};
+		String[] names = {"fechaInicio"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null ? results[0][0] : "";
 	}
 }
