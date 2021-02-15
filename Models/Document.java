@@ -1,16 +1,7 @@
 package Models;
 
 import DAO.DAODocument;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.property.TextAlignment;
 import tools.File;
-
-import java.io.FileNotFoundException;
-import java.time.LocalDate;
-import java.time.format.TextStyle;
-import java.util.Locale;
 
 public class Document {
 	private String title;
@@ -77,7 +68,7 @@ public class Document {
 		return new DAODocument(this).downloadFile();
 	}
 	
-	public boolean generateAssignmentDocument(Assignment assignment) throws FileNotFoundException {
+	/*public boolean generateAssignmentDocument(Assignment assignment) throws FileNotFoundException {
 		assert assignment != null : "Assignment is null: Document.generateAssignmentDocument()";
 		assert assignment.isComplete() :
 			"Assignment is incomplete: Document.generateAssignmentDocument()";
@@ -158,5 +149,5 @@ public class Document {
 		document.flush();
 		document.close();
 		return true;
-	}
+	}*/
 }

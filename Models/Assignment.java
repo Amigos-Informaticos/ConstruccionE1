@@ -67,7 +67,8 @@ public class Assignment {
 		document.setAuthor(this.coordinator);
 		document.setFile(new File("asignacion.pdf"));
 		document.setType("DocumentoAsignacion");
-		boolean generated = document.generateAssignmentDocument(this);
+		//boolean generated = document.generateAssignmentDocument(this);
+		boolean generated = true;
 		document.save();
 		boolean assigned = new DAOAssignment(this).assignProject(document);
 		P.pln(generated);

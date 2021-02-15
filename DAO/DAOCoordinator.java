@@ -23,14 +23,14 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 			"INSERT INTO MiembroFEI (nombres, apellidos, correoElectronico, contrasena, estaActivo)" +
 				"VALUES (?, ?, ?, ?, ?)";
 		String[] values =
-			{ this.coordinator.getNames(),
+			{this.coordinator.getNames(),
 				this.coordinator.getLastnames(),
 				this.coordinator.getEmail(),
-				this.coordinator.getPassword(), "1" };
+				this.coordinator.getPassword(), "1"};
 		if (this.connection.sendQuery(query, values)) {
 			query = "INSERT INTO Coordinador (idMiembro, noPersonal, fechaRegistro, turno, registrador) VALUES " +
 				"((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?),?,(SELECT CURRENT_DATE), ?,?)";
-			values = new String[]{ this.coordinator.getEmail(), this.coordinator.getPersonalNo(), "1", "16" };
+			values = new String[] {this.coordinator.getEmail(), this.coordinator.getPersonalNo(), "1", "16"};
 			signedUp = this.connection.sendQuery(query, values);
 		}
 		return signedUp;
@@ -42,11 +42,11 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 		assert this.isActive() : "Coordinator has not a status active on the system";
 		boolean updated = false;
 		String query = "UPDATE MiembroFEI SET nombres = ?, apellidos = ? WHERE correoElectronico = ?";
-		String[] values = { this.coordinator.getNames(), this.coordinator.getLastnames(),
-			this.coordinator.getEmail() };
+		String[] values = {this.coordinator.getNames(), this.coordinator.getLastnames(),
+			this.coordinator.getEmail()};
 		if (this.connection.sendQuery(query, values)) {
 			query = "UPDATE Coordinador SET noPersonal = ? WHERE idMiembro = ?";
-			values = new String[]{ this.coordinator.getPersonalNo(), this.getIdCoordinator() };
+			values = new String[] {this.coordinator.getPersonalNo(), this.getIdCoordinator()};
 			if (this.connection.sendQuery(query, values)) {
 				updated = true;
 			}
@@ -61,9 +61,10 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL FROM MiembroFEI " +
 			"INNER JOIN Coordinador ON MiembroFEI.idMiembro = Coordinador.idMiembro " +
 			"WHERE correoElectronico = ?";
-		String[] values = { this.coordinator.getEmail() };
-		String[] names = { "TOTAL" };
-		return this.connection.select(query, values, names)[0][0].equals("1");
+		String[] values = {this.coordinator.getEmail()};
+		String[] names = {"TOTAL"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null && results[0][0].equals("1");
 	}
 	
 	@Override
@@ -73,9 +74,10 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 			"FROM Coordinador INNER JOIN MiembroFEI " +
 			"ON Coordinador.idMiembro = MiembroFEI.idMiembro " +
 			"WHERE correoElectronico = ? AND contrasena = ? AND estaActivo = 1";
-		String[] values = { this.coordinator.getEmail(), this.coordinator.getPassword() };
-		String[] names = { "TOTAL" };
-		return this.connection.select(query, values, names)[0][0].equals("1");
+		String[] values = {this.coordinator.getEmail(), this.coordinator.getPassword()};
+		String[] names = {"TOTAL"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null && results[0][0].equals("1");
 	}
 	
 	@Override
@@ -84,7 +86,7 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 		assert this.isRegistered() : "Coordinator is not registered: DAOCoordinator.delete()";
 		assert this.isActive() : "Coordinator is not active: DAOCoordinator.delete()";
 		String query = "UPDATE MiembroFEI SET estaActivo = 0 WHERE correoElectronico = ?";
-		String[] values = { this.coordinator.getEmail() };
+		String[] values = {this.coordinator.getEmail()};
 		return this.connection.sendQuery(query, values);
 	}
 	
@@ -94,9 +96,10 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 			"Coordinator email is null: DAOCoordinator.isActive()";
 		assert this.isRegistered() : "Coordinator is not registered: DAOCoordinator.isActive()";
 		String query = "SELECT estaActivo FROM MiembroFEI WHERE correoElectronico = ?";
-		String[] values = { this.coordinator.getEmail() };
-		String[] names = { "estaActivo" };
-		return this.connection.select(query, values, names)[0][0].equals("1");
+		String[] values = {this.coordinator.getEmail()};
+		String[] names = {"estaActivo"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null && results[0][0].equals("1");
 	}
 	
 	@Override
@@ -105,16 +108,16 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 		assert this.isRegistered() : "Coordinator is not registered: DAOCoordinator.reactive()";
 		assert this.isActive() : "Coordinator is not active: DAOCoordinator.reactive()";
 		String query = "UPDATE MiembroFEI SET estaActivo = 1 WHERE correoElectronico = ?";
-		String[] values = { this.coordinator.getEmail() };
+		String[] values = {this.coordinator.getEmail()};
 		return this.connection.sendQuery(query, values);
 	}
 	
 	public boolean isAnother() {
 		String query = "SELECT COUNT (Coordinador.idMiembro) AS TOTAL FROM Coordinador " +
 			"INNER JOIN MiembroFEI ON Coordinador.idMiembro = MiembroFEI.idMiembro WHERE MiembroFEI.estaActivo = 1";
-		String[] names = { "TOTAL" };
+		String[] names = {"TOTAL"};
 		String[][] resultQuery = this.connection.select(query, null, names);
-		return Integer.parseInt(resultQuery[0][0]) > 0;
+		return resultQuery != null && Integer.parseInt(resultQuery[0][0]) > 0;
 	}
 	
 	@Override
@@ -126,8 +129,9 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 			"INNER JOIN Coordinador ON Turno.idTurno = Coordinador.turno " +
 			"INNER JOIN MiembroFEI ON Coordinador.idMiembro = MiembroFEI.idMiembro " +
 			"WHERE MiembroFEI.correoElectronico = ?";
-		String[] values = { this.coordinator.getEmail() };
-		String[] responses = { "turno" };
+		String[] values = {this.coordinator.getEmail()};
+		String[] responses = {"turno"};
+//		String
 		return this.connection.select(query, values, responses)[0][0];
 	}
 	
@@ -136,7 +140,7 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena noPersonal, fechaRegistro, Turno.turno FROM " +
 			"MiembroFEI INNER JOIN Coordinador ON MiembroFEI.idMiembro = Coordinador.idMiembro INNER JOIN Turno ON " +
 			"Turno.idTurno = Coordinador.turno WHERE estaActivo = 1";
-		String[] names = { "nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "fechaRegistro", "turno" };
+		String[] names = {"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "fechaRegistro", "turno"};
 		String[][] responses = new DBConnection().select(query, null, names);
 		if (responses.length > 0) {
 			coordinator.setNames(responses[0][0]);
@@ -155,8 +159,8 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 			"SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, estaActivo, fechaRegistro, fechaBaja FROM " +
 				"MiembroFEI INNER JOIN Coordinador ON MiembroFEI.idMiembro = Coordinador.idMiembro WHERE estaActivo=1";
 		String[] names =
-			{ "nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "estaActivo", "fechaRegistro",
-				"fechaBaja" };
+			{"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "estaActivo", "fechaRegistro",
+				"fechaBaja"};
 		String[][] responses = new DBConnection().select(query, null, names);
 		Coordinator[] coordinators = new Coordinator[responses.length];
 		for (int i = 0; i < responses.length; i++) {
@@ -175,15 +179,16 @@ public class DAOCoordinator implements IDAOCoordinator, Shift {
 	
 	private String getIdCoordinator() {
 		String query = "SELECT idMiembro AS idCoordinator FROM MiembroFEI WHERE correoElectronico = ?";
-		String[] values = { this.coordinator.getEmail() };
-		String[] names = { "idCoordinator" };
+		String[] values = {this.coordinator.getEmail()};
+		String[] names = {"idCoordinator"};
 		return this.connection.select(query, values, names)[0][0];
 	}
 	
 	public String getIdShift() {
 		String query = "SELECT Turno.idTurno AS Turno FROM Turno WHERE turno = ?";
-		String[] values = { this.coordinator.getShift() };
-		String[] names = { "Turno" };
-		return this.connection.select(query, values, names)[0][0];
+		String[] values = {this.coordinator.getShift()};
+		String[] names = {"Turno"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null ? results[0][0] : "";
 	}
 }

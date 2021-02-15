@@ -153,6 +153,6 @@ public class DBConnection {
 		} catch (SQLException e) {
 			this.logger.log(e);
 		}
-		return responses;
+		return responses.length > 0 ? responses : null;
 	}
 }
