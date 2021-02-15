@@ -39,7 +39,7 @@ public class Logger {
 	
 	public void init() {
 		if (this.log == null) {
-			this.log = new File("log.txt");
+			this.log = new File("log");
 		}
 	}
 	

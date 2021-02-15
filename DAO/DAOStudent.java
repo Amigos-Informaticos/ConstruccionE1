@@ -35,8 +35,8 @@ public class DAOStudent implements IDAOStudent {
 		assert this.student.getEmail() != null : "This Student email is null: DAOStudent.getId()";
 		assert this.isRegistered() : "Student isnt registered: DAOStudent.getId()";
 		String query = "SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?";
-		String[] values = { this.student.getEmail() };
-		String[] names = { "idMiembro" };
+		String[] values = {this.student.getEmail()};
+		String[] names = {"idMiembro"};
 		return new DBConnection().select(query, values, names)[0][0];
 	}
 	
@@ -46,13 +46,13 @@ public class DAOStudent implements IDAOStudent {
 		assert this.isRegistered() : "This Student isnt registered: DAOStudent.update()";
 		String query = "UPDATE MiembroFEI SET nombres = ?, apellidos = ?, correoElectronico = ?, "
 			+ "contrasena = ? WHERE correoElectronico = ?";
-		String[] values = { this.student.getNames(), this.student.getLastnames(),
+		String[] values = {this.student.getNames(), this.student.getLastnames(),
 			this.student.getEmail(), this.student.getPassword(),
-			this.student.getEmail() };
+			this.student.getEmail()};
 		if (this.connection.sendQuery(query, values)) {
 			query = "UPDATE Practicante SET matricula = ? WHERE idMiembro = " +
 				"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
-			values = new String[]{ this.student.getRegNumber(), this.student.getEmail() };
+			values = new String[] {this.student.getRegNumber(), this.student.getEmail()};
 			updated = this.connection.sendQuery(query, values);
 		}
 		return updated;
@@ -65,7 +65,7 @@ public class DAOStudent implements IDAOStudent {
 		assert this.isRegistered() : "Student is not registered: DAOStudent.delete()";
 		if (this.isActive()) {
 			String query = "UPDATE MiembroFEI SET estaActivo = 0 WHERE correoElectronico = ?";
-			String[] values = { this.student.getEmail() };
+			String[] values = {this.student.getEmail()};
 			deleted = this.connection.sendQuery(query, values);
 		}
 		return deleted;
@@ -80,10 +80,11 @@ public class DAOStudent implements IDAOStudent {
 			"FROM MiembroFEI INNER JOIN Practicante " +
 			"ON MiembroFEI.idMiembro = Practicante.idMiembro " +
 			"WHERE correoElectronico = ? AND contrasena = ? AND estaActivo = 1";
-		String[] values = { this.student.getEmail(),
-			this.student.getPassword() };
-		String[] names = { "TOTAL" };
-		return this.connection.select(query, values, names)[0][0].equals("1");
+		String[] values = {this.student.getEmail(),
+			this.student.getPassword()};
+		String[] names = {"TOTAL"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null && results[0][0].equals("1");
 	}
 	
 	@Override
@@ -94,12 +95,12 @@ public class DAOStudent implements IDAOStudent {
 		if (!this.isRegistered()) {
 			String query = "INSERT INTO MiembroFEI (nombres, apellidos, correoElectronico, " +
 				"contrasena, estaActivo) VALUES (?, ?, ?, ?, 1)";
-			String[] values = { this.student.getNames(), this.student.getLastnames(),
-				this.student.getEmail(), this.student.getPassword() };
+			String[] values = {this.student.getNames(), this.student.getLastnames(),
+				this.student.getEmail(), this.student.getPassword()};
 			if (this.connection.sendQuery(query, values)) {
 				query = "INSERT INTO Practicante (idMiembro, matricula, profesorCalificador) " +
 					"VALUES (?, ?, ?)";
-				values = new String[]{
+				values = new String[] {
 					this.getId(),
 					this.student.getRegNumber(),
 					DAOProfessor.getId(this.student.getProfessor().getEmail())
@@ -118,18 +119,20 @@ public class DAOStudent implements IDAOStudent {
 		assert this.student.getEmail() != null : "Students email is null: DAOStudent.isRegistered()";
 		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL FROM MiembroFEI " +
 			"WHERE correoElectronico = ?";
-		String[] values = { this.student.getEmail() };
-		String[] names = { "TOTAL" };
-		return this.connection.select(query, values, names)[0][0].equals("1");
+		String[] values = {this.student.getEmail()};
+		String[] names = {"TOTAL"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null && results[0][0].equals("1");
 	}
 	
 	public boolean isActive() {
 		assert this.student != null : "Student is null: DAOStudent.isActive()";
 		assert this.student.getEmail() != null : "Student.getEmail() is null: DAOStudent.isActive()";
 		String query = "SELECT estaActivo FROM MiembroFEI WHERE correoElectronico = ?";
-		String[] values = { this.student.getEmail() };
-		String[] names = { "estaActivo" };
-		return this.connection.select(query, values, names)[0][0].equals("1");
+		String[] values = {this.student.getEmail()};
+		String[] names = {"estaActivo"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null && results[0][0].equals("1");
 	}
 	
 	public static Student[] getAll() {
@@ -138,7 +141,7 @@ public class DAOStudent implements IDAOStudent {
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
 			"FROM MiembroFEI INNER JOIN Practicante " +
 			"ON MiembroFEI.idMiembro = Practicante.idMiembro WHERE MiembroFEI.estaActivo = 1";
-		String[] names = { "nombres", "apellidos", "correoElectronico", "contrasena", "matricula" };
+		String[] names = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
 		String[][] results = connection.select(query, null, names);
 		students = new Student[results.length];
 		for (int i = 0; i < results.length; i++) {
@@ -153,7 +156,7 @@ public class DAOStudent implements IDAOStudent {
 		DBConnection connection = new DBConnection();
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
 			"FROM MiembroFEI INNER JOIN ProfesorPracticante WHERE MiembroFEI.estaActivo = 1";
-		String[] names = { "nombres", "apellidos", "correoElectronico", "contrasena", "matricula" };
+		String[] names = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
 		String[][] results = connection.select(query, null, names);
 		students = new Student[results.length];
 		for (int i = 0; i < results.length; i++) {
@@ -172,8 +175,8 @@ public class DAOStudent implements IDAOStudent {
 			"matricula FROM MiembroFEI INNER JOIN Practicante " +
 			"ON MiembroFEI.idMiembro = Practicante.idMiembro " +
 			"WHERE MiembroFEI.correoElectronico = ?";
-		String[] values = { student.getEmail() };
-		String[] names = { "nombres", "apellidos", "correoElectronico", "contrasena", "matricula" };
+		String[] values = {student.getEmail()};
+		String[] names = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
 		String[] results = connection.select(query, values, names)[0];
 		returnStudent = new Student(results[0], results[1], results[2], results[3], results[4]);
 		return returnStudent;
@@ -193,21 +196,21 @@ public class DAOStudent implements IDAOStudent {
 		
 		String query = "SELECT COUNT(idMiembro) AS TOTAL FROM Solicitud " +
 			"WHERE idMiembro = (SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
-		String[] values = { this.student.getEmail() };
-		String[] names = { "TOTAL" };
+		String[] values = {this.student.getEmail()};
+		String[] names = {"TOTAL"};
 		
 		int selectedProjects = Integer.parseInt(this.connection.select(query, values, names)[0][0]);
 		if (selectedProjects < 3) {
 			query = "SELECT COUNT(idMiembro) AS TOTAL FROM Solicitud " +
 				"WHERE idMiembro = ? AND idProyecto = " +
 				"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1)";
-			values = new String[]{ this.getId(), project.getName() };
-			names = new String[]{ "TOTAL" };
+			values = new String[] {this.getId(), project.getName()};
+			names = new String[] {"TOTAL"};
 			if (this.connection.select(query, values, names)[0][0].equals("0")) {
 				query = "INSERT INTO Solicitud (idProyecto, idMiembro) VALUES " +
 					"((SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1), " +
 					"(SELECT MiembroFEI.idMiembro FROM MiembroFEI WHERE correoElectronico = ?))";
-				values = new String[]{ project.getName(), this.student.getEmail() };
+				values = new String[] {project.getName(), this.student.getEmail()};
 				selected = this.connection.sendQuery(query, values);
 			}
 		}
@@ -222,8 +225,8 @@ public class DAOStudent implements IDAOStudent {
 		String query = "SELECT nombre FROM Proyecto INNER JOIN Solicitud ON " +
 			"Proyecto.idProyecto = Solicitud.idProyecto WHERE Solicitud.idMiembro = " +
 			"? AND Proyecto.estaActivo = 1";
-		String[] values = { this.getId() };
-		String[] names = { "nombre" };
+		String[] values = {this.getId()};
+		String[] names = {"nombre"};
 		String[][] results = this.connection.select(query, values, names);
 		
 		if (results.length > 0) {
@@ -257,7 +260,7 @@ public class DAOStudent implements IDAOStudent {
 			String query = "DELETE FROM Solicitud WHERE idMiembro = " +
 				"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?) AND idProyecto = " +
 				"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1)";
-			String[] values = { this.student.getEmail(), projectName };
+			String[] values = {this.student.getEmail(), projectName};
 			deleted = this.connection.sendQuery(query, values);
 		}
 		return deleted;
@@ -306,7 +309,7 @@ public class DAOStudent implements IDAOStudent {
 		assert title != null : "Title is null: DAOStudent.deleteReport()";
 		
 		String query = "DELETE FROM Documento WHERE titulo = ? AND autor = ?";
-		String[] values = { title, this.getId() };
+		String[] values = {title, this.getId()};
 		return this.connection.sendQuery(query, values);
 	}
 	
@@ -319,15 +322,15 @@ public class DAOStudent implements IDAOStudent {
 		boolean set;
 		String query =
 			"SELECT COUNT(idPracticante) AS TOTAL FROM Asignacion WHERE idPracticante = ?";
-		String[] values = { this.getId() };
-		String[] names = { "TOTAL" };
+		String[] values = {this.getId()};
+		String[] names = {"TOTAL"};
 		if (this.connection.select(query, values, names)[0][0].equals("0")) {
 			query = "INSERT INTO Asignacion (idPracticante, idProyecto) " +
 				"VALUES (?, (SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1))";
-			values = new String[]{ this.getId(), projectName };
+			values = new String[] {this.getId(), projectName};
 			set = this.connection.sendQuery(query, values);
 		} else {
-			throw new CustomException("Already setted project: setProject()", "ProjectAlreadySet");
+			throw new CustomException("Already set project: setProject()", "ProjectAlreadySet");
 		}
 		return set;
 	}
@@ -340,8 +343,8 @@ public class DAOStudent implements IDAOStudent {
 		assert this.isActive() : "Student is not active: DAOStudent.deleteProject()";
 		String query =
 			"SELECT COUNT(idPracticante) AS TOTAL FROM Asignacion WHERE idPracticante = ?";
-		String[] values = { this.getId() };
-		String[] names = { "TOTAL" };
+		String[] values = {this.getId()};
+		String[] names = {"TOTAL"};
 		if (this.connection.select(query, values, names)[0][0].equals("1")) {
 			query = "DELETE FROM Asignacion WHERE idPracticante = ?";
 			deleted = this.connection.sendQuery(query, values);
@@ -356,13 +359,13 @@ public class DAOStudent implements IDAOStudent {
 		assert this.isActive() : "Student is inactive: DAOStudent.getProject()";
 		String query =
 			"SELECT COUNT(idPracticante) AS TOTAL FROM Asignacion WHERE idPracticante = ?";
-		String[] values = { this.getId() };
-		String[] responses = { "TOTAL" };
+		String[] values = {this.getId()};
+		String[] responses = {"TOTAL"};
 		if (this.connection.select(query, values, responses)[0][0].equals("1")) {
 			query = "SELECT Proyecto.nombre FROM Proyecto INNER JOIN Asignacion " +
 				"ON Proyecto.idProyecto = Asignacion.idProyecto " +
 				"WHERE Asignacion.idPracticante = ?;";
-			responses = new String[]{ "Proyecto.nombre" };
+			responses = new String[] {"Proyecto.nombre"};
 			DAOProject daoProject = new DAOProject();
 			project = daoProject.loadProject(
 				this.connection.select(query, values, responses)[0][0]);
@@ -377,7 +380,7 @@ public class DAOStudent implements IDAOStudent {
 		assert this.isRegistered() : "Student is not registered: DAOStudent.reactive()";
 		if (!this.isActive()) {
 			String query = "UPDATE MiembroFEI SET estaActivo = 1 WHERE correoElectronico = ?";
-			String[] values = { this.student.getEmail() };
+			String[] values = {this.student.getEmail()};
 			reactivated = this.connection.sendQuery(query, values);
 		}
 		return reactivated;
@@ -392,8 +395,8 @@ public class DAOStudent implements IDAOStudent {
 		assert activityName != null : "Activity name is null: DAOStudent.replyActivity()";
 		String query = "SELECT COUNT(idActividad) AS TOTAL FROM Actividad " +
 			"WHERE titulo = ? AND idPracticante = ?";
-		String[] values = { activityName, this.getId() };
-		String[] names = { "TOTAL" };
+		String[] values = {activityName, this.getId()};
+		String[] names = {"TOTAL"};
 		if (this.connection.select(query, values, names)[0][0].equals("1")) {
 			try {
 				java.io.File file = new java.io.File(documentPath);
@@ -422,7 +425,7 @@ public class DAOStudent implements IDAOStudent {
 		assert activityName != null : "Activity name is null: DAOStudent.deleteReply()";
 		String query = "UPDATE Actividad SET documento = null, fechaEntrega = null " +
 			"WHERE idPracticante = ? AND titulo = ?";
-		String[] values = { this.getId(), activityName };
+		String[] values = {this.getId(), activityName};
 		return this.connection.sendQuery(query, values);
 	}
 	
@@ -433,8 +436,8 @@ public class DAOStudent implements IDAOStudent {
 		if (this.getProject() != null) {
 			String query = "SELECT COUNT(idDocumento) AS TOTAL FROM Documento " +
 				"WHERE tipo = 'PlanActividades' AND autor = ?";
-			String[] values = { this.getId() };
-			String[] columns = { "TOTAL" };
+			String[] values = {this.getId()};
+			String[] columns = {"TOTAL"};
 			hasPlan = this.connection.select(query, values, columns)[0][0].equals("1");
 		}
 		return hasPlan;
@@ -446,7 +449,7 @@ public class DAOStudent implements IDAOStudent {
 			"FROM MiembroFEI INNER JOIN Practicante " +
 			"ON MiembroFEI.idMiembro = Practicante.idMiembro " +
 			"WHERE estaActivo = 1";
-		String[] names = { "nombres", "apellidos", "correoElectronico", "contrasena", "matricula" };
+		String[] names = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
 		String[][] select = this.connection.select(query, null, names);
 		int row = 0;
 		while (row < select.length) {
