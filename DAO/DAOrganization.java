@@ -156,6 +156,7 @@ public class DAOrganization implements IDAOrganization {
 			listOrganization.add(name[0]);
 			filled = true;
 		}
+		System.out.println("ejecutado");
 		return filled;
 	}
 	
@@ -175,7 +176,8 @@ public class DAOrganization implements IDAOrganization {
 			"SELECT nombre, calle, numero, colonia, localidad, telefono, sector " +
 				"FROM Organizacion O INNER  JOIN Sector S on O.idSector = S.idSector " +
 				"LEFT OUTER JOIN  Direccion D on O.idOrganizacion = D.idOrganizacion " +
-				"LEFT OUTER JOIN TelefonoOrganizacion T on O.idOrganizacion = T.idOrganizacion;";
+				"LEFT OUTER JOIN TelefonoOrganizacion T on O.idOrganizacion = T.idOrganizacion " +
+					"WHERE estaActivo = 1;";
 		String[] names = {
 			"nombre",
 			"calle",
