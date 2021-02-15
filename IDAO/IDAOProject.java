@@ -14,6 +14,6 @@ public interface IDAOProject {
     
     boolean isActive();
     
-    boolean reactive();
+    boolean reactivate();
 
 }

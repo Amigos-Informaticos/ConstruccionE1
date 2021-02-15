@@ -18,6 +18,7 @@ public class DAOProjectResponsible {
 			"Responsible is not complete: DAOProjectResponsible.signUp()";
 		assert this.projectResponsible.getOrganization().isComplete() :
 			"Responsible organization is not complete: DAOProjectResponsible.signUp()";
+		
 		String query = "INSERT INTO Responsable " +
 			"(correoElectronico, nombres, apellidos, estaActivo, organizacion, cargo) " +
 			"VALUES (?, ?, ?, 1, ?, ?)";
@@ -34,19 +35,18 @@ public class DAOProjectResponsible {
 	public boolean isRegistered() {
 		String query = "SELECT COUNT (correoElectronico) AS TOTAL FROM Responsable " +
 			"WHERE correoElectronico = ?";
-		String[] values = { this.projectResponsible.getEmail() };
-		String[] names = { "TOTAL" };
-		return this.connection.select(query, values, names)[0][0].equals("1");
+		String[] values = {this.projectResponsible.getEmail()};
+		String[] names = {"TOTAL"};
+		String[][] results = this.connection.select(query, values, names);
+		return results != null && results[0][0].equals("1");
 	}
 	
 	public boolean delete() {
 		boolean deleted = false;
 		if (this.projectResponsible != null && this.isRegistered()) {
-			String query = "UPDATE Responsable SET estaActivo = 0 WHERE correoElectronico = ?";
-			String[] values = { this.projectResponsible.getEmail() };
-			if (this.connection.sendQuery(query, values)) {
-				deleted = true;
-			}
+			String query = "UPDATE Responsable SET estaActivo = WHERE correoElectronico = ?";
+			String[] values = {this.projectResponsible.getEmail()};
+			deleted = this.connection.sendQuery(query, values);
 		}
 		return deleted;
 	}
@@ -57,18 +57,19 @@ public class DAOProjectResponsible {
 			this.projectResponsible != null &&
 			this.projectResponsible.getEmail() != null) {
 			String query = "SELECT estaActivo FROM Responsable WHERE correoElectronico = ?";
-			String[] values = { this.projectResponsible.getEmail() };
-			String[] names = { "status" };
-			isActive = this.connection.select(query, values, names)[0][0].equals("");
+			String[] values = {this.projectResponsible.getEmail()};
+			String[] names = {"estaActivo"};
+			String[][] results = this.connection.select(query, values, names);
+			isActive = results != null && results[0][0].equals("1");
 		}
 		return isActive;
 	}
 	
-	public boolean reactive() {
+	public boolean reactivate() {
 		boolean reactivated = false;
 		if (this.projectResponsible != null && this.isRegistered() && this.isActive()) {
 			String query = "UPDATE Responsable SET estaActivo = 1 WHERE correoElectronico = ?";
-			String[] values = { this.projectResponsible.getEmail() };
+			String[] values = {this.projectResponsible.getEmail()};
 			reactivated = this.connection.sendQuery(query, values);
 		}
 		return reactivated;
@@ -81,13 +82,15 @@ public class DAOProjectResponsible {
 		if (new DAOProjectResponsible(responsible).isRegistered()) {
 			String query = "SELECT nombres, apellidos, cargo, organizacion FROM Responsable " +
 				"WHERE correoElectronico = ?";
-			String[] values = { responsibleEmail };
-			String[] columns = { "nombres", "apellidos", "cargo", "organizacion" };
-			String[] responses = connection.select(query, values, columns)[0];
-			responsible.setNames(responses[0]);
-			responsible.setLastNames(responses[1]);
-			responsible.setPosition(responses[2]);
-			responsible.setOrganization(DAOrganization.getByName(responses[3]));
+			String[] values = {responsibleEmail};
+			String[] columns = {"nombres", "apellidos", "cargo", "organizacion"};
+			String[][] responses = connection.select(query, values, columns);
+			if (responses != null) {
+				responsible.setNames(responses[0][1]);
+				responsible.setLastNames(responses[0][1]);
+				responsible.setPosition(responses[0][2]);
+				responsible.setOrganization(DAOrganization.getByName(responses[0][3]));
+			}
 		}
 		return responsible;
 	}
