@@ -24,16 +24,12 @@ public class ManageOrganizationsController implements Initializable {
 	private TableView<Organization> tblViewOrganization;
 	@FXML
 	private TableColumn<Organization, String> clmnName;
-	
 	@FXML
 	private JFXComboBox<String> cmbSector;
-	
 	@FXML
 	private JFXTextField txtName;
 	@FXML
-	private JFXTextField txtTel1;
-	@FXML
-	private JFXTextField txtTel2;
+	private JFXTextField txtTel;
 	@FXML
 	private JFXTextField txtStreet;
 	@FXML
@@ -53,7 +49,7 @@ public class ManageOrganizationsController implements Initializable {
 		listOrganization = FXCollections.observableArrayList();
 		listSector = FXCollections.observableArrayList();
 		try{
-			new Organization().fillSector(listSector);
+			Organization.fillSector(listSector);
 			cmbSector.setItems(listSector);
 			fillTable();
 			eventManager();
@@ -63,7 +59,7 @@ public class ManageOrganizationsController implements Initializable {
 	}
 
 	public void fillTable(){
-		if(new Organization().fillTableOrganization(listOrganization)){
+		if(Organization.fillTableOrganization(listOrganization)){
 			tblViewOrganization.setItems(listOrganization);
 			clmnName.setCellValueFactory(new PropertyValueFactory<Organization, String>("name"));
 			System.out.println("ejecutado");
@@ -140,11 +136,8 @@ public class ManageOrganizationsController implements Initializable {
 			txtLocality.getText()
 		);
 		organization.setSector(cmbSector.getValue());
-		if (!txtTel1.getText().equals("")) {
-			organization.addPhoneNumber(txtTel1.getText());
-		}
-		if (!txtTel2.getText().equals("")) {
-			organization.addPhoneNumber(txtTel2.getText());
+		if (!txtTel.getText().equals("")) {
+			organization.setPhoneNumber(txtTel.getText());
 		}
 	}
 
