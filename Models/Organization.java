@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Organization {
 	private String name;
-	private String[] phoneNumber = new String[0];
+	private String phoneNumber;
 	private String sector;
 	private final Map<String, String> address = new HashMap<>();
 	
@@ -20,31 +20,12 @@ public class Organization {
 		this.name = name;
 	}
 	
-	public String[] getPhoneNumber() {
-		return phoneNumber;
+	public String getPhoneNumber() {
+		return this.phoneNumber;
 	}
 	
-	public void setPhoneNumber(String[] phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-	
-	public void addPhoneNumber(String phoneNumber) {
-		String[] aux = this.phoneNumber;
-		this.phoneNumber = new String[aux.length + 1];
-		if (aux.length >= 0) System.arraycopy(aux, 0, this.phoneNumber, 0, aux.length);
-		this.phoneNumber[aux.length] = phoneNumber;
-	}
-	
-	public void deletePhoneNumber(String phoneNumber) {
-		String[] aux = this.phoneNumber;
-		this.phoneNumber = new String[aux.length - 1];
-		int counter = 0;
-		for (String number: aux) {
-			if (!number.equals(phoneNumber)) {
-				this.phoneNumber[counter] = number;
-				counter++;
-			}
-		}
 	}
 	
 	public String getSector() {
@@ -140,6 +121,4 @@ public class Organization {
 		DAOrganization daOrganization = new DAOrganization(new Organization());
 		return DAOrganization.getByName(name);
 	}
-
-
 }

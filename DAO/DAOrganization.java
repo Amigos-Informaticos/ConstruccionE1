@@ -26,11 +26,10 @@ public class DAOrganization implements IDAOrganization {
 			if (!this.isSectorRegistered(sector)) {
 				this.registerSector(sector);
 			}
-			query = "INSERT INTO Organizacion (nombre, estaActivo, idSector) VALUES (?, 1, ?)";
-			values = new String[] {this.organization.getName(), this.getIdSector()};
+			query = "INSERT INTO Organizacion (nombre, estaActivo, idSector) VALUES (?, 1, ?, ?)";
+			values = new String[] {this.organization.getName(), this.organization.getPhoneNumber(), this.getIdSector()};
 			signed = this.connection.sendQuery(query, values) &&
-				this.registerAddress() &&
-				this.signUpTellephoneNumber();
+				this.registerAddress();
 		} else {
 			query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
 			values = new String[] {this.organization.getName()};
@@ -90,18 +89,6 @@ public class DAOrganization implements IDAOrganization {
 		String[] names = {"idOrganizacion"};
 		String[][] results = this.connection.select(query, values, names);
 		return results != null ? results[0][0] : "";
-	}
-	
-	public boolean signUpTellephoneNumber() {
-		String id = this.getId();
-		String query = "INSERT INTO TelefonoOrganizacion (idOrganizacion, telefono) VALUES ";
-		for (int i = 0; i < this.organization.getPhoneNumber().length; i++) {
-			query += "(" + id + ", ?)";
-			if (i < this.organization.getPhoneNumber().length - 1) {
-				query += ", ";
-			}
-		}
-		return this.connection.sendQuery(query, this.organization.getPhoneNumber());
 	}
 	
 	public boolean registerAddress() {
@@ -231,7 +218,7 @@ public class DAOrganization implements IDAOrganization {
 			columns = new String[] {"telefono"};
 			responses = connection.select(query, values, columns)[0];
 			for (String number: responses) {
-				organization.addPhoneNumber(number);
+				organization.setPhoneNumber(number);
 			}
 		}
 		return organization;
