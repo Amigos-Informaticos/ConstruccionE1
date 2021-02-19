@@ -5,7 +5,6 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import tools.File;
 import tools.Logger;
-import tools.P;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -78,8 +77,10 @@ public class FTPConnection {
 	
 	public void close() {
 		try {
-			this.ftp.logout();
-			this.ftp.disconnect();
+			if (this.ftp.isConnected()) {
+				this.ftp.logout();
+				this.ftp.disconnect();
+			}
 		} catch (IOException e) {
 			Logger.staticLog(e, true);
 		}

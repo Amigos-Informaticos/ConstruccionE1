@@ -30,13 +30,12 @@ public class Configuration {
 		if (!connectionFile.exists()) {
 			connectionFile = getDefaultDBConnectionFile();
 		}
-		if (connection == null) {
-			connection = new DBConnection();
+		if (connection != null) {
+			connection.setDriver(connectionFile.readLine());
+			connection.setUrl(connectionFile.readLine());
+			connection.setUser(connectionFile.readLine());
+			connection.setPassword(connectionFile.readLine());
 		}
-		connection.setDriver(connectionFile.readLine());
-		connection.setUrl(connectionFile.readLine());
-		connection.setUser(connectionFile.readLine());
-		connection.setPassword(connectionFile.readLine());
 	}
 	
 	public static void loadFTPConnection(FTPConnection connection) {
@@ -44,13 +43,12 @@ public class Configuration {
 		if (!connectionFile.exists()) {
 			connectionFile = getDefaultFTPConnectionFile();
 		}
-		if (connection == null) {
-			connection = new FTPConnection();
+		if (connection != null) {
+			connection.setUrl(connectionFile.readLine());
+			connection.setUser(connectionFile.readLine());
+			connection.setPassword(connectionFile.readLine());
+			connection.setDefaultRemoteDirectory(connectionFile.readLine());
 		}
-		connection.setUrl(connectionFile.readLine());
-		connection.setUser(connectionFile.readLine());
-		connection.setPassword(connectionFile.readLine());
-		connection.setDefaultRemoteDirectory(connectionFile.readLine());
 	}
 	
 	public static HashMap<String, String> loadScreens(String path) {
