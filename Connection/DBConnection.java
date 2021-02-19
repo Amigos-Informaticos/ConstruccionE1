@@ -17,7 +17,7 @@ public class DBConnection {
 	private Connection connection;
 	
 	public DBConnection() {
-		Configuration.loadConnection(this);
+		Configuration.loadDBConnection(this);
 	}
 	
 	public DBConnection(String driver, String url, String user, String password) {
@@ -64,15 +64,7 @@ public class DBConnection {
 	}
 	
 	public void loadConnection() {
-		Configuration.loadConnection(this);
-	}
-	
-	public boolean loadFromFile(String path) {
-		return Configuration.loadFromFile(this, path);
-	}
-	
-	public boolean saveToFile(String path) {
-		return Configuration.saveToFile(this, path);
+		Configuration.loadDBConnection(this);
 	}
 	
 	public boolean isReady() {
