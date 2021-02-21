@@ -4,16 +4,16 @@ import DAO.DAOCoordinator;
 import Exceptions.CustomException;
 import javafx.collections.ObservableList;
 
-public class Coordinator extends User {
+public class Coordinator extends Usuario {
 	private String personalNo;
 	private String registrationDate;
 	private String dischargeDate;
 	private String shift;
-
+	
 	public String getShift() {
 		return shift;
 	}
-
+	
 	public void setShift(String shift) {
 		this.shift = shift;
 	}
@@ -53,10 +53,10 @@ public class Coordinator extends User {
 	
 	public Coordinator(Coordinator coordinator) {
 		if (coordinator != null) {
-			this.setNames(coordinator.getNames());
-			this.setLastnames(coordinator.getLastnames());
+			this.setNombres(coordinator.getNombres());
+			this.setApellidos(coordinator.getApellidos());
 			this.setEmail(coordinator.getEmail());
-			this.setCleanPassword(coordinator.getPassword());
+			this.setContrasenaLimpia(coordinator.getContrasena());
 			this.setPersonalNo(coordinator.getPersonalNo());
 		}
 	}
@@ -70,16 +70,20 @@ public class Coordinator extends User {
 	}
 	
 	public boolean signUp() {
-		return new DAOCoordinator(this).signUp();
+		return new DAOCoordinator(this).registrarse();
 	}
 	
 	public boolean logIn() {
-		return new DAOCoordinator(this).logIn();
+		return new DAOCoordinator(this).iniciarSesion();
 	}
-
-	public boolean update() { return new DAOCoordinator(this).update();}
-
-	public boolean delete() {return new DAOCoordinator(this).delete();}
+	
+	public boolean update() {
+		return new DAOCoordinator(this).update();
+	}
+	
+	public boolean delete() {
+		return new DAOCoordinator(this).eliminar();
+	}
 	
 	public boolean signUpProject(Project project) throws CustomException {
 		return project.register();
@@ -94,12 +98,12 @@ public class Coordinator extends User {
 		return daoCoordinator.isAnother();
 	}
 	
-	public boolean signUpStudent(Student student) throws CustomException {
-		return student.signUp();
+	public boolean signUpStudent(Practicante practicante) throws CustomException {
+		return practicante.registrarse();
 	}
 	
-	public boolean deleteStudent(Student student) throws CustomException {
-		return student.delete();
+	public boolean deleteStudent(Practicante practicante) throws CustomException {
+		return practicante.eliminar();
 	}
 	
 	public boolean signUpOrganization(Organization organization) throws CustomException {
@@ -110,33 +114,33 @@ public class Coordinator extends User {
 		return organization.signUp();
 	}
 	
-	public boolean assignProject(Student student, String projectName) throws CustomException {
-		return student.setProject(projectName);
+	public boolean assignProject(Practicante practicante, String projectName) throws CustomException {
+		return practicante.setProyecto(projectName);
 	}
 	
 	public boolean isRegistered() {
-		return new DAOCoordinator(this).isRegistered();
+		return new DAOCoordinator(this).estaRegistrado();
 	}
-
-	public boolean isComplete(){
-		return super.isComplete() && personalNo != null;
+	
+	public boolean estaCompleto() {
+		return super.estaCompleto() && personalNo != null;
 	}
-
+	
 	public void fillTableCoordinator(ObservableList<Coordinator> listCoordinator) {
 		listCoordinator.addAll(DAOCoordinator.getAll());
 	}
-
-	public Coordinator[] getAll(){
+	
+	public Coordinator[] getAll() {
 		return DAOCoordinator.getAll();
 	}
 
 	public Coordinator getActive(){return DAOCoordinator.getActive();}
 
-	public String toString(){
-		return getNames()+"\n" +
-				getLastnames()+"\n" +
-				getPersonalNo()+"\n"+
-				getShift()+"\n"+
-				getEmail()+"\n";
+	public String toString() {
+		return getNombres() + "\n" +
+			getApellidos() + "\n" +
+			getPersonalNo() + "\n" +
+			getShift() + "\n" +
+			getEmail() + "\n";
 	}
 }

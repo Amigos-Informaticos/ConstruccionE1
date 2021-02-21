@@ -1,9 +1,9 @@
-package View.student.controller;
+package View.practicante.controller;
 
 import Exceptions.CustomException;
 import Models.CalendarizedActivity;
+import Models.Practicante;
 import Models.Project;
-import Models.Student;
 import View.MainController;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
@@ -70,8 +70,8 @@ public class GenerateReport implements Initializable {
 	}
 	
 	private void preconditions() throws CustomException {
-		Student student = (Student) MainController.get("user");
-		this.assignedProject = student.getProject();
+		Practicante practicante = (Practicante) MainController.get("user");
+		this.assignedProject = practicante.getProyecto();
 		if (this.assignedProject == null) {
 			MainController.alert(
 				Alert.AlertType.WARNING,

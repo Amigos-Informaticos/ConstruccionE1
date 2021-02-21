@@ -7,12 +7,12 @@ public class Document {
 	private String title;
 	private String type;
 	private File file;
-	private User author;
+	private Usuario author;
 	
 	public Document() {
 	}
 	
-	public Document(String title, String type, File file, User author) {
+	public Document(String title, String type, File file, Usuario author) {
 		this.title = title;
 		this.type = type;
 		this.file = file;
@@ -43,11 +43,11 @@ public class Document {
 		return file;
 	}
 	
-	public User getAuthor() {
+	public Usuario getAuthor() {
 		return author;
 	}
 	
-	public void setAuthor(User author) {
+	public void setAuthor(Usuario author) {
 		this.author = author;
 	}
 	

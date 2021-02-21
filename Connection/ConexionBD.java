@@ -9,18 +9,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DBConnection {
+public class ConexionBD {
 	private String driver = null;
 	private String url = null;
 	private String user = null;
 	private String password = null;
 	private Connection connection;
 	
-	public DBConnection() {
+	public ConexionBD() {
 		Configuration.loadDBConnection(this);
 	}
 	
-	public DBConnection(String driver, String url, String user, String password) {
+	public ConexionBD(String driver, String url, String user, String password) {
 		this.driver = driver;
 		this.url = url;
 		this.user = user;
@@ -98,7 +98,7 @@ public class DBConnection {
 		}
 	}
 	
-	public boolean sendQuery(String query, String[] values) {
+	public boolean executar(String query, String[] values) {
 		boolean queryExecuted = false;
 		try {
 			this.openConnection();
@@ -116,7 +116,7 @@ public class DBConnection {
 		return queryExecuted;
 	}
 	
-	public String[][] select(String query, String[] values, String[] names) {
+	public String[][] seleccionar(String query, String[] values, String[] names) {
 		int tableSize;
 		String[][] responses = new String[0][0];
 		try {

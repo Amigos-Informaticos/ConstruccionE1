@@ -8,7 +8,7 @@ public interface IDAOProject {
     
     boolean isRegistered();
     
-    Project loadProject(String name);
+    Project cargarProyecto(String name);
     
     boolean delete() throws CustomException;
     

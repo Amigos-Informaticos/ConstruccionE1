@@ -1,8 +1,8 @@
-package View.student.controller;
+package View.practicante.controller;
 
 import Models.Assignment;
+import Models.Practicante;
 import Models.Project;
-import Models.Student;
 import View.MainController;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -53,7 +53,7 @@ public class ChooseProjectController implements Initializable {
 	}
 	
 	public void checkConditions() {
-		selectedProjects = Assignment.requestedProjects((Student) MainController.get("user"));
+		selectedProjects = Assignment.requestedProjects((Practicante) MainController.get("user"));
 		if (selectedProjects.length >= 3) {
 			MainController.alert(
 				Alert.AlertType.WARNING,
@@ -72,7 +72,7 @@ public class ChooseProjectController implements Initializable {
 		projectTable.getSelectionModel().selectedItemProperty().addListener(
 			(observableValue, oldValue, newValue) -> {
 				if (newValue != null) {
-					name.setText(newValue.getName());
+					name.setText(newValue.getNombre());
 					generalObjective.setText(newValue.getGeneralObjective());
 					resources.setText(newValue.getResources());
 					responsabilities.setText(newValue.getResponsibilities());
@@ -92,7 +92,7 @@ public class ChooseProjectController implements Initializable {
 					"El proyecto que intenta seleccionado ya ha sido seleccionado previamente"
 				);
 			} else {
-				Assignment.saveRequest((Student) MainController.get("user"), selectedProject);
+				Assignment.saveRequest((Practicante) MainController.get("user"), selectedProject);
 				MainController.alert(
 					Alert.AlertType.INFORMATION,
 					"Proyecto seleccionado exitosamente",
@@ -112,7 +112,7 @@ public class ChooseProjectController implements Initializable {
 	public boolean isSelected(Project[] selectedProjects, Project toSelect) {
 		boolean selected = false;
 		for (Project project: selectedProjects) {
-			if (project.getName().equals(toSelect.getName())) {
+			if (project.getNombre().equals(toSelect.getNombre())) {
 				selected = true;
 				break;
 			}

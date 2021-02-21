@@ -1,13 +1,13 @@
 package View;
 
 import Configuration.Configuration;
-import Models.User;
+import Models.Usuario;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.stage.FileChooser;
 import javafx.scene.control.ButtonType;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tools.Logger;
 
@@ -20,7 +20,7 @@ public class MainController extends Application {
 	private static Stage stage;
 	private static String name;
 	private static String title = null;
-	private static User user;
+	private static Usuario usuario;
 	private static String type;
 	private static final HashMap<String, String> screens = new HashMap<>();
 	private static final HashMap<Sizes, double[]> size = new HashMap<>();
@@ -61,12 +61,12 @@ public class MainController extends Application {
 		return name;
 	}
 	
-	public static User getUser() {
-		return user;
+	public static Usuario getUser() {
+		return usuario;
 	}
 	
-	public static void setUser(User user) {
-		MainController.user = user;
+	public static void setUser(Usuario usuario) {
+		MainController.usuario = usuario;
 	}
 	
 	public static String getType() {

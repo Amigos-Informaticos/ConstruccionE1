@@ -1,6 +1,6 @@
 package Configuration;
 
-import Connection.DBConnection;
+import Connection.ConexionBD;
 import Connection.FTPConnection;
 import tools.Dir;
 import tools.File;
@@ -25,7 +25,7 @@ public class Configuration {
 		return new File("src/Configuration/defaultFTPConnection.config");
 	}
 	
-	public static void loadDBConnection(DBConnection connection) {
+	public static void loadDBConnection(ConexionBD connection) {
 		File connectionFile = getDBConnectionFile();
 		if (!connectionFile.exists()) {
 			connectionFile = getDefaultDBConnectionFile();

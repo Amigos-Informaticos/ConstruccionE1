@@ -1,10 +1,10 @@
-package View.user.controller;
+package View.usuario.controller;
 
 import Models.Admin;
 import Models.Coordinator;
+import Models.Practicante;
 import Models.Professor;
-import Models.Student;
-import Models.User;
+import Models.Usuario;
 import View.MainController;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -29,30 +29,30 @@ public class LoginController implements Initializable {
 	
 	public void onClickLogIn() {
 		if (checkEmptyFields()) {
-			if (User.isEmail(emailField.getText().trim())) {
-				User user = new User();
-				user.setEmail(emailField.getText().trim());
-				user.setPassword(passwordField.getText().trim());
-				String type = user.getType();
+			if (Usuario.esEmail(emailField.getText().trim())) {
+				Usuario usuario = new Usuario();
+				usuario.setEmail(emailField.getText().trim());
+				usuario.setContrasena(passwordField.getText().trim());
+				String type = usuario.tipo();
 				if (!"null".equals(type)) {
 					switch (type) {
 						case "Student":
-							user = new Student();
+							usuario = new Practicante();
 							break;
 						case "Professor":
-							user = new Professor();
+							usuario = new Professor();
 							break;
 						case "Coordinator":
-							user = new Coordinator();
+							usuario = new Coordinator();
 							break;
 						case "Admin":
-							user = new Admin();
+							usuario = new Admin();
 							break;
 						default:
 					}
-					user.setEmail(emailField.getText().trim());
-					user.setPassword(passwordField.getText().trim());
-					MainController.save("user", user);
+					usuario.setEmail(emailField.getText().trim());
+					usuario.setContrasena(passwordField.getText().trim());
+					MainController.save("user", usuario);
 					MainController.activate(
 						"MainMenu" + type,
 						"Menu Principal " + type,

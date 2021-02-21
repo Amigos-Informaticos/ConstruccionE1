@@ -1,10 +1,12 @@
 package View.admin.controller;
 
-
 import IDAO.Shift;
 import Models.Professor;
 import View.MainController;
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -72,17 +74,17 @@ public class AdminProfessorController implements Initializable {
         professor = new Professor();
         this.instanceProfessor(professor);
         try {
-            if(MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro que desea registrar?","") && professor.isComplete()){
-                if(professor.signUp()){
+            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea registrar?", "") && professor.estaCompleto()) {
+                if (professor.signUp()) {
                     listProfessor.add(professor);
                     MainController.alert(
-                            Alert.AlertType.INFORMATION,
-                            "Profesor registrado correctamente",
-                            "Pulse aceptar para continuar"
+                        Alert.AlertType.INFORMATION,
+                        "Profesor registrado correctamente",
+                        "Pulse aceptar para continuar"
                     );
                 } else {
                     MainController.alert(
-                            Alert.AlertType.WARNING,
+                        Alert.AlertType.WARNING,
                             "Error al conectar con la base de datos",
                             "Pulse aceptar para continuar"
                     );
@@ -104,17 +106,17 @@ public class AdminProfessorController implements Initializable {
         professor = new Professor();
         this.instanceProfessor(professor);
         try {
-            if (professor.isComplete()) {
+            if (professor.estaCompleto()) {
                 if (professor.update()) {
                     MainController.alert(
-                            Alert.AlertType.INFORMATION,
-                            "Profesor modificado satisfactoriamente",
-                            "Pulse aceptar para continuar"
+                        Alert.AlertType.INFORMATION,
+                        "Profesor modificado satisfactoriamente",
+                        "Pulse aceptar para continuar"
                     );
                     listProfessor.set(tblViewProfessor.getSelectionModel().getSelectedIndex(), professor);
                 } else {
                     MainController.alert(
-                            Alert.AlertType.ERROR,
+                        Alert.AlertType.ERROR,
                             "No se pudo actualizar al profesor",
                             "Pulse aceptar para continuar"
                     );
@@ -154,11 +156,11 @@ public class AdminProfessorController implements Initializable {
                     @Override
                     public void changed(ObservableValue<? extends Professor> observable, Professor oldValue,
                                         Professor newValue) {
-                        if(newValue != null){
+                        if(newValue != null) {
                             professor = newValue;
                             txtEmail.setText(newValue.getEmail());
-                            txtNames.setText(newValue.getNames());
-                            txtLastNames.setText(newValue.getLastnames());
+                            txtNames.setText(newValue.getNombres());
+                            txtLastNames.setText(newValue.getApellidos());
                             txtNoPersonal.setText(newValue.getPersonalNo());
                             cmbShift.setValue(newValue.getShift());
                             enableEdit();
@@ -197,11 +199,11 @@ public class AdminProfessorController implements Initializable {
             }
         }
     };
-    private void instanceProfessor(Professor professor){
+    private void instanceProfessor(Professor professor) {
         professor.setEmail(txtEmail.getText());
-        professor.setPassword(pwdPassword.getText());
-        professor.setNames(txtNames.getText());
-        professor.setLastnames(txtLastNames.getText());
+        professor.setContrasena(pwdPassword.getText());
+        professor.setNombres(txtNames.getText());
+        professor.setApellidos(txtLastNames.getText());
         professor.setPersonalNo(txtNoPersonal.getText());
         professor.setShift(cmbShift.getValue());
     }

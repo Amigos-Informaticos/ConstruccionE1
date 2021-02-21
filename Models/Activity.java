@@ -7,15 +7,15 @@ public class Activity {
 	private String description;
 	private String startDate;
 	private String deliveryDate;
-	private Student student;
+	private Practicante practicante;
 	private Professor professor;
 	
-	public Student getStudent() {
-		return student;
+	public Practicante getStudent() {
+		return practicante;
 	}
 	
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setStudent(Practicante practicante) {
+		this.practicante = practicante;
 	}
 	
 	public Professor getProfessor() {
@@ -81,7 +81,7 @@ public class Activity {
 		return this.title != null &&
 			this.description != null &&
 			this.deliveryDate != null &&
-			this.student != null &&
+			this.practicante != null &&
 			this.professor != null;
 	}
 	

@@ -7,7 +7,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Admin extends User {
+public class Admin extends Usuario {
 	public Admin() {
 	}
 	
@@ -17,10 +17,10 @@ public class Admin extends User {
 	
 	public Admin(Admin admin) {
 		if (admin != null) {
-			this.setNames(admin.getNames());
-			this.setLastnames(admin.getLastnames());
+			this.setNombres(admin.getNombres());
+			this.setApellidos(admin.getApellidos());
 			this.setEmail(admin.getEmail());
-			this.setPassword(admin.getPassword());
+			this.setContrasena(admin.getContrasena());
 		}
 	}
 	

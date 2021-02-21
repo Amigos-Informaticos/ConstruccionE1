@@ -1,10 +1,10 @@
 package Tests;
 
-import DAO.DAOProfessor;
+import DAO.DAOProfesor;
 import DAO.DAOProject;
 import Exceptions.CustomException;
+import Models.Practicante;
 import Models.Project;
-import Models.Student;
 import org.junit.AfterClass;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -18,11 +18,10 @@ import tools.TelegramBot;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class StudentTests {
+public class PracticanteTests {
 	private static final TelegramBot bot = new TelegramBot("AITests");
-	private final Student student = new Student(
+	private final Practicante practicante = new Practicante(
 		"Juan Gabriel",
 		"Lopez Doriga",
 		"jbld@correo.com",
@@ -50,36 +49,36 @@ public class StudentTests {
 	
 	@Test
 	public void a_signUpStudent() {
-		this.student.setProfessor(DAOProfessor.getByEmail("joo@hotmail.com"));
-		assertTrue(this.student.signUp());
+		this.practicante.setProfesor(DAOProfesor.getByEmail("joo@hotmail.com"));
+		assertTrue(this.practicante.registrarse());
 	}
 	
 	@Test
 	public void b_loginStudent() {
-		assertTrue(this.student.login());
+		assertTrue(this.practicante.iniciarSesion());
 	}
 	
 	@Test
 	public void c_updatePracticante() {
-		this.student.setNames("Emilio Olvedo");
-		assertTrue(this.student.update());
+		this.practicante.setNombres("Emilio Olvedo");
+		assertTrue(this.practicante.actualizar());
 	}
 	
 	@Test
 	public void d_selectProject() {
-		assertTrue(this.student.selectProject("Hackear la nasa"));
+		assertTrue(this.practicante.seleccionarProyecto("Hackear la nasa"));
 	}
 	
 	@Test
 	public void e_getSelections() {
-		Project project = new DAOProject().loadProject("Hackear la nasa");
-		assertEquals(project.getName(), this.student.getSelection()[0].getName());
+		Project project = new DAOProject().cargarProyecto("Hackear la nasa");
+		assertEquals(project.getNombre(), this.practicante.getSeleccion()[0].getNombre());
 	}
 	
 	@Test
 	public void f_setProject() {
 		try {
-			assertTrue(this.student.setProject("Hackear la nasa"));
+			assertTrue(this.practicante.setProyecto("Hackear la nasa"));
 		} catch (CustomException e) {
 			new Logger().log(e);
 		}
@@ -87,8 +86,8 @@ public class StudentTests {
 	
 	@Test
 	public void g_deleteSelectedProject() {
-		for (Project project: this.student.getSelection()) {
-			assertTrue(this.student.removeSelection(project.getName()));
+		for (Project project: this.practicante.getSeleccion()) {
+			assertTrue(this.practicante.eliminarSeleccion(project.getNombre()));
 		}
 	}
 	
@@ -100,7 +99,7 @@ public class StudentTests {
 	@Test
 	public void j_removeProject() {
 		try {
-			assertTrue(this.student.deleteProject());
+			assertTrue(this.practicante.eliminarProyecto());
 		} catch (CustomException e) {
 			new Logger().log(e);
 		}
@@ -108,6 +107,6 @@ public class StudentTests {
 	
 	@Test
 	public void z_deleteStudent() {
-		assertTrue(this.student.delete());
+		assertTrue(this.practicante.eliminar());
 	}
 }

@@ -1,8 +1,8 @@
 package Tests;
 
 import Models.Activity;
+import Models.Practicante;
 import Models.Professor;
-import Models.Student;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -17,10 +17,10 @@ public class CUPF1 {
 	
 	public Professor getProfessor() {
 		Professor professor = new Professor();
-		professor.setNames("Octavio");
-		professor.setLastnames("Ocharan");
+		professor.setNombres("Octavio");
+		professor.setApellidos("Ocharan");
 		professor.setEmail("ocha@hotmail.com");
-		professor.setPassword("ocha1234");
+		professor.setContrasena("ocha1234");
 		professor.setPersonalNo("N000002");
 		professor.setShift("1");
 		return professor;
@@ -39,15 +39,15 @@ public class CUPF1 {
 		return activity;
 	}
 	
-	public Student getStudent() {
-		Student student = new Student();
-		student.setNames("Ernesto Ermenegildo");
-		student.setLastnames("Perez del Corral");
-		student.setEmail("eepc@correo.com");
-		student.setPassword("contrasenahida");
-		student.setRegNumber("S19015160");
-		student.setProfessor(getProfessor());
-		return student;
+	public Practicante getStudent() {
+		Practicante practicante = new Practicante();
+		practicante.setNombres("Ernesto Ermenegildo");
+		practicante.setApellidos("Perez del Corral");
+		practicante.setEmail("eepc@correo.com");
+		practicante.setContrasena("contrasenahida");
+		practicante.setMatricula("S19015160");
+		practicante.setProfesor(getProfessor());
+		return practicante;
 	}
 	
 	@Test
@@ -57,7 +57,7 @@ public class CUPF1 {
 	
 	@Test
 	public void bRegisterStudent() {
-		assertTrue(getStudent().signUp());
+		assertTrue(getStudent().registrarse());
 	}
 	
 	@Test
@@ -72,7 +72,7 @@ public class CUPF1 {
 	
 	@Test
 	public void eDeleteStudent() {
-		assertTrue(getStudent().delete());
+		assertTrue(getStudent().eliminar());
 	}
 	
 	@Test

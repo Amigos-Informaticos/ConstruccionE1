@@ -1,7 +1,7 @@
-package View.student.controller;
+package View.practicante.controller;
 
 import Models.Document;
-import Models.Student;
+import Models.Practicante;
 import View.MainController;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
@@ -24,7 +24,7 @@ public class AddActivityPlan implements Initializable {
 	}
 	
 	private void verifyPrecondition() {
-		boolean has = ((Student) MainController.get("user")).hasActivityPlan();
+		boolean has = ((Practicante) MainController.get("user")).tienePlanActividades();
 		if (has) {
 			MainController.alert(
 				Alert.AlertType.WARNING,
@@ -65,7 +65,7 @@ public class AddActivityPlan implements Initializable {
 			selectedFile.getName(),
 			"PlanActividades",
 			selectedFile,
-			(Student) MainController.get("user")
+			(Practicante) MainController.get("user")
 		);
 		if (file.save()) {
 			MainController.alert(

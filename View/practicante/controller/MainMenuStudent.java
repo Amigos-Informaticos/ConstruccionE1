@@ -1,4 +1,4 @@
-package View.student.controller;
+package View.practicante.controller;
 
 import View.MainController;
 import com.jfoenix.controls.JFXButton;

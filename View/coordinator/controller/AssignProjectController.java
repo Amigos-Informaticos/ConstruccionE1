@@ -2,8 +2,8 @@ package View.coordinator.controller;
 
 import Models.Assignment;
 import Models.Coordinator;
+import Models.Practicante;
 import Models.Project;
-import Models.Student;
 import View.MainController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,13 +31,12 @@ public class AssignProjectController implements Initializable {
 	public TableColumn<Project, String> clmNameRequest;
 	public TableColumn<Project, String> clmName;
 	
-	
 	@FXML
 	public TableView<Project> requestTable;
 	@FXML
 	public TableView<Project> projectTable;
 	
-	private Student student = (Student) MainController.get("student");
+	private Practicante practicante = (Practicante) MainController.get("student");
 	private ObservableList<Project> projectObservableList;
 	private ObservableList<Project> requestObservableList;
 	
@@ -49,13 +48,13 @@ public class AssignProjectController implements Initializable {
 		clmName.setCellValueFactory(new PropertyValueFactory<Project, String>("name"));
 		
 		requestObservableList = FXCollections.observableArrayList();
-		Collections.addAll(requestObservableList, student.getProjects());
+		Collections.addAll(requestObservableList, practicante.getSeleccion());
 		requestTable.setItems(requestObservableList);
 		clmNameRequest.setCellValueFactory(new PropertyValueFactory<Project, String>("name"));
 		
-		lbName.setText(student.getNames() + " " + student.getLastnames());
-		lbRegNo.setText(student.getRegNumber());
-		lbEmail.setText(student.getEmail());
+		lbName.setText(practicante.getNombres() + " " + practicante.getApellidos());
+		lbRegNo.setText(practicante.getMatricula());
+		lbEmail.setText(practicante.getEmail());
 		
 	}
 	
@@ -72,14 +71,14 @@ public class AssignProjectController implements Initializable {
 	public void assign() throws FileNotFoundException {
 		Project project = (Project) MainController.get("project");
 		Assignment assignment = new Assignment(
-			student,
+			practicante,
 			project,
 			(Coordinator) MainController.get("user")
 		);
 		if (MainController.alert(Alert.AlertType.CONFIRMATION, "Confirmar Asignacion",
 			"¿Esta seguro de que quiere asignar el practicante "
-				+ student.getNames() +
-				" al proyecto " + project.getName() + "?")) {
+				+ practicante.getNombres() +
+				" al proyecto " + project.getNombre() + "?")) {
 			if (assignment.assignProject()) {
 				MainController.alert(Alert.AlertType.INFORMATION,
 					"Asignación registrada",

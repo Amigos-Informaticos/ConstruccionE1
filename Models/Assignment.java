@@ -7,26 +7,26 @@ import tools.P;
 import java.io.FileNotFoundException;
 
 public class Assignment {
-	private Student student;
+	private Practicante practicante;
 	private Project project;
 	private Professor professor;
 	private Coordinator coordinator;
 	private float score;
 	
-	public Assignment(Student student, Project project, Coordinator coordinator) {
-		this.student = student;
+	public Assignment(Practicante practicante, Project project, Coordinator coordinator) {
+		this.practicante = practicante;
 		this.project = project;
-		student.loadProfessor();
-		this.professor = student.getProfessor();
+		practicante.cargarProfesor();
+		this.professor = practicante.getProfesor();
 		this.coordinator = coordinator;
 	}
 	
-	public Student getStudent() {
-		return student;
+	public Practicante getStudent() {
+		return practicante;
 	}
 	
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setStudent(Practicante practicante) {
+		this.practicante = practicante;
 	}
 	
 	public Project getProject() {
@@ -77,24 +77,24 @@ public class Assignment {
 	}
 	
 	public boolean isComplete() {
-		return this.student != null &&
+		return this.practicante != null &&
 			this.project != null &&
 			this.professor != null &&
-			this.student.isComplete() &&
-			this.project.isComplete() &&
-			this.professor.isComplete();
+			this.practicante.estaCompleto() &&
+			this.project.estaCompleto() &&
+			this.professor.estaCompleto();
 	}
 	
 	public boolean removeAssignment() {
 		return new DAOAssignment(this).removeAssignment();
 	}
 	
-	public static boolean saveRequest(Student student, Project project) {
-		return DAOAssignment.saveRequest(student, project);
+	public static boolean saveRequest(Practicante practicante, Project project) {
+		return DAOAssignment.saveRequest(practicante, project);
 	}
 	
-	public static Project[] requestedProjects(Student student) {
-		return DAOAssignment.requestedProjects(student);
+	public static Project[] requestedProjects(Practicante practicante) {
+		return DAOAssignment.requestedProjects(practicante);
 	}
 	
 }

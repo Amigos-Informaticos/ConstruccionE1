@@ -1,8 +1,8 @@
 package View.coordinator.controller;
 
 import Exceptions.CustomException;
+import Models.Practicante;
 import Models.Professor;
-import Models.Student;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -25,13 +25,13 @@ import java.util.ResourceBundle;
 
 public class ManageStudentController implements Initializable {
 	@FXML
-	private TableView<Student> tblViewStudent;
+	private TableView<Practicante> tblViewStudent;
 	@FXML
-	private TableColumn<Student, String> clmnName;
+	private TableColumn<Practicante, String> clmnName;
 	@FXML
-	private TableColumn<Student, String> clmnLastame;
+	private TableColumn<Practicante, String> clmnLastame;
 	@FXML
-	private TableColumn<Student, String> clmnRegno;
+	private TableColumn<Practicante, String> clmnRegno;
 	@FXML
 	private JFXComboBox<Professor> cmbProfessor;
 	
@@ -50,20 +50,19 @@ public class ManageStudentController implements Initializable {
 	@FXML
 	JFXButton btnRegister;
 	
-	private ObservableList<Student> listStudent;
+	private ObservableList<Practicante> listPracticante;
 	private ObservableList<Professor> listProfessor;
 	
-	private Student student;
-	
+	private Practicante practicante;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		listStudent = FXCollections.observableArrayList();
-		new Student().fillTableStudent(listStudent);
-		tblViewStudent.setItems(listStudent);
-		clmnName.setCellValueFactory(new PropertyValueFactory<Student, String>("names"));
-		clmnLastame.setCellValueFactory(new PropertyValueFactory<Student, String>("lastnames"));
-		clmnRegno.setCellValueFactory(new PropertyValueFactory<Student, String>("regNumber"));
+		listPracticante = FXCollections.observableArrayList();
+		new Practicante().llenarTablaPracticantes(listPracticante);
+		tblViewStudent.setItems(listPracticante);
+		clmnName.setCellValueFactory(new PropertyValueFactory<Practicante, String>("names"));
+		clmnLastame.setCellValueFactory(new PropertyValueFactory<Practicante, String>("lastnames"));
+		clmnRegno.setCellValueFactory(new PropertyValueFactory<Practicante, String>("regNumber"));
 		
 		listProfessor = FXCollections.observableArrayList();
 		new Professor().fillTableProfessor(listProfessor);
@@ -73,7 +72,7 @@ public class ManageStudentController implements Initializable {
 		cmbProfessor.setConverter(new StringConverter<Professor>() {
 			@Override
 			public String toString(Professor professor) {
-				return professor.getNames();
+				return professor.getNombres();
 			}
 			
 			@Override
@@ -86,19 +85,19 @@ public class ManageStudentController implements Initializable {
 	
 	public void eventManager() {
 		tblViewStudent.getSelectionModel().selectedItemProperty().addListener(
-			new ChangeListener<Student>() {
+			new ChangeListener<Practicante>() {
 				@Override
-				public void changed(ObservableValue<? extends Student> observable, Student oldValue,
-				                    Student newValue) {
+				public void changed(ObservableValue<? extends Practicante> observable, Practicante oldValue,
+				                    Practicante newValue) {
 					if (newValue != null) {
-						student = newValue;
-						txtName.setText(newValue.getNames());
-						txtLastname.setText(newValue.getLastnames());
+						practicante = newValue;
+						txtName.setText(newValue.getNombres());
+						txtLastname.setText(newValue.getApellidos());
 						txtEmail.setText(newValue.getEmail());
-						txtRegNo.setText(newValue.getRegNumber());
-						txtPassword.setText(newValue.getPassword());
-						student = tblViewStudent.getSelectionModel().getSelectedItem();
-						MainController.save("student", student);
+						txtRegNo.setText(newValue.getMatricula());
+						txtPassword.setText(newValue.getContrasena());
+						practicante = tblViewStudent.getSelectionModel().getSelectedItem();
+						MainController.save("student", practicante);
 						enableEdit();
 					} else {
 						cleanFormStudent();
@@ -124,11 +123,11 @@ public class ManageStudentController implements Initializable {
 	
 	@FXML
 	public void signUp() {
-		Student student = new Student();
-		this.instanceStudent(student);
-		if (student.isComplete()) {
-			if (student.signUp()) {
-				listStudent.add(student);
+		Practicante practicante = new Practicante();
+		this.instanceStudent(practicante);
+		if (practicante.estaCompleto()) {
+			if (practicante.registrarse()) {
+				listPracticante.add(practicante);
 				MainController.alert(
 					Alert.AlertType.INFORMATION,
 					"Practicante registrado correctamente",
@@ -150,22 +149,22 @@ public class ManageStudentController implements Initializable {
 		}
 	}
 	
-	private void instanceStudent(Student student) {
-		student.setNames(txtName.getText());
-		student.setLastnames(txtLastname.getText());
-		student.setRegNumber(txtRegNo.getText());
-		student.setEmail(txtEmail.getText());
-		student.setPassword(txtPassword.getText());
-		student.setProfessor(cmbProfessor.getValue());
+	private void instanceStudent(Practicante practicante) {
+		practicante.setNombres(txtName.getText());
+		practicante.setApellidos(txtLastname.getText());
+		practicante.setMatricula(txtRegNo.getText());
+		practicante.setEmail(txtEmail.getText());
+		practicante.setContrasena(txtPassword.getText());
+		practicante.setProfesor(cmbProfessor.getValue());
 	}
 	
 	@FXML
 	private void checkProject() {
 		try {
-			if (student.getProject() == null) {
+			if (practicante.getProyecto() == null) {
 				MainController.activate("AssignProject", "Asignar Proyecto", MainController.Sizes.MID);
 			} else {
-				MainController.save("Project", student.getProject());
+				MainController.save("Project", practicante.getProyecto());
 				MainController.activate("ViewProject", "Ver Proyecto");
 			}
 		} catch (CustomException e) {
@@ -183,16 +182,16 @@ public class ManageStudentController implements Initializable {
 				"Eliminar Practicante",
 				"¿Está seguro que desea eliminar al Practicante seleccionado?")) {
 			try {
-				if (tblViewStudent.getSelectionModel().getSelectedItem().delete()) {
-					listStudent.remove(tblViewStudent.getSelectionModel().getSelectedIndex());
+				if (tblViewStudent.getSelectionModel().getSelectedItem().eliminar()) {
+					listPracticante.remove(tblViewStudent.getSelectionModel().getSelectedIndex());
 					MainController.alert(Alert.AlertType.INFORMATION,
-							"Practicante eliminada",
-							"Organización eliminada exitosamente");
+						"Practicante eliminada",
+						"Organización eliminada exitosamente");
 				} else {
 					MainController.alert(
-							Alert.AlertType.INFORMATION,
-							"DBError",
-							"No se pudo establecer conexión con Base de Datos"
+						Alert.AlertType.INFORMATION,
+						"DBError",
+						"No se pudo establecer conexión con Base de Datos"
 					);
 				}
 			} catch (AssertionError e) {

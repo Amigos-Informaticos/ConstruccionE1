@@ -1,11 +1,11 @@
 package DAO;
 
-import Connection.DBConnection;
+import Connection.ConexionBD;
 import Models.ProjectResponsible;
 
 public class DAOProjectResponsible {
 	private final ProjectResponsible projectResponsible;
-	private final DBConnection connection = new DBConnection();
+	private final ConexionBD connection = new ConexionBD();
 	
 	public DAOProjectResponsible(ProjectResponsible projectResponsible) {
 		this.projectResponsible = projectResponsible;
@@ -29,7 +29,7 @@ public class DAOProjectResponsible {
 			this.projectResponsible.getOrganization().getId(),
 			this.projectResponsible.getPosition()
 		};
-		return this.connection.sendQuery(query, values);
+		return this.connection.executar(query, values);
 	}
 	
 	public boolean isRegistered() {
@@ -37,7 +37,7 @@ public class DAOProjectResponsible {
 			"WHERE correoElectronico = ?";
 		String[] values = {this.projectResponsible.getEmail()};
 		String[] names = {"TOTAL"};
-		String[][] results = this.connection.select(query, values, names);
+		String[][] results = this.connection.seleccionar(query, values, names);
 		return results != null && results[0][0].equals("1");
 	}
 	
@@ -46,7 +46,7 @@ public class DAOProjectResponsible {
 		if (this.projectResponsible != null && this.isRegistered()) {
 			String query = "UPDATE Responsable SET estaActivo = WHERE correoElectronico = ?";
 			String[] values = {this.projectResponsible.getEmail()};
-			deleted = this.connection.sendQuery(query, values);
+			deleted = this.connection.executar(query, values);
 		}
 		return deleted;
 	}
@@ -59,7 +59,7 @@ public class DAOProjectResponsible {
 			String query = "SELECT estaActivo FROM Responsable WHERE correoElectronico = ?";
 			String[] values = {this.projectResponsible.getEmail()};
 			String[] names = {"estaActivo"};
-			String[][] results = this.connection.select(query, values, names);
+			String[][] results = this.connection.seleccionar(query, values, names);
 			isActive = results != null && results[0][0].equals("1");
 		}
 		return isActive;
@@ -70,13 +70,13 @@ public class DAOProjectResponsible {
 		if (this.projectResponsible != null && this.isRegistered() && this.isActive()) {
 			String query = "UPDATE Responsable SET estaActivo = 1 WHERE correoElectronico = ?";
 			String[] values = {this.projectResponsible.getEmail()};
-			reactivated = this.connection.sendQuery(query, values);
+			reactivated = this.connection.executar(query, values);
 		}
 		return reactivated;
 	}
 	
 	public static ProjectResponsible get(String responsibleEmail) {
-		DBConnection connection = new DBConnection();
+		ConexionBD connection = new ConexionBD();
 		ProjectResponsible responsible = new ProjectResponsible();
 		responsible.setEmail(responsibleEmail);
 		if (new DAOProjectResponsible(responsible).isRegistered()) {
@@ -84,7 +84,7 @@ public class DAOProjectResponsible {
 				"WHERE correoElectronico = ?";
 			String[] values = {responsibleEmail};
 			String[] columns = {"nombres", "apellidos", "cargo", "organizacion"};
-			String[][] responses = connection.select(query, values, columns);
+			String[][] responses = connection.seleccionar(query, values, columns);
 			if (responses != null) {
 				responsible.setNames(responses[0][1]);
 				responsible.setLastNames(responses[0][1]);

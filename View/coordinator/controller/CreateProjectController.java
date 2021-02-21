@@ -196,7 +196,7 @@ public class CreateProjectController implements Initializable {
 	
 	public void signUp() {
 		instanceProject();
-		if (project.isComplete()) {
+		if (project.estaCompleto()) {
 			if (project.register()) {
 				MainController.alert(Alert.AlertType.INFORMATION,
 					"Proyecto registrado",

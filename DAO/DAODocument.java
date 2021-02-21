@@ -1,9 +1,9 @@
 package DAO;
 
-import Connection.DBConnection;
+import Connection.ConexionBD;
 import Exceptions.CustomException;
 import Models.Document;
-import Models.Student;
+import Models.Practicante;
 import tools.Dir;
 import tools.File;
 import tools.Logger;
@@ -17,7 +17,7 @@ import java.sql.SQLException;
 
 public class DAODocument {
 	private final Document document;
-	private final DBConnection connection = new DBConnection();
+	private final ConexionBD connection = new ConexionBD();
 	
 	public DAODocument(Document document) {
 		this.document = document;
@@ -30,15 +30,15 @@ public class DAODocument {
 		
 		String query = "SELECT COUNT(idMiembro) AS TOTAL FROM MiembroFEI " +
 			"WHERE correoElectronico = ?";
-		String[] values = { authorEmail };
-		String[] names = { "TOTAL" };
-		assert this.connection.select(query, values, names)[0][0].equals("1");
+		String[] values = {authorEmail};
+		String[] names = {"TOTAL"};
+		assert this.connection.seleccionar(query, values, names)[0][0].equals("1");
 		boolean saved = false;
 		
 		query = "SELECT COUNT(titulo) AS TOTAL FROM Documento " +
 			"WHERE titulo LIKE CONCAT(?, '%')";
-		values = new String[]{ this.document.getTitle() };
-		int occurrences = Integer.parseInt(this.connection.select(query, values, names)[0][0]);
+		values = new String[] {this.document.getTitle()};
+		int occurrences = Integer.parseInt(this.connection.seleccionar(query, values, names)[0][0]);
 		String fullTitle = occurrences > 0 ?
 			this.document.getTitle() + "(" + occurrences + ")" :
 			this.document.getTitle();
@@ -67,15 +67,15 @@ public class DAODocument {
 		return saved;
 	}
 	
-	public boolean saveReport(Student student, String type) throws CustomException {
+	public boolean saveReport(Practicante practicante, String type) throws CustomException {
 		boolean saved;
-		if (student.isRegistered() && this.save(student.getEmail())) {
-			String studentId = new DAOStudent(student).getId();
+		if (practicante.estaRegistrado() && this.save(practicante.getEmail())) {
+			String studentId = new DAOPracticante(practicante).getId();
 			String query = "INSERT INTO Reporte " +
 				"(idDocumento, temporalidad, asignacion) VALUES (?, ?, " +
 				"(SELECT idPracticante FROM Asignacion WHERE idPracticante = ? AND estaActivo =1))";
-			String[] values = { this.getId(), type, studentId };
-			saved = this.connection.sendQuery(query, values);
+			String[] values = {this.getId(), type, studentId};
+			saved = this.connection.executar(query, values);
 		} else {
 			saved = false;
 		}
@@ -103,12 +103,12 @@ public class DAODocument {
 		boolean got;
 		
 		String query = "SELECT COUNT(titulo) AS TOTAL FROM Documento WHERE titulo = ?";
-		String[] values = { this.document.getTitle() };
-		String[] columns = { "TOTAL" };
-		assert this.connection.select(query, values, columns)[0][0].equals("1");
+		String[] values = {this.document.getTitle()};
+		String[] columns = {"TOTAL"};
+		assert this.connection.seleccionar(query, values, columns)[0][0].equals("1");
 		query = "SELECT archivo, path FROM Documento WHERE titulo = ?";
-		columns = new String[]{ "archivo", "path" };
-		String[] responses = this.connection.select(query, values, columns)[0];
+		columns = new String[] {"archivo", "path"};
+		String[] responses = this.connection.seleccionar(query, values, columns)[0];
 		File file = new File("LocalFiles/Downloads/" + responses[1]);
 		Dir.mkdir(file.getStringParentPath());
 		got = file.write(responses[0]);
@@ -121,12 +121,12 @@ public class DAODocument {
 		assert this.document != null : "Document is null: DAODocument.getId()";
 		assert this.document.getTitle() != null : "Document's title is null: DAODocument.getId()";
 		String query = "SELECT COUNT(titulo) AS TOTAL FROM Documento WHERE titulo = ?";
-		String[] values = { this.document.getTitle() };
-		String[] columns = { "TOTAL" };
-		if (this.connection.select(query, values, columns)[0][0].equals("1")) {
+		String[] values = {this.document.getTitle()};
+		String[] columns = {"TOTAL"};
+		if (this.connection.seleccionar(query, values, columns)[0][0].equals("1")) {
 			query = "SELECT idDocumento FROM Documento WHERE titulo = ?";
-			columns = new String[]{ "idDocumento" };
-			id = this.connection.select(query, values, columns)[0][0];
+			columns = new String[] {"idDocumento"};
+			id = this.connection.seleccionar(query, values, columns)[0][0];
 		}
 		return id;
 	}

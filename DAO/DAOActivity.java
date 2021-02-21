@@ -1,12 +1,12 @@
 package DAO;
 
-import Connection.DBConnection;
+import Connection.ConexionBD;
 import IDAO.IDAOActivity;
 import Models.Activity;
 
 public class DAOActivity implements IDAOActivity {
 	private final Activity activity;
-	private final DBConnection connection = new DBConnection();
+	private final ConexionBD connection = new ConexionBD();
 	
 	public DAOActivity(Activity activity) {
 		this.activity = activity;
@@ -22,13 +22,13 @@ public class DAOActivity implements IDAOActivity {
 				"profesorAsignador) " +
 				"VALUES (?, ?, ?, (SELECT SYSDATE()), ?, ?)";
 		String[] values = {
-			new DAOStudent(this.activity.getStudent()).getId(),
+			new DAOPracticante(this.activity.getStudent()).getId(),
 			this.activity.getTitle(),
 			this.activity.getDescription(),
 			this.activity.getDeliveryDate(),
-			new DAOProfessor(this.activity.getProfessor()).getId()
+			new DAOProfesor(this.activity.getProfessor()).getId()
 		};
-		return this.connection.sendQuery(query, values);
+		return this.connection.executar(query, values);
 	}
 	
 	@Override
@@ -40,7 +40,7 @@ public class DAOActivity implements IDAOActivity {
 			this.activity.getDescription(),
 			this.activity.getStartDate()
 		};
-		return this.connection.sendQuery(query, values);
+		return this.connection.executar(query, values);
 	}
 	
 	@Override
@@ -49,7 +49,7 @@ public class DAOActivity implements IDAOActivity {
 		assert this.isRegistered() : "Activity not registered on delete()";
 		String query = "DELETE FROM Actividad WHERE Actividad.idActividad = ?";
 		String[] values = {this.getIdActivity()};
-		return this.connection.sendQuery(query, values);
+		return this.connection.executar(query, values);
 	}
 	
 	public boolean isRegistered() {
@@ -58,7 +58,7 @@ public class DAOActivity implements IDAOActivity {
 			"WHERE titulo = ? AND descripcion = ?";
 		String[] values = {this.activity.getTitle(), this.activity.getDescription()};
 		String[] names = {"TOTAL"};
-		String[][] results = this.connection.select(query, values, names);
+		String[][] results = this.connection.seleccionar(query, values, names);
 		return results != null && results[0][0].equals("1");
 	}
 	
@@ -67,7 +67,7 @@ public class DAOActivity implements IDAOActivity {
 		String query = "SELECT idActividad FROM Actividad WHERE titulo = ? AND descripcion = ?";
 		String[] values = {this.activity.getTitle(), this.activity.getDescription()};
 		String[] names = {"idActividad"};
-		String[][] results = this.connection.select(query, values, names);
+		String[][] results = this.connection.seleccionar(query, values, names);
 		return results != null ? results[0][0] : "";
 	}
 	
@@ -75,7 +75,7 @@ public class DAOActivity implements IDAOActivity {
 		String query = "SELECT fechaCreacion FROM Actividad WHERE titulo = ?";
 		String[] values = {this.activity.getTitle()};
 		String[] names = {"fechaInicio"};
-		String[][] results = this.connection.select(query, values, names);
+		String[][] results = this.connection.seleccionar(query, values, names);
 		return results != null ? results[0][0] : "";
 	}
 }

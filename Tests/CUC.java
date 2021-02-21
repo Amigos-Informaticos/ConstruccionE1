@@ -4,10 +4,10 @@ import Models.Assignment;
 import Models.CalendarizedActivity;
 import Models.Coordinator;
 import Models.Organization;
+import Models.Practicante;
 import Models.Professor;
 import Models.Project;
 import Models.ProjectResponsible;
-import Models.Student;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -31,24 +31,24 @@ public class CUC {
 	
 	public Professor getProfessor() {
 		Professor professor = new Professor();
-		professor.setNames("Octavio");
-		professor.setLastnames("Ocharan");
+		professor.setNombres("Octavio");
+		professor.setApellidos("Ocharan");
 		professor.setEmail("ocha@hotmail.com");
-		professor.setPassword("ocha1234");
+		professor.setContrasena("ocha1234");
 		professor.setPersonalNo("N000002");
 		professor.setShift("1");
 		return professor;
 	}
 	
-	public Student getStudent() {
-		Student student = new Student();
-		student.setNames("Panfilo Filomeno");
-		student.setLastnames("Isidoro Filomon");
-		student.setEmail("pfif@correo.com");
-		student.setPassword("166074819791292qe");
-		student.setRegNumber("S1835460");
-		student.setProfessor(getProfessor());
-		return student;
+	public Practicante getStudent() {
+		Practicante practicante = new Practicante();
+		practicante.setNombres("Panfilo Filomeno");
+		practicante.setApellidos("Isidoro Filomon");
+		practicante.setEmail("pfif@correo.com");
+		practicante.setContrasena("166074819791292qe");
+		practicante.setMatricula("S1835460");
+		practicante.setProfesor(getProfessor());
+		return practicante;
 	}
 	
 	public Organization getOrganization() {
@@ -103,7 +103,7 @@ public class CUC {
 	
 	@Test
 	public void bRegisterStudent() {
-		assertTrue(getStudent().signUp());
+		assertTrue(getStudent().registrarse());
 	}
 	
 	@Test
@@ -131,7 +131,7 @@ public class CUC {
 	
 	@Test
 	public void fDeleteStudent() {
-		assertTrue(getStudent().delete());
+		assertTrue(getStudent().eliminar());
 	}
 	
 	@Test

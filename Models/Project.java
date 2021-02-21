@@ -26,7 +26,7 @@ public class Project {
 	private CalendarizedActivity[] calendarizedActivities;
 	private Coordinator coordinator;
 	
-	public String getName() {
+	public String getNombre() {
 		return name;
 	}
 	
@@ -166,7 +166,7 @@ public class Project {
 		this.calendarizedActivities = calendarizedActivities;
 	}
 	
-	public boolean isComplete() {
+	public boolean estaCompleto() {
 		return this.name != null &&
 			this.description != null &&
 			this.methodology != null &&

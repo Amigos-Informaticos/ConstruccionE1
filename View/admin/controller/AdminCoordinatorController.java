@@ -87,17 +87,17 @@ public class AdminCoordinatorController implements Initializable {
         coordinator = new Coordinator();
         this.instanceCoordinator(coordinator);
         try {
-            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "") && coordinator.isComplete()) {
-                if (coordinator.signUp()) {
-                    MainController.alert(
-                            Alert.AlertType.INFORMATION,
-                            "Coordinador registrado correctamente",
-                            "Pulse aceptar para continuar"
-                    );
-                } else {
-                    MainController.alert(
-                            Alert.AlertType.WARNING,
-                            "Error al conectar con la base de datos",
+            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "") && coordinator.estaCompleto()) {
+	            if (coordinator.signUp()) {
+		            MainController.alert(
+			            Alert.AlertType.INFORMATION,
+			            "Coordinador registrado correctamente",
+			            "Pulse aceptar para continuar"
+		            );
+	            } else {
+		            MainController.alert(
+			            Alert.AlertType.WARNING,
+			            "Error al conectar con la base de datos",
                             "Pulse aceptar para continuar"
                     );
                 }
@@ -118,18 +118,18 @@ public class AdminCoordinatorController implements Initializable {
         coordinator = new Coordinator();
         this.instanceCoordinator(coordinator);
         try {
-            if (MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro?","") &&
-                    coordinator.isComplete()) {
-                instanceCoordinator(coordinator);
-                if(coordinator.update()){
-                    MainController.alert(
-                            Alert.AlertType.INFORMATION,
-                            "Coordinador registrado exitosamente",
-                            "Pulse aceptar para continua"
-                    );
-                } else {
-                    MainController.alert(
-                            Alert.AlertType.ERROR,
+	        if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "") &&
+		        coordinator.estaCompleto()) {
+		        instanceCoordinator(coordinator);
+		        if (coordinator.update()) {
+			        MainController.alert(
+				        Alert.AlertType.INFORMATION,
+				        "Coordinador registrado exitosamente",
+				        "Pulse aceptar para continua"
+			        );
+		        } else {
+			        MainController.alert(
+				        Alert.AlertType.ERROR,
                             "No se pudo actualizar al coordinador",
                             "Pulse aceptar para continuar"
                     );
@@ -173,12 +173,12 @@ public class AdminCoordinatorController implements Initializable {
     }
 
     private void instanceCoordinator(Coordinator coordinator) {
-        coordinator.setEmail(txtEmail.getText());
-        coordinator.setPassword(pwdPassword.getText());
-        coordinator.setNames(txtNames.getText());
-        coordinator.setLastnames(txtLastNames.getText());
-        coordinator.setPersonalNo(txtNoPersonal.getText());
-        coordinator.setShift(cmbShift.getValue());
+	    coordinator.setEmail(txtEmail.getText());
+	    coordinator.setContrasena(pwdPassword.getText());
+	    coordinator.setNombres(txtNames.getText());
+	    coordinator.setApellidos(txtLastNames.getText());
+	    coordinator.setPersonalNo(txtNoPersonal.getText());
+	    coordinator.setShift(cmbShift.getValue());
     }
 
     private void cleanFormCoordinator() {
@@ -189,13 +189,13 @@ public class AdminCoordinatorController implements Initializable {
     }
 
     private void fillDetailsCoordinator(Coordinator coordinator) {
-        assert coordinator.isComplete() : "Coordinator isn't complete on AdminCoordinatorController.fillDetailsCoordinator()";
-        lblNames.setText(coordinator.getNames());
-        lblLastnames.setText(coordinator.getLastnames());
-        lblEmail.setText(coordinator.getEmail());
-        lblPersonalNo.setText(coordinator.getPersonalNo());
-        lblShift.setText(coordinator.getShift());
-        lblRegistrationDate.setText(coordinator.getRegistrationDate());
+	    assert coordinator.estaCompleto() : "Coordinator isn't complete on AdminCoordinatorController.fillDetailsCoordinator()";
+	    lblNames.setText(coordinator.getNombres());
+	    lblLastnames.setText(coordinator.getApellidos());
+	    lblEmail.setText(coordinator.getEmail());
+	    lblPersonalNo.setText(coordinator.getPersonalNo());
+	    lblShift.setText(coordinator.getShift());
+	    lblRegistrationDate.setText(coordinator.getRegistrationDate());
     }
 
     private void enableRegister() {

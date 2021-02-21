@@ -1,7 +1,7 @@
 package Tests;
 
-import DAO.DAOStudent;
-import Models.Student;
+import DAO.DAOPracticante;
+import Models.Practicante;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class DAOStudentTests {
+public class DAOPracticanteTests {
 	
 	@Test
 	public void a_signUpPracticante() {
-		assertTrue(getInstancePracticante().signUp());
+		assertTrue(getInstancePracticante().registrarse());
 	}
 	
 	@Test
@@ -23,9 +23,9 @@ public class DAOStudentTests {
 	
 	@Test
 	public void c_getAllPracticantes() {
-		Student[] students = DAOStudent.getAll();
-		for (Student student: students) {
-			assertNotNull(student);
+		Practicante[] practicantes = DAOPracticante.obtenerTodos();
+		for (Practicante practicante: practicantes) {
+			assertNotNull(practicante);
 		}
 	}
 	
@@ -36,8 +36,8 @@ public class DAOStudentTests {
 	
 	@Test
 	public void e_updatePracticante() {
-		Student student = getInstancePracticante();
-		student.setNames("Jose Joaquin");
+		Practicante practicante = getInstancePracticante();
+		practicante.setNombres("Jose Joaquin");
 		//assertTrue(new DAOPracticante(practicante).update());
 	}
 	
@@ -81,15 +81,15 @@ public class DAOStudentTests {
 	
 	@Test
 	public void z_deletePracticante() {
-		assertTrue(getDAOPracticante().delete());
+		assertTrue(getDAOPracticante().eliminar());
 	}
 	
-	private DAOStudent getDAOPracticante() {
-		return new DAOStudent(getInstancePracticante());
+	private DAOPracticante getDAOPracticante() {
+		return new DAOPracticante(getInstancePracticante());
 	}
 	
-	private Student getInstancePracticante() {
-		return new Student(
+	private Practicante getInstancePracticante() {
+		return new Practicante(
 			"Miguel Joaquin",
 			"Lopez Doriga",
 			"mjld@hotmail.com",

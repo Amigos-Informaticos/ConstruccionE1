@@ -8,26 +8,24 @@ import Models.Assignment;
 import Models.CalendarizedActivity;
 import Models.Coordinator;
 import Models.Organization;
+import Models.Practicante;
 import Models.Project;
 import Models.ProjectResponsible;
-import Models.Student;
 import org.junit.Test;
 import tools.P;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 public class TestsCoordinator {
 	Coordinator coordinator = new Coordinator();
-	private final Student student = new Student(
+	private final Practicante practicante = new Practicante(
 		"Juan Gabriel",
 		"Lopez Doriga",
 		"jbld@correo.com",
 		"elmiguel123",
 		"S17012130"
 	);
-	
 	
 	public Organization getOrganization() {
 		Organization organization = new Organization();
@@ -76,10 +74,10 @@ public class TestsCoordinator {
 	
 	@Test
 	public void studentManagementTest() {
-		Student student = new Student("Efrain", "Arenas", "efrain@arenas.com", "contrasenia123", "s18012138");
+		Practicante practicante = new Practicante("Efrain", "Arenas", "efrain@arenas.com", "contrasenia123", "s18012138");
 		try {
-			assertTrue(coordinator.signUpStudent(student));
-			assertTrue(coordinator.deleteStudent(student));
+			assertTrue(coordinator.signUpStudent(practicante));
+			assertTrue(coordinator.deleteStudent(practicante));
 		} catch (CustomException exception) {
 			exception.printStackTrace();
 		}
@@ -101,20 +99,19 @@ public class TestsCoordinator {
 		project.setResponsible(DAOProjectResponsible.get("correoResponsable1@correo.com"));
 		project.setPeriod("FEB-JUN 2020");
 		project.setOrganization("1");
-		Student student = new Student("Efrain",
+		Practicante practicante = new Practicante("Efrain",
 			"Arenas",
 			"efrain@correo.com",
 			"contrasenia123",
 			"s18012138");
 		
-		
 		try {
 			assertTrue(coordinator.signUpProject(project));
-			assertTrue(coordinator.signUpStudent(student));
-			student.selectProject("Hackear el pentagono");
-			coordinator.assignProject(student, "Hackear el pentagono");
+			assertTrue(coordinator.signUpStudent(practicante));
+			practicante.seleccionarProyecto("Hackear el pentagono");
+			coordinator.assignProject(practicante, "Hackear el pentagono");
 			assertTrue(coordinator.deleteProject(project));
-			assertTrue(coordinator.deleteStudent(student));
+			assertTrue(coordinator.deleteStudent(practicante));
 		} catch (CustomException e) {
 			e.printStackTrace();
 		}
@@ -146,15 +143,15 @@ public class TestsCoordinator {
 	public void getAllProjects() {
 		for (Project project: DAOProject.getAll()) {
 			assertNotNull(project);
-			P.pln(project.getName());
+			P.pln(project.getNombre());
 		}
 	}
 	
 	@Test
 	public void getRequestedProjects() {
-		for (Project project: Assignment.requestedProjects(student)) {
+		for (Project project: Assignment.requestedProjects(practicante)) {
 			assertNotNull(project);
-			P.pln(project.getName());
+			P.pln(project.getNombre());
 		}
 	}
 

@@ -1,6 +1,6 @@
 package IDAO;
 
-import Connection.DBConnection;
+import Connection.ConexionBD;
 import Models.Professor;
 
 public interface IDAOProfessor extends IDAOUser {
@@ -10,10 +10,10 @@ public interface IDAOProfessor extends IDAOUser {
                         "Turno.turno AS turno " +
                         "FROM MiembroFEI INNER JOIN Profesor ON MiembroFEI.idMiembro = Profesor.idMiembro " +
                         "INNER JOIN Turno ON Profesor.turno = Turno.idTurno WHERE estaActivo = 1";
-        String[] names =
-                {"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "turno"};
-        String[][] responses = new DBConnection().select(query, null, names);
-        Professor[] professors = new Professor[responses.length];
+	    String[] names =
+		    {"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "turno"};
+	    String[][] responses = new ConexionBD().seleccionar(query, null, names);
+	    Professor[] professors = new Professor[responses.length];
         for (int i = 0; i < responses.length; i++) {
             professors[i] = new Professor(
                     responses[i][0],
@@ -30,14 +30,14 @@ public interface IDAOProfessor extends IDAOUser {
     static Professor get(Professor professor) {
         return null;
     }
-
-    boolean logIn();
-
-    boolean signUp();
+	
+	boolean iniciarSesion();
+	
+	boolean registrarse();
 
     boolean update();
-
-    boolean delete();
+	
+	boolean eliminar();
 
     boolean reactive();
 

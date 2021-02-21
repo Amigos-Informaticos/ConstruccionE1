@@ -3,13 +3,13 @@ package IDAO;
 import Exceptions.CustomException;
 
 public interface IDAOUser {
-	boolean logIn() throws CustomException;
+	boolean iniciarSesion() throws CustomException;
 	
-	boolean signUp() throws CustomException;
+	boolean registrarse() throws CustomException;
 	
-	boolean isRegistered() throws CustomException;
+	boolean estaRegistrado() throws CustomException;
 	
-	boolean delete() throws CustomException;
+	boolean eliminar() throws CustomException;
 	
 	boolean reactive() throws CustomException;
 }

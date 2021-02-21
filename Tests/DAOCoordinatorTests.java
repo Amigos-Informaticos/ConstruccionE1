@@ -1,15 +1,13 @@
 package Tests;
 
 import DAO.DAOCoordinator;
-import DAO.DAOProfessor;
-import Exceptions.CustomException;
+import DAO.DAOProfesor;
 import IDAO.IDAOProfessor;
 import Models.Coordinator;
 import Models.Professor;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import tools.Logger;
 import tools.P;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -20,56 +18,56 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class DAOCoordinatorTests {
     @Test
     public void a_signUpCoordinator() {
-        Coordinator coordinator = new Coordinator();
-        coordinator.setNames("Angel Juan");
-        coordinator.setLastnames("Rodriguez Perez");
-        coordinator.setEmail("aj@hotmail.com");
-        coordinator.setPassword("aj1234");
-        coordinator.setPersonalNo("N000011");
-        coordinator.setShift("Matutino");
-        DAOCoordinator daoCoordinator = new DAOCoordinator(coordinator);
-        try{
-            assertTrue(daoCoordinator.signUp());
-        }catch (AssertionError e){
-            System.out.println(e.getMessage());
-        }
+	    Coordinator coordinator = new Coordinator();
+	    coordinator.setNombres("Angel Juan");
+	    coordinator.setApellidos("Rodriguez Perez");
+	    coordinator.setEmail("aj@hotmail.com");
+	    coordinator.setContrasena("aj1234");
+	    coordinator.setPersonalNo("N000011");
+	    coordinator.setShift("Matutino");
+	    DAOCoordinator daoCoordinator = new DAOCoordinator(coordinator);
+	    try {
+		    assertTrue(daoCoordinator.registrarse());
+	    } catch (AssertionError e) {
+		    System.out.println(e.getMessage());
+	    }
 
     }
 
     @Test
     public void b_isRegistered() {
-        Coordinator coordinator = new Coordinator();
-        coordinator.setNames("Angel Juan");
-        coordinator.setLastnames("Rodriguez Perez");
-        coordinator.setEmail("aj@hotmail.com");
-        coordinator.setPassword("aj1234");
-        coordinator.setPersonalNo("N000011");
-        coordinator.setShift("Matutino");
-        DAOCoordinator daoCoordinator = new DAOCoordinator(coordinator);
-        assertTrue(daoCoordinator.isRegistered());
+	    Coordinator coordinator = new Coordinator();
+	    coordinator.setNombres("Angel Juan");
+	    coordinator.setApellidos("Rodriguez Perez");
+	    coordinator.setEmail("aj@hotmail.com");
+	    coordinator.setContrasena("aj1234");
+	    coordinator.setPersonalNo("N000011");
+	    coordinator.setShift("Matutino");
+	    DAOCoordinator daoCoordinator = new DAOCoordinator(coordinator);
+	    assertTrue(daoCoordinator.estaRegistrado());
     }
 
     @Test
     public void c_updateProfesor() {
-        Professor roberto = new Professor();
-        DAOProfessor daoProfessor = new DAOProfessor(roberto);
-        roberto.setNames("Alexis");
-        roberto.setLastnames("Alvarez Ortega");
-        roberto.setEmail("alexisao@hotmail.com");
-        roberto.setPassword("alexis123");
-        roberto.setPersonalNo("N000001");
-        roberto.setShift("1");
-        try {
-            assertTrue(daoProfessor.update());
-        } catch (AssertionError e) {
-            e.printStackTrace();
-        }
+	    Professor roberto = new Professor();
+	    DAOProfesor daoProfesor = new DAOProfesor(roberto);
+	    roberto.setNombres("Alexis");
+	    roberto.setApellidos("Alvarez Ortega");
+	    roberto.setEmail("alexisao@hotmail.com");
+	    roberto.setContrasena("alexis123");
+	    roberto.setPersonalNo("N000001");
+	    roberto.setShift("1");
+	    try {
+		    assertTrue(daoProfesor.update());
+	    } catch (AssertionError e) {
+		    e.printStackTrace();
+	    }
     }
 
     @Test
     public void d_deleteProfessor() {
         try {
-            assertTrue(this.getDAOProfesor().delete());
+	        assertTrue(this.getDAOProfesor().eliminar());
         } catch (AssertionError e) {
             System.out.println(e.getMessage());
         }
@@ -84,35 +82,36 @@ public class DAOCoordinatorTests {
     @Test
     public void z_getAll() {
         for (Professor professor: IDAOProfessor.getAll()) {
-            assertNotNull(professor.getNames());
-            P.pln(professor.getNames());
+	        assertNotNull(professor.getNombres());
+	        P.pln(professor.getNombres());
         }
     }
 
     @Test
     public void z_getActive(){
-        Coordinator coordinator = null;
-        coordinator = DAOCoordinator.getActive();
-        System.out.println(coordinator);
-        assertTrue(coordinator.isComplete());
+	    Coordinator coordinator = null;
+	    coordinator = DAOCoordinator.getActive();
+	    System.out.println(coordinator);
+	    assertTrue(coordinator.estaCompleto());
     }
-
-    @Test
-    public void isAnother(){
-        assertTrue(new Coordinator().isAnother());
-    }
-    private DAOProfessor getDAOProfesor() {
-        return new DAOProfessor(getInstanceProfesor());
-    }
-
-    private Professor getInstanceProfesor() {
-        return new Professor(
-                "Alexis",
-                "Alvarez Ortega",
-                "alexisao@hotmail.com",
-                "alexis123",
-                "N000001",
-                "Mixto"
+	
+	@Test
+	public void isAnother() {
+		assertTrue(new Coordinator().isAnother());
+	}
+	
+	private DAOProfesor getDAOProfesor() {
+		return new DAOProfesor(getInstanceProfesor());
+	}
+	
+	private Professor getInstanceProfesor() {
+		return new Professor(
+			"Alexis",
+			"Alvarez Ortega",
+			"alexisao@hotmail.com",
+			"alexis123",
+			"N000001",
+			"Mixto"
         );
     }
 }

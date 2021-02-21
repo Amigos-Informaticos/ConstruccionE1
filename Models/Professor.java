@@ -1,13 +1,13 @@
 package Models;
 
-import DAO.DAOProfessor;
+import DAO.DAOProfesor;
 import Exceptions.CustomException;
 import IDAO.IDAOProfessor;
 import javafx.collections.ObservableList;
 
 import java.util.Collections;
 
-public class Professor extends User {
+public class Professor extends Usuario {
 	private String personalNo;
 	private String shift;
 	
@@ -24,10 +24,10 @@ public class Professor extends User {
 	}
 	
 	public Professor(Professor professor) {
-		setNames(professor.getNames());
-		setLastnames(professor.getLastnames());
+		setNombres(professor.getNombres());
+		setApellidos(professor.getApellidos());
 		setEmail(professor.getEmail());
-		setCleanPassword(professor.getPassword());
+		setContrasenaLimpia(professor.getContrasena());
 		setShift(professor.getShift());
 		setPersonalNo(professor.getPersonalNo());
 	}
@@ -49,31 +49,31 @@ public class Professor extends User {
 	}
 	
 	public boolean logIn() throws CustomException {
-		return new DAOProfessor(this).logIn();
+		return new DAOProfesor(this).iniciarSesion();
 	}
 	
 	public boolean signUp() {
-		return new DAOProfessor(this).signUp();
+		return new DAOProfesor(this).registrarse();
 	}
 	
 	public boolean update() {
-		return new DAOProfessor(this).update();
+		return new DAOProfesor(this).update();
 	}
 	
 	public boolean delete() {
-		return new DAOProfessor(this).delete();
+		return new DAOProfesor(this).eliminar();
 	}
 	
 	public boolean reactive() {
-		return new DAOProfessor(this).reactive();
+		return new DAOProfesor(this).reactive();
 	}
 	
 	public boolean isRegistered() {
-		return new DAOProfessor(this).isRegistered();
+		return new DAOProfesor(this).estaRegistrado();
 	}
 	
-	public boolean isComplete() {
-		return super.isComplete() && personalNo != null && shift != null;
+	public boolean estaCompleto() {
+		return super.estaCompleto() && personalNo != null && shift != null;
 	}
 	
 	public void fillTableProfessor(ObservableList<Professor> listProfessor) {

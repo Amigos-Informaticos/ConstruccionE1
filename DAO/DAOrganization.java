@@ -1,13 +1,13 @@
 package DAO;
 
-import Connection.DBConnection;
+import Connection.ConexionBD;
 import IDAO.IDAOrganization;
 import Models.Organization;
 import javafx.collections.ObservableList;
 
 public class DAOrganization implements IDAOrganization {
 	private final Organization organization;
-	private final DBConnection connection = new DBConnection();
+	private final ConexionBD connection = new ConexionBD();
 	
 	public DAOrganization(Organization organization) {
 		this.organization = organization;
@@ -28,7 +28,7 @@ public class DAOrganization implements IDAOrganization {
 			}
 			query = "INSERT INTO Organizacion (nombre, estaActivo, idSector) VALUES (?, 1, ?)";
 			values = new String[] {this.organization.getName(), this.getIdSector()};
-			signed = this.connection.sendQuery(query, values) &&
+			signed = this.connection.executar(query, values) &&
 				this.registerAddress() &&
 				this.signUpTelephoneNumber();
 		} else {
@@ -45,7 +45,7 @@ public class DAOrganization implements IDAOrganization {
 			"WHERE nombre = ?";
 		String[] values = {this.organization.getName()};
 		String[] names = {"TOTAL"};
-		String[][] results = this.connection.select(query, values, names);
+		String[][] results = this.connection.seleccionar(query, values, names);
 		return results != null && results[0][0].equals("1");
 	}
 	
@@ -56,7 +56,7 @@ public class DAOrganization implements IDAOrganization {
 		assert this.isActive() : "Organization is not active: DAOrganization.delete()";
 		String query = "UPDATE Organizacion SET estaActivo = 0 WHERE nombre = ?";
 		String[] values = {this.organization.getName()};
-		return this.connection.sendQuery(query, values);
+		return this.connection.executar(query, values);
 	}
 	
 	@Override
@@ -68,7 +68,7 @@ public class DAOrganization implements IDAOrganization {
 		String query = "SELECT estaActivo FROM Organizacion WHERE nombre = ?";
 		String[] values = {this.organization.getName()};
 		String[] names = {"estaActivo"};
-		String[][] results = this.connection.select(query, values, names);
+		String[][] results = this.connection.seleccionar(query, values, names);
 		return results != null && results[0][0].equals("1");
 	}
 	
@@ -78,14 +78,14 @@ public class DAOrganization implements IDAOrganization {
 		assert this.isRegistered() : "Organization is not registered: DAOrganization.reactivate()";
 		String query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
 		String[] values = {this.organization.getName()};
-		return this.connection.sendQuery(query, values);
+		return this.connection.executar(query, values);
 	}
 	
 	public String getId() {
 		String query = "SELECT idOrganizacion FROM Organizacion WHERE nombre = ?";
 		String[] values = {organization.getName()};
 		String[] names = {"idOrganizacion"};
-		String[][] results = this.connection.select(query, values, names);
+		String[][] results = this.connection.seleccionar(query, values, names);
 		return results != null ? results[0][0] : "";
 	}
 	
@@ -98,7 +98,7 @@ public class DAOrganization implements IDAOrganization {
 				query += ", ";
 			}
 		}
-		return this.connection.sendQuery(query, this.organization.getPhoneNumber());
+		return this.connection.executar(query, this.organization.getPhoneNumber());
 	}
 	
 	public boolean registerAddress() {
@@ -113,7 +113,7 @@ public class DAOrganization implements IDAOrganization {
 			this.organization.getAddress().get("colony"),
 			this.organization.getAddress().get("locality")
 		};
-		return this.connection.sendQuery(query, values);
+		return this.connection.executar(query, values);
 	}
 	
 	public boolean registerSector(String sector) {
@@ -122,7 +122,7 @@ public class DAOrganization implements IDAOrganization {
 		if (!this.isSectorRegistered(sector)) {
 			String query = "INSERT INTO Sector (sector) VALUES (?)";
 			String[] values = {sector};
-			registered = this.connection.sendQuery(query, values);
+			registered = this.connection.executar(query, values);
 		} else {
 			registered = false;
 		}
@@ -134,7 +134,7 @@ public class DAOrganization implements IDAOrganization {
 		String query = "SELECT COUNT(sector) AS TOTAL FROM Sector WHERE sector = ?";
 		String[] values = {sector};
 		String[] columns = {"TOTAL"};
-		String[][] results = this.connection.select(query, values, columns);
+		String[][] results = this.connection.seleccionar(query, values, columns);
 		return results != null && results[0][0].equals("1");
 	}
 	
@@ -142,14 +142,14 @@ public class DAOrganization implements IDAOrganization {
 		String query = "SELECT idSector FROM Sector WHERE sector = ?";
 		String[] values = {this.organization.getSector()};
 		String[] names = {"idSector"};
-		String[][] results = this.connection.select(query, values, names);
+		String[][] results = this.connection.seleccionar(query, values, names);
 		return results != null ? results[0][0] : "";
 	}
 	
 	public boolean fillOrganizationNames(ObservableList<String> listOrganization) {
 		boolean filled = false;
 		String query = "SELECT nombre FROM Organizacion WHERE estaActivo = 1";
-		for (String[] name: this.connection.select(query, null, new String[] {"nombre"})) {
+		for (String[] name: this.connection.seleccionar(query, null, new String[] {"nombre"})) {
 			listOrganization.add(name[0]);
 			filled = true;
 		}
@@ -159,7 +159,7 @@ public class DAOrganization implements IDAOrganization {
 	public boolean fillSector(ObservableList<String> listSector) {
 		boolean filled = false;
 		String query = "SELECT sector FROM Sector";
-		for (String[] sector: this.connection.select(query, null, new String[] {"sector"})) {
+		for (String[] sector: this.connection.seleccionar(query, null, new String[] {"sector"})) {
 			listSector.add(sector[0]);
 			filled = true;
 		}
@@ -182,7 +182,7 @@ public class DAOrganization implements IDAOrganization {
 			"telefono",
 			"sector"
 		};
-		String[][] select = this.connection.select(query, null, names);
+		String[][] select = this.connection.seleccionar(query, null, names);
 		for (String[] strings: select) {
 			Organization organization = new Organization();
 			organization.setName(strings[0]);
@@ -201,7 +201,7 @@ public class DAOrganization implements IDAOrganization {
 	
 	public static Organization getByName(String organizationName) {
 		assert organizationName != null : "Name is null: DAOrganization.getByName()";
-		DBConnection connection = new DBConnection();
+		ConexionBD connection = new ConexionBD();
 		Organization organization = new Organization();
 		organization.setName(organizationName);
 		if (new DAOrganization(organization).isRegistered()) {
@@ -212,7 +212,7 @@ public class DAOrganization implements IDAOrganization {
 			String[] values = {organizationName};
 			String[] columns =
 				new String[] {"sector", "calle", "numero", "colonia", "localidad"};
-			String[] responses = connection.select(query, values, columns)[0];
+			String[] responses = connection.seleccionar(query, values, columns)[0];
 			organization.setSector(responses[0]);
 			organization.setAddress(
 				responses[1],
@@ -223,7 +223,7 @@ public class DAOrganization implements IDAOrganization {
 			query = "SELECT telefono FROM TelefonoOrganizacion WHERE idOrganizacion = ?";
 			values = new String[] {new DAOrganization(organization).getId()};
 			columns = new String[] {"telefono"};
-			responses = connection.select(query, values, columns)[0];
+			responses = connection.seleccionar(query, values, columns)[0];
 			for (String number: responses) {
 				organization.addPhoneNumber(number);
 			}
@@ -236,11 +236,11 @@ public class DAOrganization implements IDAOrganization {
 		String query = "SELECT nombre FROM Organizacion WHERE idOrganizacion = ?";
 		String[] values = {idOrganization};
 		String[] names = {"nombre"};
-		DBConnection connection = new DBConnection();
-		String[][] results = connection.select(query, values, names);
+		ConexionBD connection = new ConexionBD();
+		String[][] results = connection.seleccionar(query, values, names);
 		if (results != null) {
 			organization = new Organization();
-			organization.setName(connection.select(query, values, names)[0][0]);
+			organization.setName(connection.seleccionar(query, values, names)[0][0]);
 		}
 		return organization;
 	}

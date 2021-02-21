@@ -54,7 +54,7 @@ public class ViewProjectController implements Initializable {
 
 
         txtOrganization.setText(project.getOrganization().getName());
-        txtName.setText(project.getName());
+        txtName.setText(project.getNombre());
         txtDescription.setText(project.getDescription());
         txtGeneralObjective.setText(project.getGeneralObjective());
         txtMediateObjective.setText(project.getMediateObjective());
