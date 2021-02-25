@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CUC {
-	
+	/*
 	public Coordinator getCoordinator() {
 		return new Coordinator(
 			"Angel Juan",
@@ -50,7 +50,7 @@ public class CUC {
 		student.setProfessor(getProfessor());
 		return student;
 	}
-	
+
 	public Organization getOrganization() {
 		Organization organization = new Organization();
 		organization.setName("La tercia de pibes");
@@ -140,4 +140,6 @@ public class CUC {
 		assertTrue(getResponsible().delete());
 		assertTrue(getOrganization().delete());
 	}
+
+	 */
 }

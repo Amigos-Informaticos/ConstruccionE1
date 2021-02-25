@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class TestsCoordinator {
+	/*
 	Coordinator coordinator = new Coordinator();
 	private final Student student = new Student(
 		"Juan Gabriel",
@@ -185,4 +186,6 @@ public class TestsCoordinator {
 		project.setCalendarizedActivities(calendarizedActivities);
 		project.register();
 	}
+
+ */
 }
