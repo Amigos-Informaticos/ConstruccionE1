@@ -2,12 +2,12 @@ package Tests;
 
 import DAO.DAOProject;
 import DAO.DAOProjectResponsible;
-import DAO.DAOrganization;
+import DAO.DAOrganizacion;
 import Exceptions.CustomException;
 import Models.Assignment;
 import Models.CalendarizedActivity;
 import Models.Coordinator;
-import Models.Organization;
+import Models.Organizacion;
 import Models.Practicante;
 import Models.Project;
 import Models.ProjectResponsible;
@@ -27,19 +27,19 @@ public class TestsCoordinator {
 		"S17012130"
 	);
 	
-	public Organization getOrganization() {
-		Organization organization = new Organization();
-		organization.setName("Organizacion 1");
-		organization.setSector("Videojuegos");
-		organization.setAddress(
+	public Organizacion getOrganization() {
+		Organizacion organizacion = new Organizacion();
+		organizacion.setNombre("Organizacion 1");
+		organizacion.setSector("Videojuegos");
+		organizacion.setDireccion(
 			"Revillagigedo",
 			"1928",
 			"Centro",
 			"Veracruz"
 		);
-		organization.addPhoneNumber("2291763687");
-		organization.addPhoneNumber("1660748");
-		return organization;
+		organizacion.addPhoneNumber("2291763687");
+		organizacion.addPhoneNumber("1660748");
+		return organizacion;
 	}
 	
 	public Project getProject() {
@@ -68,7 +68,7 @@ public class TestsCoordinator {
 		responsible.setNames("Responsable Miguel");
 		responsible.setLastNames("Apellidos responsable");
 		responsible.setPosition("Intendente");
-		responsible.setOrganization(DAOrganization.getByName("Organizacion 1"));
+		responsible.setOrganization(DAOrganizacion.obtenerPorNombre("Organizacion 1"));
 		return responsible;
 	}
 	
@@ -131,7 +131,7 @@ public class TestsCoordinator {
 	
 	@Test
 	public void signUpOrganization() {
-		assertTrue(this.getOrganization().signUp());
+		assertTrue(this.getOrganization().registrar());
 	}
 	
 	@Test

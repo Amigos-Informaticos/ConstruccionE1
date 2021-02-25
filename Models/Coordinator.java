@@ -106,12 +106,12 @@ public class Coordinator extends Usuario {
 		return practicante.eliminar();
 	}
 	
-	public boolean signUpOrganization(Organization organization) throws CustomException {
-		return organization.signUp();
+	public boolean signUpOrganization(Organizacion organizacion) throws CustomException {
+		return organizacion.registrar();
 	}
 	
-	public boolean deleteOrganization(Organization organization) throws CustomException {
-		return organization.signUp();
+	public boolean deleteOrganization(Organizacion organizacion) throws CustomException {
+		return organizacion.registrar();
 	}
 	
 	public boolean assignProject(Practicante practicante, String projectName) throws CustomException {

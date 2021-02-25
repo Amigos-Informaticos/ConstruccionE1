@@ -133,7 +133,7 @@ public class DAOProject implements IDAOProject {
 				project.setArea(this.getAreaById(projectReturned[9]));
 				project.setResponsible(DAO.DAOProjectResponsible.get(projectReturned[10]));
 				project.setPeriod(getPeriodById(projectReturned[11]));
-				project.setOrganization(DAO.DAOrganization.getNameById(projectReturned[12]));
+				project.setOrganization(DAOrganizacion.getNameById(projectReturned[12]));
 			}
 		}
 		return project;

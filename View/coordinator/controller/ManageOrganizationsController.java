@@ -1,6 +1,6 @@
 package View.coordinator.controller;
 
-import Models.Organization;
+import Models.Organizacion;
 import View.MainController;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -21,9 +21,9 @@ import java.util.ResourceBundle;
 
 public class ManageOrganizationsController implements Initializable {
 	@FXML
-	private TableView<Organization> tblViewOrganization;
+	private TableView<Organizacion> tblViewOrganization;
 	@FXML
-	private TableColumn<Organization, String> clmnName;
+	private TableColumn<Organizacion, String> clmnName;
 	
 	@FXML
 	private JFXComboBox<String> cmbSector;
@@ -43,20 +43,20 @@ public class ManageOrganizationsController implements Initializable {
 	@FXML
 	private JFXTextField txtLocality;
 	
-	ObservableList<Organization> listOrganization;
+	ObservableList<Organizacion> listOrganizacion;
 	ObservableList<String> listSector;
 	
-	private Organization organization;
+	private Organizacion organizacion;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		listOrganization = FXCollections.observableArrayList();
-		new Organization().fillTableOrganization(listOrganization);
-		tblViewOrganization.setItems(listOrganization);
-		clmnName.setCellValueFactory(new PropertyValueFactory<Organization, String>("name"));
+		listOrganizacion = FXCollections.observableArrayList();
+		new Organizacion().llenarTablaOrganizacion(listOrganizacion);
+		tblViewOrganization.setItems(listOrganizacion);
+		clmnName.setCellValueFactory(new PropertyValueFactory<Organizacion, String>("name"));
 		
 		listSector = FXCollections.observableArrayList();
-		new Organization().fillSector(listSector);
+		new Organizacion().llenarSector(listSector);
 		cmbSector.setItems(listSector);
 		
 		eventManager();
@@ -64,17 +64,17 @@ public class ManageOrganizationsController implements Initializable {
 	
 	public void eventManager() {
 		tblViewOrganization.getSelectionModel().selectedItemProperty().addListener(
-			new ChangeListener<Organization>() {
+			new ChangeListener<Organizacion>() {
 				@Override
-				public void changed(ObservableValue<? extends Organization> observable, Organization oldValue,
-				                    Organization newValue) {
+				public void changed(ObservableValue<? extends Organizacion> observable, Organizacion oldValue,
+				                    Organizacion newValue) {
 					if (newValue != null) {
-						organization = newValue;
-						txtName.setText(newValue.getName());
-						txtStreet.setText(newValue.getAddress().get("street"));
-						txtNo.setText(newValue.getAddress().get("number"));
-						txtColony.setText(newValue.getAddress().get("colony"));
-						txtLocality.setText(newValue.getAddress().get("locality"));
+						organizacion = newValue;
+						txtName.setText(newValue.getNombre());
+						txtStreet.setText(newValue.getDireccion().get("street"));
+						txtNo.setText(newValue.getDireccion().get("number"));
+						txtColony.setText(newValue.getDireccion().get("colony"));
+						txtLocality.setText(newValue.getDireccion().get("locality"));
 						cmbSector.setValue(newValue.getSector());
 						enableEdit();
 					} else {
@@ -97,11 +97,11 @@ public class ManageOrganizationsController implements Initializable {
 	
 	@FXML
 	public void signUp() {
-		Organization organization = new Organization();
-		this.instanceOrganization(organization);
-		if (organization.isComplete()) {
-			if (organization.signUp()) {
-				listOrganization.add(organization);
+		Organizacion organizacion = new Organizacion();
+		this.instanceOrganization(organizacion);
+		if (organizacion.estaCompleto()) {
+			if (organizacion.registrar()) {
+				listOrganizacion.add(organizacion);
 				MainController.alert(
 					Alert.AlertType.INFORMATION,
 					"Organizacion registrada exitosamente",
@@ -123,20 +123,20 @@ public class ManageOrganizationsController implements Initializable {
 		}
 	}
 	
-	public void instanceOrganization(Organization organization) {
-		organization.setName(txtName.getText());
-		organization.setAddress(
+	public void instanceOrganization(Organizacion organizacion) {
+		organizacion.setNombre(txtName.getText());
+		organizacion.setDireccion(
 			txtStreet.getText(),
 			txtNo.getText(),
 			txtColony.getText(),
 			txtLocality.getText()
 		);
-		organization.setSector(cmbSector.getValue());
+		organizacion.setSector(cmbSector.getValue());
 		if (!txtTel1.getText().equals("")) {
-			organization.addPhoneNumber(txtTel1.getText());
+			organizacion.addPhoneNumber(txtTel1.getText());
 		}
 		if (!txtTel2.getText().equals("")) {
-			organization.addPhoneNumber(txtTel2.getText());
+			organizacion.addPhoneNumber(txtTel2.getText());
 		}
 	}
 
@@ -146,18 +146,18 @@ public class ManageOrganizationsController implements Initializable {
 
 	@FXML
 	public void delete(){
-		if(MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro que desea eliminar?","")){
-			try{
-				if(tblViewOrganization.getSelectionModel().getSelectedItem().delete()){
-					listOrganization.remove(tblViewOrganization.getSelectionModel().getSelectedIndex());
+		if(MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro que desea eliminar?","")) {
+			try {
+				if (tblViewOrganization.getSelectionModel().getSelectedItem().eliminar()) {
+					listOrganizacion.remove(tblViewOrganization.getSelectionModel().getSelectedIndex());
 					MainController.alert(Alert.AlertType.INFORMATION,
-							"Organización eliminada",
-							"Organización eliminada exitosamente");
-				} else{
+						"Organización eliminada",
+						"Organización eliminada exitosamente");
+				} else {
 					MainController.alert(
-							Alert.AlertType.INFORMATION,
-							"DBError",
-							"No se pudo establecer conexión con Base de Datos"
+						Alert.AlertType.INFORMATION,
+						"DBError",
+						"No se pudo establecer conexión con Base de Datos"
 					);
 				}
 			}catch(AssertionError e){

@@ -3,13 +3,13 @@ package IDAO;
 import Exceptions.CustomException;
 
 public interface IDAOrganization {
-    boolean signUp() throws CustomException;
+    boolean registrar() throws CustomException;
     
-    boolean isRegistered();
+    boolean estaRegistrado();
     
-    boolean delete();
+    boolean eliminar();
     
-    boolean isActive();
+    boolean estaActivo();
     
-    boolean reactivate();
+    boolean reactivar();
 }

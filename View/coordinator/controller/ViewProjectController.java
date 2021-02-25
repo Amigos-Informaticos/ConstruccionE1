@@ -51,9 +51,8 @@ public class ViewProjectController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
-        txtOrganization.setText(project.getOrganization().getName());
+    
+        txtOrganization.setText(project.getOrganization().getNombre());
         txtName.setText(project.getNombre());
         txtDescription.setText(project.getDescription());
         txtGeneralObjective.setText(project.getGeneralObjective());
@@ -62,7 +61,7 @@ public class ViewProjectController implements Initializable {
         txtMethodology.setText(project.getMethodology());
         txtResources.setText(project.getResources());
         txtResponsibilities.setText(project.getResponsibilities());
-
+    
         txtPositionResponsible.setText(project.getResponsible().getPosition());
         txtEmailResponsible.setText(project.getResponsible().getEmail());
         txtNameResponsible.setText(project.getResponsible().getNames());

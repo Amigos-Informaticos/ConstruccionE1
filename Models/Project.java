@@ -1,7 +1,7 @@
 package Models;
 
 import DAO.DAOProject;
-import DAO.DAOrganization;
+import DAO.DAOrganizacion;
 import javafx.collections.ObservableList;
 
 import java.util.Collections;
@@ -20,7 +20,7 @@ public class Project {
 	private String area;
 	private ProjectResponsible responsible;
 	private String period;
-	private Organization organization;
+	private Organizacion organizacion;
 	private String startDate;
 	private String endDate;
 	private CalendarizedActivity[] calendarizedActivities;
@@ -122,16 +122,16 @@ public class Project {
 		this.period = period;
 	}
 	
-	public Organization getOrganization() {
-		return organization;
+	public Organizacion getOrganization() {
+		return organizacion;
 	}
 	
 	public void setOrganization(String organization) {
-		this.organization = DAOrganization.getByName(organization);
+		this.organizacion = DAOrganizacion.obtenerPorNombre(organization);
 	}
 	
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
+	public void setOrganization(Organizacion organizacion) {
+		this.organizacion = organizacion;
 	}
 	
 	public String getStartDate() {
@@ -178,7 +178,7 @@ public class Project {
 			this.area != null &&
 			this.responsible != null &&
 			this.period != null &&
-			this.organization != null;
+			this.organizacion != null;
 	}
 	
 	public boolean register() {

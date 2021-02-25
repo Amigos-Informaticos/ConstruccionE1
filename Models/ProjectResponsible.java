@@ -7,7 +7,7 @@ public class ProjectResponsible {
 	private String names;
 	private String lastNames;
 	private String position;
-	private Organization organization;
+	private Organizacion organizacion;
 	
 	public ProjectResponsible() {
 	}
@@ -32,12 +32,12 @@ public class ProjectResponsible {
 		return lastNames;
 	}
 	
-	public Organization getOrganization() {
-		return organization;
+	public Organizacion getOrganization() {
+		return organizacion;
 	}
 	
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
+	public void setOrganization(Organizacion organizacion) {
+		this.organizacion = organizacion;
 	}
 	
 	public void setLastNames(String lastNames) {

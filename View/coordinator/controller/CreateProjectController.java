@@ -1,7 +1,7 @@
 package View.coordinator.controller;
 
 import Models.CalendarizedActivity;
-import Models.Organization;
+import Models.Organizacion;
 import Models.Project;
 import Models.ProjectResponsible;
 import View.MainController;
@@ -101,7 +101,7 @@ public class CreateProjectController implements Initializable {
 	public void loadValues() {
 		if (MainController.getStageName().equals("CreateProject")) {
 			listOrganizations = FXCollections.observableArrayList();
-			Organization.fillOrganizationNames(listOrganizations);
+			Organizacion.llenarNombres(listOrganizations);
 			cmbOrganizations.setItems(listOrganizations);
 			
 			listAreas = FXCollections.observableArrayList();
@@ -225,7 +225,7 @@ public class CreateProjectController implements Initializable {
 		project.setResources(txtResources.getText());
 		project.setResponsibilities(txtResponsibilities.getText());
 		project.setCapacity(Integer.parseInt(txtCapacity.getText()));
-		project.setOrganization(Organization.getByName(cmbOrganizations.getValue()));
+		project.setOrganization(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
 		project.setPeriod(cmbPeriod.getValue());
 		project.setArea(cmbArea.getValue());
 		project.setStartDate(MainController.get("initialDate").toString());
@@ -260,7 +260,7 @@ public class CreateProjectController implements Initializable {
 		projectResponsible.setEmail(txtEmailResponsible.getText());
 		projectResponsible.setNames(txtNameResponsible.getText());
 		projectResponsible.setLastNames(txtLastnameResponsible.getText());
-		projectResponsible.setOrganization(Organization.getByName(cmbOrganizations.getValue()));
+		projectResponsible.setOrganization(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
 		return projectResponsible;
 	}
 }

@@ -77,7 +77,7 @@ public class ChooseProjectController implements Initializable {
 					resources.setText(newValue.getResources());
 					responsabilities.setText(newValue.getResponsibilities());
 					area.setText(newValue.getArea());
-					organization.setText(newValue.getOrganization().getName());
+					organization.setText(newValue.getOrganization().getNombre());
 				}
 			});
 	}

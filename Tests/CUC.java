@@ -3,7 +3,7 @@ package Tests;
 import Models.Assignment;
 import Models.CalendarizedActivity;
 import Models.Coordinator;
-import Models.Organization;
+import Models.Organizacion;
 import Models.Practicante;
 import Models.Professor;
 import Models.Project;
@@ -51,19 +51,19 @@ public class CUC {
 		return practicante;
 	}
 	
-	public Organization getOrganization() {
-		Organization organization = new Organization();
-		organization.setName("La tercia de pibes");
-		organization.setSector("Videojuegos");
-		organization.setAddress(
+	public Organizacion getOrganization() {
+		Organizacion organizacion = new Organizacion();
+		organizacion.setNombre("La tercia de pibes");
+		organizacion.setSector("Videojuegos");
+		organizacion.setDireccion(
 			"Tlanelhuayocan",
 			"1355",
 			"N/A",
 			"Tlanelhuayocan"
 		);
-		organization.addPhoneNumber("123456789");
-		organization.addPhoneNumber("123456");
-		return organization;
+		organizacion.addPhoneNumber("123456789");
+		organizacion.addPhoneNumber("123456");
+		return organizacion;
 	}
 	
 	public ProjectResponsible getResponsible() {
@@ -98,7 +98,7 @@ public class CUC {
 	
 	@Test
 	public void aRegisterOrganization() {
-		assertTrue(getOrganization().signUp());
+		assertTrue(getOrganization().registrar());
 	}
 	
 	@Test
@@ -138,6 +138,6 @@ public class CUC {
 	public void zClean() {
 		assertTrue(getProject().deleteProject());
 		assertTrue(getResponsible().delete());
-		assertTrue(getOrganization().delete());
+		assertTrue(getOrganization().eliminar());
 	}
 }

@@ -16,7 +16,7 @@ public class DAOProjectResponsible {
 			"Responsible is null: DAOProjectResponsible.signUp()";
 		assert this.projectResponsible.isComplete() :
 			"Responsible is not complete: DAOProjectResponsible.signUp()";
-		assert this.projectResponsible.getOrganization().isComplete() :
+		assert this.projectResponsible.getOrganization().estaCompleto() :
 			"Responsible organization is not complete: DAOProjectResponsible.signUp()";
 		
 		String query = "INSERT INTO Responsable " +
@@ -89,7 +89,7 @@ public class DAOProjectResponsible {
 				responsible.setNames(responses[0][1]);
 				responsible.setLastNames(responses[0][1]);
 				responsible.setPosition(responses[0][2]);
-				responsible.setOrganization(DAOrganization.getByName(responses[0][3]));
+				responsible.setOrganization(DAOrganizacion.obtenerPorNombre(responses[0][3]));
 			}
 		}
 		return responsible;
