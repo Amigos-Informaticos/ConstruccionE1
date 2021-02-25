@@ -18,7 +18,7 @@ public class DAOrganization implements IDAOrganization {
 		assert this.organization != null : "Organization is null: DAOrganization.signUp()";
 		assert this.organization.isComplete() :
 			"Organization is incomplete: DAOrganization.signUp()";
-		boolean signed;
+		boolean signed = false;
 		String query;
 		String[] values;
 		if (!this.isRegistered()) {
@@ -30,11 +30,9 @@ public class DAOrganization implements IDAOrganization {
 			values = new String[] {this.organization.getName(), this.getIdSector()};
 			signed = this.connection.sendQuery(query, values) &&
 				this.registerAddress() &&
-				this.signUpTellephoneNumber();
+				this.signUpTelephoneNumber();
 		} else {
-			query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
-			values = new String[] {this.organization.getName()};
-			signed = this.connection.sendQuery(query, values);
+			this.reactivate();
 		}
 		return signed;
 	}
@@ -78,7 +76,6 @@ public class DAOrganization implements IDAOrganization {
 	public boolean reactivate() {
 		assert this.organization != null : "Organization is null: DAOrganization.reactivate()";
 		assert this.isRegistered() : "Organization is not registered: DAOrganization.reactivate()";
-		assert this.isActive() : "Organization is not active: DAOrganization.reactivate()";
 		String query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
 		String[] values = {this.organization.getName()};
 		return this.connection.sendQuery(query, values);
@@ -92,7 +89,7 @@ public class DAOrganization implements IDAOrganization {
 		return results != null ? results[0][0] : "";
 	}
 	
-	public boolean signUpTellephoneNumber() {
+	public boolean signUpTelephoneNumber() {
 		String id = this.getId();
 		String query = "INSERT INTO TelefonoOrganizacion (idOrganizacion, telefono) VALUES ";
 		for (int i = 0; i < this.organization.getPhoneNumber().length; i++) {
@@ -186,14 +183,14 @@ public class DAOrganization implements IDAOrganization {
 			"sector"
 		};
 		String[][] select = this.connection.select(query, null, names);
-		for (int row = 0; row < select.length; row++) {
+		for (String[] strings: select) {
 			Organization organization = new Organization();
-			organization.setName(select[row][0]);
-			organization.setAddress(select[row][1],
-				select[row][2],
-				select[row][3],
-				select[row][4]);
-			organization.setSector(select[row][6]);
+			organization.setName(strings[0]);
+			organization.setAddress(strings[1],
+				strings[2],
+				strings[3],
+				strings[4]);
+			organization.setSector(strings[6]);
 			listOrganization.add(organization);
 			if (!filled) {
 				filled = true;

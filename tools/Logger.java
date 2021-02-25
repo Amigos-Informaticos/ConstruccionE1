@@ -65,6 +65,7 @@ public class Logger {
 			bot.addMessage(System.getProperty("user.name"));
 			DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 			
+			this.log.write("Developer: ");
 			this.log.write(System.getProperty("user.name"));
 			this.log.newLine();
 			this.log.write(date.format(LocalDateTime.now()) + "\t");

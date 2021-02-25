@@ -1,6 +1,7 @@
 package Configuration;
 
 import Connection.DBConnection;
+import Connection.FTPConnection;
 import tools.Dir;
 import tools.File;
 
@@ -8,59 +9,46 @@ import java.util.HashMap;
 
 public class Configuration {
 	
-	public static File getConnectionConfigFile() {
+	public static File getDBConnectionFile() {
 		return new File("src/Configuration/connection.config");
 	}
 	
-	public static File getDefaultConnectionConfigFile() {
-		return new File("src/Configuration/defaultConnection.config");
+	public static File getDefaultDBConnectionFile() {
+		return new File("src/Configuration/defaultDBConnection.config");
 	}
 	
-	public static boolean saveToFile(DBConnection connection, String path) {
-		boolean isSaved = false;
-		if (connection != null && connection.isReady() && path != null) {
-			File file = new File(path);
-			file.delete();
-			file.write(connection.getDriver());
-			file.newLine();
-			file.write(connection.getUrl());
-			file.newLine();
-			file.write(connection.getUser());
-			file.newLine();
-			file.write(connection.getPassword());
-			isSaved = true;
-		}
-		return isSaved;
+	public static File getFTPConnectionFile() {
+		return new File("src/Configuration/FTPConnection.config");
 	}
 	
-	public static void loadConnection(DBConnection connection) {
-		File connectionFile = getConnectionConfigFile();
+	public static File getDefaultFTPConnectionFile() {
+		return new File("src/Configuration/defaultFTPConnection.config");
+	}
+	
+	public static void loadDBConnection(DBConnection connection) {
+		File connectionFile = getDBConnectionFile();
 		if (!connectionFile.exists()) {
-			connectionFile = getDefaultConnectionConfigFile();
+			connectionFile = getDefaultDBConnectionFile();
 		}
-		if (connection == null) {
-			connection = new DBConnection();
+		if (connection != null) {
+			connection.setDriver(connectionFile.readLine());
+			connection.setUrl(connectionFile.readLine());
+			connection.setUser(connectionFile.readLine());
+			connection.setPassword(connectionFile.readLine());
 		}
-		connection.setDriver(connectionFile.readLine());
-		connection.setUrl(connectionFile.readLine());
-		connection.setUser(connectionFile.readLine());
-		connection.setPassword(connectionFile.readLine());
 	}
 	
-	public static boolean loadFromFile(DBConnection connection, String path) {
-		boolean loaded = false;
-		File file = new File(path);
-		if (path != null && File.exists(path) && file.getSizeInLines() == 4) {
-			if (connection == null) {
-				connection = new DBConnection();
-			}
-			connection.setDriver(file.readLine());
-			connection.setUrl(file.readLine());
-			connection.setUser(file.readLine());
-			connection.setPassword(file.readLine());
-			loaded = true;
+	public static void loadFTPConnection(FTPConnection connection) {
+		File connectionFile = getFTPConnectionFile();
+		if (!connectionFile.exists()) {
+			connectionFile = getDefaultFTPConnectionFile();
 		}
-		return loaded;
+		if (connection != null) {
+			connection.setUrl(connectionFile.readLine());
+			connection.setUser(connectionFile.readLine());
+			connection.setPassword(connectionFile.readLine());
+			connection.setDefaultRemoteDirectory(connectionFile.readLine());
+		}
 	}
 	
 	public static HashMap<String, String> loadScreens(String path) {
