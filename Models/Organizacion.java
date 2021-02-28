@@ -1,6 +1,6 @@
 package Models;
 
-import DAO.DAOrganizacion;
+import DAO.DAOOrganizacion;
 import javafx.collections.ObservableList;
 
 import java.util.HashMap;
@@ -49,7 +49,7 @@ public class Organizacion {
 	}
 	
 	public boolean registrar() {
-		return new DAOrganizacion(this).registrar();
+		return new DAOOrganizacion(this).registrar();
 	}
 	
 	public boolean estaCompleto() {
@@ -59,24 +59,24 @@ public class Organizacion {
 	}
 	
 	public boolean estaRegistrado() {
-		return new DAOrganizacion(this).estaRegistrado();
+		return new DAOOrganizacion(this).estaRegistrado();
 	}
 	
 	public boolean eliminar() {
-		return new DAOrganizacion(this).eliminar();
+		return new DAOOrganizacion(this).eliminar();
 	}
 	
 	public boolean estaActivo() {
-		return new DAOrganizacion(this).estaActivo();
+		return new DAOOrganizacion(this).estaActivo();
 	}
 	
 	public boolean reactivar() {
-		return new DAOrganizacion(this).reactivar();
+		return new DAOOrganizacion(this).reactivar();
 	}
 	
 	public static boolean llenarTablaOrganizacion(ObservableList<Organizacion> listaOrganizacion) {
 		boolean lleno = false;
-		DAOrganizacion organizacionAuxiliar = new DAOrganizacion(new Organizacion());
+		DAOOrganizacion organizacionAuxiliar = new DAOOrganizacion(new Organizacion());
 		if (organizacionAuxiliar.llenarTablaOrganizacion(listaOrganizacion)) {
 			lleno = true;
 		}
@@ -85,7 +85,7 @@ public class Organizacion {
 	
 	public static boolean llenarSector(ObservableList<String> listaOrganizacion) {
 		boolean lleno = false;
-		DAOrganizacion daoOrg = new DAOrganizacion(new Organizacion());
+		DAOOrganizacion daoOrg = new DAOOrganizacion(new Organizacion());
 		if (daoOrg.llenarSector(listaOrganizacion)) {
 			lleno = true;
 		}
@@ -94,18 +94,18 @@ public class Organizacion {
 	
 	public static boolean llenarNombres(ObservableList<String> listaOrganizacion) {
 		boolean lleno = false;
-		DAOrganizacion daoOrganization = new DAOrganizacion(new Organizacion());
-		if (daoOrganization.llenarNombres(listaOrganizacion)) {
+		DAOOrganizacion daoOrganization = new DAOOrganizacion(new Organizacion());
+		if (daoOrganization.llenarNombresOrganizaciones(listaOrganizacion)) {
 			lleno = true;
 		}
 		return lleno;
 	}
 	
 	public String getId() {
-		return new DAOrganizacion(this).getId();
+		return new DAOOrganizacion(this).getId();
 	}
 	
 	public static Organizacion obtenerPorNombre(String name) {
-		return DAOrganizacion.obtenerPorNombre(name);
+		return DAOOrganizacion.obtenerPorNombre(name);
 	}
 }

@@ -1,8 +1,8 @@
 package View.practicante.controller;
 
-import Models.Assignment;
+import Models.Asignacion;
 import Models.Practicante;
-import Models.Project;
+import Models.Proyecto;
 import View.MainController;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -22,10 +22,10 @@ import java.util.ResourceBundle;
 public class ChooseProjectController implements Initializable {
 	
 	@FXML
-	public TableView<Project> projectTable;
+	public TableView<Proyecto> projectTable;
 	
 	@FXML
-	public TableColumn<Project, String> tableColumn;
+	public TableColumn<Proyecto, String> tableColumn;
 	public Label name;
 	public JFXTextArea generalObjective;
 	public JFXTextArea resources;
@@ -33,17 +33,17 @@ public class ChooseProjectController implements Initializable {
 	public JFXTextField area;
 	public JFXTextField organization;
 	
-	private ObservableList<Project> projectObservableList;
+	private ObservableList<Proyecto> proyectoObservableList;
 	
-	private Project[] selectedProjects;
+	private Proyecto[] selectedProyectos;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		checkConditions();
-		projectObservableList = FXCollections.observableArrayList();
-		Project.fillTable(projectObservableList);
-		projectTable.setItems(projectObservableList);
-		tableColumn.setCellValueFactory(new PropertyValueFactory<Project, String>("name"));
+		proyectoObservableList = FXCollections.observableArrayList();
+		Proyecto.fillTable(proyectoObservableList);
+		projectTable.setItems(proyectoObservableList);
+		tableColumn.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
 		checkProject();
 		generalObjective.setEditable(false);
 		this.resources.setEditable(false);
@@ -53,8 +53,8 @@ public class ChooseProjectController implements Initializable {
 	}
 	
 	public void checkConditions() {
-		selectedProjects = Assignment.requestedProjects((Practicante) MainController.get("user"));
-		if (selectedProjects.length >= 3) {
+		selectedProyectos = Asignacion.requestedProjects((Practicante) MainController.get("user"));
+		if (selectedProyectos.length >= 3) {
 			MainController.alert(
 				Alert.AlertType.WARNING,
 				"Limite de proyectos seleccionados",
@@ -83,16 +83,16 @@ public class ChooseProjectController implements Initializable {
 	}
 	
 	public void selectProject() {
-		Project selectedProject = projectTable.getSelectionModel().getSelectedItem();
-		if (selectedProject != null) {
-			if (isSelected(selectedProjects, selectedProject)) {
+		Proyecto selectedProyecto = projectTable.getSelectionModel().getSelectedItem();
+		if (selectedProyecto != null) {
+			if (isSelected(selectedProyectos, selectedProyecto)) {
 				MainController.alert(
 					Alert.AlertType.WARNING,
 					"Proyecto ya seleccionado",
 					"El proyecto que intenta seleccionado ya ha sido seleccionado previamente"
 				);
 			} else {
-				Assignment.saveRequest((Practicante) MainController.get("user"), selectedProject);
+				Asignacion.saveRequest((Practicante) MainController.get("user"), selectedProyecto);
 				MainController.alert(
 					Alert.AlertType.INFORMATION,
 					"Proyecto seleccionado exitosamente",
@@ -109,10 +109,10 @@ public class ChooseProjectController implements Initializable {
 		}
 	}
 	
-	public boolean isSelected(Project[] selectedProjects, Project toSelect) {
+	public boolean isSelected(Proyecto[] selectedProyectos, Proyecto toSelect) {
 		boolean selected = false;
-		for (Project project: selectedProjects) {
-			if (project.getNombre().equals(toSelect.getNombre())) {
+		for (Proyecto proyecto: selectedProyectos) {
+			if (proyecto.getNombre().equals(toSelect.getNombre())) {
 				selected = true;
 				break;
 			}

@@ -11,5 +11,5 @@ public interface IDAOUser {
 	
 	boolean eliminar() throws CustomException;
 	
-	boolean reactive() throws CustomException;
+	boolean reactivar() throws CustomException;
 }

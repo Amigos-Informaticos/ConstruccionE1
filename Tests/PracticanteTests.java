@@ -1,10 +1,10 @@
 package Tests;
 
 import DAO.DAOProfesor;
-import DAO.DAOProject;
+import DAO.DAOProyecto;
 import Exceptions.CustomException;
 import Models.Practicante;
-import Models.Project;
+import Models.Proyecto;
 import org.junit.AfterClass;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -71,8 +71,8 @@ public class PracticanteTests {
 	
 	@Test
 	public void e_getSelections() {
-		Project project = new DAOProject().cargarProyecto("Hackear la nasa");
-		assertEquals(project.getNombre(), this.practicante.getSeleccion()[0].getNombre());
+		Proyecto proyecto = new DAOProyecto().cargarProyecto("Hackear la nasa");
+		assertEquals(proyecto.getNombre(), this.practicante.getSeleccion()[0].getNombre());
 	}
 	
 	@Test
@@ -86,8 +86,8 @@ public class PracticanteTests {
 	
 	@Test
 	public void g_deleteSelectedProject() {
-		for (Project project: this.practicante.getSeleccion()) {
-			assertTrue(this.practicante.eliminarSeleccion(project.getNombre()));
+		for (Proyecto proyecto: this.practicante.getSeleccion()) {
+			assertTrue(this.practicante.eliminarSeleccion(proyecto.getNombre()));
 		}
 	}
 	

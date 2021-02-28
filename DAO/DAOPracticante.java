@@ -4,7 +4,7 @@ import Connection.ConexionBD;
 import Exceptions.CustomException;
 import IDAO.IDAOPracticante;
 import Models.Practicante;
-import Models.Project;
+import Models.Proyecto;
 import javafx.collections.ObservableList;
 import tools.File;
 import tools.Logger;
@@ -119,7 +119,7 @@ public class DAOPracticante implements IDAOPracticante {
 				registrado = this.conexion.executar(query, valores);
 			}
 		} else {
-			registrado = this.reactive();
+			registrado = this.reactivar();
 		}
 		return registrado;
 	}
@@ -201,10 +201,10 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 	
 	public boolean seleccionarProyecto(String nombreProyecto) {
-		return this.seleccionarProyecto(new DAOProject().cargarProyecto(nombreProyecto));
+		return this.seleccionarProyecto(new DAOProyecto().cargarProyecto(nombreProyecto));
 	}
 	
-	public boolean seleccionarProyecto(Project proyecto) {
+	public boolean seleccionarProyecto(Proyecto proyecto) {
 		assert this.practicante != null :
 			"Practicante es nulo: DAOPracticante.seleccionarProyecto()";
 		assert this.practicante.estaCompleto()
@@ -238,13 +238,13 @@ public class DAOPracticante implements IDAOPracticante {
 		return seleccionado;
 	}
 	
-	public Project[] getProyectos() {
+	public Proyecto[] getProyectos() {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.getProyectos()";
 		assert this.practicante.estaCompleto() :
 			"Practicante incompleto: DAOPracticante.getProyectos()";
 		assert this.estaActivo() : "Practicante inactivo: DAOPracticante.getProyectos()";
 		
-		Project[] proyectos = null;
+		Proyecto[] proyectos = null;
 		String query = "SELECT nombre FROM Proyecto INNER JOIN Solicitud ON " +
 			"Proyecto.idProyecto = Solicitud.idProyecto WHERE Solicitud.idMiembro = " +
 			"? AND Proyecto.estaActivo = 1";
@@ -253,16 +253,16 @@ public class DAOPracticante implements IDAOPracticante {
 		String[][] resultados = this.conexion.seleccionar(query, valores, nombres);
 		
 		if (resultados != null && resultados.length > 0) {
-			proyectos = new Project[resultados.length];
+			proyectos = new Proyecto[resultados.length];
 			for (int i = 0; i < resultados.length; i++) {
-				proyectos[i] = new DAOProject().cargarProyecto(resultados[i][0]);
+				proyectos[i] = new DAOProyecto().cargarProyecto(resultados[i][0]);
 			}
 		}
 		return proyectos;
 	}
 	
 	public boolean eliminarProyectoSeleccionado(String nombreProyecto) {
-		DAOProject daoProyecto = new DAOProject(nombreProyecto);
+		DAOProyecto daoProyecto = new DAOProyecto(nombreProyecto);
 		assert this.practicante != null :
 			"Practicante es nulo: DAOPracticante.eliminarProyectoSeleccionado()";
 		assert this.practicante.getEmail() != null :
@@ -275,7 +275,7 @@ public class DAOPracticante implements IDAOPracticante {
 			"Proyecto no registrado: DAOPracticante.eliminarProyectoSeleccionado()";
 		
 		boolean eliminado = false;
-		for (Project proyecto: this.getProyectos()) {
+		for (Proyecto proyecto: this.getProyectos()) {
 			if (proyecto != null && proyecto.getNombre().equals(nombreProyecto)) {
 				String query = "DELETE FROM Solicitud WHERE idMiembro = " +
 					"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?) " +
@@ -293,7 +293,7 @@ public class DAOPracticante implements IDAOPracticante {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.setProyecto()";
 		assert this.estaActivo() : "Practicante inactivo: DAOPracticante.setProyecto()";
 		assert nombreProyecto != null : "Nombre de proyecto es nulo: DAOPracticante.setProyecto()";
-		assert new DAOProject(nombreProyecto).isRegistered() :
+		assert new DAOProyecto(nombreProyecto).isRegistered() :
 			"Proyecto no registrado: DAOPracticante.setProyecto()";
 		
 		boolean establecido;
@@ -334,12 +334,12 @@ public class DAOPracticante implements IDAOPracticante {
 		return deleted;
 	}
 	
-	public Project getProyecto() {
+	public Proyecto getProyecto() {
 		assert this.practicante != null : "Student is null: DAOStudent.getProject()";
 		assert this.practicante.getEmail() != null : "Student's email is null: DAOStudent.getProject()";
 		assert this.estaActivo() : "Student is inactive: DAOStudent.getProject()";
 		
-		Project project = null;
+		Proyecto proyecto = null;
 		String query =
 			"SELECT COUNT(idPracticante) AS TOTAL FROM Asignacion WHERE idPracticante = ?";
 		String[] valores = {this.getId()};
@@ -351,13 +351,13 @@ public class DAOPracticante implements IDAOPracticante {
 				"WHERE Asignacion.idPracticante = ?;";
 			responses = new String[] {"Proyecto.nombre"};
 			String[][] resultados = this.conexion.seleccionar(query, valores, responses);
-			project = resultados != null ? new DAOProject().cargarProyecto(resultados[0][0]) : null;
+			proyecto = resultados != null ? new DAOProyecto().cargarProyecto(resultados[0][0]) : null;
 		}
-		return project;
+		return proyecto;
 	}
 	
 	@Override
-	public boolean reactive() {
+	public boolean reactivar() {
 		boolean reactivated = false;
 		assert this.practicante != null : "Student is null: DAOStudent.reactive()";
 		assert this.estaRegistrado() : "Student is not registered: DAOStudent.reactive()";

@@ -1,6 +1,6 @@
 package Tests;
 
-import Models.Activity;
+import Models.Actividad;
 import Models.Practicante;
 import Models.Professor;
 import org.junit.FixMethodOrder;
@@ -26,17 +26,17 @@ public class CUPF1 {
 		return professor;
 	}
 	
-	public Activity getActivity() {
-		Activity activity = new Activity();
-		activity.setTitle("Actividad #1");
-		activity.setDescription(
+	public Actividad getActivity() {
+		Actividad actividad = new Actividad();
+		actividad.setTitle("Actividad #1");
+		actividad.setDescription(
 			"Para la primera actividad, se debe subir un archivo con extensión txt");
-		activity.setStartDate(
+		actividad.setStartDate(
 			DateTimeFormatter.ofPattern("dd/MM/yyy").format(LocalDateTime.now()));
-		activity.setDeliveryDate("2020-07-20");
-		activity.setStudent(getStudent());
-		activity.setProfessor(getProfessor());
-		return activity;
+		actividad.setDeliveryDate("2020-07-20");
+		actividad.setStudent(getStudent());
+		actividad.setProfessor(getProfessor());
+		return actividad;
 	}
 	
 	public Practicante getStudent() {

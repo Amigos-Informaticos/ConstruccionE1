@@ -1,7 +1,7 @@
 package View.usuario.controller;
 
-import Models.Admin;
-import Models.Coordinator;
+import Models.Administrador;
+import Models.Coordinador;
 import Models.Practicante;
 import Models.Professor;
 import Models.Usuario;
@@ -43,10 +43,10 @@ public class LoginController implements Initializable {
 							usuario = new Professor();
 							break;
 						case "Coordinator":
-							usuario = new Coordinator();
+							usuario = new Coordinador();
 							break;
 						case "Admin":
-							usuario = new Admin();
+							usuario = new Administrador();
 							break;
 						default:
 					}

@@ -89,7 +89,7 @@ public class DAOProjectResponsible {
 				responsible.setNames(responses[0][1]);
 				responsible.setLastNames(responses[0][1]);
 				responsible.setPosition(responses[0][2]);
-				responsible.setOrganization(DAOrganizacion.obtenerPorNombre(responses[0][3]));
+				responsible.setOrganization(DAOOrganizacion.obtenerPorNombre(responses[0][3]));
 			}
 		}
 		return responsible;

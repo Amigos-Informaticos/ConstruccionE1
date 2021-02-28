@@ -39,6 +39,6 @@ public interface IDAOProfessor extends IDAOUser {
 	
 	boolean eliminar();
 
-    boolean reactive();
+    boolean reactivar();
 
 }

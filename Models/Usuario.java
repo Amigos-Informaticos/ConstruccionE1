@@ -119,10 +119,10 @@ public class Usuario {
 		Professor profesorAuxiliar = new Professor();
 		profesorAuxiliar.setEmail(this.getEmail());
 		profesorAuxiliar.setContrasenaLimpia(this.getContrasena());
-		Coordinator coordinadorAuxiliar = new Coordinator();
+		Coordinador coordinadorAuxiliar = new Coordinador();
 		coordinadorAuxiliar.setEmail(this.getEmail());
 		coordinadorAuxiliar.setContrasenaLimpia(this.getContrasena());
-		Admin administradorAuxiliar = new Admin();
+		Administrador administradorAuxiliar = new Administrador();
 		administradorAuxiliar.setEmail(this.getEmail());
 		administradorAuxiliar.setContrasenaLimpia(this.getContrasena());
 		try {

@@ -95,7 +95,7 @@ public class Practicante extends Usuario {
 		return new DAOPracticante(this).eliminarProyectoSeleccionado(nombreProyecto);
 	}
 	
-	public Project[] getSeleccion() {
+	public Proyecto[] getSeleccion() {
 		return new DAOPracticante(this).getProyectos();
 	}
 	
@@ -107,7 +107,7 @@ public class Practicante extends Usuario {
 		return new DAOPracticante(this).eliminarProyecto();
 	}
 	
-	public Project getProyecto() throws CustomException {
+	public Proyecto getProyecto() throws CustomException {
 		return new DAOPracticante(this).getProyecto();
 	}
 	

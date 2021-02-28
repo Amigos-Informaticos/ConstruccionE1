@@ -1,13 +1,13 @@
 package Tests;
 
-import Models.Assignment;
+import Models.Asignacion;
 import Models.CalendarizedActivity;
-import Models.Coordinator;
+import Models.Coordinador;
 import Models.Organizacion;
 import Models.Practicante;
 import Models.Professor;
-import Models.Project;
 import Models.ProjectResponsible;
+import Models.Proyecto;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -19,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CUC {
 	
-	public Coordinator getCoordinator() {
-		return new Coordinator(
+	public Coordinador getCoordinator() {
+		return new Coordinador(
 			"Angel Juan",
 			"Sanchez",
 			"ajs@hotmail.com",
@@ -61,8 +61,7 @@ public class CUC {
 			"N/A",
 			"Tlanelhuayocan"
 		);
-		organizacion.addPhoneNumber("123456789");
-		organizacion.addPhoneNumber("123456");
+		organizacion.setTelefono("123456789");
 		return organizacion;
 	}
 	
@@ -76,24 +75,24 @@ public class CUC {
 		return responsible;
 	}
 	
-	public Project getProject() {
-		Project project = new Project();
-		project.setName("Sistema para Practicas Profesionales");
-		project.setDescription("Matenme");
-		project.setMethodology("No hay, todo como vaya saliendo");
-		project.setGeneralObjective("Pasar la materia");
-		project.setMediateObjective("Salir bien del semestre");
-		project.setImmediateObjective("No morir en el intento");
-		project.setResources("tres vatos todos mecos con laptop");
-		project.setResponsibilities("terminar");
-		project.setCapacity(3);
-		project.setArea("Desarrollo");
-		project.setResponsible(this.getResponsible());
-		project.setPeriod("FEB-JUN 2020");
-		project.setOrganization(this.getOrganization());
-		project.setStartDate("2020-03-19");
-		project.setEndDate("2020-10-07");
-		return project;
+	public Proyecto getProject() {
+		Proyecto proyecto = new Proyecto();
+		proyecto.setName("Sistema para Practicas Profesionales");
+		proyecto.setDescription("Matenme");
+		proyecto.setMethodology("No hay, todo como vaya saliendo");
+		proyecto.setGeneralObjective("Pasar la materia");
+		proyecto.setMediateObjective("Salir bien del semestre");
+		proyecto.setImmediateObjective("No morir en el intento");
+		proyecto.setResources("tres vatos todos mecos con laptop");
+		proyecto.setResponsibilities("terminar");
+		proyecto.setCapacity(3);
+		proyecto.setArea("Desarrollo");
+		proyecto.setResponsible(this.getResponsible());
+		proyecto.setPeriod("FEB-JUN 2020");
+		proyecto.setOrganization(this.getOrganization());
+		proyecto.setStartDate("2020-03-19");
+		proyecto.setEndDate("2020-10-07");
+		return proyecto;
 	}
 	
 	@Test
@@ -108,25 +107,25 @@ public class CUC {
 	
 	@Test
 	public void cRegisterProyect() {
-		Project project = getProject();
+		Proyecto proyecto = getProject();
 		CalendarizedActivity[] activities = {
 			new CalendarizedActivity("Hacer diseno", "2020-05-01"),
 			new CalendarizedActivity("Construirlo", "2020-07-01"),
 			new CalendarizedActivity("Llorar", "2020-07-10")
 		};
-		project.setCalendarizedActivities(activities);
-		assertTrue(project.register());
+		proyecto.setCalendarizedActivities(activities);
+		assertTrue(proyecto.register());
 	}
 	
 	@Test
 	public void dAssignProject() throws FileNotFoundException {
-		Assignment assignment = new Assignment(getStudent(), getProject(), getCoordinator());
-		assertTrue(assignment.assignProject());
+		Asignacion asignacion = new Asignacion(getStudent(), getProject(), getCoordinator());
+		assertTrue(asignacion.assignProject());
 	}
 	
 	@Test
 	public void eRemoveProject() {
-		assertTrue(new Assignment(getStudent(), getProject(), getCoordinator()).removeAssignment());
+		assertTrue(new Asignacion(getStudent(), getProject(), getCoordinator()).removeAssignment());
 	}
 	
 	@Test

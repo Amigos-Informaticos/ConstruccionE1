@@ -1,6 +1,6 @@
 package View.practicante.controller;
 
-import Models.Document;
+import Models.Documento;
 import Models.Practicante;
 import View.MainController;
 import com.jfoenix.controls.JFXTextField;
@@ -61,7 +61,7 @@ public class AddActivityPlan implements Initializable {
 	
 	@FXML
 	private void saveFile() {
-		Document file = new Document(
+		Documento file = new Documento(
 			selectedFile.getName(),
 			"PlanActividades",
 			selectedFile,

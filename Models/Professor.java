@@ -65,7 +65,7 @@ public class Professor extends Usuario {
 	}
 	
 	public boolean reactive() {
-		return new DAOProfesor(this).reactive();
+		return new DAOProfesor(this).reactivar();
 	}
 	
 	public boolean isRegistered() {

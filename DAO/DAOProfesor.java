@@ -2,11 +2,11 @@ package DAO;
 
 import Connection.ConexionBD;
 import IDAO.IDAOProfessor;
-import IDAO.Shift;
+import IDAO.Turno;
 import Models.Practicante;
 import Models.Professor;
 
-public class DAOProfesor implements IDAOProfessor, Shift {
+public class DAOProfesor implements IDAOProfessor, Turno {
 	private Professor professor;
 	private final ConexionBD connection = new ConexionBD();
 	
@@ -51,7 +51,7 @@ public class DAOProfesor implements IDAOProfessor, Shift {
 	}
 	
 	@Override
-	public boolean reactive() {
+	public boolean reactivar() {
 		assert this.professor != null : "Professor is null : reactive()";
 		assert !this.isActive() : "Professor is not active : reactive()";
 		String query = "UPDATE MiembroFEI SET estaActivo = 1 WHERE correoElectronico = ?";
@@ -95,7 +95,7 @@ public class DAOProfesor implements IDAOProfessor, Shift {
 			}
 		} else {
 			if (!this.isActive()) {
-				this.reactive();
+				this.reactivar();
 				signedUp = true;
 			}
 		}
@@ -136,7 +136,7 @@ public class DAOProfesor implements IDAOProfessor, Shift {
 	}
 	
 	@Override
-	public String getShift() {
+	public String getTurno() {
 		assert this.professor != null : "Professor is null: DAOProfessor.getShift()";
 		assert this.professor.getEmail() != null :
 			"Professor's email is null: DAOProfessor.getShoft()";

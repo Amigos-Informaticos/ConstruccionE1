@@ -3,7 +3,7 @@ package View.practicante.controller;
 import Exceptions.CustomException;
 import Models.CalendarizedActivity;
 import Models.Practicante;
-import Models.Project;
+import Models.Proyecto;
 import View.MainController;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
@@ -38,7 +38,7 @@ public class GenerateReport implements Initializable {
 	public JFXDatePicker date4;
 	public JFXDatePicker date5;
 	
-	private Project assignedProject;
+	private Proyecto assignedProyecto;
 	private CalendarizedActivity[] activities;
 	
 	@Override
@@ -52,7 +52,7 @@ public class GenerateReport implements Initializable {
 	}
 	
 	private void loadActivities() {
-		this.activities = assignedProject.getCalendarizedActivities();
+		this.activities = assignedProyecto.getCalendarizedActivities();
 		if (this.activities.length == 0) {
 			MainController.alert(
 				Alert.AlertType.WARNING,
@@ -61,7 +61,7 @@ public class GenerateReport implements Initializable {
 			);
 			exit();
 		} else {
-			JFXTextField[] names = { name1, name2, name3, name4, name5 };
+			JFXTextField[] names = {name1, name2, name3, name4, name5};
 			for (int i = 0; i < this.activities.length; i++) {
 				names[i].setText(this.activities[i].getName());
 				names[i].setEditable(false);
@@ -71,8 +71,8 @@ public class GenerateReport implements Initializable {
 	
 	private void preconditions() throws CustomException {
 		Practicante practicante = (Practicante) MainController.get("user");
-		this.assignedProject = practicante.getProyecto();
-		if (this.assignedProject == null) {
+		this.assignedProyecto = practicante.getProyecto();
+		if (this.assignedProyecto == null) {
 			MainController.alert(
 				Alert.AlertType.WARNING,
 				"No ha sido asignado a ningún proyecto",
