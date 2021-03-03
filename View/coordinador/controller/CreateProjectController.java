@@ -1,9 +1,9 @@
 package View.coordinador.controller;
 
-import Models.CalendarizedActivity;
+import Models.ActividadCalendarizada;
 import Models.Organizacion;
-import Models.ProjectResponsible;
 import Models.Proyecto;
+import Models.ResponsableProyecto;
 import View.MainController;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
@@ -196,7 +196,7 @@ public class CreateProjectController implements Initializable {
 	public void signUp() {
 		instanceProject();
 		if (proyecto.estaCompleto()) {
-			if (proyecto.register()) {
+			if (proyecto.registrar()) {
 				MainController.alert(Alert.AlertType.INFORMATION,
 					"Proyecto registrado",
 					"El Proyecto se registró exitosamente");
@@ -233,33 +233,33 @@ public class CreateProjectController implements Initializable {
 		proyecto.setCalendarizedActivities(this.instanceActivities());
 	}
 	
-	public CalendarizedActivity[] instanceActivities() {
-		CalendarizedActivity[] activities = new CalendarizedActivity[6];
+	public ActividadCalendarizada[] instanceActivities() {
+		ActividadCalendarizada[] activities = new ActividadCalendarizada[6];
 		for (int i = 0; i < 6; i++) {
-			activities[i] = new CalendarizedActivity();
+			activities[i] = new ActividadCalendarizada();
 		}
-		activities[0].setName((String) MainController.get("month1Activity"));
-		activities[0].setDate((String) MainController.get("month1DateActivty"));
-		activities[1].setName((String) MainController.get("month2Activity"));
-		activities[1].setDate((String) MainController.get("month2DateActivty"));
-		activities[2].setName((String) MainController.get("month3Activity"));
-		activities[2].setDate((String) MainController.get("month3DateActivty"));
-		activities[3].setName((String) MainController.get("month4Activity"));
-		activities[3].setDate((String) MainController.get("month4DateActivty"));
-		activities[4].setName((String) MainController.get("month5Activity"));
-		activities[4].setDate((String) MainController.get("month5DateActivty"));
-		activities[5].setName((String) MainController.get("month6Activity"));
-		activities[5].setDate((String) MainController.get("month6DateActivty"));
+		activities[0].setNombre((String) MainController.get("month1Activity"));
+		activities[0].setFecha((String) MainController.get("month1DateActivty"));
+		activities[1].setNombre((String) MainController.get("month2Activity"));
+		activities[1].setFecha((String) MainController.get("month2DateActivty"));
+		activities[2].setNombre((String) MainController.get("month3Activity"));
+		activities[2].setFecha((String) MainController.get("month3DateActivty"));
+		activities[3].setNombre((String) MainController.get("month4Activity"));
+		activities[3].setFecha((String) MainController.get("month4DateActivty"));
+		activities[4].setNombre((String) MainController.get("month5Activity"));
+		activities[4].setFecha((String) MainController.get("month5DateActivty"));
+		activities[5].setNombre((String) MainController.get("month6Activity"));
+		activities[5].setFecha((String) MainController.get("month6DateActivty"));
 		return activities;
 	}
 	
-	public ProjectResponsible instanceResponsible() {
-		ProjectResponsible projectResponsible = new ProjectResponsible();
-		projectResponsible.setPosition(txtPositionResponsible.getText());
-		projectResponsible.setEmail(txtEmailResponsible.getText());
-		projectResponsible.setNames(txtNameResponsible.getText());
-		projectResponsible.setLastNames(txtLastnameResponsible.getText());
-		projectResponsible.setOrganization(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
-		return projectResponsible;
+	public ResponsableProyecto instanceResponsible() {
+		ResponsableProyecto responsableProyecto = new ResponsableProyecto();
+		responsableProyecto.setPosicion(txtPositionResponsible.getText());
+		responsableProyecto.setEmail(txtEmailResponsible.getText());
+		responsableProyecto.setNombre(txtNameResponsible.getText());
+		responsableProyecto.setApellido(txtLastnameResponsible.getText());
+		responsableProyecto.setOrganizacion(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
+		return responsableProyecto;
 	}
 }

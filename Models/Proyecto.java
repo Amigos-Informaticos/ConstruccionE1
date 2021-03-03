@@ -18,12 +18,12 @@ public class Proyecto {
 	private String responsibilities;
 	private int capacity;
 	private String area;
-	private ProjectResponsible responsible;
+	private ResponsableProyecto responsible;
 	private String period;
 	private Organizacion organizacion;
 	private String startDate;
 	private String endDate;
-	private CalendarizedActivity[] calendarizedActivities;
+	private ActividadCalendarizada[] calendarizedActivities;
 	private Coordinador coordinador;
 	
 	public String getNombre() {
@@ -106,11 +106,11 @@ public class Proyecto {
 		this.area = area;
 	}
 	
-	public ProjectResponsible getResponsible() {
+	public ResponsableProyecto getResponsible() {
 		return responsible;
 	}
 	
-	public void setResponsible(ProjectResponsible responsible) {
+	public void setResponsible(ResponsableProyecto responsible) {
 		this.responsible = responsible;
 	}
 	
@@ -158,11 +158,11 @@ public class Proyecto {
 		this.coordinador = coordinador;
 	}
 	
-	public CalendarizedActivity[] getCalendarizedActivities() {
+	public ActividadCalendarizada[] getCalendarizedActivities() {
 		return this.calendarizedActivities;
 	}
 	
-	public void setCalendarizedActivities(CalendarizedActivity[] calendarizedActivities) {
+	public void setCalendarizedActivities(ActividadCalendarizada[] calendarizedActivities) {
 		this.calendarizedActivities = calendarizedActivities;
 	}
 	
@@ -181,27 +181,27 @@ public class Proyecto {
 			this.organizacion != null;
 	}
 	
-	public boolean register() {
+	public boolean registrar() {
 		boolean registered = false;
 		DAOProyecto daoProyecto = new DAOProyecto(this);
-		if (daoProyecto.signUp() && daoProyecto.registCalendarizedActivities()) {
+		if (daoProyecto.registrarse() && daoProyecto.registCalendarizedActivities()) {
 			registered = true;
 		}
 		return registered;
 	}
 	
-	public boolean deleteProject() {
-		return new DAOProyecto(this).delete();
+	public boolean eliminarProyecto() {
+		return new DAOProyecto(this).eliminar();
 	}
 	
 	public boolean isActive() {
 		DAOProyecto daoProyecto = new DAOProyecto(this);
-		return daoProyecto.isActive();
+		return daoProyecto.estaActivo();
 	}
 	
 	public boolean reactive() {
 		DAOProyecto daoProyecto = new DAOProyecto(this);
-		return daoProyecto.reactivate();
+		return daoProyecto.reactivar();
 	}
 	
 	public boolean haveStudents() {
@@ -211,7 +211,7 @@ public class Proyecto {
 	
 	public boolean isRegistered() {
 		DAOProyecto daoProyecto = new DAOProyecto(this);
-		return daoProyecto.isRegistered();
+		return daoProyecto.estaRegistrado();
 	}
 	
 	public static void fillTable(ObservableList<Proyecto> projectsList) {

@@ -2,10 +2,10 @@ package IDAO;
 
 import Exceptions.CustomException;
 
-public interface IDAOUser {
+public interface IDAOUsuario {
 	boolean iniciarSesion() throws CustomException;
 	
-	boolean registrarse() throws CustomException;
+	boolean registrar() throws CustomException;
 	
 	boolean estaRegistrado() throws CustomException;
 	

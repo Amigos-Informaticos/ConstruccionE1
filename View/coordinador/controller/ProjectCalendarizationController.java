@@ -1,6 +1,6 @@
 package View.coordinador.controller;
 
-import Models.CalendarizedActivity;
+import Models.ActividadCalendarizada;
 import View.MainController;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
@@ -27,16 +27,16 @@ public class ProjectCalendarizationController implements Initializable {
 	
 	}
 	
-	public CalendarizedActivity instanceCalendarizedActivity(int month) {
-		CalendarizedActivity calendarizedActivity = new CalendarizedActivity(
+	public ActividadCalendarizada instanceCalendarizedActivity(int month) {
+		ActividadCalendarizada actividadCalendarizada = new ActividadCalendarizada(
 			txtDatesOfActivity[month].getText(),
 			txtDatesOfActivity[month].getText()
 		);
-		return calendarizedActivity;
+		return actividadCalendarizada;
 	}
 	
 	public void onClickOk(MouseEvent clickEvent) {
-		CalendarizedActivity[] calendarizedActivities = new CalendarizedActivity[6];
+		ActividadCalendarizada[] calendarizedActivities = new ActividadCalendarizada[6];
 		for (int i = 0; i < 6; i++) {
 			if (!txtNamesOfActivity[i].getText().equals("")) {
 				calendarizedActivities[i] = instanceCalendarizedActivity(i);

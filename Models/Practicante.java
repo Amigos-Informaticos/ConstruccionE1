@@ -62,9 +62,9 @@ public class Practicante extends Usuario {
 		return set;
 	}
 	
-	public boolean registrarse() {
+	public boolean registrar() {
 		assert this.estaCompleto() : "Practicante incompleto: Student.registrarse()";
-		return new DAOPracticante(this).registrarse();
+		return new DAOPracticante(this).registrar();
 	}
 	
 	public boolean iniciarSesion() {
@@ -99,7 +99,7 @@ public class Practicante extends Usuario {
 		return new DAOPracticante(this).getProyectos();
 	}
 	
-	public boolean setProyecto(String nombreProyecto) throws CustomException {
+	public boolean asignarProyecto(String nombreProyecto) throws CustomException {
 		return new DAOPracticante(this).setProyecto(nombreProyecto);
 	}
 	

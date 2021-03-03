@@ -1,6 +1,6 @@
 package Connection;
 
-import Configuration.Configuration;
+import Configuration.Configuracion;
 import tools.Logger;
 
 import java.sql.Connection;
@@ -17,7 +17,7 @@ public class ConexionBD {
 	private Connection connection;
 	
 	public ConexionBD() {
-		Configuration.loadDBConnection(this);
+		Configuracion.loadDBConnection(this);
 	}
 	
 	public ConexionBD(String driver, String url, String user, String password) {
@@ -64,7 +64,7 @@ public class ConexionBD {
 	}
 	
 	public void loadConnection() {
-		Configuration.loadDBConnection(this);
+		Configuracion.loadDBConnection(this);
 	}
 	
 	public boolean isReady() {

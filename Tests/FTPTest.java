@@ -1,6 +1,6 @@
 package Tests;
 
-import Connection.FTPConnection;
+import Connection.ConexionFTP;
 import org.junit.AfterClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -9,16 +9,16 @@ import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(org.junit.runners.MethodSorters.NAME_ASCENDING)
 public class FTPTest {
-	private static final FTPConnection ftpConnection = new FTPConnection();
+	private static final ConexionFTP CONEXION_FTP = new ConexionFTP();
 	
 	@Test
 	public void a_login() {
-		assertTrue(ftpConnection.connect());
+		assertTrue(CONEXION_FTP.conectar());
 	}
 	
 	@Test
 	public void b_sendFile() {
-		assertTrue(ftpConnection.sendFile(
+		assertTrue(CONEXION_FTP.enviarArchivo(
 			"src/View/images/fei_photo.jpg",
 			"/home/pi/"
 		));
@@ -26,6 +26,6 @@ public class FTPTest {
 	
 	@AfterClass
 	public static void close() {
-		ftpConnection.close();
+		CONEXION_FTP.cerrar();
 	}
 }

@@ -70,7 +70,7 @@ public class AdminCoordinatorController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		Coordinador coordinador = new Coordinador();
-		if (coordinador.isAnother()) {
+		if (coordinador.hayOtro()) {
 			coordinador = DAOCoordinador.obtenerActivo();
 			fillDetailsCoordinator(coordinador);
 			enableEdit();
@@ -78,7 +78,7 @@ public class AdminCoordinatorController implements Initializable {
 			enableRegister();
 		}
 		listShift = FXCollections.observableArrayList();
-		Turno.fillShift(listShift);
+		Turno.llenarTurno(listShift);
 		cmbShift.setItems(listShift);
 	}
 	
@@ -88,7 +88,7 @@ public class AdminCoordinatorController implements Initializable {
 		this.instanceCoordinator(coordinador);
 		try {
 			if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "") && coordinador.estaCompleto()) {
-				if (coordinador.signUp()) {
+				if (coordinador.registrar()) {
 					MainController.alert(
 						Alert.AlertType.INFORMATION,
 						"Coordinador registrado correctamente",
@@ -121,7 +121,7 @@ public class AdminCoordinatorController implements Initializable {
 			if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "") &&
 				coordinador.estaCompleto()) {
 				instanceCoordinator(coordinador);
-				if (coordinador.update()) {
+				if (coordinador.actualizar()) {
 					MainController.alert(
 						Alert.AlertType.INFORMATION,
 						"Coordinador registrado exitosamente",
@@ -150,7 +150,7 @@ public class AdminCoordinatorController implements Initializable {
 	public void delete() {
 		if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "")) {
 			try {
-				if (coordinador.delete()) {
+				if (coordinador.eliminar()) {
 					enableRegister();
 					cleanFormCoordinator();
 				} else {
@@ -193,9 +193,9 @@ public class AdminCoordinatorController implements Initializable {
 		lblNames.setText(coordinador.getNombres());
 		lblLastnames.setText(coordinador.getApellidos());
 		lblEmail.setText(coordinador.getEmail());
-		lblPersonalNo.setText(coordinador.getPersonalNo());
-		lblShift.setText(coordinador.getShift());
-		lblRegistrationDate.setText(coordinador.getRegistrationDate());
+		lblPersonalNo.setText(coordinador.getNoPersonal());
+		lblShift.setText(coordinador.getTurno());
+		lblRegistrationDate.setText(coordinador.getFechaRegistro());
 	}
 	
 	private void enableRegister() {

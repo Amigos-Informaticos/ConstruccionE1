@@ -2,7 +2,7 @@ package IDAO;
 
 import Exceptions.CustomException;
 
-public interface IDAOrganization {
+public interface IDAOOrganizacion {
     boolean registrar() throws CustomException;
     
     boolean estaRegistrado();

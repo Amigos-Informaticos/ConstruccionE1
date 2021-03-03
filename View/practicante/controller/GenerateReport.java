@@ -1,7 +1,7 @@
 package View.practicante.controller;
 
 import Exceptions.CustomException;
-import Models.CalendarizedActivity;
+import Models.ActividadCalendarizada;
 import Models.Practicante;
 import Models.Proyecto;
 import View.MainController;
@@ -39,7 +39,7 @@ public class GenerateReport implements Initializable {
 	public JFXDatePicker date5;
 	
 	private Proyecto assignedProyecto;
-	private CalendarizedActivity[] activities;
+	private ActividadCalendarizada[] activities;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -63,7 +63,7 @@ public class GenerateReport implements Initializable {
 		} else {
 			JFXTextField[] names = {name1, name2, name3, name4, name5};
 			for (int i = 0; i < this.activities.length; i++) {
-				names[i].setText(this.activities[i].getName());
+				names[i].setText(this.activities[i].getNombre());
 				names[i].setEditable(false);
 			}
 		}

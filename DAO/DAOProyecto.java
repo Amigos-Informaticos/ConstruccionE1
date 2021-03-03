@@ -1,12 +1,12 @@
 package DAO;
 
 import Connection.ConexionBD;
-import IDAO.IDAOProject;
-import Models.CalendarizedActivity;
+import IDAO.IDAOProyecto;
+import Models.ActividadCalendarizada;
 import Models.Proyecto;
 import javafx.collections.ObservableList;
 
-public class DAOProyecto implements IDAOProject {
+public class DAOProyecto implements IDAOProyecto {
 	private Proyecto proyecto;
 	private final ConexionBD connection;
 	
@@ -25,12 +25,12 @@ public class DAOProyecto implements IDAOProject {
 	}
 	
 	@Override
-	public boolean signUp() {
+	public boolean registrarse() {
 		boolean signedUp = false;
 		assert this.proyecto.estaCompleto() : "Project is incomplete: DAOProject.signUp()";
-		if (!this.isRegistered()) {
-			if (!this.proyecto.getResponsible().isRegistered()) {
-				this.proyecto.getResponsible().signUp();
+		if (!this.estaRegistrado()) {
+			if (!this.proyecto.getResponsible().estaRegistrado()) {
+				this.proyecto.getResponsible().registrar();
 			}
 			String query = "INSERT INTO Proyecto (nombre, " +
 				"descripcion, " +
@@ -65,7 +65,7 @@ public class DAOProyecto implements IDAOProject {
 				this.proyecto.getEndDate()
 			};
 			signedUp = this.connection.executar(query, values);
-		} else if (this.isRegistered() && !this.isActive()) {
+		} else if (this.estaRegistrado() && !this.estaActivo()) {
 			String query = "UPDATE Proyecto SET estaActivo = 1 WHERE nombre = ?";
 			String[] values = {this.proyecto.getNombre()};
 			if (this.connection.executar(query, values)) {
@@ -77,15 +77,15 @@ public class DAOProyecto implements IDAOProject {
 	
 	public boolean registCalendarizedActivities() {
 		boolean registered = true;
-		CalendarizedActivity[] calendarizedActivities = this.proyecto.getCalendarizedActivities();
+		ActividadCalendarizada[] calendarizedActivities = this.proyecto.getCalendarizedActivities();
 		String query = "INSERT INTO ActividadCalendarizada (nombre,fecha,idProyecto) VALUES (?,?,?)";
-		for (CalendarizedActivity calendarizedActivity: calendarizedActivities) {
+		for (ActividadCalendarizada actividadCalendarizada: calendarizedActivities) {
 			String[] values = {
-				calendarizedActivity.getName(),
-				calendarizedActivity.getDate(),
+				actividadCalendarizada.getNombre(),
+				actividadCalendarizada.getFecha(),
 				this.getId()
 			};
-			if (calendarizedActivity.getName() != null) {
+			if (actividadCalendarizada.getNombre() != null) {
 				registered = this.connection.executar(query, values);
 			}
 		}
@@ -93,7 +93,7 @@ public class DAOProyecto implements IDAOProject {
 	}
 	
 	@Override
-	public boolean isRegistered() {
+	public boolean estaRegistrado() {
 		assert this.proyecto != null : "Project is null: DAOProject.isRegistered()";
 		assert this.proyecto.getNombre() != null : "Projects name is null: DAOProject.isRegistered()";
 		
@@ -131,7 +131,7 @@ public class DAOProyecto implements IDAOProject {
 				proyecto.setResources(projectReturned[7]);
 				proyecto.setResponsibilities(projectReturned[8]);
 				proyecto.setArea(this.getAreaById(projectReturned[9]));
-				proyecto.setResponsible(DAO.DAOProjectResponsible.get(projectReturned[10]));
+				proyecto.setResponsible(DAOResponsableProyecto.get(projectReturned[10]));
 				proyecto.setPeriod(getPeriodById(projectReturned[11]));
 				proyecto.setOrganization(DAOOrganizacion.getNameById(projectReturned[12]));
 			}
@@ -140,10 +140,10 @@ public class DAOProyecto implements IDAOProject {
 	}
 	
 	@Override
-	public boolean delete() {
+	public boolean eliminar() {
 		boolean deleted = false;
-		if (this.proyecto != null && this.isRegistered()) {
-			if (this.isActive()) {
+		if (this.proyecto != null && this.estaRegistrado()) {
+			if (this.estaActivo()) {
 				if (this.haveStudents()) {
 					String query = "DELETE FROM Asignacion WHERE idProyecto = ?;";
 					String[] values = {this.getId()};
@@ -160,10 +160,10 @@ public class DAOProyecto implements IDAOProject {
 	}
 	
 	@Override
-	public boolean isActive() {
+	public boolean estaActivo() {
 		boolean isActive = false;
 		if (this.proyecto != null && this.proyecto.getNombre() != null &&
-			this.isRegistered()) {
+			this.estaRegistrado()) {
 			String query = "SELECT estaActivo FROM Proyecto WHERE nombre = ?";
 			String[] values = {this.proyecto.getNombre()};
 			String[] names = {"estaActivo"};
@@ -174,10 +174,10 @@ public class DAOProyecto implements IDAOProject {
 	}
 	
 	@Override
-	public boolean reactivate() {
+	public boolean reactivar() {
 		boolean reactivated = false;
-		if (this.proyecto != null && this.isRegistered()) {
-			if (this.isActive()) {
+		if (this.proyecto != null && this.estaRegistrado()) {
+			if (this.estaActivo()) {
 				String query = "UPDATE Proyecto SET estaActivo = 1 WHERE nombre = ?";
 				String[] values = {this.proyecto.getNombre()};
 				reactivated = this.connection.executar(query, values);
@@ -318,7 +318,7 @@ public class DAOProyecto implements IDAOProject {
 			proyectos[i].setResponsibilities(responses[i][7]);
 			proyectos[i].setCapacity(Integer.parseInt(responses[i][8]));
 			proyectos[i].setArea(responses[i][9]);
-			proyectos[i].setResponsible(DAOProjectResponsible.get(responses[i][10]));
+			proyectos[i].setResponsible(DAOResponsableProyecto.get(responses[i][10]));
 			proyectos[i].setPeriod(responses[i][11]);
 			proyectos[i].setOrganization(responses[i][12]);
 			proyectos[i].setStartDate(responses[i][13]);
@@ -368,7 +368,7 @@ public class DAOProyecto implements IDAOProject {
 		proyecto.setResponsibilities(responses[7]);
 		proyecto.setCapacity(Integer.parseInt(responses[8]));
 		proyecto.setArea(responses[9]);
-		proyecto.setResponsible(DAOProjectResponsible.get(responses[10]));
+		proyecto.setResponsible(DAOResponsableProyecto.get(responses[10]));
 		proyecto.setPeriod(responses[11]);
 		proyecto.setOrganization(responses[12]);
 		proyecto.setStartDate(responses[13]);

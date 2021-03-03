@@ -1,6 +1,6 @@
 package View;
 
-import Configuration.Configuration;
+import Configuration.Configuracion;
 import Models.Usuario;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -112,7 +112,7 @@ public class MainController extends Application {
 	}
 	
 	public static void load() {
-		Configuration.loadScreens("src/View/").forEach((name, location) ->
+		Configuracion.loadScreens("src/View/").forEach((name, location) ->
 			MainController.screens.put(
 				name,
 				location.substring(9)

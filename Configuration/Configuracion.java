@@ -1,13 +1,13 @@
 package Configuration;
 
 import Connection.ConexionBD;
-import Connection.FTPConnection;
+import Connection.ConexionFTP;
 import tools.Dir;
 import tools.File;
 
 import java.util.HashMap;
 
-public class Configuration {
+public class Configuracion {
 	
 	public static File getDBConnectionFile() {
 		return new File("src/Configuration/connection.config");
@@ -38,16 +38,16 @@ public class Configuration {
 		}
 	}
 	
-	public static void loadFTPConnection(FTPConnection connection) {
+	public static void cargarConexionFTP(ConexionFTP connection) {
 		File connectionFile = getFTPConnectionFile();
 		if (!connectionFile.exists()) {
 			connectionFile = getDefaultFTPConnectionFile();
 		}
 		if (connection != null) {
 			connection.setUrl(connectionFile.readLine());
-			connection.setUser(connectionFile.readLine());
-			connection.setPassword(connectionFile.readLine());
-			connection.setDefaultRemoteDirectory(connectionFile.readLine());
+			connection.setUsuario(connectionFile.readLine());
+			connection.setContrasena(connectionFile.readLine());
+			connection.setDirectorioRemoto(connectionFile.readLine());
 		}
 	}
 	

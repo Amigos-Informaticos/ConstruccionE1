@@ -14,7 +14,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 	}
 	
 	@Override
-	public boolean registrarse() {
+	public boolean registrar() {
 		assert this.coordinador.estaCompleto() :
 			"Coordinador incompleto: DAOCoordinador.registrarse()";
 		assert !this.estaRegistrado() : "Coordinador ya registrado: DAOCoordinador.registrarse()";
@@ -32,7 +32,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		if (this.conexion.executar(query, valores)) {
 			query = "INSERT INTO Coordinador (idMiembro, noPersonal, fechaRegistro, turno, registrador) VALUES " +
 				"((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?),?,(SELECT CURRENT_DATE), ?,?)";
-			valores = new String[] {this.coordinador.getEmail(), this.coordinador.getPersonalNo(), "1", "16"};
+			valores = new String[] {this.coordinador.getEmail(), this.coordinador.getNoPersonal(), "1", "16"};
 			registrado = this.conexion.executar(query, valores);
 		}
 		return registrado;
@@ -52,7 +52,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		};
 		if (this.conexion.executar(query, valores)) {
 			query = "UPDATE Coordinador SET noPersonal = ? WHERE idMiembro = ?";
-			valores = new String[] {this.coordinador.getPersonalNo(), this.getIdCoordinador()};
+			valores = new String[] {this.coordinador.getNoPersonal(), this.getIdCoordinador()};
 			actualizado = this.conexion.executar(query, valores);
 		}
 		return actualizado;

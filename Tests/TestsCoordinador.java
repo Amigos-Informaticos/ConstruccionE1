@@ -1,16 +1,16 @@
 package Tests;
 
 import DAO.DAOOrganizacion;
-import DAO.DAOProjectResponsible;
 import DAO.DAOProyecto;
+import DAO.DAOResponsableProyecto;
 import Exceptions.CustomException;
+import Models.ActividadCalendarizada;
 import Models.Asignacion;
-import Models.CalendarizedActivity;
 import Models.Coordinador;
 import Models.Organizacion;
 import Models.Practicante;
-import Models.ProjectResponsible;
 import Models.Proyecto;
+import Models.ResponsableProyecto;
 import org.junit.Test;
 import tools.P;
 
@@ -61,13 +61,13 @@ public class TestsCoordinador {
 		return proyecto;
 	}
 	
-	public ProjectResponsible getResponsible() {
-		ProjectResponsible responsible = new ProjectResponsible();
+	public ResponsableProyecto getResponsible() {
+		ResponsableProyecto responsible = new ResponsableProyecto();
 		responsible.setEmail("responsible@gmail.com");
-		responsible.setNames("Responsable Miguel");
-		responsible.setLastNames("Apellidos responsable");
-		responsible.setPosition("Intendente");
-		responsible.setOrganization(DAOOrganizacion.obtenerPorNombre("Organizacion 1"));
+		responsible.setNombre("Responsable Miguel");
+		responsible.setApellido("Apellidos responsable");
+		responsible.setPosicion("Intendente");
+		responsible.setOrganizacion(DAOOrganizacion.obtenerPorNombre("Organizacion 1"));
 		return responsible;
 	}
 	
@@ -75,8 +75,8 @@ public class TestsCoordinador {
 	public void studentManagementTest() {
 		Practicante practicante = new Practicante("Efrain", "Arenas", "efrain@arenas.com", "contrasenia123", "s18012138");
 		try {
-			assertTrue(coordinador.signUpStudent(practicante));
-			assertTrue(coordinador.deleteStudent(practicante));
+			assertTrue(coordinador.registrarPracticante(practicante));
+			assertTrue(coordinador.eliminarPracticante(practicante));
 		} catch (CustomException exception) {
 			exception.printStackTrace();
 		}
@@ -94,7 +94,7 @@ public class TestsCoordinador {
 		proyecto.setResources("Dos computadoras y un Xiaomi");
 		proyecto.setResponsibilities("Echarle ganas y pararse temprano");
 		proyecto.setArea("Desarrollo");
-		proyecto.setResponsible(DAOProjectResponsible.get("correoResponsable1@correo.com"));
+		proyecto.setResponsible(DAOResponsableProyecto.get("correoResponsable1@correo.com"));
 		proyecto.setPeriod("FEB-JUN 2020");
 		proyecto.setOrganization("1");
 		Practicante practicante = new Practicante("Efrain",
@@ -104,12 +104,12 @@ public class TestsCoordinador {
 			"s18012138");
 		
 		try {
-			assertTrue(coordinador.signUpProject(proyecto));
-			assertTrue(coordinador.signUpStudent(practicante));
+			assertTrue(coordinador.registrarProyecto(proyecto));
+			assertTrue(coordinador.registrarPracticante(practicante));
 			practicante.seleccionarProyecto("Hackear el pentagono");
-			coordinador.assignProject(practicante, "Hackear el pentagono");
-			assertTrue(coordinador.deleteProject(proyecto));
-			assertTrue(coordinador.deleteStudent(practicante));
+			coordinador.asignarProyecto(practicante, "Hackear el pentagono");
+			assertTrue(coordinador.eliminarProyecto(proyecto));
+			assertTrue(coordinador.eliminarPracticante(practicante));
 		} catch (CustomException e) {
 			e.printStackTrace();
 		}
@@ -124,7 +124,7 @@ public class TestsCoordinador {
 			"angel123",
 			"N000222"
 		);
-		angel.signUp();
+		angel.registrar();
 	}
 	
 	@Test
@@ -134,7 +134,7 @@ public class TestsCoordinador {
 	
 	@Test
 	public void registerProject() {
-		assertTrue(this.getProject().register());
+		assertTrue(this.getProject().registrar());
 	}
 	
 	@Test
@@ -155,11 +155,11 @@ public class TestsCoordinador {
 	
 	@Test
 	public void testCalendarization() {
-		CalendarizedActivity[] calendarizedActivities = new CalendarizedActivity[6];
+		ActividadCalendarizada[] calendarizedActivities = new ActividadCalendarizada[6];
 		for (int i = 0; i < 6; i++) {
-			calendarizedActivities[i] = new CalendarizedActivity();
-			calendarizedActivities[i].setName("ac" + i);
-			calendarizedActivities[i].setDate("2020-10-11");
+			calendarizedActivities[i] = new ActividadCalendarizada();
+			calendarizedActivities[i].setNombre("ac" + i);
+			calendarizedActivities[i].setFecha("2020-10-11");
 		}
 		Proyecto proyecto = new Proyecto();
 		proyecto.setName("Proyecto Genial");
@@ -178,6 +178,6 @@ public class TestsCoordinador {
 		proyecto.setStartDate("2020-07-19");
 		proyecto.setEndDate("2020-09-07");
 		proyecto.setCalendarizedActivities(calendarizedActivities);
-		proyecto.register();
+		proyecto.registrar();
 	}
 }

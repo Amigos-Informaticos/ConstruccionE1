@@ -24,7 +24,7 @@ public class DAOProfesorTests {
 		alexis.setContrasena("ocha1234");
 		alexis.setPersonalNo("N000002");
 		alexis.setShift("1");
-		assertTrue(daoProfesor.registrarse());
+		assertTrue(daoProfesor.registrar());
 	}
 	
 	@Test

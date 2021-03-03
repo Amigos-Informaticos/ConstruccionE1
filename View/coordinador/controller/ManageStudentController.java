@@ -126,7 +126,7 @@ public class ManageStudentController implements Initializable {
 		Practicante practicante = new Practicante();
 		this.instanceStudent(practicante);
 		if (practicante.estaCompleto()) {
-			if (practicante.registrarse()) {
+			if (practicante.registrar()) {
 				listPracticante.add(practicante);
 				MainController.alert(
 					Alert.AlertType.INFORMATION,

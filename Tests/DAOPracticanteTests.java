@@ -14,7 +14,7 @@ public class DAOPracticanteTests {
 	
 	@Test
 	public void a_signUpPracticante() {
-		assertTrue(getInstancePracticante().registrarse());
+		assertTrue(getInstancePracticante().registrar());
 	}
 	
 	@Test

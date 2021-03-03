@@ -1,11 +1,11 @@
 package DAO;
 
 import Connection.ConexionBD;
-import IDAO.IDAOrganization;
+import IDAO.IDAOOrganizacion;
 import Models.Organizacion;
 import javafx.collections.ObservableList;
 
-public class DAOOrganizacion implements IDAOrganization {
+public class DAOOrganizacion implements IDAOOrganizacion {
 	private final Organizacion organizacion;
 	private final ConexionBD conexion = new ConexionBD();
 	

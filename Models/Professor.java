@@ -53,7 +53,7 @@ public class Professor extends Usuario {
 	}
 	
 	public boolean signUp() {
-		return new DAOProfesor(this).registrarse();
+		return new DAOProfesor(this).registrar();
 	}
 	
 	public boolean update() {

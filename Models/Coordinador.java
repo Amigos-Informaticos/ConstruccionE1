@@ -5,50 +5,50 @@ import Exceptions.CustomException;
 import javafx.collections.ObservableList;
 
 public class Coordinador extends Usuario {
-	private String personalNo;
-	private String registrationDate;
-	private String dischargeDate;
-	private String shift;
+	private String noPersonal;
+	private String fechaRegistro;
+	private String fechaBaja;
+	private String turno;
 	
-	public String getShift() {
-		return shift;
+	public String getTurno() {
+		return turno;
 	}
 	
 	public void setTurno(String shift) {
-		this.shift = shift;
+		this.turno = shift;
 	}
 	
-	public String getRegistrationDate() {
-		return registrationDate;
+	public String getFechaRegistro() {
+		return fechaRegistro;
 	}
 	
 	public void setFechaRegistro(String registrationDate) {
-		this.registrationDate = registrationDate;
+		this.fechaRegistro = registrationDate;
 	}
 	
-	public String getDischargeDate() {
-		return dischargeDate;
+	public String getFechaBaja() {
+		return fechaBaja;
 	}
 	
-	public void setDischargeDate(String dischargeDate) {
-		this.dischargeDate = dischargeDate;
+	public void setFechaBaja(String fechaBaja) {
+		this.fechaBaja = fechaBaja;
 	}
 	
 	public Coordinador() {
 	}
 	
 	public Coordinador(String names, String lastNames, String email, String password,
-	                   String personalNo) {
+	                   String noPersonal) {
 		super(names, lastNames, email, password);
-		this.personalNo = personalNo;
+		this.noPersonal = noPersonal;
 	}
 	
 	public Coordinador(String names, String lastNames, String email, String password,
-	                   String personalNo, String registrationDate, String dischargeDate) {
+	                   String noPersonal, String fechaRegistro, String fechaBaja) {
 		super(names, lastNames, email, password);
-		this.personalNo = personalNo;
-		this.registrationDate = registrationDate;
-		this.dischargeDate = dischargeDate;
+		this.noPersonal = noPersonal;
+		this.fechaRegistro = fechaRegistro;
+		this.fechaBaja = fechaBaja;
 	}
 	
 	public Coordinador(Coordinador coordinador) {
@@ -57,92 +57,92 @@ public class Coordinador extends Usuario {
 			this.setApellidos(coordinador.getApellidos());
 			this.setEmail(coordinador.getEmail());
 			this.setContrasenaLimpia(coordinador.getContrasena());
-			this.setNumeroPersonal(coordinador.getPersonalNo());
+			this.setNumeroPersonal(coordinador.getNoPersonal());
 		}
 	}
 	
-	public String getPersonalNo() {
-		return personalNo;
+	public String getNoPersonal() {
+		return noPersonal;
 	}
 	
 	public void setNumeroPersonal(String noPersonal) {
-		this.personalNo = noPersonal;
+		this.noPersonal = noPersonal;
 	}
 	
-	public boolean signUp() {
-		return new DAOCoordinador(this).registrarse();
+	public boolean registrar() {
+		return new DAOCoordinador(this).registrar();
 	}
 	
-	public boolean logIn() {
+	public boolean iniciarSesion() {
 		return new DAOCoordinador(this).iniciarSesion();
 	}
 	
-	public boolean update() {
+	public boolean actualizar() {
 		return new DAOCoordinador(this).actualizar();
 	}
 	
-	public boolean delete() {
+	public boolean eliminar() {
 		return new DAOCoordinador(this).eliminar();
 	}
 	
-	public boolean signUpProject(Proyecto proyecto) throws CustomException {
-		return proyecto.register();
+	public boolean registrarProyecto(Proyecto proyecto) throws CustomException {
+		return proyecto.registrar();
 	}
 	
-	public boolean deleteProject(Proyecto proyecto) throws CustomException {
-		return proyecto.deleteProject();
+	public boolean eliminarProyecto(Proyecto proyecto) throws CustomException {
+		return proyecto.eliminarProyecto();
 	}
 	
-	public boolean isAnother() {
+	public boolean hayOtro() {
 		DAOCoordinador daoCoordinador = new DAOCoordinador(this);
 		return daoCoordinador.hayOtro();
 	}
 	
-	public boolean signUpStudent(Practicante practicante) throws CustomException {
-		return practicante.registrarse();
+	public boolean registrarPracticante(Practicante practicante) throws CustomException {
+		return practicante.registrar();
 	}
 	
-	public boolean deleteStudent(Practicante practicante) throws CustomException {
+	public boolean eliminarPracticante(Practicante practicante) throws CustomException {
 		return practicante.eliminar();
 	}
 	
-	public boolean signUpOrganization(Organizacion organizacion) throws CustomException {
+	public boolean registrarOrganizacion(Organizacion organizacion) {
 		return organizacion.registrar();
 	}
 	
-	public boolean deleteOrganization(Organizacion organizacion) throws CustomException {
+	public boolean eliminarOrganizacion(Organizacion organizacion) {
 		return organizacion.registrar();
 	}
 	
-	public boolean assignProject(Practicante practicante, String projectName) throws CustomException {
-		return practicante.setProyecto(projectName);
+	public boolean asignarProyecto(Practicante practicante, String projectName) throws CustomException {
+		return practicante.asignarProyecto(projectName);
 	}
 	
-	public boolean isRegistered() {
+	public boolean estaRegistrado() {
 		return new DAOCoordinador(this).estaRegistrado();
 	}
 	
 	public boolean estaCompleto() {
-		return super.estaCompleto() && personalNo != null;
+		return super.estaCompleto() && noPersonal != null;
 	}
 	
-	public void fillTableCoordinator(ObservableList<Coordinador> listCoordinador) {
-		listCoordinador.addAll(DAOCoordinador.obtenerTodos());
+	public void llenarTablaCoordinador(ObservableList<Coordinador> listaCoordinador) {
+		listaCoordinador.addAll(DAOCoordinador.obtenerTodos());
 	}
 	
-	public Coordinador[] getAll() {
+	public Coordinador[] obtenerTodos() {
 		return DAOCoordinador.obtenerTodos();
 	}
 	
-	public Coordinador getActive() {
+	public Coordinador obtenerActivo() {
 		return DAOCoordinador.obtenerActivo();
 	}
 	
 	public String toString() {
 		return getNombres() + "\n" +
 			getApellidos() + "\n" +
-			getPersonalNo() + "\n" +
-			getShift() + "\n" +
+			getNoPersonal() + "\n" +
+			getTurno() + "\n" +
 			getEmail() + "\n";
 	}
 }

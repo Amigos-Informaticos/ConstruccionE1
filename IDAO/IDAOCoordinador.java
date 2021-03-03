@@ -1,6 +1,6 @@
 package IDAO;
 
-public interface IDAOCoordinador extends IDAOUser {
+public interface IDAOCoordinador extends IDAOUsuario {
     
     boolean hayOtro();
     

@@ -98,7 +98,7 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 	
 	@Override
-	public boolean registrarse() {
+	public boolean registrar() {
 		assert this.practicante != null : "Student is null: DAOStudent.signUp()";
 		assert this.practicante.estaCompleto() : "Student is incomplete: DAOStudent.signUp()";
 		
@@ -271,7 +271,7 @@ public class DAOPracticante implements IDAOPracticante {
 			"Practicante inactivo: DAOPracticante.eliminarProyectoSeleccionado()";
 		assert nombreProyecto != null :
 			"Nombre del proyecto es nulo: DAOPracticante.eliminarProyectoSeleccionado()";
-		assert daoProyecto.isRegistered() :
+		assert daoProyecto.estaRegistrado() :
 			"Proyecto no registrado: DAOPracticante.eliminarProyectoSeleccionado()";
 		
 		boolean eliminado = false;
@@ -293,7 +293,7 @@ public class DAOPracticante implements IDAOPracticante {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.setProyecto()";
 		assert this.estaActivo() : "Practicante inactivo: DAOPracticante.setProyecto()";
 		assert nombreProyecto != null : "Nombre de proyecto es nulo: DAOPracticante.setProyecto()";
-		assert new DAOProyecto(nombreProyecto).isRegistered() :
+		assert new DAOProyecto(nombreProyecto).estaRegistrado() :
 			"Proyecto no registrado: DAOPracticante.setProyecto()";
 		
 		boolean establecido;

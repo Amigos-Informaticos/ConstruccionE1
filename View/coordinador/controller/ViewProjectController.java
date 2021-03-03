@@ -61,10 +61,10 @@ public class ViewProjectController implements Initializable {
 		txtResources.setText(proyecto.getResources());
 		txtResponsibilities.setText(proyecto.getResponsibilities());
 		
-		txtPositionResponsible.setText(proyecto.getResponsible().getPosition());
+		txtPositionResponsible.setText(proyecto.getResponsible().getPosicion());
 		txtEmailResponsible.setText(proyecto.getResponsible().getEmail());
-		txtNameResponsible.setText(proyecto.getResponsible().getNames());
-		txtLastnameResponsible.setText(proyecto.getResponsible().getLastNames());
+		txtNameResponsible.setText(proyecto.getResponsible().getNombres());
+		txtLastnameResponsible.setText(proyecto.getResponsible().getApellidos());
 		
 		txtCapacity.setText(String.valueOf(proyecto.getCapacity()));
 		txtArea.setText(proyecto.getArea());
@@ -75,7 +75,7 @@ public class ViewProjectController implements Initializable {
 		if (MainController.alert(Alert.AlertType.CONFIRMATION,
 			"Eliminar Proyecto",
 			"¿Seguro que desea eliminar el Proyecto?")) {
-			if (proyecto.deleteProject()) {
+			if (proyecto.eliminarProyecto()) {
 				MainController.alert(Alert.AlertType.INFORMATION,
 					"Proyecto eliminado",
 					"Proyecto eliminado exitosamente");

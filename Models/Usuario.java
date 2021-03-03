@@ -130,7 +130,7 @@ public class Usuario {
 				tipo = "Student";
 			} else if (profesorAuxiliar.logIn()) {
 				tipo = "Professor";
-			} else if (coordinadorAuxiliar.logIn()) {
+			} else if (coordinadorAuxiliar.iniciarSesion()) {
 				tipo = "Coordinator";
 			} else if (administradorAuxiliar.login()) {
 				tipo = "Admin";

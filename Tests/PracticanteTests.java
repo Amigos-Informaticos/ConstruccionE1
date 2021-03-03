@@ -50,7 +50,7 @@ public class PracticanteTests {
 	@Test
 	public void a_signUpStudent() {
 		this.practicante.setProfesor(DAOProfesor.getByEmail("joo@hotmail.com"));
-		assertTrue(this.practicante.registrarse());
+		assertTrue(this.practicante.registrar());
 	}
 	
 	@Test
@@ -78,7 +78,7 @@ public class PracticanteTests {
 	@Test
 	public void f_setProject() {
 		try {
-			assertTrue(this.practicante.setProyecto("Hackear la nasa"));
+			assertTrue(this.practicante.asignarProyecto("Hackear la nasa"));
 		} catch (CustomException e) {
 			new Logger().log(e);
 		}

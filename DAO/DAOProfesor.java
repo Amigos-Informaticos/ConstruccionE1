@@ -73,7 +73,7 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 	}
 	
 	@Override
-	public boolean registrarse() {
+	public boolean registrar() {
 		assert this.professor.estaCompleto() : "Professor not complete: DAOProfessor.signUp()";
 		boolean signedUp = false;
 		if (!this.estaRegistrado()) {

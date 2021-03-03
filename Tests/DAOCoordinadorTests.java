@@ -27,7 +27,7 @@ public class DAOCoordinadorTests {
 		coordinador.setTurno("Matutino");
 		DAOCoordinador daoCoordinador = new DAOCoordinador(coordinador);
 		try {
-			assertTrue(daoCoordinador.registrarse());
+			assertTrue(daoCoordinador.registrar());
 		} catch (AssertionError e) {
 			System.out.println(e.getMessage());
 		}
@@ -97,7 +97,7 @@ public class DAOCoordinadorTests {
 	
 	@Test
 	public void isAnother() {
-		assertTrue(new Coordinador().isAnother());
+		assertTrue(new Coordinador().hayOtro());
 	}
 	
 	private DAOProfesor getDAOProfesor() {

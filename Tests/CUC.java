@@ -1,13 +1,13 @@
 package Tests;
 
+import Models.ActividadCalendarizada;
 import Models.Asignacion;
-import Models.CalendarizedActivity;
 import Models.Coordinador;
 import Models.Organizacion;
 import Models.Practicante;
 import Models.Professor;
-import Models.ProjectResponsible;
 import Models.Proyecto;
+import Models.ResponsableProyecto;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -65,13 +65,13 @@ public class CUC {
 		return organizacion;
 	}
 	
-	public ProjectResponsible getResponsible() {
-		ProjectResponsible responsible = new ProjectResponsible();
+	public ResponsableProyecto getResponsible() {
+		ResponsableProyecto responsible = new ResponsableProyecto();
 		responsible.setEmail("responsable@correo.com");
-		responsible.setNames("Quien sabe");
-		responsible.setLastNames("Sina Pellidos");
-		responsible.setPosition("Barrendero");
-		responsible.setOrganization(getOrganization());
+		responsible.setNombre("Quien sabe");
+		responsible.setApellido("Sina Pellidos");
+		responsible.setPosicion("Barrendero");
+		responsible.setOrganizacion(getOrganization());
 		return responsible;
 	}
 	
@@ -102,19 +102,19 @@ public class CUC {
 	
 	@Test
 	public void bRegisterStudent() {
-		assertTrue(getStudent().registrarse());
+		assertTrue(getStudent().registrar());
 	}
 	
 	@Test
 	public void cRegisterProyect() {
 		Proyecto proyecto = getProject();
-		CalendarizedActivity[] activities = {
-			new CalendarizedActivity("Hacer diseno", "2020-05-01"),
-			new CalendarizedActivity("Construirlo", "2020-07-01"),
-			new CalendarizedActivity("Llorar", "2020-07-10")
+		ActividadCalendarizada[] activities = {
+			new ActividadCalendarizada("Hacer diseno", "2020-05-01"),
+			new ActividadCalendarizada("Construirlo", "2020-07-01"),
+			new ActividadCalendarizada("Llorar", "2020-07-10")
 		};
 		proyecto.setCalendarizedActivities(activities);
-		assertTrue(proyecto.register());
+		assertTrue(proyecto.registrar());
 	}
 	
 	@Test
@@ -135,7 +135,7 @@ public class CUC {
 	
 	@Test
 	public void zClean() {
-		assertTrue(getProject().deleteProject());
+		assertTrue(getProject().eliminarProyecto());
 		assertTrue(getResponsible().delete());
 		assertTrue(getOrganization().eliminar());
 	}

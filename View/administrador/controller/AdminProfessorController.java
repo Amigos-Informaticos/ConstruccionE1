@@ -54,7 +54,7 @@ public class AdminProfessorController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         listShift = FXCollections.observableArrayList();
         listProfessor = FXCollections.observableArrayList();
-        Turno.fillShift(listShift);
+        Turno.llenarTurno(listShift);
         new Professor().fillTableProfessor(listProfessor);
         cmbShift.setItems(listShift);
         tblViewProfessor.setItems(listProfessor);

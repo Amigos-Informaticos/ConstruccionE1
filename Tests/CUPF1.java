@@ -57,7 +57,7 @@ public class CUPF1 {
 	
 	@Test
 	public void bRegisterStudent() {
-		assertTrue(getStudent().registrarse());
+		assertTrue(getStudent().registrar());
 	}
 	
 	@Test
