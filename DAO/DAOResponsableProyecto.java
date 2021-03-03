@@ -14,7 +14,7 @@ public class DAOResponsableProyecto {
 	public boolean registrarse() {
 		assert this.responsableProyecto != null :
 			"Responable es nulo: DAOResponsableProyecto.registrarse()";
-		assert this.responsableProyecto.isComplete() :
+		assert this.responsableProyecto.estaCompleto() :
 			"Responsable incompleto: DAOResponsableProyecto.registrarse()";
 		assert this.responsableProyecto.getOrganizacion().estaCompleto() :
 			"Organizacion del responsable incompleta: DAOResponsableProyecto.registrarse()";

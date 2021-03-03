@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestsCoordinador {
-	Coordinador coordinador = new Coordinador();
+	private Coordinador coordinador = new Coordinador();
 	private final Practicante practicante = new Practicante(
 		"Juan Gabriel",
 		"Lopez Doriga",
@@ -124,7 +124,7 @@ public class TestsCoordinador {
 			"angel123",
 			"N000222"
 		);
-		angel.registrar();
+		assertTrue(angel.registrar());
 	}
 	
 	@Test
@@ -178,6 +178,6 @@ public class TestsCoordinador {
 		proyecto.setStartDate("2020-07-19");
 		proyecto.setEndDate("2020-09-07");
 		proyecto.setCalendarizedActivities(calendarizedActivities);
-		proyecto.registrar();
+		assertTrue(proyecto.registrar());
 	}
 }

@@ -9,9 +9,6 @@ public class ResponsableProyecto {
 	private String posicion;
 	private Organizacion organizacion;
 	
-	public ResponsableProyecto() {
-	}
-	
 	public String getEmail() {
 		return email;
 	}
@@ -52,7 +49,7 @@ public class ResponsableProyecto {
 		this.posicion = position;
 	}
 	
-	public boolean isComplete() {
+	public boolean estaCompleto() {
 		return this.email != null &&
 			this.nombres != null &&
 			this.apellidos != null;
@@ -66,7 +63,7 @@ public class ResponsableProyecto {
 		return new DAOResponsableProyecto(this).estaRegistrado();
 	}
 	
-	public boolean delete() {
+	public boolean eliminar() {
 		return new DAOResponsableProyecto(this).eliminar();
 	}
 }

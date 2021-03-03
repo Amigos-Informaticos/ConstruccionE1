@@ -136,7 +136,7 @@ public class CUC {
 	@Test
 	public void zClean() {
 		assertTrue(getProject().eliminarProyecto());
-		assertTrue(getResponsible().delete());
+		assertTrue(getResponsible().eliminar());
 		assertTrue(getOrganization().eliminar());
 	}
 }
