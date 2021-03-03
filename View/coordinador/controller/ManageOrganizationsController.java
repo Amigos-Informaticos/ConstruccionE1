@@ -43,10 +43,8 @@ public class ManageOrganizationsController implements Initializable {
 	@FXML
 	private JFXTextField txtLocality;
 	
-	ObservableList<Organizacion> listOrganizacion;
-	ObservableList<String> listSector;
-	
-	private Organizacion organizacion;
+	private ObservableList<Organizacion> listOrganizacion;
+	private ObservableList<String> listSector;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -69,7 +67,6 @@ public class ManageOrganizationsController implements Initializable {
 				public void changed(ObservableValue<? extends Organizacion> observable, Organizacion oldValue,
 				                    Organizacion newValue) {
 					if (newValue != null) {
-						organizacion = newValue;
 						txtName.setText(newValue.getNombre());
 						txtStreet.setText(newValue.getDireccion().get("street"));
 						txtNo.setText(newValue.getDireccion().get("number"));

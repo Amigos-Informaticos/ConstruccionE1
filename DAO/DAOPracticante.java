@@ -6,13 +6,6 @@ import IDAO.IDAOPracticante;
 import Models.Practicante;
 import Models.Proyecto;
 import javafx.collections.ObservableList;
-import tools.File;
-import tools.Logger;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 public class DAOPracticante implements IDAOPracticante {
 	private Practicante practicante;
@@ -314,7 +307,6 @@ public class DAOPracticante implements IDAOPracticante {
 		return establecido;
 	}
 	
-	//TODO continuar refactorizacion a partir de aqui
 	public boolean eliminarProyecto() {
 		boolean deleted = false;
 		assert this.practicante != null : "Student is null: DAOStudent.deleteProject()";
@@ -368,52 +360,6 @@ public class DAOPracticante implements IDAOPracticante {
 			reactivated = this.conexion.executar(query, valores);
 		}
 		return reactivated;
-	}
-	
-	public boolean replyActivity(String activityName, String documentPath) {
-		boolean replied = false;
-		assert this.practicante != null : "Student is null: DAOStudent.replyActivity()";
-		assert this.estaActivo() : "Student is not active: DAOStudent.replyActivity()";
-		assert documentPath != null : "Document Path is null: DAOStudent.replyActivity()";
-		assert File.exists(documentPath) : "File doesnt exists: DAOStudent.replyActivity()";
-		assert activityName != null : "Activity name is null: DAOStudent.replyActivity()";
-		
-		String query = "SELECT COUNT(idActividad) AS TOTAL FROM Actividad " +
-			"WHERE titulo = ? AND idPracticante = ?";
-		String[] valores = {activityName, this.getId()};
-		String[] nombres = {"TOTAL"};
-		String[][] activities = this.conexion.seleccionar(query, valores, nombres);
-		if (activities != null && activities[0][0].equals("1")) {
-			try {
-				java.io.File file = new java.io.File(documentPath);
-				FileInputStream fis = new FileInputStream(file);
-				query = "INSERT INTO Documento (titulo, fecha, tipo, archivo, autor) " +
-					"valores (?, (SELECT CURRENT_DATE()), 'Actividad', ?, ?)";
-				this.conexion.openConnection();
-				PreparedStatement statement =
-					this.conexion.getConnection().prepareStatement(query);
-				statement.setString(1, activityName);
-				statement.setBinaryStream(2, fis, (int) file.length());
-				statement.setString(3, getId());
-				statement.executeUpdate();
-				this.conexion.closeConnection();
-				replied = true;
-			} catch (FileNotFoundException | SQLException e) {
-				Logger.staticLog(e, true);
-			}
-		}
-		return replied;
-	}
-	
-	public boolean deleteReply(String activityName) {
-		assert this.practicante != null : "Student is null: DAOStudent.deleteReply()";
-		assert this.estaActivo() : "Student is not active: DAOStudent.deleteReply()";
-		assert activityName != null : "Activity name is null: DAOStudent.deleteReply()";
-		
-		String query = "UPDATE Actividad SET documento = null, fechaEntrega = null " +
-			"WHERE idPracticante = ? AND titulo = ?";
-		String[] valores = {this.getId(), activityName};
-		return this.conexion.executar(query, valores);
 	}
 	
 	public boolean tienePlanActividades() {

@@ -18,7 +18,7 @@ public class ListProjectsController implements Initializable {
 	private TableView<Proyecto> tblProject;
 	@FXML
 	private TableColumn<Proyecto, String> clmNameProject;
-	ObservableList<Proyecto> listProyectos;
+	private ObservableList<Proyecto> listProyectos;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
