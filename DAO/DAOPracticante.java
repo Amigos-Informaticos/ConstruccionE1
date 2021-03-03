@@ -50,11 +50,11 @@ public class DAOPracticante implements IDAOPracticante {
 			this.practicante.getContrasena(),
 			this.practicante.getEmail()
 		};
-		if (this.conexion.executar(query, valores)) {
+		if (this.conexion.ejecutar(query, valores)) {
 			query = "UPDATE Practicante SET matricula = ? WHERE idMiembro = " +
 				"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
 			valores = new String[] {this.practicante.getMatricula(), this.practicante.getEmail()};
-			actualizado = this.conexion.executar(query, valores);
+			actualizado = this.conexion.ejecutar(query, valores);
 		}
 		return actualizado;
 	}
@@ -68,7 +68,7 @@ public class DAOPracticante implements IDAOPracticante {
 		if (this.estaActivo()) {
 			String query = "UPDATE MiembroFEI SET estaActivo = 0 WHERE correoElectronico = ?";
 			String[] valores = {this.practicante.getEmail()};
-			eliminado = this.conexion.executar(query, valores);
+			eliminado = this.conexion.ejecutar(query, valores);
 		}
 		return eliminado;
 	}
@@ -101,7 +101,7 @@ public class DAOPracticante implements IDAOPracticante {
 				"contrasena, estaActivo) valores (?, ?, ?, ?, 1)";
 			String[] valores = {this.practicante.getNombres(), this.practicante.getApellidos(),
 				this.practicante.getEmail(), this.practicante.getContrasena()};
-			if (this.conexion.executar(query, valores)) {
+			if (this.conexion.ejecutar(query, valores)) {
 				query = "INSERT INTO Practicante (idMiembro, matricula, profesorCalificador) " +
 					"valores (?, ?, ?)";
 				valores = new String[] {
@@ -109,7 +109,7 @@ public class DAOPracticante implements IDAOPracticante {
 					this.practicante.getMatricula(),
 					DAOProfesor.getId(this.practicante.getProfesor().getEmail())
 				};
-				registrado = this.conexion.executar(query, valores);
+				registrado = this.conexion.ejecutar(query, valores);
 			}
 		} else {
 			registrado = this.reactivar();
@@ -225,7 +225,7 @@ public class DAOPracticante implements IDAOPracticante {
 					"((SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1), " +
 					"(SELECT MiembroFEI.idMiembro FROM MiembroFEI WHERE correoElectronico = ?))";
 				valores = new String[] {proyecto.getNombre(), this.practicante.getEmail()};
-				seleccionado = this.conexion.executar(query, valores);
+				seleccionado = this.conexion.ejecutar(query, valores);
 			}
 		}
 		return seleccionado;
@@ -275,7 +275,7 @@ public class DAOPracticante implements IDAOPracticante {
 					"AND idProyecto = " +
 					"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1)";
 				String[] valores = {this.practicante.getEmail(), nombreProyecto};
-				eliminado = this.conexion.executar(query, valores);
+				eliminado = this.conexion.ejecutar(query, valores);
 				break;
 			}
 		}
@@ -299,7 +299,7 @@ public class DAOPracticante implements IDAOPracticante {
 			query = "INSERT INTO Asignacion (idPracticante, idProyecto) " +
 				"valores (?, (SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1))";
 			valores = new String[] {this.getId(), nombreProyecto};
-			establecido = this.conexion.executar(query, valores);
+			establecido = this.conexion.ejecutar(query, valores);
 		} else {
 			throw new CustomException("Proyecto ya establecido: setProyecto()",
 				"ProyectoYaEstablecido");
@@ -321,7 +321,7 @@ public class DAOPracticante implements IDAOPracticante {
 		String[][] students = this.conexion.seleccionar(query, valores, nombres);
 		if (students != null && students[0][0].equals("1")) {
 			query = "DELETE FROM Asignacion WHERE idPracticante = ?";
-			deleted = this.conexion.executar(query, valores);
+			deleted = this.conexion.ejecutar(query, valores);
 		}
 		return deleted;
 	}
@@ -357,7 +357,7 @@ public class DAOPracticante implements IDAOPracticante {
 		if (!this.estaActivo()) {
 			String query = "UPDATE MiembroFEI SET estaActivo = 1 WHERE correoElectronico = ?";
 			String[] valores = {this.practicante.getEmail()};
-			reactivated = this.conexion.executar(query, valores);
+			reactivated = this.conexion.ejecutar(query, valores);
 		}
 		return reactivated;
 	}

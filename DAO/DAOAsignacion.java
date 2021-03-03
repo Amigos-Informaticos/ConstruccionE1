@@ -37,7 +37,7 @@ public class DAOAsignacion {
 				idProfesor,
 				idDocumento
 			};
-			asignado = this.conexion.executar(query, valores);
+			asignado = this.conexion.ejecutar(query, valores);
 		}
 		return asignado;
 	}
@@ -56,7 +56,7 @@ public class DAOAsignacion {
 		if (resultados != null && resultados[0][0].equals("1")) {
 			query = "UPDATE Asignacion SET estaActivo = 0 WHERE idPracticante = ?";
 			valores = new String[] {idPracticante};
-			eliminado = this.conexion.executar(query, valores);
+			eliminado = this.conexion.ejecutar(query, valores);
 		}
 		return eliminado;
 	}
@@ -74,7 +74,7 @@ public class DAOAsignacion {
 		String[][] resultados = conexionBD.seleccionar(query, valores, columnas);
 		if (resultados != null && resultados[0][0].equals("0")) {
 			query = "INSERT INTO Solicitud (idMiembro, idProyecto) VALUES (?, ?)";
-			guardado = conexionBD.executar(query, valores);
+			guardado = conexionBD.ejecutar(query, valores);
 		}
 		return guardado;
 	}

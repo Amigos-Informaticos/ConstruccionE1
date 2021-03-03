@@ -39,7 +39,6 @@ public class GenerateReport implements Initializable {
 	public JFXDatePicker date5;
 	
 	private Proyecto assignedProyecto;
-	private ActividadCalendarizada[] activities;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,8 +51,8 @@ public class GenerateReport implements Initializable {
 	}
 	
 	private void loadActivities() {
-		this.activities = assignedProyecto.getCalendarizedActivities();
-		if (this.activities.length == 0) {
+		ActividadCalendarizada[] activities = assignedProyecto.getCalendarizedActivities();
+		if (activities.length == 0) {
 			MainController.alert(
 				Alert.AlertType.WARNING,
 				"No hay actividades calendarizadas",
@@ -62,8 +61,8 @@ public class GenerateReport implements Initializable {
 			exit();
 		} else {
 			JFXTextField[] names = {name1, name2, name3, name4, name5};
-			for (int i = 0; i < this.activities.length; i++) {
-				names[i].setText(this.activities[i].getNombre());
+			for (int i = 0; i < activities.length; i++) {
+				names[i].setText(activities[i].getNombre());
 				names[i].setEditable(false);
 			}
 		}

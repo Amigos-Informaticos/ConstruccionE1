@@ -27,7 +27,7 @@ public class DAOActividad implements IDAOActividad {
 			this.actividad.getFechaEntrega(),
 			new DAOProfesor(this.actividad.getProfesor()).getId()
 		};
-		return this.conexion.executar(query, valores);
+		return this.conexion.ejecutar(query, valores);
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class DAOActividad implements IDAOActividad {
 			this.actividad.getDescripcion(),
 			this.actividad.getFechaInicio()
 		};
-		return this.conexion.executar(query, valores);
+		return this.conexion.ejecutar(query, valores);
 	}
 	
 	@Override
@@ -50,7 +50,7 @@ public class DAOActividad implements IDAOActividad {
 		assert this.estaRegistrada() : "Actividad no registrada: DAOActividad.eliminar()";
 		String query = "DELETE FROM Actividad WHERE Actividad.idActividad = ?";
 		String[] valores = {this.getIdActividad()};
-		return this.conexion.executar(query, valores);
+		return this.conexion.ejecutar(query, valores);
 	}
 	
 	public boolean estaRegistrada() {

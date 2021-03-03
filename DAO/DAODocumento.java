@@ -75,7 +75,7 @@ public class DAODocumento {
 				"(idDocumento, temporalidad, asignacion) VALUES (?, ?, " +
 				"(SELECT idPracticante FROM Asignacion WHERE idPracticante = ? AND estaActivo =1))";
 			String[] values = {this.getId(), type, studentId};
-			saved = this.connection.executar(query, values);
+			saved = this.connection.ejecutar(query, values);
 		} else {
 			saved = false;
 		}

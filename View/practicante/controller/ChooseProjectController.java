@@ -33,14 +33,12 @@ public class ChooseProjectController implements Initializable {
 	public JFXTextField area;
 	public JFXTextField organization;
 	
-	private ObservableList<Proyecto> proyectoObservableList;
-	
 	private Proyecto[] selectedProyectos;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		checkConditions();
-		proyectoObservableList = FXCollections.observableArrayList();
+		ObservableList<Proyecto> proyectoObservableList = FXCollections.observableArrayList();
 		Proyecto.fillTable(proyectoObservableList);
 		projectTable.setItems(proyectoObservableList);
 		tableColumn.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));

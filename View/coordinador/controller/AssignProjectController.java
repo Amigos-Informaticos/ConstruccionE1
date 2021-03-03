@@ -37,17 +37,15 @@ public class AssignProjectController implements Initializable {
 	public TableView<Proyecto> projectTable;
 	
 	private Practicante practicante = (Practicante) MainController.get("student");
-	private ObservableList<Proyecto> proyectoObservableList;
-	private ObservableList<Proyecto> requestObservableList;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		proyectoObservableList = FXCollections.observableArrayList();
+		ObservableList<Proyecto> proyectoObservableList = FXCollections.observableArrayList();
 		Proyecto.fillTable(proyectoObservableList);
 		projectTable.setItems(proyectoObservableList);
 		clmName.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
 		
-		requestObservableList = FXCollections.observableArrayList();
+		ObservableList<Proyecto> requestObservableList = FXCollections.observableArrayList();
 		Collections.addAll(requestObservableList, practicante.getSeleccion());
 		requestTable.setItems(requestObservableList);
 		clmNameRequest.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));

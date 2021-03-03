@@ -44,7 +44,6 @@ public class ManageOrganizationsController implements Initializable {
 	private JFXTextField txtLocality;
 	
 	private ObservableList<Organizacion> listOrganizacion;
-	private ObservableList<String> listSector;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -53,7 +52,7 @@ public class ManageOrganizationsController implements Initializable {
 		tblViewOrganization.setItems(listOrganizacion);
 		clmnName.setCellValueFactory(new PropertyValueFactory<Organizacion, String>("name"));
 		
-		listSector = FXCollections.observableArrayList();
+		ObservableList<String> listSector = FXCollections.observableArrayList();
 		new Organizacion().llenarSector(listSector);
 		cmbSector.setItems(listSector);
 		

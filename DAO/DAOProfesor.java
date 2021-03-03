@@ -31,10 +31,10 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 		String query = "UPDATE MiembroFEI SET nombres = ?, apellidos = ? WHERE correoElectronico = ?";
 		String[] values = {this.professor.getNombres(), this.professor.getApellidos(),
 			this.professor.getEmail()};
-		if (this.connection.executar(query, values)) {
+		if (this.connection.ejecutar(query, values)) {
 			query = "UPDATE Profesor SET noPersonal = ?, turno = ? WHERE idMiembro = ?";
 			values = new String[] {this.professor.getPersonalNo(), this.getIdShift(), this.getId()};
-			if (this.connection.executar(query, values)) {
+			if (this.connection.ejecutar(query, values)) {
 				updated = true;
 			}
 		}
@@ -47,7 +47,7 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 		assert this.isActive() : "Professor is not active : delete()";
 		String query = "UPDATE MiembroFEI SET estaActivo = 0 WHERE correoElectronico = ?";
 		String[] values = {this.professor.getEmail()};
-		return this.connection.executar(query, values);
+		return this.connection.ejecutar(query, values);
 	}
 	
 	@Override
@@ -56,7 +56,7 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 		assert !this.isActive() : "Professor is not active : reactive()";
 		String query = "UPDATE MiembroFEI SET estaActivo = 1 WHERE correoElectronico = ?";
 		String[] values = {this.professor.getEmail()};
-		return this.connection.executar(query, values);
+		return this.connection.ejecutar(query, values);
 	}
 	
 	@Override
@@ -82,7 +82,7 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 				"VALUES (?, ?, ?, ?, ?)";
 			String[] values = {this.professor.getNombres(), this.professor.getApellidos(),
 				this.professor.getEmail(), this.professor.getContrasena(), "1"};
-			if (this.connection.executar(query, values)) {
+			if (this.connection.ejecutar(query, values)) {
 				query = "INSERT INTO Profesor (idMiembro, fechaRegistro, noPersonal, turno) " +
 					"VALUES ((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?), " +
 					"(SELECT CURRENT_DATE), ?, ?)";
@@ -91,7 +91,7 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 					this.professor.getPersonalNo(),
 					this.getIdShift()
 				};
-				signedUp = this.connection.executar(query, values);
+				signedUp = this.connection.ejecutar(query, values);
 			}
 		} else {
 			if (!this.isActive()) {

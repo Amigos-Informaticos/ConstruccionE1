@@ -64,7 +64,6 @@ public class AdminCoordinatorController implements Initializable {
 	@FXML
 	private JFXComboBox<String> cmbShift;
 	
-	private ObservableList<String> listShift;
 	private Coordinador coordinador;
 	
 	@Override
@@ -77,7 +76,7 @@ public class AdminCoordinatorController implements Initializable {
 		} else {
 			enableRegister();
 		}
-		listShift = FXCollections.observableArrayList();
+		ObservableList<String> listShift = FXCollections.observableArrayList();
 		Turno.llenarTurno(listShift);
 		cmbShift.setItems(listShift);
 	}

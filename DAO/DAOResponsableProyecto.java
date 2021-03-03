@@ -29,7 +29,7 @@ public class DAOResponsableProyecto {
 			this.responsableProyecto.getOrganizacion().getId(),
 			this.responsableProyecto.getPosicion()
 		};
-		return this.conexion.executar(query, valores);
+		return this.conexion.ejecutar(query, valores);
 	}
 	
 	public boolean estaRegistrado() {
@@ -46,7 +46,7 @@ public class DAOResponsableProyecto {
 		if (this.responsableProyecto != null && this.estaRegistrado()) {
 			String query = "UPDATE Responsable SET estaActivo = WHERE correoElectronico = ?";
 			String[] valores = {this.responsableProyecto.getEmail()};
-			eliminado = this.conexion.executar(query, valores);
+			eliminado = this.conexion.ejecutar(query, valores);
 		}
 		return eliminado;
 	}
@@ -70,7 +70,7 @@ public class DAOResponsableProyecto {
 		if (this.responsableProyecto != null && this.estaRegistrado() && this.estaActivo()) {
 			String query = "UPDATE Responsable SET estaActivo = 1 WHERE correoElectronico = ?";
 			String[] valores = {this.responsableProyecto.getEmail()};
-			reactivado = this.conexion.executar(query, valores);
+			reactivado = this.conexion.ejecutar(query, valores);
 		}
 		return reactivado;
 	}

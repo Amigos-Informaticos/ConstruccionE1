@@ -18,11 +18,10 @@ public class ListProjectsController implements Initializable {
 	private TableView<Proyecto> tblProject;
 	@FXML
 	private TableColumn<Proyecto, String> clmNameProject;
-	private ObservableList<Proyecto> listProyectos;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		listProyectos = FXCollections.observableArrayList();
+		ObservableList<Proyecto> listProyectos = FXCollections.observableArrayList();
 		Proyecto.fillTable(listProyectos);
 		tblProject.setItems(listProyectos);
 		clmNameProject.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));

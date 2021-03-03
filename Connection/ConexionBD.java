@@ -98,14 +98,14 @@ public class ConexionBD {
 		}
 	}
 	
-	public boolean executar(String query, String[] values) {
+	public boolean ejecutar(String query, String[] valores) {
 		boolean queryExecuted = false;
 		try {
 			this.openConnection();
 			PreparedStatement statement = this.connection.prepareStatement(query);
-			if (values != null) {
-				for (int i = 0; i < values.length; i++) {
-					statement.setString(i + 1, values[i]);
+			if (valores != null) {
+				for (int i = 0; i < valores.length; i++) {
+					statement.setString(i + 1, valores[i]);
 				}
 			}
 			queryExecuted = statement.executeUpdate() > 0;

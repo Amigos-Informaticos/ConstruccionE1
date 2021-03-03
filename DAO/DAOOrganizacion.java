@@ -31,11 +31,11 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 				this.organizacion.getNombre(),
 				this.organizacion.getTelefono(),
 				this.getIdSector()};
-			registrado = this.conexion.executar(query, valores) && this.registrarDireccion();
+			registrado = this.conexion.ejecutar(query, valores) && this.registrarDireccion();
 		} else {
 			query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
 			valores = new String[] {this.organizacion.getNombre()};
-			registrado = this.conexion.executar(query, valores);
+			registrado = this.conexion.ejecutar(query, valores);
 		}
 		return registrado;
 	}
@@ -61,7 +61,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		
 		String query = "UPDATE Organizacion SET estaActivo = 0 WHERE nombre = ?";
 		String[] valores = {this.organizacion.getNombre()};
-		return this.conexion.executar(query, valores);
+		return this.conexion.ejecutar(query, valores);
 	}
 	
 	@Override
@@ -86,7 +86,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		
 		String query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
 		String[] valores = {this.organizacion.getNombre()};
-		return this.conexion.executar(query, valores);
+		return this.conexion.ejecutar(query, valores);
 	}
 	
 	public String getId() {
@@ -110,7 +110,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 			this.organizacion.getDireccion().get("colonia"),
 			this.organizacion.getDireccion().get("localidad")
 		};
-		return this.conexion.executar(query, valores);
+		return this.conexion.ejecutar(query, valores);
 	}
 	
 	public boolean registrarSector(String sector) {
@@ -119,7 +119,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		if (!this.estaRegistradoSector(sector)) {
 			String query = "INSERT INTO Sector (sector) VALUES (?)";
 			String[] valores = {sector};
-			registrado = this.conexion.executar(query, valores);
+			registrado = this.conexion.ejecutar(query, valores);
 		}
 		return registrado;
 	}

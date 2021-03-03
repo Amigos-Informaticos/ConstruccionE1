@@ -29,11 +29,11 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 				this.coordinador.getApellidos(),
 				this.coordinador.getEmail(),
 				this.coordinador.getContrasena(), "1"};
-		if (this.conexion.executar(query, valores)) {
+		if (this.conexion.ejecutar(query, valores)) {
 			query = "INSERT INTO Coordinador (idMiembro, noPersonal, fechaRegistro, turno, registrador) VALUES " +
 				"((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?),?,(SELECT CURRENT_DATE), ?,?)";
 			valores = new String[] {this.coordinador.getEmail(), this.coordinador.getNoPersonal(), "1", "16"};
-			registrado = this.conexion.executar(query, valores);
+			registrado = this.conexion.ejecutar(query, valores);
 		}
 		return registrado;
 	}
@@ -50,10 +50,10 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 			this.coordinador.getApellidos(),
 			this.coordinador.getEmail()
 		};
-		if (this.conexion.executar(query, valores)) {
+		if (this.conexion.ejecutar(query, valores)) {
 			query = "UPDATE Coordinador SET noPersonal = ? WHERE idMiembro = ?";
 			valores = new String[] {this.coordinador.getNoPersonal(), this.getIdCoordinador()};
-			actualizado = this.conexion.executar(query, valores);
+			actualizado = this.conexion.ejecutar(query, valores);
 		}
 		return actualizado;
 	}
@@ -93,7 +93,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		assert this.estaActivo() : "Coordinador inactivo: DAOCoordinador.eliminar()";
 		String query = "UPDATE MiembroFEI SET estaActivo = 0 WHERE correoElectronico = ?";
 		String[] valores = {this.coordinador.getEmail()};
-		return this.conexion.executar(query, valores);
+		return this.conexion.ejecutar(query, valores);
 	}
 	
 	public boolean estaActivo() {
@@ -117,7 +117,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		
 		String query = "UPDATE MiembroFEI SET estaActivo = 1 WHERE correoElectronico = ?";
 		String[] valores = {this.coordinador.getEmail()};
-		return this.conexion.executar(query, valores);
+		return this.conexion.ejecutar(query, valores);
 	}
 	
 	public boolean hayOtro() {

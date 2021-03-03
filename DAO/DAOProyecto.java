@@ -64,11 +64,11 @@ public class DAOProyecto implements IDAOProyecto {
 				this.proyecto.getStartDate(),
 				this.proyecto.getEndDate()
 			};
-			signedUp = this.connection.executar(query, values);
+			signedUp = this.connection.ejecutar(query, values);
 		} else if (this.estaRegistrado() && !this.estaActivo()) {
 			String query = "UPDATE Proyecto SET estaActivo = 1 WHERE nombre = ?";
 			String[] values = {this.proyecto.getNombre()};
-			if (this.connection.executar(query, values)) {
+			if (this.connection.ejecutar(query, values)) {
 				signedUp = true;
 			}
 		}
@@ -86,7 +86,7 @@ public class DAOProyecto implements IDAOProyecto {
 				this.getId()
 			};
 			if (actividadCalendarizada.getNombre() != null) {
-				registered = this.connection.executar(query, values);
+				registered = this.connection.ejecutar(query, values);
 			}
 		}
 		return registered;
@@ -147,11 +147,11 @@ public class DAOProyecto implements IDAOProyecto {
 				if (this.haveStudents()) {
 					String query = "DELETE FROM Asignacion WHERE idProyecto = ?;";
 					String[] values = {this.getId()};
-					this.connection.executar(query, values);
+					this.connection.ejecutar(query, values);
 				}
 				String query = "UPDATE Proyecto SET estaActivo = 0 WHERE nombre = ?;";
 				String[] values = {this.proyecto.getNombre()};
-				deleted = this.connection.executar(query, values);
+				deleted = this.connection.ejecutar(query, values);
 			} else {
 				deleted = true;
 			}
@@ -180,7 +180,7 @@ public class DAOProyecto implements IDAOProyecto {
 			if (this.estaActivo()) {
 				String query = "UPDATE Proyecto SET estaActivo = 1 WHERE nombre = ?";
 				String[] values = {this.proyecto.getNombre()};
-				reactivated = this.connection.executar(query, values);
+				reactivated = this.connection.ejecutar(query, values);
 			} else {
 				reactivated = true;
 			}
@@ -195,7 +195,7 @@ public class DAOProyecto implements IDAOProyecto {
 		String[][] results = this.connection.seleccionar(query, values, columns);
 		if (results != null && results[0][0].equals("0")) {
 			query = "INSERT INTO Area (area) VALUES (?)";
-			this.connection.executar(query, values);
+			this.connection.ejecutar(query, values);
 		}
 	}
 	
@@ -206,7 +206,7 @@ public class DAOProyecto implements IDAOProyecto {
 		String[][] results = this.connection.seleccionar(query, values, columns);
 		if (results != null && results[0][0].equals("0")) {
 			query = "INSERT INTO Periodo (periodo) VALUES (?)";
-			this.connection.executar(query, values);
+			this.connection.ejecutar(query, values);
 		}
 	}
 	
