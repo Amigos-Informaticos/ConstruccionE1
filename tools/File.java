@@ -1,11 +1,18 @@
 package tools;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
-
 
 public class File implements Serializable {
 	private Path path = null;
@@ -29,7 +36,7 @@ public class File implements Serializable {
 	}
 	
 	public File(Path path) {
-		if (path != null && !path.equals("")) {
+		if (path != null && !path.toString().equals("")) {
 			this.path = path;
 		}
 	}
