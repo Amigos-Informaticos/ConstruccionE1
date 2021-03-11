@@ -71,9 +71,9 @@ public class ChooseProjectController implements Initializable {
 			(observableValue, oldValue, newValue) -> {
 				if (newValue != null) {
 					name.setText(newValue.getNombre());
-					generalObjective.setText(newValue.getGeneralObjective());
-					resources.setText(newValue.getResources());
-					responsabilities.setText(newValue.getResponsibilities());
+					generalObjective.setText(newValue.getObjetivoGeneral());
+					resources.setText(newValue.getRecursos());
+					responsabilities.setText(newValue.getResponsabilidades());
 					area.setText(newValue.getArea());
 					organization.setText(newValue.getOrganization().getNombre());
 				}

@@ -28,7 +28,7 @@
                  prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Profesor"
                  textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0"/>
+            <Font nombre="System Bold" size="20.0"/>
          </font>
       </JFXButton>
       <ImageView fitHeight="224.0" fitWidth="172.0" layoutX="266.0" layoutY="212.0" opacity="0.23"
@@ -41,7 +41,7 @@
                  prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;"
                  text="Coordinador" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font nombre="System Bold" size="20.0" />
          </font>
       </JFXButton>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="23.0" layoutY="172.0">

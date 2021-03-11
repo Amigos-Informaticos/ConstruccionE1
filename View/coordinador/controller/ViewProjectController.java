@@ -53,22 +53,22 @@ public class ViewProjectController implements Initializable {
 		
 		txtOrganization.setText(proyecto.getOrganization().getNombre());
 		txtName.setText(proyecto.getNombre());
-		txtDescription.setText(proyecto.getDescription());
-		txtGeneralObjective.setText(proyecto.getGeneralObjective());
-		txtMediateObjective.setText(proyecto.getMediateObjective());
-		txtInmediateObjective.setText(proyecto.getImmediateObjective());
-		txtMethodology.setText(proyecto.getMethodology());
-		txtResources.setText(proyecto.getResources());
-		txtResponsibilities.setText(proyecto.getResponsibilities());
+		txtDescription.setText(proyecto.getDescripcion());
+		txtGeneralObjective.setText(proyecto.getObjetivoGeneral());
+		txtMediateObjective.setText(proyecto.getObjetivoMediato());
+		txtInmediateObjective.setText(proyecto.getObjetivoInmediato());
+		txtMethodology.setText(proyecto.getMetodologia());
+		txtResources.setText(proyecto.getRecursos());
+		txtResponsibilities.setText(proyecto.getResponsabilidades());
 		
-		txtPositionResponsible.setText(proyecto.getResponsible().getPosicion());
-		txtEmailResponsible.setText(proyecto.getResponsible().getEmail());
-		txtNameResponsible.setText(proyecto.getResponsible().getNombres());
-		txtLastnameResponsible.setText(proyecto.getResponsible().getApellidos());
+		txtPositionResponsible.setText(proyecto.getResponsable().getPosicion());
+		txtEmailResponsible.setText(proyecto.getResponsable().getEmail());
+		txtNameResponsible.setText(proyecto.getResponsable().getNombres());
+		txtLastnameResponsible.setText(proyecto.getResponsable().getApellidos());
 		
-		txtCapacity.setText(String.valueOf(proyecto.getCapacity()));
+		txtCapacity.setText(String.valueOf(proyecto.getCapacidad()));
 		txtArea.setText(proyecto.getArea());
-		txtPeriod.setText(proyecto.getPeriod());
+		txtPeriod.setText(proyecto.getPeriodo());
 	}
 	
 	public void delete() {
