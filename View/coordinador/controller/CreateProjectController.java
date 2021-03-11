@@ -215,22 +215,22 @@ public class CreateProjectController implements Initializable {
 	}
 	
 	public void instanceProject() {
-		proyecto.setName(txtName.getText());
-		proyecto.setDescription(txtDescription.getText());
-		proyecto.setGeneralObjective(txtGeneralObjective.getText());
-		proyecto.setMediateObjective(txtMediateObjective.getText());
-		proyecto.setImmediateObjective(txtInmediateObjective.getText());
-		proyecto.setMethodology(txtMethodology.getText());
-		proyecto.setResources(txtResources.getText());
-		proyecto.setResponsibilities(txtResponsibilities.getText());
-		proyecto.setCapacity(Integer.parseInt(txtCapacity.getText()));
+		proyecto.setNombre(txtName.getText());
+		proyecto.setDescripcion(txtDescription.getText());
+		proyecto.setObjetivoGeneral(txtGeneralObjective.getText());
+		proyecto.setObjetivoMediato(txtMediateObjective.getText());
+		proyecto.setObjetivoInmediato(txtInmediateObjective.getText());
+		proyecto.setMetodologia(txtMethodology.getText());
+		proyecto.setRecursos(txtResources.getText());
+		proyecto.setResponsabilidades(txtResponsibilities.getText());
+		proyecto.setCapacidad(Integer.parseInt(txtCapacity.getText()));
 		proyecto.setOrganization(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
-		proyecto.setPeriod(cmbPeriod.getValue());
+		proyecto.setPeriodo(cmbPeriod.getValue());
 		proyecto.setArea(cmbArea.getValue());
-		proyecto.setStartDate(MainController.get("initialDate").toString());
-		proyecto.setEndDate(MainController.get("finalDate").toString());
-		proyecto.setResponsible(this.instanceResponsible());
-		proyecto.setCalendarizedActivities(this.instanceActivities());
+		proyecto.setFechaInicio(MainController.get("initialDate").toString());
+		proyecto.setFechaFin(MainController.get("finalDate").toString());
+		proyecto.setResponsable(this.instanceResponsible());
+		proyecto.setActividaadCalendarizada(this.instanceActivities());
 	}
 	
 	public ActividadCalendarizada[] instanceActivities() {

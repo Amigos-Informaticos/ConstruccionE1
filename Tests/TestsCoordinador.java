@@ -43,21 +43,21 @@ public class TestsCoordinador {
 	
 	public Proyecto getProject() {
 		Proyecto proyecto = new Proyecto();
-		proyecto.setName("Proyecto1");
-		proyecto.setDescription("Esel primer proyecto jaja");
-		proyecto.setMethodology("Cascada ágil");
-		proyecto.setGeneralObjective("Objetivo general");
-		proyecto.setMediateObjective("Objetivo mediato");
-		proyecto.setImmediateObjective("ganar jaja");
-		proyecto.setResources("todos los recursos del mundo");
-		proyecto.setResponsibilities("Llegar temprano e irse por las tortas");
-		proyecto.setCapacity(3);
+		proyecto.setNombre("Proyecto1");
+		proyecto.setDescripcion("Esel primer proyecto jaja");
+		proyecto.setMetodologia("Cascada ágil");
+		proyecto.setObjetivoGeneral("Objetivo general");
+		proyecto.setObjetivoMediato("Objetivo mediato");
+		proyecto.setObjetivoInmediato("ganar jaja");
+		proyecto.setRecursos("todos los recursos del mundo");
+		proyecto.setResponsabilidades("Llegar temprano e irse por las tortas");
+		proyecto.setCapacidad(3);
 		proyecto.setArea("Vigilancia");
-		proyecto.setResponsible(this.getResponsible());
-		proyecto.setPeriod("FEB-JUN 2020");
+		proyecto.setResponsable(this.getResponsible());
+		proyecto.setPeriodo("FEB-JUN 2020");
 		proyecto.setOrganization(this.getOrganization());
-		proyecto.setStartDate("2020-07-19");
-		proyecto.setEndDate("2020-09-07");
+		proyecto.setFechaInicio("2020-07-19");
+		proyecto.setFechaFin("2020-09-07");
 		return proyecto;
 	}
 	
@@ -85,17 +85,17 @@ public class TestsCoordinador {
 	@Test
 	public void projectManagementTest() {
 		Proyecto proyecto = new Proyecto();
-		proyecto.setName("Hackear el pentagono");
-		proyecto.setDescription("Hackear el pentágono con un tamagotchi");
-		proyecto.setMethodology("A punta de hacer pings");
-		proyecto.setGeneralObjective("Descubrir secretos");
-		proyecto.setMediateObjective("Dominar el mundo");
-		proyecto.setImmediateObjective("Empezar manana");
-		proyecto.setResources("Dos computadoras y un Xiaomi");
-		proyecto.setResponsibilities("Echarle ganas y pararse temprano");
+		proyecto.setNombre("Hackear el pentagono");
+		proyecto.setDescripcion("Hackear el pentágono con un tamagotchi");
+		proyecto.setMetodologia("A punta de hacer pings");
+		proyecto.setObjetivoGeneral("Descubrir secretos");
+		proyecto.setObjetivoMediato("Dominar el mundo");
+		proyecto.setObjetivoInmediato("Empezar manana");
+		proyecto.setRecursos("Dos computadoras y un Xiaomi");
+		proyecto.setResponsabilidades("Echarle ganas y pararse temprano");
 		proyecto.setArea("Desarrollo");
-		proyecto.setResponsible(DAOResponsableProyecto.get("correoResponsable1@correo.com"));
-		proyecto.setPeriod("FEB-JUN 2020");
+		proyecto.setResponsable(DAOResponsableProyecto.get("correoResponsable1@correo.com"));
+		proyecto.setPeriodo("FEB-JUN 2020");
 		proyecto.setOrganization("1");
 		Practicante practicante = new Practicante("Efrain",
 			"Arenas",
@@ -162,22 +162,22 @@ public class TestsCoordinador {
 			calendarizedActivities[i].setFecha("2020-10-11");
 		}
 		Proyecto proyecto = new Proyecto();
-		proyecto.setName("Proyecto Genial");
-		proyecto.setDescription("Esel primer proyecto jaja");
-		proyecto.setMethodology("Cascada ágil");
-		proyecto.setGeneralObjective("Objetivo general");
-		proyecto.setMediateObjective("Objetivo mediato");
-		proyecto.setImmediateObjective("ganar jaja");
-		proyecto.setResources("todos los recursos del mundo");
-		proyecto.setResponsibilities("Llegar temprano e irse por las tortas");
-		proyecto.setCapacity(3);
+		proyecto.setNombre("Proyecto Genial");
+		proyecto.setDescripcion("Esel primer proyecto jaja");
+		proyecto.setMetodologia("Cascada ágil");
+		proyecto.setObjetivoGeneral("Objetivo general");
+		proyecto.setObjetivoMediato("Objetivo mediato");
+		proyecto.setObjetivoInmediato("ganar jaja");
+		proyecto.setRecursos("todos los recursos del mundo");
+		proyecto.setResponsabilidades("Llegar temprano e irse por las tortas");
+		proyecto.setCapacidad(3);
 		proyecto.setArea("Vigilancia");
-		proyecto.setResponsible(this.getResponsible());
-		proyecto.setPeriod("FEB-JUN");
+		proyecto.setResponsable(this.getResponsible());
+		proyecto.setPeriodo("FEB-JUN");
 		proyecto.setOrganization(this.getOrganization());
-		proyecto.setStartDate("2020-07-19");
-		proyecto.setEndDate("2020-09-07");
-		proyecto.setCalendarizedActivities(calendarizedActivities);
+		proyecto.setFechaInicio("2020-07-19");
+		proyecto.setFechaFin("2020-09-07");
+		proyecto.setActividaadCalendarizada(calendarizedActivities);
 		assertTrue(proyecto.registrar());
 	}
 }

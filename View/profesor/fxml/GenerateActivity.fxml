@@ -66,12 +66,12 @@
       </Label>
       <JFXButton layoutX="357.0" layoutY="329.0" prefHeight="25.0" prefWidth="136.0" style="-fx-background-color: #28AD56;" text="Aceptar" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font nombre="System Bold" size="12.0" />
          </font>
       </JFXButton>
       <JFXButton layoutX="160.0" layoutY="328.0" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #e61010;" text="Cancelar" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font nombre="System Bold" size="12.0" />
          </font>
       </JFXButton>
    </children>
