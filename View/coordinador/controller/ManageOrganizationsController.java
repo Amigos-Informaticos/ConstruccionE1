@@ -92,9 +92,9 @@ public class ManageOrganizationsController implements Initializable {
 	}
 	
 	@FXML
-	public void signUp() {
+	public void registrar() {
 		Organizacion organizacion = new Organizacion();
-		this.instanceOrganization(organizacion);
+		this.instanciarOrganizacion(organizacion);
 		if (organizacion.estaCompleto()) {
 			if (organizacion.registrar()) {
 				listOrganizacion.add(organizacion);
@@ -119,7 +119,7 @@ public class ManageOrganizationsController implements Initializable {
 		}
 	}
 	
-	public void instanceOrganization(Organizacion organizacion) {
+	public void instanciarOrganizacion(Organizacion organizacion) {
 		organizacion.setNombre(txtName.getText());
 		organizacion.setDireccion(
 			txtStreet.getText(),

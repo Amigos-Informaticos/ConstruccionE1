@@ -22,7 +22,7 @@
                <children>
                   <HBox layoutY="278.0" prefHeight="100.0" prefWidth="477.0" spacing="15.0">
                      <children>
-                        <JFXButton onMouseClicked="#signUp" prefHeight="27.0" prefWidth="142.0"
+                        <JFXButton onMouseClicked="#registrar" prefHeight="27.0" prefWidth="142.0"
                                    style="-fx-background-color: #28AD56;" text="Registrar"
                                    textFill="WHITE">
                            <font>
