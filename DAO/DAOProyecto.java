@@ -29,8 +29,8 @@ public class DAOProyecto implements IDAOProyecto {
 		boolean signedUp = false;
 		assert this.proyecto.estaCompleto() : "Project is incomplete: DAOProject.signUp()";
 		if (!this.estaRegistrado()) {
-			if (!this.proyecto.getResponsible().estaRegistrado()) {
-				this.proyecto.getResponsible().registrar();
+			if (!this.proyecto.getResponsable().estaRegistrado()) {
+				this.proyecto.getResponsable().registrar();
 			}
 			String query = "INSERT INTO Proyecto (nombre, " +
 				"descripcion, " +
@@ -49,20 +49,20 @@ public class DAOProyecto implements IDAOProyecto {
 				"fechaFin) " +
 				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			String[] values = {this.proyecto.getNombre(),
-				this.proyecto.getDescription(),
-				this.proyecto.getMethodology(),
-				this.proyecto.getGeneralObjective(),
-				this.proyecto.getMediateObjective(),
-				this.proyecto.getImmediateObjective(),
-				this.proyecto.getResources(),
-				this.proyecto.getResponsibilities(),
-				String.valueOf(this.proyecto.getCapacity()),
+				this.proyecto.getDescripcion(),
+				this.proyecto.getMetodologia(),
+				this.proyecto.getObjetivoGeneral(),
+				this.proyecto.getObjetivoMediato(),
+				this.proyecto.getObjetivoInmediato(),
+				this.proyecto.getRecursos(),
+				this.proyecto.getResponsabilidades(),
+				String.valueOf(this.proyecto.getCapacidad()),
 				getIdArea(),
-				this.proyecto.getResponsible().getEmail(),
+				this.proyecto.getResponsable().getEmail(),
 				getIdPeriod(),
 				this.proyecto.getOrganization().getId(),
-				this.proyecto.getStartDate(),
-				this.proyecto.getEndDate()
+				this.proyecto.getFechaInicio(),
+				this.proyecto.getFechaFin()
 			};
 			signedUp = this.connection.ejecutar(query, values);
 		} else if (this.estaRegistrado() && !this.estaActivo()) {
@@ -77,7 +77,7 @@ public class DAOProyecto implements IDAOProyecto {
 	
 	public boolean registCalendarizedActivities() {
 		boolean registered = true;
-		ActividadCalendarizada[] calendarizedActivities = this.proyecto.getCalendarizedActivities();
+		ActividadCalendarizada[] calendarizedActivities = this.proyecto.getActividaadCalendarizada();
 		String query = "INSERT INTO ActividadCalendarizada (nombre,fecha,idProyecto) VALUES (?,?,?)";
 		for (ActividadCalendarizada actividadCalendarizada: calendarizedActivities) {
 			String[] values = {
@@ -122,17 +122,17 @@ public class DAOProyecto implements IDAOProyecto {
 				String[] projectReturned = this.connection.seleccionar(query, values, results)[0];
 				
 				proyecto = new Proyecto();
-				proyecto.setName(projectReturned[1]);
-				proyecto.setDescription(projectReturned[2]);
-				proyecto.setMethodology(projectReturned[3]);
-				proyecto.setGeneralObjective(projectReturned[4]);
-				proyecto.setMediateObjective(projectReturned[5]);
-				proyecto.setImmediateObjective(projectReturned[6]);
-				proyecto.setResources(projectReturned[7]);
-				proyecto.setResponsibilities(projectReturned[8]);
+				proyecto.setNombre(projectReturned[1]);
+				proyecto.setDescripcion(projectReturned[2]);
+				proyecto.setMetodologia(projectReturned[3]);
+				proyecto.setObjetivoGeneral(projectReturned[4]);
+				proyecto.setObjetivoMediato(projectReturned[5]);
+				proyecto.setObjetivoInmediato(projectReturned[6]);
+				proyecto.setRecursos(projectReturned[7]);
+				proyecto.setResponsabilidades(projectReturned[8]);
 				proyecto.setArea(this.getAreaById(projectReturned[9]));
-				proyecto.setResponsible(DAOResponsableProyecto.get(projectReturned[10]));
-				proyecto.setPeriod(getPeriodById(projectReturned[11]));
+				proyecto.setResponsable(DAOResponsableProyecto.get(projectReturned[10]));
+				proyecto.setPeriodo(getPeriodById(projectReturned[11]));
 				proyecto.setOrganization(DAOOrganizacion.getNameById(projectReturned[12]));
 			}
 		}
@@ -201,7 +201,7 @@ public class DAOProyecto implements IDAOProyecto {
 	
 	public void registerPeriod() {
 		String query = "SELECT COUNT(periodo) AS TOTAL FROM Periodo WHERE periodo = ?";
-		String[] values = {this.proyecto.getPeriod()};
+		String[] values = {this.proyecto.getPeriodo()};
 		String[] columns = {"TOTAL"};
 		String[][] results = this.connection.seleccionar(query, values, columns);
 		if (results != null && results[0][0].equals("0")) {
@@ -228,7 +228,7 @@ public class DAOProyecto implements IDAOProyecto {
 	
 	public String getIdPeriod() {
 		String query = "SELECT COUNT(periodo) AS TOTAL FROM Periodo WHERE periodo = ?";
-		String[] values = {this.proyecto.getPeriod()};
+		String[] values = {this.proyecto.getPeriodo()};
 		String[] columns = {"TOTAL"};
 		String[][] results = this.connection.seleccionar(query, values, columns);
 		if (results != null && results[0][0].equals("0")) {
@@ -308,21 +308,21 @@ public class DAOProyecto implements IDAOProyecto {
 		Proyecto[] proyectos = new Proyecto[responses.length];
 		for (int i = 0; i < responses.length; i++) {
 			proyectos[i] = new Proyecto();
-			proyectos[i].setName(responses[i][0]);
-			proyectos[i].setDescription(responses[i][1]);
-			proyectos[i].setMethodology(responses[i][2]);
-			proyectos[i].setGeneralObjective(responses[i][3]);
-			proyectos[i].setMediateObjective(responses[i][4]);
-			proyectos[i].setImmediateObjective(responses[i][5]);
-			proyectos[i].setResources(responses[i][6]);
-			proyectos[i].setResponsibilities(responses[i][7]);
-			proyectos[i].setCapacity(Integer.parseInt(responses[i][8]));
+			proyectos[i].setNombre(responses[i][0]);
+			proyectos[i].setDescripcion(responses[i][1]);
+			proyectos[i].setMetodologia(responses[i][2]);
+			proyectos[i].setObjetivoGeneral(responses[i][3]);
+			proyectos[i].setObjetivoMediato(responses[i][4]);
+			proyectos[i].setObjetivoInmediato(responses[i][5]);
+			proyectos[i].setRecursos(responses[i][6]);
+			proyectos[i].setResponsabilidades(responses[i][7]);
+			proyectos[i].setCapacidad(Integer.parseInt(responses[i][8]));
 			proyectos[i].setArea(responses[i][9]);
-			proyectos[i].setResponsible(DAOResponsableProyecto.get(responses[i][10]));
-			proyectos[i].setPeriod(responses[i][11]);
+			proyectos[i].setResponsable(DAOResponsableProyecto.get(responses[i][10]));
+			proyectos[i].setPeriodo(responses[i][11]);
 			proyectos[i].setOrganization(responses[i][12]);
-			proyectos[i].setStartDate(responses[i][13]);
-			proyectos[i].setEndDate(responses[i][14]);
+			proyectos[i].setFechaInicio(responses[i][13]);
+			proyectos[i].setFechaFin(responses[i][14]);
 		}
 		return proyectos;
 	}
@@ -358,21 +358,21 @@ public class DAOProyecto implements IDAOProyecto {
 		};
 		String[] responses = connection.seleccionar(query, values, columns)[0];
 		proyecto = new Proyecto();
-		proyecto.setName(responses[0]);
-		proyecto.setDescription(responses[1]);
-		proyecto.setMethodology(responses[2]);
-		proyecto.setGeneralObjective(responses[3]);
-		proyecto.setMediateObjective(responses[4]);
-		proyecto.setImmediateObjective(responses[5]);
-		proyecto.setResources(responses[6]);
-		proyecto.setResponsibilities(responses[7]);
-		proyecto.setCapacity(Integer.parseInt(responses[8]));
+		proyecto.setNombre(responses[0]);
+		proyecto.setDescripcion(responses[1]);
+		proyecto.setMetodologia(responses[2]);
+		proyecto.setObjetivoGeneral(responses[3]);
+		proyecto.setObjetivoMediato(responses[4]);
+		proyecto.setObjetivoInmediato(responses[5]);
+		proyecto.setRecursos(responses[6]);
+		proyecto.setResponsabilidades(responses[7]);
+		proyecto.setCapacidad(Integer.parseInt(responses[8]));
 		proyecto.setArea(responses[9]);
-		proyecto.setResponsible(DAOResponsableProyecto.get(responses[10]));
-		proyecto.setPeriod(responses[11]);
+		proyecto.setResponsable(DAOResponsableProyecto.get(responses[10]));
+		proyecto.setPeriodo(responses[11]);
 		proyecto.setOrganization(responses[12]);
-		proyecto.setStartDate(responses[13]);
-		proyecto.setEndDate(responses[14]);
+		proyecto.setFechaInicio(responses[13]);
+		proyecto.setFechaFin(responses[14]);
 		return proyecto;
 		
 	}

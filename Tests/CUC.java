@@ -77,21 +77,21 @@ public class CUC {
 	
 	public Proyecto getProject() {
 		Proyecto proyecto = new Proyecto();
-		proyecto.setName("Sistema para Practicas Profesionales");
-		proyecto.setDescription("Matenme");
-		proyecto.setMethodology("No hay, todo como vaya saliendo");
-		proyecto.setGeneralObjective("Pasar la materia");
-		proyecto.setMediateObjective("Salir bien del semestre");
-		proyecto.setImmediateObjective("No morir en el intento");
-		proyecto.setResources("tres vatos todos mecos con laptop");
-		proyecto.setResponsibilities("terminar");
-		proyecto.setCapacity(3);
+		proyecto.setNombre("Sistema para Practicas Profesionales");
+		proyecto.setDescripcion("Matenme");
+		proyecto.setMetodologia("No hay, todo como vaya saliendo");
+		proyecto.setObjetivoGeneral("Pasar la materia");
+		proyecto.setObjetivoMediato("Salir bien del semestre");
+		proyecto.setObjetivoInmediato("No morir en el intento");
+		proyecto.setRecursos("tres vatos todos mecos con laptop");
+		proyecto.setResponsabilidades("terminar");
+		proyecto.setCapacidad(3);
 		proyecto.setArea("Desarrollo");
-		proyecto.setResponsible(this.getResponsible());
-		proyecto.setPeriod("FEB-JUN 2020");
+		proyecto.setResponsable(this.getResponsible());
+		proyecto.setPeriodo("FEB-JUN 2020");
 		proyecto.setOrganization(this.getOrganization());
-		proyecto.setStartDate("2020-03-19");
-		proyecto.setEndDate("2020-10-07");
+		proyecto.setFechaInicio("2020-03-19");
+		proyecto.setFechaFin("2020-10-07");
 		return proyecto;
 	}
 	
@@ -113,7 +113,7 @@ public class CUC {
 			new ActividadCalendarizada("Construirlo", "2020-07-01"),
 			new ActividadCalendarizada("Llorar", "2020-07-10")
 		};
-		proyecto.setCalendarizedActivities(activities);
+		proyecto.setActividaadCalendarizada(activities);
 		assertTrue(proyecto.registrar());
 	}
 	

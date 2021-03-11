@@ -3,7 +3,7 @@ version = 1
 test_patterns = ["Tests/**"]
 
 [[analyzers]]
-name = "java"
+nombre = "java"
 enabled = true
 
   [analyzers.meta]

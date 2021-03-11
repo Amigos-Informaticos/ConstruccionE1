@@ -51,7 +51,7 @@ public class GenerateReport implements Initializable {
 	}
 	
 	private void loadActivities() {
-		ActividadCalendarizada[] activities = assignedProyecto.getCalendarizedActivities();
+		ActividadCalendarizada[] activities = assignedProyecto.getActividaadCalendarizada();
 		if (activities.length == 0) {
 			MainController.alert(
 				Alert.AlertType.WARNING,

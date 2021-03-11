@@ -8,94 +8,94 @@ import java.util.Collections;
 
 public class Proyecto {
 	
-	private String name;
-	private String description;
-	private String methodology;
-	private String generalObjective;
-	private String mediateObjective;
-	private String immediateObjective;
-	private String resources;
-	private String responsibilities;
-	private int capacity;
+	private String nombre;
+	private String descripcion;
+	private String metodologia;
+	private String objetivoGeneral;
+	private String objetivoMediato;
+	private String objetivoInmediato;
+	private String recursos;
+	private String responsabilidades;
+	private int capacidad;
 	private String area;
-	private ResponsableProyecto responsible;
-	private String period;
+	private ResponsableProyecto responsable;
+	private String periodo;
 	private Organizacion organizacion;
-	private String startDate;
-	private String endDate;
-	private ActividadCalendarizada[] calendarizedActivities;
+	private String fechaInicio;
+	private String fechaFin;
+	private ActividadCalendarizada[] actividaadCalendarizada;
 	private Coordinador coordinador;
 	
 	public String getNombre() {
-		return name;
+		return nombre;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
-	public String getDescription() {
-		return description;
+	public String getDescripcion() {
+		return descripcion;
 	}
 	
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 	
-	public String getMethodology() {
-		return methodology;
+	public String getMetodologia() {
+		return metodologia;
 	}
 	
-	public void setMethodology(String methodology) {
-		this.methodology = methodology;
+	public void setMetodologia(String metodologia) {
+		this.metodologia = metodologia;
 	}
 	
-	public String getGeneralObjective() {
-		return generalObjective;
+	public String getObjetivoGeneral() {
+		return objetivoGeneral;
 	}
 	
-	public void setGeneralObjective(String generalObjective) {
-		this.generalObjective = generalObjective;
+	public void setObjetivoGeneral(String objetivoGeneral) {
+		this.objetivoGeneral = objetivoGeneral;
 	}
 	
-	public String getMediateObjective() {
-		return mediateObjective;
+	public String getObjetivoMediato() {
+		return objetivoMediato;
 	}
 	
-	public void setMediateObjective(String mediateObjective) {
-		this.mediateObjective = mediateObjective;
+	public void setObjetivoMediato(String objetivoMediato) {
+		this.objetivoMediato = objetivoMediato;
 	}
 	
-	public String getImmediateObjective() {
-		return immediateObjective;
+	public String getObjetivoInmediato() {
+		return objetivoInmediato;
 	}
 	
-	public void setImmediateObjective(String immediateObjective) {
-		this.immediateObjective = immediateObjective;
+	public void setObjetivoInmediato(String objetivoInmediato) {
+		this.objetivoInmediato = objetivoInmediato;
 	}
 	
-	public String getResources() {
-		return resources;
+	public String getRecursos() {
+		return recursos;
 	}
 	
-	public void setResources(String resources) {
-		this.resources = resources;
+	public void setRecursos(String recursos) {
+		this.recursos = recursos;
 	}
 	
-	public String getResponsibilities() {
-		return responsibilities;
+	public String getResponsabilidades() {
+		return responsabilidades;
 	}
 	
-	public void setResponsibilities(String responsibilities) {
-		this.responsibilities = responsibilities;
+	public void setResponsabilidades(String responsabilidades) {
+		this.responsabilidades = responsabilidades;
 	}
 	
-	public int getCapacity() {
-		return capacity;
+	public int getCapacidad() {
+		return capacidad;
 	}
 	
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
+	public void setCapacidad(int capacidad) {
+		this.capacidad = capacidad;
 	}
 	
 	public String getArea() {
@@ -106,20 +106,20 @@ public class Proyecto {
 		this.area = area;
 	}
 	
-	public ResponsableProyecto getResponsible() {
-		return responsible;
+	public ResponsableProyecto getResponsable() {
+		return responsable;
 	}
 	
-	public void setResponsible(ResponsableProyecto responsible) {
-		this.responsible = responsible;
+	public void setResponsable(ResponsableProyecto responsable) {
+		this.responsable = responsable;
 	}
 	
-	public String getPeriod() {
-		return period;
+	public String getPeriodo() {
+		return periodo;
 	}
 	
-	public void setPeriod(String period) {
-		this.period = period;
+	public void setPeriodo(String periodo) {
+		this.periodo = periodo;
 	}
 	
 	public Organizacion getOrganization() {
@@ -134,20 +134,20 @@ public class Proyecto {
 		this.organizacion = organizacion;
 	}
 	
-	public String getStartDate() {
-		return startDate;
+	public String getFechaInicio() {
+		return fechaInicio;
 	}
 	
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
+	public void setFechaInicio(String fechaInicio) {
+		this.fechaInicio = fechaInicio;
 	}
 	
-	public String getEndDate() {
-		return endDate;
+	public String getFechaFin() {
+		return fechaFin;
 	}
 	
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
+	public void setFechaFin(String fechaFin) {
+		this.fechaFin = fechaFin;
 	}
 	
 	public Coordinador getCoordinator() {
@@ -158,26 +158,26 @@ public class Proyecto {
 		this.coordinador = coordinador;
 	}
 	
-	public ActividadCalendarizada[] getCalendarizedActivities() {
-		return this.calendarizedActivities;
+	public ActividadCalendarizada[] getActividaadCalendarizada() {
+		return this.actividaadCalendarizada;
 	}
 	
-	public void setCalendarizedActivities(ActividadCalendarizada[] calendarizedActivities) {
-		this.calendarizedActivities = calendarizedActivities;
+	public void setActividaadCalendarizada(ActividadCalendarizada[] actividaadCalendarizada) {
+		this.actividaadCalendarizada = actividaadCalendarizada;
 	}
 	
 	public boolean estaCompleto() {
-		return this.name != null &&
-			this.description != null &&
-			this.methodology != null &&
-			this.generalObjective != null &&
-			this.mediateObjective != null &&
-			this.immediateObjective != null &&
-			this.resources != null &&
-			this.responsibilities != null &&
+		return this.nombre != null &&
+			this.descripcion != null &&
+			this.metodologia != null &&
+			this.objetivoGeneral != null &&
+			this.objetivoMediato != null &&
+			this.objetivoInmediato != null &&
+			this.recursos != null &&
+			this.responsabilidades != null &&
 			this.area != null &&
-			this.responsible != null &&
-			this.period != null &&
+			this.responsable != null &&
+			this.periodo != null &&
 			this.organizacion != null;
 	}
 	
