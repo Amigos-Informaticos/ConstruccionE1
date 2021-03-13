@@ -159,21 +159,6 @@ public class DAOPracticante implements IDAOPracticante {
 		return practicantes;
 	}
 	
-	public static Practicante[] obtenerPorProfesor() {
-		Practicante[] practicantes;
-		ConexionBD conexion = new ConexionBD();
-		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
-			"FROM MiembroFEI INNER JOIN ProfesorPracticante WHERE MiembroFEI.estaActivo = 1";
-		String[] nombres = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
-		String[][] resultados = conexion.seleccionar(query, null, nombres);
-		practicantes = new Practicante[resultados.length];
-		for (int i = 0; i < resultados.length; i++) {
-			practicantes[i] = new Practicante(resultados[i][0], resultados[i][1], resultados[i][2],
-				resultados[i][3], resultados[i][4]);
-		}
-		return practicantes;
-	}
-	
 	public static Practicante get(Practicante practicante) {
 		assert practicante != null : "Practicante es nulo: DAOPracticante.get()";
 		assert new DAOPracticante(practicante).estaRegistrado() :

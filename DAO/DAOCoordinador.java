@@ -22,7 +22,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		
 		boolean registrado = false;
 		String query =
-			"INSERT INTO MiembroFEI (nombres, apellidos, correoElectronico, contrasena, estaActivo)" +
+			"INSERT INTO MiembroFEI (nombres, apellidos, correoElectronico, contrasena, estaActivo) " +
 				"VALUES (?, ?, ?, ?, ?)";
 		String[] valores =
 			{this.coordinador.getNombres(),
@@ -30,9 +30,13 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 				this.coordinador.getEmail(),
 				this.coordinador.getContrasena(), "1"};
 		if (this.conexion.ejecutar(query, valores)) {
-			query = "INSERT INTO Coordinador (idMiembro, noPersonal, fechaRegistro, turno, registrador) VALUES " +
-				"((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?),?,(SELECT CURRENT_DATE), ?,?)";
-			valores = new String[] {this.coordinador.getEmail(), this.coordinador.getNoPersonal(), "1", "16"};
+			query = "INSERT INTO Coordinador (idMiembro, noPersonal, fechaRegistro, turno) VALUES " +
+				"((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?),?,(SELECT CURRENT_DATE), ?)";
+			valores = new String[] {
+				this.coordinador.getEmail(),
+				this.coordinador.getNoPersonal(),
+				"1"
+			};
 			registrado = this.conexion.ejecutar(query, valores);
 		}
 		return registrado;
