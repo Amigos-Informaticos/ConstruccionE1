@@ -1,8 +1,8 @@
 package Tests;
 
-import Models.Activity;
+import Models.Actividad;
+import Models.Practicante;
 import Models.Professor;
-import Models.Student;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -17,37 +17,37 @@ public class CUPF1 {
 	
 	public Professor getProfessor() {
 		Professor professor = new Professor();
-		professor.setNames("Octavio");
-		professor.setLastnames("Ocharan");
+		professor.setNombres("Octavio");
+		professor.setApellidos("Ocharan");
 		professor.setEmail("ocha@hotmail.com");
-		professor.setPassword("ocha1234");
+		professor.setContrasena("ocha1234");
 		professor.setPersonalNo("N000002");
 		professor.setShift("1");
 		return professor;
 	}
 	
-	public Activity getActivity() {
-		Activity activity = new Activity();
-		activity.setTitle("Actividad #1");
-		activity.setDescription(
+	public Actividad getActivity() {
+		Actividad actividad = new Actividad();
+		actividad.setTitle("Actividad #1");
+		actividad.setDescription(
 			"Para la primera actividad, se debe subir un archivo con extensión txt");
-		activity.setStartDate(
+		actividad.setStartDate(
 			DateTimeFormatter.ofPattern("dd/MM/yyy").format(LocalDateTime.now()));
-		activity.setDeliveryDate("2020-07-20");
-		activity.setStudent(getStudent());
-		activity.setProfessor(getProfessor());
-		return activity;
+		actividad.setDeliveryDate("2020-07-20");
+		actividad.setStudent(getStudent());
+		actividad.setProfessor(getProfessor());
+		return actividad;
 	}
 	
-	public Student getStudent() {
-		Student student = new Student();
-		student.setNames("Ernesto Ermenegildo");
-		student.setLastnames("Perez del Corral");
-		student.setEmail("eepc@correo.com");
-		student.setPassword("contrasenahida");
-		student.setRegNumber("S19015160");
-		student.setProfessor(getProfessor());
-		return student;
+	public Practicante getStudent() {
+		Practicante practicante = new Practicante();
+		practicante.setNombres("Ernesto Ermenegildo");
+		practicante.setApellidos("Perez del Corral");
+		practicante.setEmail("eepc@correo.com");
+		practicante.setContrasena("contrasenahida");
+		practicante.setMatricula("S19015160");
+		practicante.setProfesor(getProfessor());
+		return practicante;
 	}
 	
 	@Test
@@ -57,7 +57,7 @@ public class CUPF1 {
 	
 	@Test
 	public void bRegisterStudent() {
-		assertTrue(getStudent().signUp());
+		assertTrue(getStudent().registrar());
 	}
 	
 	@Test
@@ -72,7 +72,7 @@ public class CUPF1 {
 	
 	@Test
 	public void eDeleteStudent() {
-		assertTrue(getStudent().delete());
+		assertTrue(getStudent().eliminar());
 	}
 	
 	@Test
