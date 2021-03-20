@@ -76,7 +76,7 @@ public class Professor extends Usuario {
 		return super.estaCompleto() && personalNo != null && shift != null;
 	}
 	
-	public void fillTableProfessor(ObservableList<Professor> listProfessor) {
+	public void fillTableProfessor(ObservableList<Professor> listProfessor) throws NullPointerException{
 		Professor[] professors = IDAOProfessor.getAll();
 		Collections.addAll(listProfessor, professors);
 	}

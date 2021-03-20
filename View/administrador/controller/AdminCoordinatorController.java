@@ -69,13 +69,13 @@ public class AdminCoordinatorController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		Coordinador coordinador = new Coordinador();
-		if (coordinador.hayOtro()) {
+		/*if (coordinador.hayOtro()) {
 			coordinador = DAOCoordinador.obtenerActivo();
 			fillDetailsCoordinator(coordinador);
 			enableEdit();
 		} else {
 			enableRegister();
-		}
+		}*/
 		ObservableList<String> listShift = FXCollections.observableArrayList();
 		Turno.llenarTurno(listShift);
 		cmbShift.setItems(listShift);

@@ -53,14 +53,26 @@ public class AdminProfessorController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         listShift = FXCollections.observableArrayList();
-        listProfessor = FXCollections.observableArrayList();
         Turno.llenarTurno(listShift);
-        new Professor().fillTableProfessor(listProfessor);
+
+        listProfessor = FXCollections.observableArrayList();
+
+        try {
+            new Professor().fillTableProfessor(listProfessor);
+            tblViewProfessor.setItems(listProfessor);
+        }catch (NullPointerException nullPointerException){
+            MainController.alert(
+                    Alert.AlertType.INFORMATION,
+                    "No hay profesores registrados",
+                    "Pulse aceptar para continuar"
+            );
+        }
+
+
         cmbShift.setItems(listShift);
-        tblViewProfessor.setItems(listProfessor);
         clmnEmail.setCellValueFactory(new PropertyValueFactory<Professor, String>("email"));
-        clmnNames.setCellValueFactory(new PropertyValueFactory<Professor, String>("names"));
-        clmnLastNames.setCellValueFactory(new PropertyValueFactory<Professor, String>("lastnames"));
+        clmnNames.setCellValueFactory(new PropertyValueFactory<Professor, String>("nombres"));
+        clmnLastNames.setCellValueFactory(new PropertyValueFactory<Professor, String>("apellidos"));
         clmnPersonalNo.setCellValueFactory(new PropertyValueFactory<Professor, String>("personalNo"));
         clmnShift.setCellValueFactory(new PropertyValueFactory<Professor, String>("shift"));
     

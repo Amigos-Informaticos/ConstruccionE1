@@ -7,7 +7,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import tools.P;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -75,6 +74,12 @@ public class DAOProfesorTests {
 	@Test
 	public void z_getAll() {
 		for (Professor professor: IDAOProfessor.getAll()) {
+			System.out.println(professor.getApellidos());
+			System.out.println(professor.getPersonalNo());
+			System.out.println(professor.getShift());
+			System.out.println(professor.getContrasena());
+			System.out.println(professor.getEmail());
+			System.out.println(professor.getNombres());
 			assertNotNull(professor.getNombres());
 			P.pln(professor.getNombres());
 		}
