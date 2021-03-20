@@ -25,33 +25,33 @@ import java.util.ResourceBundle;
 
 public class ManageStudentController implements Initializable {
 	@FXML
-	private TableView<Practicante> tblViewStudent;
+	private TableView<Practicante> tblViewPracticante;
 	@FXML
-	private TableColumn<Practicante, String> clmnName;
+	private TableColumn<Practicante, String> clmnNombre;
 	@FXML
-	private TableColumn<Practicante, String> clmnLastame;
+	private TableColumn<Practicante, String> clmnApellido;
 	@FXML
-	private TableColumn<Practicante, String> clmnRegno;
+	private TableColumn<Practicante, String> clmnMatricula;
 	@FXML
-	private JFXComboBox<Professor> cmbProfessor;
+	private JFXComboBox<Professor> cmbProfesor;
 	
 	
 	@FXML
-	JFXTextField txtName;
+	JFXTextField txtNombre;
 	@FXML
-	JFXTextField txtLastname;
+	JFXTextField txtApellido;
 	@FXML
-	JFXTextField txtRegNo;
+	JFXTextField txtMatricula;
 	@FXML
 	JFXTextField txtEmail;
 	@FXML
-	JFXTextField txtPassword;
+	JFXTextField txtContrasenia;
 	
 	@FXML
-	JFXButton btnRegister;
+	JFXButton btnRegistrar;
 	
 	private ObservableList<Practicante> listPracticante;
-	private ObservableList<Professor> listProfessor;
+	private ObservableList<Professor> listProfesor;
 	
 	private Practicante practicante;
 	
@@ -59,17 +59,17 @@ public class ManageStudentController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		listPracticante = FXCollections.observableArrayList();
 		new Practicante().llenarTablaPracticantes(listPracticante);
-		tblViewStudent.setItems(listPracticante);
-		clmnName.setCellValueFactory(new PropertyValueFactory<Practicante, String>("names"));
-		clmnLastame.setCellValueFactory(new PropertyValueFactory<Practicante, String>("lastnames"));
-		clmnRegno.setCellValueFactory(new PropertyValueFactory<Practicante, String>("regNumber"));
+		tblViewPracticante.setItems(listPracticante);
+		clmnNombre.setCellValueFactory(new PropertyValueFactory<Practicante, String>("nombres"));
+		clmnApellido.setCellValueFactory(new PropertyValueFactory<Practicante, String>("apellidos"));
+		clmnMatricula.setCellValueFactory(new PropertyValueFactory<Practicante, String>("matricula"));
 		
-		listProfessor = FXCollections.observableArrayList();
-		new Professor().fillTableProfessor(listProfessor);
-		cmbProfessor.setItems(listProfessor);
+		listProfesor = FXCollections.observableArrayList();
+		new Professor().fillTableProfessor(listProfesor);
+		cmbProfesor.setItems(listProfesor);
 		eventManager();
 		
-		cmbProfessor.setConverter(new StringConverter<Professor>() {
+		cmbProfesor.setConverter(new StringConverter<Professor>() {
 			@Override
 			public String toString(Professor professor) {
 				return professor.getNombres();
@@ -84,19 +84,19 @@ public class ManageStudentController implements Initializable {
 	}
 	
 	public void eventManager() {
-		tblViewStudent.getSelectionModel().selectedItemProperty().addListener(
+		tblViewPracticante.getSelectionModel().selectedItemProperty().addListener(
 			new ChangeListener<Practicante>() {
 				@Override
 				public void changed(ObservableValue<? extends Practicante> observable, Practicante oldValue,
 				                    Practicante newValue) {
 					if (newValue != null) {
 						practicante = newValue;
-						txtName.setText(newValue.getNombres());
-						txtLastname.setText(newValue.getApellidos());
+						txtNombre.setText(newValue.getNombres());
+						txtApellido.setText(newValue.getApellidos());
 						txtEmail.setText(newValue.getEmail());
-						txtRegNo.setText(newValue.getMatricula());
-						txtPassword.setText(newValue.getContrasena());
-						practicante = tblViewStudent.getSelectionModel().getSelectedItem();
+						txtMatricula.setText(newValue.getMatricula());
+						txtContrasenia.setText(newValue.getContrasena());
+						practicante = tblViewPracticante.getSelectionModel().getSelectedItem();
 						MainController.save("student", practicante);
 						enableEdit();
 					} else {
@@ -115,14 +115,14 @@ public class ManageStudentController implements Initializable {
 	}
 	
 	public void cleanFormStudent() {
-		txtName.setText(null);
-		txtLastname.setText(null);
-		txtRegNo.setText(null);
+		txtNombre.setText(null);
+		txtApellido.setText(null);
+		txtMatricula.setText(null);
 		txtEmail.setText(null);
 	}
 	
 	@FXML
-	public void signUp() {
+	public void registrarPracticante() {
 		Practicante practicante = new Practicante();
 		this.instanceStudent(practicante);
 		if (practicante.estaCompleto()) {
@@ -150,12 +150,12 @@ public class ManageStudentController implements Initializable {
 	}
 	
 	private void instanceStudent(Practicante practicante) {
-		practicante.setNombres(txtName.getText());
-		practicante.setApellidos(txtLastname.getText());
-		practicante.setMatricula(txtRegNo.getText());
+		practicante.setNombres(txtNombre.getText());
+		practicante.setApellidos(txtApellido.getText());
+		practicante.setMatricula(txtMatricula.getText());
 		practicante.setEmail(txtEmail.getText());
-		practicante.setContrasena(txtPassword.getText());
-		practicante.setProfesor(cmbProfessor.getValue());
+		practicante.setContrasena(txtContrasenia.getText());
+		practicante.setProfesor(cmbProfesor.getValue());
 	}
 	
 	@FXML
@@ -177,15 +177,15 @@ public class ManageStudentController implements Initializable {
 	}
 
 	@FXML
-	public void delete() {
+	public void eliminarPracticante() {
 		if (MainController.alert(Alert.AlertType.CONFIRMATION,
 				"Eliminar Practicante",
 				"¿Está seguro que desea eliminar al Practicante seleccionado?")) {
 			try {
-				if (tblViewStudent.getSelectionModel().getSelectedItem().eliminar()) {
-					listPracticante.remove(tblViewStudent.getSelectionModel().getSelectedIndex());
+				if (tblViewPracticante.getSelectionModel().getSelectedItem().eliminar()) {
+					listPracticante.remove(tblViewPracticante.getSelectionModel().getSelectedIndex());
 					MainController.alert(Alert.AlertType.INFORMATION,
-						"Practicante eliminada",
+						"Practicante eliminado",
 						"Organización eliminada exitosamente");
 				} else {
 					MainController.alert(
