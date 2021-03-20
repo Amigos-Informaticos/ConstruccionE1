@@ -115,7 +115,7 @@ public class Practicante extends Usuario {
 		return new DAOPracticante(this).estaRegistrado();
 	}
 	
-	public void llenarTablaPracticantes(ObservableList<Practicante> listaPracticantes) {
+	public void llenarTablaPracticantes(ObservableList<Practicante> listaPracticantes) throws NullPointerException{
 		new DAOPracticante(this).llenarTablaPracticantes(listaPracticantes);
 	}
 	

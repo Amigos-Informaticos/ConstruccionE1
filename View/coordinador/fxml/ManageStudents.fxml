@@ -36,42 +36,42 @@
                             <children>
                                 <Label text="Nombre:" textFill="#18529d">
                                     <font>
-                                        <Font nombre="System Bold" size="18.0" />
+                                        <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Label>
                                 <Label text="Apellido:" textFill="#18529d" GridPane.rowIndex="1">
                                     <font>
-                                        <Font nombre="System Bold" size="18.0" />
+                                        <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Label>
                                 <Label text="Matrícula:" textFill="#18529d" GridPane.rowIndex="2">
                                     <font>
-                                        <Font nombre="System Bold" size="18.0" />
+                                        <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Label>
                                 <Label text="Email:" textFill="#18529d" GridPane.rowIndex="3">
                                     <font>
-                                        <Font nombre="System Bold" size="18.0" />
+                                        <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Label>
-                                <JFXTextField fx:id="txtName" GridPane.columnIndex="1">
+                                <JFXTextField fx:id="txtNombre" GridPane.columnIndex="1">
                                     <GridPane.margin>
                                         <Insets left="10.0" />
                                     </GridPane.margin>
                                 </JFXTextField>
-                                <JFXTextField fx:id="txtLastname" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <JFXTextField fx:id="txtApellido" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <GridPane.margin>
                                         <Insets left="10.0" />
                                     </GridPane.margin>
                                 </JFXTextField>
-                                <JFXTextField fx:id="txtRegNo" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <JFXTextField fx:id="txtMatricula" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                     <GridPane.margin>
                                         <Insets left="10.0" />
                                     </GridPane.margin>
                                 </JFXTextField>
                         <Label text="Contarseña:" textFill="#18529d" GridPane.rowIndex="4">
                            <font>
-                              <Font nombre="System Bold" size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <JFXTextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="3">
@@ -79,34 +79,34 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtPassword" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <JFXTextField fx:id="txtContrasenia" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </JFXTextField>
                         <Label text="Profesor:" textFill="#18529d" GridPane.rowIndex="5">
                            <font>
-                              <Font nombre="System Bold" size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="cmbProfessor" prefHeight="25.0" prefWidth="234.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <JFXComboBox fx:id="cmbProfesor" prefHeight="25.0" prefWidth="234.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                             </children>
                         </GridPane>
                         <HBox layoutY="305.0" prefHeight="73.0" prefWidth="341.0" spacing="15.0">
                             <children>
-                                <JFXButton fx:id="btnRegister" onAction="#signUp" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Registrar" textFill="WHITE">
+                                <JFXButton fx:id="btnRegistrar" onAction="#registrarPracticante" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Registrar" textFill="WHITE">
                                     <font>
-                                        <Font nombre="System Bold" size="12.0" />
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </JFXButton>
                                 <JFXButton prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #FAD125;" text="Actualizar" textFill="WHITE">
                                     <font>
-                                        <Font nombre="System Bold" size="12.0" />
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </JFXButton>
-                                <JFXButton onMouseClicked="#delete" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #FA2119;" text="Eliminar" textFill="WHITE">
+                                <JFXButton onMouseClicked="#eliminarPracticante" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #FA2119;" text="Eliminar" textFill="WHITE">
                                     <font>
-                                        <Font nombre="System Bold" size="12.0" />
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </JFXButton>
                             </children>
@@ -116,18 +116,18 @@
                         </HBox>
                   <JFXButton layoutX="100.0" layoutY="263.0" onAction="#checkProject" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #18529D;" text="Ver Proyecto" textFill="WHITE">
                      <font>
-                        <Font nombre="System Bold" size="12.0" />
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </JFXButton>
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="360.0">
                     <children>
-                        <TableView fx:id="tblViewStudent" layoutX="28.0" layoutY="41.0" prefHeight="378.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TableView fx:id="tblViewPracticante" layoutX="28.0" layoutY="41.0" prefHeight="378.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <columns>
-                                <TableColumn fx:id="clmnRegno" prefWidth="105.0" text="Matrícula" />
-                                <TableColumn fx:id="clmnLastame" prefWidth="124.0" text="Apellido" />
-                                <TableColumn fx:id="clmnName" prefWidth="121.0" text="Nombre" />
+                                <TableColumn fx:id="clmnMatricula" prefWidth="105.0" text="Matrícula" />
+                                <TableColumn fx:id="clmnApellido" prefWidth="124.0" text="Apellido" />
+                                <TableColumn fx:id="clmnNombre" prefWidth="121.0" text="Nombre" />
                             </columns>
                         </TableView>
                     </children>

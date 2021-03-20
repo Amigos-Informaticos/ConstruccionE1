@@ -82,81 +82,81 @@
             </JFXDatePicker>
             <JFXTextField fx:id="month1Activity" focusColor="#28ad56" promptText="Actividad a realizar" GridPane.columnIndex="1">
                <font>
-                  <Font nombre="System Italic" size="12.0" />
+                  <Font name="System Italic" size="12.0" />
                </font>
             </JFXTextField>
             <JFXTextField fx:id="month2Activity" focusColor="#28ad56" promptText="Actividad a realizar" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
-                  <Font nombre="System Italic" size="12.0" />
+                  <Font name="System Italic" size="12.0" />
                </font>
             </JFXTextField>
             <JFXTextField fx:id="month3Activity" focusColor="#28ad56" promptText="Actividad a realizar" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
-                  <Font nombre="System Italic" size="12.0" />
+                  <Font name="System Italic" size="12.0" />
                </font>
             </JFXTextField>
             <JFXTextField fx:id="month4Activity" focusColor="#28ad56" promptText="Actividad a realizar" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
-                  <Font nombre="System Italic" size="12.0" />
+                  <Font name="System Italic" size="12.0" />
                </font>
             </JFXTextField>
             <JFXTextField fx:id="month5Activity" focusColor="#28ad56" promptText="Actividad a realizar" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
-                  <Font nombre="System Italic" size="12.0" />
+                  <Font name="System Italic" size="12.0" />
                </font>
             </JFXTextField>
             <JFXTextField fx:id="month6Activity" focusColor="#28ad56" promptText="Actividad a realizar" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <font>
-                  <Font nombre="System Italic" size="12.0" />
+                  <Font name="System Italic" size="12.0" />
                </font>
             </JFXTextField>
             <Label text="1er Mes:" textFill="#18529d">
                <font>
-                  <Font nombre="System Bold" size="20.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
             <Label text="2do Mes:" textFill="#18529d" GridPane.rowIndex="1">
                <font>
-                  <Font nombre="System Bold" size="20.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
             <Label text="3er Mes:" textFill="#18529d" GridPane.rowIndex="2">
                <font>
-                  <Font nombre="System Bold" size="20.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
             <Label text="4to Mes:" textFill="#18529d" GridPane.rowIndex="3">
                <font>
-                  <Font nombre="System Bold" size="20.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
             <Label text="5to Mes:" textFill="#18529d" GridPane.rowIndex="4">
                <font>
-                  <Font nombre="System Bold" size="20.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
             <Label text="6to Mes:" textFill="#18529d" GridPane.rowIndex="5">
                <font>
-                  <Font nombre="System Bold" size="20.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
          </children>
       </GridPane>
       <JFXButton fx:id="btnRegister" layoutX="523.0" layoutY="375.0" onMouseClicked="#onClickOk" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Guardar" textFill="WHITE">
          <font>
-            <Font nombre="System Bold" size="12.0" />
+            <Font name="System Bold" size="12.0" />
          </font>
       </JFXButton>
       <JFXDatePicker fx:id="initialDate" layoutX="509.0" layoutY="10.0" promptText="XX / XX / XXXX" />
       <JFXDatePicker fx:id="finalDate" layoutX="509.0" layoutY="48.0" promptText="XX / XX / XXXX" />
       <Label layoutX="387.0" layoutY="7.0" text="Fecha inicio:" textFill="#18529d">
          <font>
-            <Font nombre="System Bold" size="20.0" />
+            <Font name="System Bold" size="20.0" />
          </font>
       </Label>
       <Label layoutX="412.0" layoutY="46.0" text="Fecha fin:" textFill="#18529d">
          <font>
-            <Font nombre="System Bold" size="20.0" />
+            <Font name="System Bold" size="20.0" />
          </font>
       </Label>
    </children>
