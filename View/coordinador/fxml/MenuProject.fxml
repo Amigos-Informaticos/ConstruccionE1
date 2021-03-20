@@ -28,7 +28,7 @@
                  prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Crear Proyecto"
                  textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font nombre="System Bold" size="20.0"/>
+            <Font name="System Bold" size="20.0"/>
          </font>
       </JFXButton>
       <ImageView fitHeight="378.0" fitWidth="283.0" layoutX="377.0" layoutY="38.0" opacity="0.23"
@@ -41,7 +41,7 @@
                  prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Proyectos"
                  textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font nombre="System Bold" size="20.0" />
+            <Font name="System Bold" size="20.0" />
          </font>
       </JFXButton>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="38.0" layoutY="186.0">
