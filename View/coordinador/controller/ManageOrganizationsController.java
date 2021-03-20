@@ -47,16 +47,21 @@ public class ManageOrganizationsController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		try{
 		listOrganizacion = FXCollections.observableArrayList();
 		new Organizacion().llenarTablaOrganizacion(listOrganizacion);
 		tblViewOrganization.setItems(listOrganizacion);
 		clmnName.setCellValueFactory(new PropertyValueFactory<Organizacion, String>("name"));
-		
-		ObservableList<String> listSector = FXCollections.observableArrayList();
-		new Organizacion().llenarSector(listSector);
-		cmbSector.setItems(listSector);
-		
-		eventManager();
+
+
+			ObservableList<String> listSector = FXCollections.observableArrayList();
+			new Organizacion().llenarSector(listSector);
+			cmbSector.setItems(listSector);
+			eventManager();
+		}catch (Exception e){
+			System.out.println(e);
+		}
+
 	}
 	
 	public void eventManager() {
