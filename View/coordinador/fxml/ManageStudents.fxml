@@ -36,22 +36,22 @@
                             <children>
                                 <Label text="Nombre:" textFill="#18529d">
                                     <font>
-                                        <Font nombre="System Bold" size="18.0" />
+                                        <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Label>
                                 <Label text="Apellido:" textFill="#18529d" GridPane.rowIndex="1">
                                     <font>
-                                        <Font nombre="System Bold" size="18.0" />
+                                        <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Label>
                                 <Label text="Matrícula:" textFill="#18529d" GridPane.rowIndex="2">
                                     <font>
-                                        <Font nombre="System Bold" size="18.0" />
+                                        <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Label>
                                 <Label text="Email:" textFill="#18529d" GridPane.rowIndex="3">
                                     <font>
-                                        <Font nombre="System Bold" size="18.0" />
+                                        <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Label>
                                 <JFXTextField fx:id="txtNombre" GridPane.columnIndex="1">
@@ -71,7 +71,7 @@
                                 </JFXTextField>
                         <Label text="Contarseña:" textFill="#18529d" GridPane.rowIndex="4">
                            <font>
-                              <Font nombre="System Bold" size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <JFXTextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="3">
@@ -86,7 +86,7 @@
                         </JFXTextField>
                         <Label text="Profesor:" textFill="#18529d" GridPane.rowIndex="5">
                            <font>
-                              <Font nombre="System Bold" size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <JFXComboBox fx:id="cmbProfesor" prefHeight="25.0" prefWidth="234.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
@@ -96,17 +96,17 @@
                             <children>
                                 <JFXButton fx:id="btnRegistrar" onAction="#registrarPracticante" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Registrar" textFill="WHITE">
                                     <font>
-                                        <Font nombre="System Bold" size="12.0" />
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </JFXButton>
                                 <JFXButton prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #FAD125;" text="Actualizar" textFill="WHITE">
                                     <font>
-                                        <Font nombre="System Bold" size="12.0" />
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </JFXButton>
                                 <JFXButton onMouseClicked="#eliminarPracticante" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #FA2119;" text="Eliminar" textFill="WHITE">
                                     <font>
-                                        <Font nombre="System Bold" size="12.0" />
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                 </JFXButton>
                             </children>
@@ -116,7 +116,7 @@
                         </HBox>
                   <JFXButton layoutX="100.0" layoutY="263.0" onAction="#checkProject" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #18529D;" text="Ver Proyecto" textFill="WHITE">
                      <font>
-                        <Font nombre="System Bold" size="12.0" />
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </JFXButton>
                     </children>

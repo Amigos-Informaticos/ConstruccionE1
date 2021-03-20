@@ -49,7 +49,7 @@
                  prefWidth="78.0" style="-fx-background-color: #18529D;" text="Atrás"
                  textFill="WHITE">
          <font>
-            <Font nombre="System Bold" size="12.0"/>
+            <Font name="System Bold" size="12.0"/>
          </font>
       </JFXButton>
    </children>
