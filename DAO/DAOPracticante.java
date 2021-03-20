@@ -363,7 +363,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return hasPlan;
 	}
 	
-	public boolean llenarTablaPracticantes(ObservableList<Practicante> listPracticante) {
+	public boolean llenarTablaPracticantes(ObservableList<Practicante> listPracticante) throws NullPointerException{
 		boolean filled = false;
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
 			"FROM MiembroFEI INNER JOIN Practicante " +
