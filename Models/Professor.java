@@ -1,6 +1,7 @@
 package Models;
 
 import DAO.DAOProfesor;
+import Exceptions.CustomException;
 import IDAO.IDAOProfessor;
 import javafx.collections.ObservableList;
 
@@ -48,7 +49,7 @@ public class Professor extends Usuario {
 		this.shift = shift;
 	}
 	
-	public boolean logIn() throws SQLException {
+	public boolean logIn() throws  SQLException {
 		return new DAOProfesor(this).iniciarSesion();
 	}
 	
@@ -82,7 +83,7 @@ public class Professor extends Usuario {
 			Professor[] professors = IDAOProfessor.obtenerTodosProfesores();
 			Collections.addAll(listProfessor, professors);
 
-		}catch(Exception exception){
+		}catch(SQLException exception){
 			throw new Exception(exception.getMessage());
 		}
 

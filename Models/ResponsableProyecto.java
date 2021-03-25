@@ -2,6 +2,8 @@ package Models;
 
 import DAO.DAOResponsableProyecto;
 
+import java.sql.SQLException;
+
 public class ResponsableProyecto {
 	private String email;
 	private String nombres;
@@ -55,15 +57,15 @@ public class ResponsableProyecto {
 			this.apellidos != null;
 	}
 	
-	public boolean registrar() {
+	public boolean registrar() throws SQLException {
 		return new DAOResponsableProyecto(this).registrarse();
 	}
 	
-	public boolean estaRegistrado() {
+	public boolean estaRegistrado() throws SQLException {
 		return new DAOResponsableProyecto(this).estaRegistrado();
 	}
 	
-	public boolean eliminar() {
+	public boolean eliminar() throws SQLException {
 		return new DAOResponsableProyecto(this).eliminar();
 	}
 }

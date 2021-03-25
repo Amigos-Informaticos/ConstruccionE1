@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ViewProjectController implements Initializable {
@@ -75,14 +76,18 @@ public class ViewProjectController implements Initializable {
 		if (MainController.alert(Alert.AlertType.CONFIRMATION,
 			"Eliminar Proyecto",
 			"¿Seguro que desea eliminar el Proyecto?")) {
-			if (proyecto.eliminarProyecto()) {
-				MainController.alert(Alert.AlertType.INFORMATION,
-					"Proyecto eliminado",
-					"Proyecto eliminado exitosamente");
-			} else {
-				MainController.alert(Alert.AlertType.ERROR,
-					"Sin conexión con BD",
-					"Sin conexión con Base de Datos");
+			try {
+				if (proyecto.eliminarProyecto()) {
+					MainController.alert(Alert.AlertType.INFORMATION,
+						"Proyecto eliminado",
+						"Proyecto eliminado exitosamente");
+				} else {
+					MainController.alert(Alert.AlertType.ERROR,
+						"Sin conexión con BD",
+						"Sin conexión con Base de Datos");
+				}
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
 			}
 		}
 	}

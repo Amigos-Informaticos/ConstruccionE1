@@ -23,7 +23,7 @@ public class DAODocumento {
 		this.documento = documento;
 	}
 	
-	public boolean save(String authorEmail) {
+	public boolean save(String authorEmail) throws SQLException {
 		assert this.documento != null : "Document is null: DAODocument.save()";
 		assert this.documento.isComplete() : "Document is incomplete: DAODocument.save()";
 		assert this.documento.getFile().exists() : "File doesnt exists: DAODocument.save()";
@@ -67,7 +67,7 @@ public class DAODocumento {
 		return saved;
 	}
 	
-	public boolean saveReport(Practicante practicante, String type) throws CustomException {
+	public boolean saveReport(Practicante practicante, String type) throws CustomException, SQLException {
 		boolean saved;
 		if (practicante.estaRegistrado() && this.save(practicante.getEmail())) {
 			String studentId = new DAOPracticante(practicante).getId();
@@ -97,7 +97,7 @@ public class DAODocumento {
 		return true;
 	}
 	
-	public boolean downloadFile() {
+	public boolean downloadFile() throws SQLException {
 		assert this.documento != null : "Document is null: DAODocument.getFile()";
 		assert this.documento.isComplete() : "Document is incomplete: DAODocument.getFile()";
 		boolean got;
@@ -116,7 +116,7 @@ public class DAODocumento {
 		return got;
 	}
 	
-	public String getId() {
+	public String getId() throws SQLException {
 		String id = null;
 		assert this.documento != null : "Document is null: DAODocument.getId()";
 		assert this.documento.getTitle() != null : "Document's title is null: DAODocument.getId()";

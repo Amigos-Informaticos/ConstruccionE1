@@ -42,12 +42,20 @@ public class AssignProjectController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ObservableList<Proyecto> proyectoObservableList = FXCollections.observableArrayList();
-		Proyecto.fillTable(proyectoObservableList);
+		try {
+			Proyecto.fillTable(proyectoObservableList);
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		projectTable.setItems(proyectoObservableList);
 		clmName.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
 		
 		ObservableList<Proyecto> requestObservableList = FXCollections.observableArrayList();
-		Collections.addAll(requestObservableList, practicante.getSeleccion());
+		try {
+			Collections.addAll(requestObservableList, practicante.getSeleccion());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		requestTable.setItems(requestObservableList);
 		clmNameRequest.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
 		
@@ -87,13 +95,17 @@ public class AssignProjectController implements Initializable {
 			"¿Esta seguro de que quiere asignar el practicante "
 				+ practicante.getNombres() +
 				" al proyecto " + proyecto.getNombre() + "?")) {
-			if (asignacion.assignProject()) {
-				MainController.alert(Alert.AlertType.INFORMATION,
-					"Asignación registrada",
-					"Asignacon realizada exitosamente");
-			} else {
-				MainController.alert(Alert.AlertType.ERROR, "DatabaseError", "No se pudo establecer conexión con la Base de Datos");
-				exit();
+			try {
+				if (asignacion.assignProject()) {
+					MainController.alert(Alert.AlertType.INFORMATION,
+						"Asignación registrada",
+						"Asignacon realizada exitosamente");
+				} else {
+					MainController.alert(Alert.AlertType.ERROR, "DatabaseError", "No se pudo establecer conexión con la Base de Datos");
+					exit();
+				}
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
 			}
 		}
 		

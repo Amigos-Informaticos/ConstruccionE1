@@ -23,7 +23,7 @@ public class ProfessorTests {
     public void a_signUpProfessor() {
         try {
             assertTrue(this.professor.signUp());
-        } catch (AssertionError e) {
+        } catch (AssertionError | SQLException e) {
             new Logger().log(e.getMessage());
         }
     }
@@ -31,7 +31,11 @@ public class ProfessorTests {
     @Test
     public void b_updateProfessor() {
         try {
-            assertTrue(this.professor.update());
+            try {
+                assertTrue(this.professor.update());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         } catch (AssertionError e) {
             new Logger().log(e.getMessage());
         }
@@ -43,6 +47,8 @@ public class ProfessorTests {
             assertTrue(this.professor.delete());
         } catch (AssertionError e) {
             new Logger().log(e.getMessage());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -52,6 +58,8 @@ public class ProfessorTests {
             assertTrue(this.professor.reactive());
         } catch (AssertionError e) {
             new Logger().log(e.getMessage());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -59,8 +67,8 @@ public class ProfessorTests {
     public void d_logInProfessor() {
         try {
             assertTrue(this.professor.logIn());
-        } catch (CustomException | SQLException e) {
-            new Logger().log(e);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }
