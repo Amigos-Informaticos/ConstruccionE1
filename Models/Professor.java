@@ -5,6 +5,7 @@ import Exceptions.CustomException;
 import IDAO.IDAOProfessor;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.Collections;
 
 public class Professor extends Usuario {
@@ -48,27 +49,27 @@ public class Professor extends Usuario {
 		this.shift = shift;
 	}
 	
-	public boolean logIn() throws CustomException {
+	public boolean logIn() throws CustomException, SQLException {
 		return new DAOProfesor(this).iniciarSesion();
 	}
 	
-	public boolean signUp() {
+	public boolean signUp() throws SQLException {
 		return new DAOProfesor(this).registrar();
 	}
 	
-	public boolean update() {
+	public boolean update() throws SQLException {
 		return new DAOProfesor(this).update();
 	}
 	
-	public boolean delete() {
+	public boolean delete() throws SQLException {
 		return new DAOProfesor(this).eliminar();
 	}
 	
-	public boolean reactive() {
+	public boolean reactive() throws SQLException {
 		return new DAOProfesor(this).reactivar();
 	}
 	
-	public boolean isRegistered() {
+	public boolean isRegistered() throws SQLException {
 		return new DAOProfesor(this).estaRegistrado();
 	}
 	
@@ -76,8 +77,15 @@ public class Professor extends Usuario {
 		return super.estaCompleto() && personalNo != null && shift != null;
 	}
 	
-	public void fillTableProfessor(ObservableList<Professor> listProfessor) {
-		Professor[] professors = IDAOProfessor.getAll();
-		Collections.addAll(listProfessor, professors);
+	public void obtenerProfesores(ObservableList<Professor> listProfessor) throws Exception {
+
+		try{
+			Professor[] professors = IDAOProfessor.obtenerTodosProfesores();
+			Collections.addAll(listProfessor, professors);
+
+		}catch(Exception exception){
+			throw new Exception(exception.getMessage());
+		}
+
 	}
 }
