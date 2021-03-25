@@ -21,6 +21,7 @@ import javafx.util.StringConverter;
 import tools.Logger;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ManageStudentController implements Initializable {
@@ -61,12 +62,7 @@ public class ManageStudentController implements Initializable {
         try {
             new Practicante().llenarTablaPracticantes(listPracticante);
         } catch (NullPointerException e) {
-            MainController.alert(
-                    Alert.AlertType.WARNING,
-                    "No hay estudiantes registrados",
-                    "Pulse aceptar para continuar"
-            );
-            MainController.activate("MainMenuCoordinator");
+
         }
 
         tblViewPracticante.setItems(listPracticante);
@@ -76,12 +72,19 @@ public class ManageStudentController implements Initializable {
 
         listProfesor = FXCollections.observableArrayList();
         try{
-            new Professor().fillTableProfessor(listProfesor);
+            new Professor().obtenerProfesores(listProfesor);
         }catch (NullPointerException e){
             MainController.alert(
                     Alert.AlertType.WARNING,
                     "No hay profesores",
                     "No hay profesores registrados para asociar a los practicantes"
+            );
+            MainController.activate("MainMenuCoordinator");
+        }catch (Exception e){
+            MainController.alert(
+                    Alert.AlertType.WARNING,
+                    "ErrorBD",
+                    "Error al conectar con la base de datos"
             );
             MainController.activate("MainMenuCoordinator");
         }
@@ -169,12 +172,26 @@ public class ManageStudentController implements Initializable {
     }
 
     private void instanceStudent(Practicante practicante) {
+
+
+
         practicante.setNombres(txtNombre.getText());
+
         practicante.setApellidos(txtApellido.getText());
         practicante.setMatricula(txtMatricula.getText());
         practicante.setEmail(txtEmail.getText());
         practicante.setContrasena(txtContrasenia.getText());
         practicante.setProfesor(cmbProfesor.getValue());
+
+        System.out.println(practicante.getNombres());
+        System.out.println(practicante.getApellidos());
+        System.out.println(practicante.getMatricula());
+        System.out.println(practicante.getEmail());
+        System.out.println(practicante.getContrasena());
+        System.out.println(practicante.getProfesor().getEmail());
+
+
+
     }
 
     @FXML

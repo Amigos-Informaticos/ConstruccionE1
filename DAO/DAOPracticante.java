@@ -98,12 +98,12 @@ public class DAOPracticante implements IDAOPracticante {
 		boolean registrado = false;
 		if (!this.estaRegistrado()) {
 			String query = "INSERT INTO MiembroFEI (nombres, apellidos, correoElectronico, " +
-				"contrasena, estaActivo) valores (?, ?, ?, ?, 1)";
+				"contrasena, estaActivo) values (?, ?, ?, ?, 1)";
 			String[] valores = {this.practicante.getNombres(), this.practicante.getApellidos(),
 				this.practicante.getEmail(), this.practicante.getContrasena()};
 			if (this.conexion.ejecutar(query, valores)) {
 				query = "INSERT INTO Practicante (idMiembro, matricula, profesorCalificador) " +
-					"valores (?, ?, ?)";
+					"values (?, ?, ?)";
 				valores = new String[] {
 					this.getId(),
 					this.practicante.getMatricula(),
