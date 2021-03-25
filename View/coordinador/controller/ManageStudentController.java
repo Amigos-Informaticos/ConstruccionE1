@@ -172,9 +172,6 @@ public class ManageStudentController implements Initializable {
     }
 
     private void instanceStudent(Practicante practicante) {
-
-
-
         practicante.setNombres(txtNombre.getText());
 
         practicante.setApellidos(txtApellido.getText());
@@ -189,9 +186,6 @@ public class ManageStudentController implements Initializable {
         System.out.println(practicante.getEmail());
         System.out.println(practicante.getContrasena());
         System.out.println(practicante.getProfesor().getEmail());
-
-
-
     }
 
     @FXML

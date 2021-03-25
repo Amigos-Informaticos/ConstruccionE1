@@ -17,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -94,10 +95,14 @@ public class CreateProjectController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		loadValues();
+		try {
+			loadValues();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 	
-	public void loadValues() {
+	public void loadValues() throws SQLException {
 		if (MainController.getStageName().equals("CreateProject")) {
 			listOrganizations = FXCollections.observableArrayList();
 			Organizacion.llenarNombres(listOrganizations);
@@ -193,7 +198,7 @@ public class CreateProjectController implements Initializable {
 		MainController.activate("CreateProject", "Crear Proyecto", MainController.Sizes.LARGE);
 	}
 	
-	public void signUp() {
+	public void signUp() throws SQLException {
 		instanceProject();
 		if (proyecto.estaCompleto()) {
 			if (proyecto.registrar()) {
@@ -214,7 +219,7 @@ public class CreateProjectController implements Initializable {
 		}
 	}
 	
-	public void instanceProject() {
+	public void instanceProject() throws SQLException {
 		proyecto.setNombre(txtName.getText());
 		proyecto.setDescripcion(txtDescription.getText());
 		proyecto.setObjetivoGeneral(txtGeneralObjective.getText());
@@ -253,7 +258,7 @@ public class CreateProjectController implements Initializable {
 		return activities;
 	}
 	
-	public ResponsableProyecto instanceResponsible() {
+	public ResponsableProyecto instanceResponsible() throws SQLException {
 		ResponsableProyecto responsableProyecto = new ResponsableProyecto();
 		responsableProyecto.setPosicion(txtPositionResponsible.getText());
 		responsableProyecto.setEmail(txtEmailResponsible.getText());

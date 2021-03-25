@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import tools.Logger;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ManageOrganizationsController implements Initializable {
@@ -24,16 +25,12 @@ public class ManageOrganizationsController implements Initializable {
 	private TableView<Organizacion> tblViewOrganization;
 	@FXML
 	private TableColumn<Organizacion, String> clmnName;
-	
 	@FXML
 	private JFXComboBox<String> cmbSector;
-	
 	@FXML
 	private JFXTextField txtName;
 	@FXML
-	private JFXTextField txtTel1;
-	@FXML
-	private JFXTextField txtTel2;
+	private JFXTextField txtTel;
 	@FXML
 	private JFXTextField txtStreet;
 	@FXML
@@ -101,18 +98,20 @@ public class ManageOrganizationsController implements Initializable {
 		Organizacion organizacion = new Organizacion();
 		this.instanciarOrganizacion(organizacion);
 		if (organizacion.estaCompleto()) {
-			if (organizacion.registrar()) {
-				listOrganizacion.add(organizacion);
+			try {
+				if (organizacion.registrar()) {
+					listOrganizacion.add(organizacion);
+					MainController.alert(
+						Alert.AlertType.INFORMATION,
+						"Organizacion registrada exitosamente",
+						"Pulse aceptar para continuar"
+					);
+				}
+			} catch (SQLException throwables) {
 				MainController.alert(
-					Alert.AlertType.INFORMATION,
-					"Organizacion registrada exitosamente",
-					"Pulse aceptar para continuar"
-				);
-			} else {
-				MainController.alert(
-					Alert.AlertType.WARNING,
-					"Error al conectar con la base de datos",
-					"Pulse aceptar para continuar"
+						Alert.AlertType.WARNING,
+						"Error al conectar con la base de datos",
+						"Pulse aceptar para continuar"
 				);
 			}
 		} else {
@@ -133,8 +132,8 @@ public class ManageOrganizationsController implements Initializable {
 			txtLocality.getText()
 		);
 		organizacion.setSector(cmbSector.getValue());
-		if (!txtTel1.getText().equals("")) {
-			organizacion.setTelefono(txtTel1.getText());
+		if (!txtTel.getText().equals("")) {
+			organizacion.setTelefono(txtTel.getText());
 		}
 	}
 	
@@ -151,15 +150,13 @@ public class ManageOrganizationsController implements Initializable {
 					MainController.alert(Alert.AlertType.INFORMATION,
 						"Organización eliminada",
 						"Organización eliminada exitosamente");
-				} else {
-					MainController.alert(
+				}
+			} catch (AssertionError | SQLException e) {
+				MainController.alert(
 						Alert.AlertType.INFORMATION,
 						"DBError",
 						"No se pudo establecer conexión con Base de Datos"
-					);
-				}
-			} catch (AssertionError e) {
-				new Logger().log(e.getMessage());
+				);
 			}
 		}
 	}
