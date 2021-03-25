@@ -55,7 +55,15 @@ public class AdminProfessorController implements Initializable {
         listShift = FXCollections.observableArrayList();
         listProfessor = FXCollections.observableArrayList();
         Turno.llenarTurno(listShift);
-        new Professor().fillTableProfessor(listProfessor);
+
+
+        try {
+            new Professor().obtenerProfesores(listProfessor);
+        } catch (Exception exception) {
+
+        }
+
+
         cmbShift.setItems(listShift);
         tblViewProfessor.setItems(listProfessor);
         clmnEmail.setCellValueFactory(new PropertyValueFactory<Professor, String>("email"));

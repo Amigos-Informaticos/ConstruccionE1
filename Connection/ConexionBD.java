@@ -116,7 +116,7 @@ public class ConexionBD {
 		return queryExecuted;
 	}
 	
-	public String[][] seleccionar(String query, String[] values, String[] names) {
+	public String[][] seleccionar(String query, String[] values, String[] names) throws SQLException  {
 		int tableSize;
 		String[][] responses = new String[0][0];
 		try {
@@ -143,6 +143,9 @@ public class ConexionBD {
 			}
 		} catch (SQLException e) {
 			Logger.staticLog(e, true);
+			System.out.println("SQL EXCEPTION");
+			throw new SQLException(e.getMessage());
+
 		}
 		return responses.length > 0 ? responses : null;
 	}
