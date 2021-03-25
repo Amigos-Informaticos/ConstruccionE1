@@ -3,6 +3,8 @@ package IDAO;
 import Connection.ConexionBD;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
+
 public interface Turno {
 	static void llenarTurno(ObservableList<String> listShift) {
 		String query = "SELECT turno FROM Turno";
@@ -11,5 +13,5 @@ public interface Turno {
 		}
 	}
 	
-	String getTurno();
+	String getTurno() throws SQLException;
 }
