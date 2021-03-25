@@ -5,6 +5,8 @@ import Models.Professor;
 import org.junit.Test;
 import tools.Logger;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProfessorTests {
@@ -57,7 +59,7 @@ public class ProfessorTests {
     public void d_logInProfessor() {
         try {
             assertTrue(this.professor.logIn());
-        } catch (CustomException e) {
+        } catch (CustomException | SQLException e) {
             new Logger().log(e);
         }
     }
