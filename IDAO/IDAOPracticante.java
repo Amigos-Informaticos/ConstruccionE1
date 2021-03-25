@@ -3,6 +3,8 @@ package IDAO;
 import Exceptions.CustomException;
 import Models.Practicante;
 
+import java.sql.SQLException;
+
 public interface IDAOPracticante extends IDAOUsuario {
 	
 	static Practicante[] getAll() {
@@ -13,7 +15,7 @@ public interface IDAOPracticante extends IDAOUsuario {
 		return null;
 	}
 	
-	boolean actualizar() throws CustomException;
+	boolean actualizar() throws CustomException, SQLException;
 	
-	boolean eliminar() throws CustomException;
+	boolean eliminar() throws CustomException, SQLException;
 }

@@ -5,6 +5,8 @@ import DAO.DAOProfesor;
 import Exceptions.CustomException;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
+
 public class Practicante extends Usuario {
 	private String matricula;
 	private Professor profesor;
@@ -37,7 +39,7 @@ public class Practicante extends Usuario {
 		this.matricula = regNumber;
 	}
 	
-	public Practicante get(String email) {
+	public Practicante get(String email) throws SQLException {
 		Practicante practicante = new Practicante();
 		practicante.setEmail(email);
 		return DAOPracticante.get(practicante);
@@ -51,7 +53,7 @@ public class Practicante extends Usuario {
 		this.profesor = profesor;
 	}
 	
-	public boolean cargarProfesor() {
+	public boolean cargarProfesor() throws SQLException {
 		assert this.getEmail() != null : "Email es nulo: Student.cargarProfesor()";
 		boolean set = false;
 		Professor profesor = DAOProfesor.getByStudent(this);
@@ -62,20 +64,20 @@ public class Practicante extends Usuario {
 		return set;
 	}
 	
-	public boolean registrar() {
+	public boolean registrar() throws SQLException {
 		assert this.estaCompleto() : "Practicante incompleto: Student.registrarse()";
 		return new DAOPracticante(this).registrar();
 	}
 	
-	public boolean iniciarSesion() {
+	public boolean iniciarSesion() throws SQLException {
 		return new DAOPracticante(this).iniciarSesion();
 	}
 	
-	public boolean actualizar() {
+	public boolean actualizar() throws SQLException {
 		return new DAOPracticante(this).actualizar();
 	}
 	
-	public boolean eliminar() {
+	public boolean eliminar() throws SQLException {
 		return new DAOPracticante(this).eliminar();
 	}
 	
@@ -85,41 +87,42 @@ public class Practicante extends Usuario {
 			this.profesor != null;
 	}
 	
-	public boolean seleccionarProyecto(String nombreProyecto) {
+	public boolean seleccionarProyecto(String nombreProyecto) throws SQLException {
 		return new DAOPracticante(this).seleccionarProyecto(nombreProyecto);
 	}
 	
-	public boolean eliminarSeleccion(String nombreProyecto) {
+	public boolean eliminarSeleccion(String nombreProyecto) throws SQLException {
 		assert this.estaCompleto() : "Practicante incompleto: Practicante.eliminarSeleccion()";
 		assert nombreProyecto != null : "Nombre de proyecto es nulo: Practicante.eliminarSeleccion()";
 		return new DAOPracticante(this).eliminarProyectoSeleccionado(nombreProyecto);
 	}
 	
-	public Proyecto[] getSeleccion() {
+	public Proyecto[] getSeleccion() throws SQLException {
 		return new DAOPracticante(this).getProyectos();
 	}
 	
-	public boolean asignarProyecto(String nombreProyecto) throws CustomException {
+	public boolean asignarProyecto(String nombreProyecto) throws CustomException, SQLException {
 		return new DAOPracticante(this).setProyecto(nombreProyecto);
 	}
 	
-	public boolean eliminarProyecto() throws CustomException {
+	public boolean eliminarProyecto() throws CustomException, SQLException {
 		return new DAOPracticante(this).eliminarProyecto();
 	}
 	
-	public Proyecto getProyecto() throws CustomException {
+	public Proyecto getProyecto() throws CustomException, SQLException {
 		return new DAOPracticante(this).getProyecto();
 	}
 	
-	public boolean estaRegistrado() {
+	public boolean estaRegistrado() throws SQLException {
 		return new DAOPracticante(this).estaRegistrado();
 	}
 	
-	public void llenarTablaPracticantes(ObservableList<Practicante> listaPracticantes) throws NullPointerException{
+	public void llenarTablaPracticantes(ObservableList<Practicante> listaPracticantes)
+		throws NullPointerException, SQLException {
 		new DAOPracticante(this).llenarTablaPracticantes(listaPracticantes);
 	}
 	
-	public boolean tienePlanActividades() {
+	public boolean tienePlanActividades() throws SQLException {
 		return new DAOPracticante(this).tienePlanActividades();
 	}
 }

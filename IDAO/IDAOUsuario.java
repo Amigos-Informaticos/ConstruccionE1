@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public interface IDAOUsuario {
 	boolean iniciarSesion() throws CustomException, SQLException;
 	
-	boolean registrar() throws CustomException;
+	boolean registrar() throws CustomException, SQLException;
 	
 	boolean estaRegistrado() throws CustomException, SQLException;
 	

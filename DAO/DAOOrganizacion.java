@@ -28,11 +28,12 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 			if (!this.estaRegistradoSector(sector)) {
 				this.registrarSector(sector);
 			}
-			query = "INSERT INTO Organizacion (nombre, estaActivo, idSector) VALUES (?, 1, ?, ?)";
+			query = "INSERT INTO Organizacion (nombre, estaActivo, idSector, telefono) " +
+				"VALUES (?, 1, ?, ?)";
 			valores = new String[] {
 				this.organizacion.getNombre(),
-				this.organizacion.getTelefono(),
-				this.getIdSector()};
+				this.getIdSector(),
+				this.organizacion.getTelefono()};
 			registrado = this.conexion.ejecutar(query, valores) && this.registrarDireccion();
 		} else {
 			query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";

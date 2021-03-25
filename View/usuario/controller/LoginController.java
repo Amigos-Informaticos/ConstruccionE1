@@ -13,8 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
-
 
 public class LoginController implements Initializable {
 	@FXML
@@ -33,7 +33,16 @@ public class LoginController implements Initializable {
 				Usuario usuario = new Usuario();
 				usuario.setEmail(emailField.getText().trim());
 				usuario.setContrasena(passwordField.getText().trim());
-				String type = usuario.tipo();
+				String type = null;
+				try {
+					type = usuario.tipo();
+				} catch (SQLException throwables) {
+					MainController.alert(
+						Alert.AlertType.ERROR,
+						"ErrorBD",
+						"No se pudo establecer conexión con la base de datos"
+					);
+				}
 				if (!"null".equals(type)) {
 					switch (type) {
 						case "Student":
@@ -76,7 +85,6 @@ public class LoginController implements Initializable {
 				"Algún campo se encuentra vacío");
 		}
 	}
-	
 	
 	public boolean checkEmptyFields() {
 		return emailField.getText().length() != 0 && passwordField.getText().length() != 0;

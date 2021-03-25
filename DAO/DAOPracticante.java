@@ -25,7 +25,7 @@ public class DAOPracticante implements IDAOPracticante {
 		this.practicante = practicante;
 	}
 	
-	public String getId() {
+	public String getId() throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.getId()";
 		assert this.practicante.getEmail() != null :
 			"Email del practicante es nulo: DAOPracticante.getId()";
@@ -39,7 +39,7 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 	
 	@Override
-	public boolean actualizar() {
+	public boolean actualizar() throws SQLException {
 		assert this.estaRegistrado() : "Practicante no registrado: DAOPracticante.actualizar()";
 		
 		boolean actualizado = false;
@@ -62,7 +62,7 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 	
 	@Override
-	public boolean eliminar() {
+	public boolean eliminar() throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.eliminar()";
 		assert this.estaRegistrado() : "Practicante no registrado: DAOPracticante.eliminar()";
 		
@@ -76,7 +76,7 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 	
 	@Override
-	public boolean iniciarSesion() {
+	public boolean iniciarSesion() throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.iniciarSesion()";
 		assert this.practicante.getEmail() != null :
 			"Email de practicante es nulo: DAOPracticante.iniciarSesion()";
@@ -93,7 +93,7 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 	
 	@Override
-	public boolean registrar() {
+	public boolean registrar() throws SQLException {
 		assert this.practicante != null : "Student is null: DAOStudent.signUp()";
 		assert this.practicante.estaCompleto() : "Student is incomplete: DAOStudent.signUp()";
 		
@@ -120,7 +120,7 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 	
 	@Override
-	public boolean estaRegistrado() {
+	public boolean estaRegistrado() throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.estaRegistrado()";
 		assert this.practicante.getEmail() != null :
 			"Email de practicante es nulo: DAOPracticante.estaRegistrado()";
@@ -133,7 +133,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return resultados != null && resultados[0][0].equals("1");
 	}
 	
-	public boolean estaActivo() {
+	public boolean estaActivo() throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.estaActivo()";
 		assert this.practicante.getEmail() != null :
 			"Practicante.getEmail() es nulo: DAOPracticante.estaActivo()";
@@ -151,21 +151,6 @@ public class DAOPracticante implements IDAOPracticante {
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
 			"FROM MiembroFEI INNER JOIN Practicante " +
 			"ON MiembroFEI.idMiembro = Practicante.idMiembro WHERE MiembroFEI.estaActivo = 1";
-		String[] nombres = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
-		String[][] resultados = conexion.seleccionar(query, null, nombres);
-		practicantes = new Practicante[resultados.length];
-		for (int i = 0; i < resultados.length; i++) {
-			practicantes[i] = new Practicante(resultados[i][0], resultados[i][1], resultados[i][2],
-				resultados[i][3], resultados[i][4]);
-		}
-		return practicantes;
-	}
-	
-	public static Practicante[] obtenerPorProfesor() throws SQLException {
-		Practicante[] practicantes;
-		ConexionBD conexion = new ConexionBD();
-		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
-			"FROM MiembroFEI INNER JOIN ProfesorPracticante WHERE MiembroFEI.estaActivo = 1";
 		String[] nombres = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
 		String[][] resultados = conexion.seleccionar(query, null, nombres);
 		practicantes = new Practicante[resultados.length];
@@ -351,7 +336,7 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 	
 	@Override
-	public boolean reactivar() {
+	public boolean reactivar() throws SQLException {
 		boolean reactivated = false;
 		assert this.practicante != null : "Student is null: DAOStudent.reactive()";
 		assert this.estaRegistrado() : "Student is not registered: DAOStudent.reactive()";

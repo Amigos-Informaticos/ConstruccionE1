@@ -4,6 +4,8 @@ import DAO.DAOCoordinador;
 import Exceptions.CustomException;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
+
 public class Coordinador extends Usuario {
 	private String noPersonal;
 	private String fechaRegistro;
@@ -98,11 +100,11 @@ public class Coordinador extends Usuario {
 		return daoCoordinador.hayOtro();
 	}
 	
-	public boolean registrarPracticante(Practicante practicante) throws CustomException {
+	public boolean registrarPracticante(Practicante practicante) throws CustomException, SQLException {
 		return practicante.registrar();
 	}
 	
-	public boolean eliminarPracticante(Practicante practicante) throws CustomException {
+	public boolean eliminarPracticante(Practicante practicante) throws CustomException, SQLException {
 		return practicante.eliminar();
 	}
 	
@@ -114,7 +116,8 @@ public class Coordinador extends Usuario {
 		return organizacion.registrar();
 	}
 	
-	public boolean asignarProyecto(Practicante practicante, String projectName) throws CustomException {
+	public boolean asignarProyecto(Practicante practicante, String projectName)
+		throws CustomException, SQLException {
 		return practicante.asignarProyecto(projectName);
 	}
 	
