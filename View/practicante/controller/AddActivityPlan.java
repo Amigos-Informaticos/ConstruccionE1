@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import tools.File;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AddActivityPlan implements Initializable {
@@ -24,7 +25,16 @@ public class AddActivityPlan implements Initializable {
 	}
 	
 	private void verifyPrecondition() {
-		boolean has = ((Practicante) MainController.get("user")).tienePlanActividades();
+		boolean has = false;
+		try {
+			has = ((Practicante) MainController.get("user")).tienePlanActividades();
+		} catch (SQLException throwables) {
+			MainController.alert(
+				Alert.AlertType.ERROR,
+				"ErrorBD",
+				"No se pudo establecer conexión con la base de datos"
+			);
+		}
 		if (has) {
 			MainController.alert(
 				Alert.AlertType.WARNING,
