@@ -6,6 +6,7 @@ import tools.Logger;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.regex.Pattern;
 
 public class Usuario {
@@ -109,7 +110,7 @@ public class Usuario {
 		return Pattern.compile(emailRegex).matcher(email).matches();
 	}
 	
-	public String tipo() {
+	public String tipo() throws SQLException {
 		assert this.getEmail() != null;
 		assert this.getContrasena() != null;
 		String tipo = "null";

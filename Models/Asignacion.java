@@ -5,6 +5,7 @@ import tools.File;
 import tools.P;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 
 public class Asignacion {
 	private Practicante practicante;
@@ -13,7 +14,7 @@ public class Asignacion {
 	private Coordinador coordinador;
 	private float score;
 	
-	public Asignacion(Practicante practicante, Proyecto proyecto, Coordinador coordinador) {
+	public Asignacion(Practicante practicante, Proyecto proyecto, Coordinador coordinador) throws SQLException {
 		this.practicante = practicante;
 		this.proyecto = proyecto;
 		practicante.cargarProfesor();

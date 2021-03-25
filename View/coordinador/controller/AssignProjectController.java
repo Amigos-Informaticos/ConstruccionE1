@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
@@ -68,11 +69,20 @@ public class AssignProjectController implements Initializable {
 	
 	public void assign() throws FileNotFoundException {
 		Proyecto proyecto = (Proyecto) MainController.get("project");
-		Asignacion asignacion = new Asignacion(
-			practicante,
-			proyecto,
-			(Coordinador) MainController.get("user")
-		);
+		Asignacion asignacion = null;
+		try {
+			asignacion = new Asignacion(
+				practicante,
+				proyecto,
+				(Coordinador) MainController.get("user")
+			);
+		} catch (SQLException throwables) {
+			MainController.alert(
+				Alert.AlertType.ERROR,
+				"ErrorBD",
+				"No se pudo establecer conexión con la base de datos"
+			);
+		}
 		if (MainController.alert(Alert.AlertType.CONFIRMATION, "Confirmar Asignacion",
 			"¿Esta seguro de que quiere asignar el practicante "
 				+ practicante.getNombres() +
