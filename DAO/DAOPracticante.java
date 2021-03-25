@@ -7,6 +7,8 @@ import Models.Practicante;
 import Models.Proyecto;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
+
 public class DAOPracticante implements IDAOPracticante {
 	private Practicante practicante;
 	private final ConexionBD conexion = new ConexionBD();
@@ -143,7 +145,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return resultados != null && resultados[0][0].equals("1");
 	}
 	
-	public static Practicante[] obtenerTodos() {
+	public static Practicante[] obtenerTodos() throws SQLException {
 		Practicante[] practicantes;
 		ConexionBD conexion = new ConexionBD();
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
@@ -159,7 +161,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return practicantes;
 	}
 	
-	public static Practicante[] obtenerPorProfesor() {
+	public static Practicante[] obtenerPorProfesor() throws SQLException {
 		Practicante[] practicantes;
 		ConexionBD conexion = new ConexionBD();
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
@@ -174,7 +176,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return practicantes;
 	}
 	
-	public static Practicante get(Practicante practicante) {
+	public static Practicante get(Practicante practicante) throws SQLException {
 		assert practicante != null : "Practicante es nulo: DAOPracticante.get()";
 		assert new DAOPracticante(practicante).estaRegistrado() :
 			"Practicante no registrado: DAOPracticante.get()";
@@ -193,11 +195,11 @@ public class DAOPracticante implements IDAOPracticante {
 		return practicanteAuxiliar;
 	}
 	
-	public boolean seleccionarProyecto(String nombreProyecto) {
+	public boolean seleccionarProyecto(String nombreProyecto) throws SQLException {
 		return this.seleccionarProyecto(new DAOProyecto().cargarProyecto(nombreProyecto));
 	}
 	
-	public boolean seleccionarProyecto(Proyecto proyecto) {
+	public boolean seleccionarProyecto(Proyecto proyecto) throws SQLException {
 		assert this.practicante != null :
 			"Practicante es nulo: DAOPracticante.seleccionarProyecto()";
 		assert this.practicante.estaCompleto()
@@ -231,7 +233,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return seleccionado;
 	}
 	
-	public Proyecto[] getProyectos() {
+	public Proyecto[] getProyectos() throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.getProyectos()";
 		assert this.practicante.estaCompleto() :
 			"Practicante incompleto: DAOPracticante.getProyectos()";
@@ -254,7 +256,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return proyectos;
 	}
 	
-	public boolean eliminarProyectoSeleccionado(String nombreProyecto) {
+	public boolean eliminarProyectoSeleccionado(String nombreProyecto) throws SQLException {
 		DAOProyecto daoProyecto = new DAOProyecto(nombreProyecto);
 		assert this.practicante != null :
 			"Practicante es nulo: DAOPracticante.eliminarProyectoSeleccionado()";
@@ -282,7 +284,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return eliminado;
 	}
 	
-	public boolean setProyecto(String nombreProyecto) throws CustomException {
+	public boolean setProyecto(String nombreProyecto) throws CustomException, SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.setProyecto()";
 		assert this.estaActivo() : "Practicante inactivo: DAOPracticante.setProyecto()";
 		assert nombreProyecto != null : "Nombre de proyecto es nulo: DAOPracticante.setProyecto()";
@@ -307,7 +309,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return establecido;
 	}
 	
-	public boolean eliminarProyecto() {
+	public boolean eliminarProyecto() throws SQLException {
 		boolean deleted = false;
 		assert this.practicante != null : "Student is null: DAOStudent.deleteProject()";
 		assert this.practicante.getEmail() != null :
@@ -326,7 +328,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return deleted;
 	}
 	
-	public Proyecto getProyecto() {
+	public Proyecto getProyecto() throws SQLException {
 		assert this.practicante != null : "Student is null: DAOStudent.getProject()";
 		assert this.practicante.getEmail() != null : "Student's email is null: DAOStudent.getProject()";
 		assert this.estaActivo() : "Student is inactive: DAOStudent.getProject()";
@@ -362,7 +364,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return reactivated;
 	}
 	
-	public boolean tienePlanActividades() {
+	public boolean tienePlanActividades() throws SQLException {
 		assert this.practicante != null : "Student is null: DAOStudent.getActivityPlan()";
 		assert this.estaActivo() : "Student is not active: DAOStudent.getActivityPlan()";
 		
@@ -378,7 +380,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return hasPlan;
 	}
 	
-	public boolean llenarTablaPracticantes(ObservableList<Practicante> listPracticante) throws NullPointerException{
+	public boolean llenarTablaPracticantes(ObservableList<Practicante> listPracticante) throws NullPointerException, SQLException {
 		boolean filled = false;
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
 			"FROM MiembroFEI INNER JOIN Practicante " +

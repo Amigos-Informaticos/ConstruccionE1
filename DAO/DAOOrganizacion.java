@@ -5,6 +5,8 @@ import IDAO.IDAOOrganizacion;
 import Models.Organizacion;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
+
 public class DAOOrganizacion implements IDAOOrganizacion {
 	private final Organizacion organizacion;
 	private final ConexionBD conexion = new ConexionBD();
@@ -14,7 +16,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 	}
 	
 	@Override
-	public boolean registrar() {
+	public boolean registrar() throws SQLException {
 		assert this.organizacion != null : "Organizacion es nula: DAOOrganizacion.registrar()";
 		assert this.organizacion.estaCompleto() :
 			"Organizacion esta incompleta: DAOOrganizacion.registrar()";
@@ -41,7 +43,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 	}
 	
 	@Override
-	public boolean estaRegistrado() {
+	public boolean estaRegistrado() throws SQLException{
 		assert this.organizacion.getNombre() != null :
 			"Nombre organizacion es nulo: DAOOrganizacion.estaRegistrado()";
 		
@@ -54,7 +56,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 	}
 	
 	@Override
-	public boolean eliminar() {
+	public boolean eliminar() throws SQLException{
 		assert this.organizacion != null : "Organizacion es nula: DAOOrganizacion.eliminar()";
 		assert this.estaRegistrado() : "Organizacion no esta registrada: DAOOrganizacion.eliminar()";
 		assert this.estaActivo() : "Organizcacion no esta activa: DAOOrganizacion.eliminar()";
@@ -65,7 +67,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 	}
 	
 	@Override
-	public boolean estaActivo() {
+	public boolean estaActivo() throws SQLException{
 		assert this.organizacion != null : "Organzacion es nula: DAOOrganizacion.estaActivo()";
 		assert this.organizacion.getNombre() != null :
 			"Nombre organizacion es nulo: DAOOrganizacion.estaActivo()";
@@ -79,7 +81,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 	}
 	
 	@Override
-	public boolean reactivar() {
+	public boolean reactivar() throws SQLException{
 		assert this.organizacion != null : "Organizacion es nula: DAOOrganizacion.reactivar()";
 		assert this.estaRegistrado() : "Organizacion no registrada: DAOOrganizacion.reactivar()";
 		assert this.estaActivo() : "Organizacion inactiva: DAOOrganizacion.reactivar()";
@@ -89,7 +91,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		return this.conexion.ejecutar(query, valores);
 	}
 	
-	public String getId() {
+	public String getId() throws SQLException {
 		String query = "SELECT idOrganizacion FROM Organizacion WHERE nombre = ?";
 		String[] valores = {organizacion.getNombre()};
 		String[] columnas = {"idOrganizacion"};
@@ -97,7 +99,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		return resultados != null ? resultados[0][0] : "";
 	}
 	
-	public boolean registrarDireccion() {
+	public boolean registrarDireccion() throws SQLException {
 		assert !this.organizacion.getDireccion().isEmpty() :
 			"Direccion esta vacia: DAOOrganizacion.registrarDireccion()";
 		
@@ -113,7 +115,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		return this.conexion.ejecutar(query, valores);
 	}
 	
-	public boolean registrarSector(String sector) {
+	public boolean registrarSector(String sector) throws SQLException {
 		assert sector != null : "Sector es nulo: DAOOrganizacion.registrarSector()";
 		boolean registrado = false;
 		if (!this.estaRegistradoSector(sector)) {
@@ -124,7 +126,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		return registrado;
 	}
 	
-	public boolean estaRegistradoSector(String sector) {
+	public boolean estaRegistradoSector(String sector) throws SQLException {
 		assert sector != null : "Sector es nulo: DAOOrganizacion.estaRegistradoSector()";
 		
 		String query = "SELECT COUNT(sector) AS TOTAL FROM Sector WHERE sector = ?";
@@ -134,7 +136,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		return resultados != null && resultados[0][0].equals("1");
 	}
 	
-	public String getIdSector() {
+	public String getIdSector() throws SQLException {
 		String query = "SELECT idSector FROM Sector WHERE sector = ?";
 		String[] valores = {this.organizacion.getSector()};
 		String[] columnas = {"idSector"};
@@ -142,7 +144,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		return resultados != null ? resultados[0][0] : "";
 	}
 	
-	public boolean llenarNombresOrganizaciones(ObservableList<String> listaOrganizaciones) {
+	public boolean llenarNombresOrganizaciones(ObservableList<String> listaOrganizaciones) throws SQLException {
 		boolean lleno = false;
 		String query = "SELECT nombre FROM Organizacion WHERE estaActivo = 1";
 		String[] columnas = {"nombre"};
@@ -154,7 +156,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		return lleno;
 	}
 	
-	public boolean llenarSector(ObservableList<String> listaSectores) {
+	public boolean llenarSector(ObservableList<String> listaSectores) throws SQLException {
 		boolean lleno = false;
 		String query = "SELECT sector FROM Sector";
 		String[] columnas = {"sector"};
@@ -166,7 +168,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		return lleno;
 	}
 	
-	public boolean llenarTablaOrganizacion(ObservableList<Organizacion> listaOrganizacion) {
+	public boolean llenarTablaOrganizacion(ObservableList<Organizacion> listaOrganizacion) throws SQLException {
 		boolean lleno = false;
 		String query =
 			"SELECT nombre, calle, numero, colonia, localidad, telefono, sector " +
@@ -200,7 +202,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		return lleno;
 	}
 	
-	public static Organizacion obtenerPorNombre(String nombre) {
+	public static Organizacion obtenerPorNombre(String nombre) throws SQLException {
 		assert nombre != null : "Nombre es nulo: DAOOrganizacion.obtenerPorNombre()";
 		
 		ConexionBD connection = new ConexionBD();
@@ -229,7 +231,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		return organizacion;
 	}
 	
-	public static Organizacion getNameById(String idOrganization) {
+	public static Organizacion getNameById(String idOrganization) throws SQLException {
 		Organizacion organizacion = null;
 		String query = "SELECT nombre FROM Organizacion WHERE idOrganizacion = ?";
 		String[] valores = {idOrganization};
