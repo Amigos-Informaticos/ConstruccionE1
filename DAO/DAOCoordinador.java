@@ -5,6 +5,8 @@ import IDAO.IDAOCoordinador;
 import IDAO.Turno;
 import Models.Coordinador;
 
+import java.sql.SQLException;
+
 public class DAOCoordinador implements IDAOCoordinador, Turno {
 	private Coordinador coordinador;
 	private final ConexionBD conexion = new ConexionBD();
@@ -14,7 +16,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 	}
 	
 	@Override
-	public boolean registrar() {
+	public boolean registrar() throws SQLException {
 		assert this.coordinador.estaCompleto() :
 			"Coordinador incompleto: DAOCoordinador.registrarse()";
 		assert !this.estaRegistrado() : "Coordinador ya registrado: DAOCoordinador.registrarse()";
@@ -42,7 +44,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		return registrado;
 	}
 	
-	public boolean actualizar() {
+	public boolean actualizar() throws SQLException {
 		assert coordinador != null : "Coordinador es nulo: DAOCoordinador.actualizar()";
 		assert coordinador.estaCompleto() : "Coordinador imcompleto: DAOCoordinador.actualizar()";
 		assert this.estaActivo() : "Coordinador inactivo: DAOCoordinador.actualizar()";
@@ -63,7 +65,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 	}
 	
 	@Override
-	public boolean estaRegistrado() {
+	public boolean estaRegistrado() throws SQLException {
 		assert this.coordinador != null : "Coordinador es nulo: DAOCoordinador.estaRegistrado()";
 		assert this.coordinador.getEmail() != null :
 			"Email de coordinador es nulo: DAOCoordinador.estaRegistrado()";
@@ -77,7 +79,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 	}
 	
 	@Override
-	public boolean iniciarSesion() {
+	public boolean iniciarSesion() throws SQLException {
 		assert this.estaRegistrado() : "Coordinador no registrado: DAOCoordinador.iniciarSesion()";
 		
 		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL " +
@@ -91,7 +93,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 	}
 	
 	@Override
-	public boolean eliminar() {
+	public boolean eliminar() throws SQLException {
 		assert this.coordinador != null : "Coordinador es nulo: DAOCoordinador.eliminar()";
 		assert this.estaRegistrado() : "Coordinador no registrado: DAOCoordinador.eliminar()";
 		assert this.estaActivo() : "Coordinador inactivo: DAOCoordinador.eliminar()";
@@ -100,7 +102,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		return this.conexion.ejecutar(query, valores);
 	}
 	
-	public boolean estaActivo() {
+	public boolean estaActivo() throws SQLException {
 		assert this.coordinador != null : "Coordinador es nulo: DAOCoordinador.estaActivo()";
 		assert this.coordinador.getEmail() != null :
 			"Email de coordinador es nulo: DAOCoordinador.estaActivo()";
@@ -114,7 +116,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 	}
 	
 	@Override
-	public boolean reactivar() {
+	public boolean reactivar() throws SQLException {
 		assert this.coordinador != null : "Coordinador es nulo: DAOCoordinador.reactivar()";
 		assert this.estaRegistrado() : "Coordinador no registrado: DAOCoordinador.reactivar()";
 		assert this.estaActivo() : "Coordinador inactivo: DAOCoordinador.reactivar()";
@@ -124,7 +126,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		return this.conexion.ejecutar(query, valores);
 	}
 	
-	public boolean hayOtro() {
+	public boolean hayOtro() throws SQLException {
 		String query = "SELECT COUNT (Coordinador.idMiembro) AS TOTAL FROM Coordinador " +
 			"INNER JOIN MiembroFEI ON Coordinador.idMiembro = MiembroFEI.idMiembro WHERE MiembroFEI.estaActivo = 1";
 		String[] columnas = {"TOTAL"};
@@ -133,7 +135,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 	}
 	
 	@Override
-	public String getTurno() {
+	public String getTurno() throws SQLException {
 		assert this.coordinador != null : "Coordinador es nulo: DAOCoordinador.getTurno()";
 		assert this.coordinador.getEmail() != null :
 			"Email de coordinador es nulo: DAOCoordinador.getTurno()";
@@ -147,7 +149,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		return resultados != null ? resultados[0][0] : "";
 	}
 	
-	public static Coordinador obtenerActivo() {
+	public static Coordinador obtenerActivo() throws SQLException {
 		Coordinador coordinador = new Coordinador();
 		String query =
 			"SELECT nombres, apellidos, correoElectronico, contrasena noPersonal, fechaRegistro, " +
@@ -168,7 +170,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		return coordinador;
 	}
 	
-	public static Coordinador[] obtenerTodos() {
+	public static Coordinador[] obtenerTodos() throws SQLException {
 		String query =
 			"SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, estaActivo, " +
 				"fechaRegistro, fechaBaja FROM " +
@@ -203,7 +205,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		return coordinadores;
 	}
 	
-	private String getIdCoordinador() {
+	private String getIdCoordinador() throws SQLException {
 		String query =
 			"SELECT idMiembro AS idCoordinator FROM MiembroFEI WHERE correoElectronico = ?";
 		String[] valores = {this.coordinador.getEmail()};

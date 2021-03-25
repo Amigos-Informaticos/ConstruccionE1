@@ -4,6 +4,7 @@ import DAO.DAOOrganizacion;
 import DAO.DAOProyecto;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.Collections;
 
 public class Proyecto {
@@ -126,7 +127,7 @@ public class Proyecto {
 		return organizacion;
 	}
 	
-	public void setOrganization(String organization) {
+	public void setOrganization(String organization) throws SQLException {
 		this.organizacion = DAOOrganizacion.obtenerPorNombre(organization);
 	}
 	
@@ -181,7 +182,7 @@ public class Proyecto {
 			this.organizacion != null;
 	}
 	
-	public boolean registrar() {
+	public boolean registrar() throws SQLException {
 		boolean registered = false;
 		DAOProyecto daoProyecto = new DAOProyecto(this);
 		if (daoProyecto.registrarse() && daoProyecto.registCalendarizedActivities()) {
@@ -190,36 +191,36 @@ public class Proyecto {
 		return registered;
 	}
 	
-	public boolean eliminarProyecto() {
+	public boolean eliminarProyecto() throws SQLException {
 		return new DAOProyecto(this).eliminar();
 	}
 	
-	public boolean isActive() {
+	public boolean isActive() throws SQLException {
 		DAOProyecto daoProyecto = new DAOProyecto(this);
 		return daoProyecto.estaActivo();
 	}
 	
-	public boolean reactive() {
+	public boolean reactive() throws SQLException {
 		DAOProyecto daoProyecto = new DAOProyecto(this);
 		return daoProyecto.reactivar();
 	}
 	
-	public boolean haveStudents() {
+	public boolean haveStudents() throws SQLException {
 		DAOProyecto daoProyecto = new DAOProyecto(this);
 		return daoProyecto.haveStudents();
 	}
 	
-	public boolean isRegistered() {
+	public boolean isRegistered() throws SQLException {
 		DAOProyecto daoProyecto = new DAOProyecto(this);
 		return daoProyecto.estaRegistrado();
 	}
 	
-	public static void fillTable(ObservableList<Proyecto> projectsList) {
+	public static void fillTable(ObservableList<Proyecto> projectsList) throws SQLException {
 		Proyecto[] proyectos = DAOProyecto.getAll();
 		Collections.addAll(projectsList, proyectos);
 	}
 	
-	public static boolean fillAreaTable(ObservableList<String> listAreas) {
+	public static boolean fillAreaTable(ObservableList<String> listAreas) throws SQLException {
 		boolean filled = false;
 		DAOProyecto daoProyecto = new DAOProyecto();
 		if (daoProyecto.fillAreaTable(listAreas)) {

@@ -14,6 +14,8 @@ import Models.ResponsableProyecto;
 import org.junit.Test;
 import tools.P;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -67,7 +69,11 @@ public class TestsCoordinador {
 		responsible.setNombre("Responsable Miguel");
 		responsible.setApellido("Apellidos responsable");
 		responsible.setPosicion("Intendente");
-		responsible.setOrganizacion(DAOOrganizacion.obtenerPorNombre("Organizacion 1"));
+		try {
+			responsible.setOrganizacion(DAOOrganizacion.obtenerPorNombre("Organizacion 1"));
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		return responsible;
 	}
 	
@@ -79,6 +85,8 @@ public class TestsCoordinador {
 			assertTrue(coordinador.eliminarPracticante(practicante));
 		} catch (CustomException exception) {
 			exception.printStackTrace();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
 		}
 	}
 	
@@ -94,9 +102,17 @@ public class TestsCoordinador {
 		proyecto.setRecursos("Dos computadoras y un Xiaomi");
 		proyecto.setResponsabilidades("Echarle ganas y pararse temprano");
 		proyecto.setArea("Desarrollo");
-		proyecto.setResponsable(DAOResponsableProyecto.get("correoResponsable1@correo.com"));
+		try {
+			proyecto.setResponsable(DAOResponsableProyecto.get("correoResponsable1@correo.com"));
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		proyecto.setPeriodo("FEB-JUN 2020");
-		proyecto.setOrganization("1");
+		try {
+			proyecto.setOrganization("1");
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		Practicante practicante = new Practicante("Efrain",
 			"Arenas",
 			"efrain@correo.com",
@@ -112,6 +128,8 @@ public class TestsCoordinador {
 			assertTrue(coordinador.eliminarPracticante(practicante));
 		} catch (CustomException e) {
 			e.printStackTrace();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
 		}
 	}
 	
@@ -124,32 +142,52 @@ public class TestsCoordinador {
 			"angel123",
 			"N000222"
 		);
-		assertTrue(angel.registrar());
+		try {
+			assertTrue(angel.registrar());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void signUpOrganization() {
-		assertTrue(this.getOrganization().registrar());
+		try {
+			assertTrue(this.getOrganization().registrar());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void registerProject() {
-		assertTrue(this.getProject().registrar());
+		try {
+			assertTrue(this.getProject().registrar());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void getAllProjects() {
-		for (Proyecto proyecto: DAOProyecto.getAll()) {
-			assertNotNull(proyecto);
-			P.pln(proyecto.getNombre());
+		try {
+			for (Proyecto proyecto: DAOProyecto.getAll()) {
+				assertNotNull(proyecto);
+				P.pln(proyecto.getNombre());
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
 		}
 	}
 	
 	@Test
 	public void getRequestedProjects() {
-		for (Proyecto proyecto: Asignacion.requestedProjects(practicante)) {
-			assertNotNull(proyecto);
-			P.pln(proyecto.getNombre());
+		try {
+			for (Proyecto proyecto: Asignacion.requestedProjects(practicante)) {
+				assertNotNull(proyecto);
+				P.pln(proyecto.getNombre());
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
 		}
 	}
 	
@@ -178,6 +216,10 @@ public class TestsCoordinador {
 		proyecto.setFechaInicio("2020-07-19");
 		proyecto.setFechaFin("2020-09-07");
 		proyecto.setActividaadCalendarizada(calendarizedActivities);
-		assertTrue(proyecto.registrar());
+		try {
+			assertTrue(proyecto.registrar());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 }

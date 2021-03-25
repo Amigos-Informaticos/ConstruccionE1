@@ -63,6 +63,8 @@ public class ManageStudentController implements Initializable {
             new Practicante().llenarTablaPracticantes(listPracticante);
         } catch (NullPointerException e) {
 
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
         tblViewPracticante.setItems(listPracticante);
@@ -148,19 +150,23 @@ public class ManageStudentController implements Initializable {
         Practicante practicante = new Practicante();
         this.instanceStudent(practicante);
         if (practicante.estaCompleto()) {
-            if (practicante.registrar()) {
-                listPracticante.add(practicante);
-                MainController.alert(
-                        Alert.AlertType.INFORMATION,
-                        "Practicante registrado correctamente",
-                        "Pulse aceptar para continuar"
-                );
-            } else {
-                MainController.alert(
-                        Alert.AlertType.WARNING,
-                        "Error al conectar con la base de datos",
-                        "Pulse aceptar para continuar"
-                );
+            try {
+                if (practicante.registrar()) {
+                    listPracticante.add(practicante);
+                    MainController.alert(
+                            Alert.AlertType.INFORMATION,
+                            "Practicante registrado correctamente",
+                            "Pulse aceptar para continuar"
+                    );
+                } else {
+                    MainController.alert(
+                            Alert.AlertType.WARNING,
+                            "Error al conectar con la base de datos",
+                            "Pulse aceptar para continuar"
+                    );
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
         } else {
             MainController.alert(
@@ -199,6 +205,8 @@ public class ManageStudentController implements Initializable {
             }
         } catch (CustomException e) {
             e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -226,6 +234,8 @@ public class ManageStudentController implements Initializable {
                 }
             } catch (AssertionError e) {
                 new Logger().log(e.getMessage());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
         }
     }
