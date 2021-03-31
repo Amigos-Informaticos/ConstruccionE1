@@ -175,7 +175,6 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 			"SELECT nombre, calle, numero, colonia, localidad, telefono, sector " +
 				"FROM Organizacion O INNER  JOIN Sector S on O.idSector = S.idSector " +
 				"LEFT OUTER JOIN  Direccion D on O.idOrganizacion = D.idOrganizacion " +
-				"LEFT OUTER JOIN TelefonoOrganizacion T on O.idOrganizacion = T.idOrganizacion " +
 				"WHERE estaActivo = 1;";
 		String[] columnas = {
 			"nombre",
@@ -194,6 +193,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 				strings[2],
 				strings[3],
 				strings[4]);
+			organizacion.setTelefono(strings[5]);
 			organizacion.setSector(strings[6]);
 			listaOrganizacion.add(organizacion);
 			if (!lleno) {
