@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DAOCoordinadorTests {
 	@Test
-	public void a_signUpCoordinator() {
+	public void a_signUpCoordinator() throws SQLException {
 		Coordinador coordinador = new Coordinador();
 		coordinador.setNombres("Angel Juan");
 		coordinador.setApellidos("Rodriguez Perez");
@@ -37,7 +37,7 @@ public class DAOCoordinadorTests {
 	}
 	
 	@Test
-	public void b_isRegistered() {
+	public void b_isRegistered() throws SQLException {
 		Coordinador coordinador = new Coordinador();
 		coordinador.setNombres("Angel Juan");
 		coordinador.setApellidos("Rodriguez Perez");
@@ -111,7 +111,7 @@ public class DAOCoordinadorTests {
 	}
 	
 	@Test
-	public void z_getActive() {
+	public void z_getActive() throws SQLException {
 		Coordinador coordinador = null;
 		coordinador = DAOCoordinador.obtenerActivo();
 		System.out.println(coordinador);
@@ -119,7 +119,7 @@ public class DAOCoordinadorTests {
 	}
 	
 	@Test
-	public void isAnother() {
+	public void isAnother() throws SQLException {
 		assertTrue(new Coordinador().hayOtro());
 	}
 	

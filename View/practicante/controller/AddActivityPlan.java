@@ -70,7 +70,7 @@ public class AddActivityPlan implements Initializable {
 	}
 	
 	@FXML
-	private void saveFile() {
+	private void saveFile() throws SQLException {
 		Documento file = new Documento(
 			selectedFile.getName(),
 			"PlanActividades",

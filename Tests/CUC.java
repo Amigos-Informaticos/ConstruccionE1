@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -97,12 +98,20 @@ public class CUC {
 	
 	@Test
 	public void aRegisterOrganization() {
-		assertTrue(getOrganization().registrar());
+		try {
+			assertTrue(getOrganization().registrar());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void bRegisterStudent() {
-		assertTrue(getStudent().registrar());
+		try {
+			assertTrue(getStudent().registrar());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -114,30 +123,53 @@ public class CUC {
 			new ActividadCalendarizada("Llorar", "2020-07-10")
 		};
 		proyecto.setActividaadCalendarizada(activities);
-		assertTrue(proyecto.registrar());
+		try {
+			assertTrue(proyecto.registrar());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 	
 	@Test
-	public void dAssignProject() throws FileNotFoundException {
-		Asignacion asignacion = new Asignacion(getStudent(), getProject(), getCoordinator());
+	public void dAssignProject() throws FileNotFoundException, SQLException {
+		Asignacion asignacion = null;
+		try {
+			asignacion = new Asignacion(getStudent(), getProject(), getCoordinator());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		assertTrue(asignacion.assignProject());
 	}
 	
 	@Test
 	public void eRemoveProject() {
-		assertTrue(new Asignacion(getStudent(), getProject(), getCoordinator()).removeAssignment());
+		try {
+			assertTrue(new Asignacion(getStudent(), getProject(), getCoordinator()).removeAssignment());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void fDeleteStudent() {
-		assertTrue(getStudent().eliminar());
+		try {
+			assertTrue(getStudent().eliminar());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void zClean() {
-		assertTrue(getProject().eliminarProyecto());
-		assertTrue(getResponsible().eliminar());
-		assertTrue(getOrganization().eliminar());
+		try {
+			assertTrue(getProject().eliminarProyecto());
+			assertTrue(getResponsible().eliminar());
+			assertTrue(getOrganization().eliminar());
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+		;
 	}
 
 

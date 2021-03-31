@@ -6,6 +6,8 @@ import Models.Documento;
 import Models.Practicante;
 import Models.Proyecto;
 
+import java.sql.SQLException;
+
 public class DAOAsignacion {
 	private Asignacion asignacion;
 	private final ConexionBD conexion = new ConexionBD();
@@ -14,7 +16,7 @@ public class DAOAsignacion {
 		this.asignacion = asignacion;
 	}
 	
-	public boolean asignarProyecto(Documento documento) {
+	public boolean asignarProyecto(Documento documento) throws SQLException {
 		assert this.asignacion.estaCompleto() :
 			"Asignacion incompleta: DAOAsignacion.AsignarProyecto()";
 		
@@ -42,7 +44,7 @@ public class DAOAsignacion {
 		return asignado;
 	}
 	
-	public boolean eliminarAsignacion() {
+	public boolean eliminarAsignacion() throws SQLException {
 		assert this.asignacion.getPracticante().estaCompleto() :
 			"Practicante incompleto: DAOAsignacion.asignarProyecto()";
 		
@@ -61,7 +63,7 @@ public class DAOAsignacion {
 		return eliminado;
 	}
 	
-	public static boolean guardarSolicitud(Practicante practicante, Proyecto proyecto) {
+	public static boolean guardarSolicitud(Practicante practicante, Proyecto proyecto) throws SQLException {
 		boolean guardado = false;
 		ConexionBD conexionBD = new ConexionBD();
 		String query = "SELECT COUNT(idMiembro) AS TOTAL FROM Solicitud " +
@@ -79,7 +81,7 @@ public class DAOAsignacion {
 		return guardado;
 	}
 	
-	public static Proyecto[] proyectosSolicitados(Practicante practicante) {
+	public static Proyecto[] proyectosSolicitados(Practicante practicante) throws SQLException {
 		Proyecto[] proyectos = null;
 		ConexionBD conexionBD = new ConexionBD();
 		String query = "SELECT nombre " +

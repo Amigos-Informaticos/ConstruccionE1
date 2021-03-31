@@ -33,44 +33,44 @@ public class LoginController implements Initializable {
 				Usuario usuario = new Usuario();
 				usuario.setEmail(emailField.getText().trim());
 				usuario.setContrasena(passwordField.getText().trim());
-				String type = null;
+				String type;
 				try {
 					type = usuario.tipo();
+					if (!"null".equals(type)) {
+						switch (type) {
+							case "Student":
+								usuario = new Practicante();
+								break;
+							case "Professor":
+								usuario = new Professor();
+								break;
+							case "Coordinator":
+								usuario = new Coordinador();
+								break;
+							case "Admin":
+								usuario = new Administrador();
+								break;
+							default:
+						}
+						usuario.setEmail(emailField.getText().trim());
+						usuario.setContrasena(passwordField.getText().trim());
+						MainController.save("user", usuario);
+						MainController.activate(
+							"MainMenu" + type,
+							"Menu Principal " + type,
+							MainController.Sizes.MID);
+					} else {
+						MainController.alert(
+							Alert.AlertType.ERROR,
+							"No registrado",
+							"Credenciales no registradas");
+					}
 				} catch (SQLException throwables) {
 					MainController.alert(
 						Alert.AlertType.ERROR,
 						"ErrorBD",
 						"No se pudo establecer conexión con la base de datos"
 					);
-				}
-				if (!"null".equals(type)) {
-					switch (type) {
-						case "Student":
-							usuario = new Practicante();
-							break;
-						case "Professor":
-							usuario = new Professor();
-							break;
-						case "Coordinator":
-							usuario = new Coordinador();
-							break;
-						case "Admin":
-							usuario = new Administrador();
-							break;
-						default:
-					}
-					usuario.setEmail(emailField.getText().trim());
-					usuario.setContrasena(passwordField.getText().trim());
-					MainController.save("user", usuario);
-					MainController.activate(
-						"MainMenu" + type,
-						"Menu Principal " + type,
-						MainController.Sizes.MID);
-				} else {
-					MainController.alert(
-						Alert.AlertType.ERROR,
-						"No registrado",
-						"Credenciales no registradas");
 				}
 			} else {
 				MainController.alert(

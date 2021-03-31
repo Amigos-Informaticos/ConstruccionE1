@@ -1,6 +1,5 @@
 package Models;
 
-import Exceptions.CustomException;
 import tools.Logger;
 
 import java.math.BigInteger;
@@ -126,18 +125,14 @@ public class Usuario {
 		Administrador administradorAuxiliar = new Administrador();
 		administradorAuxiliar.setEmail(this.getEmail());
 		administradorAuxiliar.setContrasenaLimpia(this.getContrasena());
-		try {
-			if (practicanteAuxiliar.iniciarSesion()) {
-				tipo = "Student";
-			} else if (profesorAuxiliar.logIn()) {
-				tipo = "Professor";
-			} else if (coordinadorAuxiliar.iniciarSesion()) {
-				tipo = "Coordinator";
-			} else if (administradorAuxiliar.login()) {
-				tipo = "Admin";
-			}
-		} catch (CustomException e) {
-			Logger.staticLog(e, true);
+		if (practicanteAuxiliar.iniciarSesion()) {
+			tipo = "Student";
+		} else if (profesorAuxiliar.logIn()) {
+			tipo = "Professor";
+		} else if (coordinadorAuxiliar.iniciarSesion()) {
+			tipo = "Coordinator";
+		} else if (administradorAuxiliar.login()) {
+			tipo = "Admin";
 		}
 		return tipo;
 	}
