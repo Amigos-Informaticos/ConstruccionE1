@@ -11,13 +11,12 @@
 
 <AnchorPane maxHeight="450.0" maxWidth="700.0" minHeight="450.0" minWidth="700.0" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.administrador.controller.MainMenuAdminController">
    <children>
-      <HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;"
-            AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Separator prefHeight="5.0" prefWidth="83.0"/>
+            <Separator prefHeight="5.0" prefWidth="83.0" />
             <Label text="Administrador" textFill="WHITE">
                <font>
-                  <Font size="35.0"/>
+                  <Font size="35.0" />
                </font>
             </Label>
          </children>

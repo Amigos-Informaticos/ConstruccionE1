@@ -2,11 +2,13 @@ package View.administrador.controller;
 
 import IDAO.Turno;
 import Models.Professor;
+import Models.Usuario;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.sun.prism.paint.Color;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -22,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Paint;
 import tools.Logger;
 
 import java.net.URL;
@@ -107,9 +110,19 @@ public class AdminProfessorController implements Initializable {
                             "LLene todos los campos correctamente",
                             "Pulse aceptar para continuar"
                     );
+                    mostrarCamposErroneos();
             }
         } catch (AssertionError e) {
             new Logger().log(e.getMessage());
+        }
+    }
+
+    private void mostrarCamposErroneos() {
+        if(!Usuario.esEmail(txtEmail.getText())){
+            txtEmail.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(!Usuario.esNombre(txtNames.getText())){
+            txtNames.setUnFocusColor(Paint.valueOf("red"));
         }
     }
 
