@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import tools.Logger;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class GenerateReport implements Initializable {
@@ -70,7 +71,15 @@ public class GenerateReport implements Initializable {
 	
 	private void preconditions() throws CustomException {
 		Practicante practicante = (Practicante) MainController.get("user");
-		this.assignedProyecto = practicante.getProyecto();
+		try {
+			this.assignedProyecto = practicante.getProyecto();
+		} catch (SQLException throwables) {
+			MainController.alert(
+				Alert.AlertType.ERROR,
+				"ErrorBD",
+				"No se pudo establecer conexión con la base de datos"
+			);
+		}
 		if (this.assignedProyecto == null) {
 			MainController.alert(
 				Alert.AlertType.WARNING,

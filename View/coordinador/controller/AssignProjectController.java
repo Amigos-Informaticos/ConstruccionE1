@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
@@ -41,12 +42,20 @@ public class AssignProjectController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ObservableList<Proyecto> proyectoObservableList = FXCollections.observableArrayList();
-		Proyecto.fillTable(proyectoObservableList);
+		try {
+			Proyecto.fillTable(proyectoObservableList);
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		projectTable.setItems(proyectoObservableList);
 		clmName.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
 		
 		ObservableList<Proyecto> requestObservableList = FXCollections.observableArrayList();
-		Collections.addAll(requestObservableList, practicante.getSeleccion());
+		try {
+			Collections.addAll(requestObservableList, practicante.getSeleccion());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		requestTable.setItems(requestObservableList);
 		clmNameRequest.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
 		
@@ -68,22 +77,35 @@ public class AssignProjectController implements Initializable {
 	
 	public void assign() throws FileNotFoundException {
 		Proyecto proyecto = (Proyecto) MainController.get("project");
-		Asignacion asignacion = new Asignacion(
-			practicante,
-			proyecto,
-			(Coordinador) MainController.get("user")
-		);
+		Asignacion asignacion = null;
+		try {
+			asignacion = new Asignacion(
+				practicante,
+				proyecto,
+				(Coordinador) MainController.get("user")
+			);
+		} catch (SQLException throwables) {
+			MainController.alert(
+				Alert.AlertType.ERROR,
+				"ErrorBD",
+				"No se pudo establecer conexión con la base de datos"
+			);
+		}
 		if (MainController.alert(Alert.AlertType.CONFIRMATION, "Confirmar Asignacion",
 			"¿Esta seguro de que quiere asignar el practicante "
 				+ practicante.getNombres() +
 				" al proyecto " + proyecto.getNombre() + "?")) {
-			if (asignacion.assignProject()) {
-				MainController.alert(Alert.AlertType.INFORMATION,
-					"Asignación registrada",
-					"Asignacon realizada exitosamente");
-			} else {
-				MainController.alert(Alert.AlertType.ERROR, "DatabaseError", "No se pudo establecer conexión con la Base de Datos");
-				exit();
+			try {
+				if (asignacion.assignProject()) {
+					MainController.alert(Alert.AlertType.INFORMATION,
+						"Asignación registrada",
+						"Asignacon realizada exitosamente");
+				} else {
+					MainController.alert(Alert.AlertType.ERROR, "DatabaseError", "No se pudo establecer conexión con la Base de Datos");
+					exit();
+				}
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
 			}
 		}
 		

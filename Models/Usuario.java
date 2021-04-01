@@ -1,11 +1,11 @@
 package Models;
 
-import Exceptions.CustomException;
 import tools.Logger;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.regex.Pattern;
 
 public class Usuario {
@@ -109,7 +109,7 @@ public class Usuario {
 		return Pattern.compile(emailRegex).matcher(email).matches();
 	}
 	
-	public String tipo() {
+	public String tipo() throws SQLException {
 		assert this.getEmail() != null;
 		assert this.getContrasena() != null;
 		String tipo = "null";
@@ -125,18 +125,14 @@ public class Usuario {
 		Administrador administradorAuxiliar = new Administrador();
 		administradorAuxiliar.setEmail(this.getEmail());
 		administradorAuxiliar.setContrasenaLimpia(this.getContrasena());
-		try {
-			if (practicanteAuxiliar.iniciarSesion()) {
-				tipo = "Student";
-			} else if (profesorAuxiliar.logIn()) {
-				tipo = "Professor";
-			} else if (coordinadorAuxiliar.iniciarSesion()) {
-				tipo = "Coordinator";
-			} else if (administradorAuxiliar.login()) {
-				tipo = "Admin";
-			}
-		} catch (CustomException e) {
-			Logger.staticLog(e, true);
+		if (practicanteAuxiliar.iniciarSesion()) {
+			tipo = "Student";
+		} else if (profesorAuxiliar.logIn()) {
+			tipo = "Professor";
+		} else if (coordinadorAuxiliar.iniciarSesion()) {
+			tipo = "Coordinator";
+		} else if (administradorAuxiliar.login()) {
+			tipo = "Admin";
 		}
 		return tipo;
 	}

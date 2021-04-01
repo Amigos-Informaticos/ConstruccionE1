@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import tools.P;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -24,7 +26,11 @@ public class DAOProfesorTests {
 		alexis.setContrasena("ocha1234");
 		alexis.setPersonalNo("N000002");
 		alexis.setShift("1");
-		assertTrue(daoProfesor.registrar());
+		try {
+			assertTrue(daoProfesor.registrar());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -37,7 +43,11 @@ public class DAOProfesorTests {
 		alexis.setPersonalNo("N12345678");
 		alexis.setShift("1");
 		DAOProfesor daoProfesor = new DAOProfesor(alexis);
-		assertTrue(daoProfesor.estaRegistrado());
+		try {
+			assertTrue(daoProfesor.estaRegistrado());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -54,6 +64,8 @@ public class DAOProfesorTests {
 			assertTrue(daoProfesor.update());
 		} catch (AssertionError e) {
 			e.printStackTrace();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
 		}
 	}
 	
@@ -63,13 +75,20 @@ public class DAOProfesorTests {
 			assertTrue(this.getDAOProfesor().eliminar());
 		} catch (AssertionError e) {
 			System.out.println(e.getMessage());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
 		}
 	}
 	
 	@Test
 	public void e_testGetIdShift() {
-		System.out.println(getDAOProfesor().getIdShift());
-		assertNotNull(getDAOProfesor().getIdShift());
+		try {
+			System.out.println(getDAOProfesor().getIdShift());
+			assertNotNull(getDAOProfesor().getIdShift());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+
 	}
 	
 	@Test

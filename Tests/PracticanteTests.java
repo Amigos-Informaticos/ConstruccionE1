@@ -15,6 +15,8 @@ import org.junit.runners.MethodSorters;
 import tools.Logger;
 import tools.TelegramBot;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -48,29 +50,29 @@ public class PracticanteTests {
 	}
 	
 	@Test
-	public void a_signUpStudent() {
+	public void a_signUpStudent() throws SQLException {
 		this.practicante.setProfesor(DAOProfesor.getByEmail("joo@hotmail.com"));
 		assertTrue(this.practicante.registrar());
 	}
 	
 	@Test
-	public void b_loginStudent() {
+	public void b_loginStudent() throws SQLException {
 		assertTrue(this.practicante.iniciarSesion());
 	}
 	
 	@Test
-	public void c_updatePracticante() {
+	public void c_updatePracticante() throws SQLException {
 		this.practicante.setNombres("Emilio Olvedo");
 		assertTrue(this.practicante.actualizar());
 	}
 	
 	@Test
-	public void d_selectProject() {
+	public void d_selectProject() throws SQLException {
 		assertTrue(this.practicante.seleccionarProyecto("Hackear la nasa"));
 	}
 	
 	@Test
-	public void e_getSelections() {
+	public void e_getSelections() throws SQLException {
 		Proyecto proyecto = new DAOProyecto().cargarProyecto("Hackear la nasa");
 		assertEquals(proyecto.getNombre(), this.practicante.getSeleccion()[0].getNombre());
 	}
@@ -79,13 +81,13 @@ public class PracticanteTests {
 	public void f_setProject() {
 		try {
 			assertTrue(this.practicante.asignarProyecto("Hackear la nasa"));
-		} catch (CustomException e) {
+		} catch (CustomException | SQLException e) {
 			new Logger().log(e);
 		}
 	}
 	
 	@Test
-	public void g_deleteSelectedProject() {
+	public void g_deleteSelectedProject() throws SQLException {
 		for (Proyecto proyecto: this.practicante.getSeleccion()) {
 			assertTrue(this.practicante.eliminarSeleccion(proyecto.getNombre()));
 		}
@@ -100,13 +102,13 @@ public class PracticanteTests {
 	public void j_removeProject() {
 		try {
 			assertTrue(this.practicante.eliminarProyecto());
-		} catch (CustomException e) {
+		} catch (CustomException | SQLException e) {
 			new Logger().log(e);
 		}
 	}
 	
 	@Test
-	public void z_deleteStudent() {
+	public void z_deleteStudent() throws SQLException {
 		assertTrue(this.practicante.eliminar());
 	}
 }

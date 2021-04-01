@@ -6,6 +6,7 @@ import tools.Logger;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 
 public class Administrador extends Usuario {
 	public Administrador() {
@@ -24,11 +25,11 @@ public class Administrador extends Usuario {
 		}
 	}
 	
-	public boolean isRegistered() {
+	public boolean isRegistered() throws SQLException {
 		return new DAOAdministrador(this).estaRegistrado();
 	}
 	
-	public boolean login() {
+	public boolean login() throws SQLException {
 		return new DAOAdministrador(this).iniciarSesion();
 	}
 	

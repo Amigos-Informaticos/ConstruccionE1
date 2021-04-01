@@ -6,6 +6,8 @@ import Models.ActividadCalendarizada;
 import Models.Proyecto;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
+
 public class DAOProyecto implements IDAOProyecto {
 	private Proyecto proyecto;
 	private final ConexionBD connection;
@@ -19,13 +21,13 @@ public class DAOProyecto implements IDAOProyecto {
 		this.connection = new ConexionBD();
 	}
 	
-	public DAOProyecto(String name) {
+	public DAOProyecto(String name) throws SQLException {
 		this.connection = new ConexionBD();
 		this.proyecto = this.cargarProyecto(name);
 	}
 	
 	@Override
-	public boolean registrarse() {
+	public boolean registrarse() throws SQLException {
 		boolean signedUp = false;
 		assert this.proyecto.estaCompleto() : "Project is incomplete: DAOProject.signUp()";
 		if (!this.estaRegistrado()) {
@@ -75,7 +77,7 @@ public class DAOProyecto implements IDAOProyecto {
 		return signedUp;
 	}
 	
-	public boolean registCalendarizedActivities() {
+	public boolean registCalendarizedActivities() throws SQLException {
 		boolean registered = true;
 		ActividadCalendarizada[] calendarizedActivities = this.proyecto.getActividaadCalendarizada();
 		String query = "INSERT INTO ActividadCalendarizada (nombre,fecha,idProyecto) VALUES (?,?,?)";
@@ -93,7 +95,7 @@ public class DAOProyecto implements IDAOProyecto {
 	}
 	
 	@Override
-	public boolean estaRegistrado() {
+	public boolean estaRegistrado() throws SQLException {
 		assert this.proyecto != null : "Project is null: DAOProject.isRegistered()";
 		assert this.proyecto.getNombre() != null : "Projects name is null: DAOProject.isRegistered()";
 		
@@ -104,7 +106,7 @@ public class DAOProyecto implements IDAOProyecto {
 		return results != null && results[0][0].equals("1");
 	}
 	
-	public Proyecto cargarProyecto(String name) {
+	public Proyecto cargarProyecto(String name) throws SQLException {
 		assert name != null : "Name is null: DAOProject.loadProject()";
 		Proyecto proyecto = null;
 		String query =
@@ -140,7 +142,7 @@ public class DAOProyecto implements IDAOProyecto {
 	}
 	
 	@Override
-	public boolean eliminar() {
+	public boolean eliminar() throws SQLException {
 		boolean deleted = false;
 		if (this.proyecto != null && this.estaRegistrado()) {
 			if (this.estaActivo()) {
@@ -160,7 +162,7 @@ public class DAOProyecto implements IDAOProyecto {
 	}
 	
 	@Override
-	public boolean estaActivo() {
+	public boolean estaActivo() throws SQLException {
 		boolean isActive = false;
 		if (this.proyecto != null && this.proyecto.getNombre() != null &&
 			this.estaRegistrado()) {
@@ -174,7 +176,7 @@ public class DAOProyecto implements IDAOProyecto {
 	}
 	
 	@Override
-	public boolean reactivar() {
+	public boolean reactivar() throws SQLException {
 		boolean reactivated = false;
 		if (this.proyecto != null && this.estaRegistrado()) {
 			if (this.estaActivo()) {
@@ -188,7 +190,7 @@ public class DAOProyecto implements IDAOProyecto {
 		return reactivated;
 	}
 	
-	public void registerArea() {
+	public void registerArea() throws SQLException {
 		String query = "SELECT COUNT(area) AS TOTAL FROM Area WHERE area = ?";
 		String[] values = {this.proyecto.getArea()};
 		String[] columns = {"TOTAL"};
@@ -199,7 +201,7 @@ public class DAOProyecto implements IDAOProyecto {
 		}
 	}
 	
-	public void registerPeriod() {
+	public void registerPeriod() throws SQLException {
 		String query = "SELECT COUNT(periodo) AS TOTAL FROM Periodo WHERE periodo = ?";
 		String[] values = {this.proyecto.getPeriodo()};
 		String[] columns = {"TOTAL"};
@@ -210,7 +212,7 @@ public class DAOProyecto implements IDAOProyecto {
 		}
 	}
 	
-	public String getId() {
+	public String getId() throws SQLException {
 		String id;
 		String query = "SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1;";
 		String[] values = {this.proyecto.getNombre()};
@@ -220,13 +222,13 @@ public class DAOProyecto implements IDAOProyecto {
 		return id;
 	}
 	
-	public String getIdOrganization() {
+	public String getIdOrganization() throws SQLException {
 		assert this.proyecto.getOrganization() != null :
 			"Project's organization is null: DAOProject,getIdOrganization";
 		return this.proyecto.getOrganization().getId();
 	}
 	
-	public String getIdPeriod() {
+	public String getIdPeriod() throws SQLException {
 		String query = "SELECT COUNT(periodo) AS TOTAL FROM Periodo WHERE periodo = ?";
 		String[] values = {this.proyecto.getPeriodo()};
 		String[] columns = {"TOTAL"};
@@ -240,7 +242,7 @@ public class DAOProyecto implements IDAOProyecto {
 		return results != null ? results[0][0] : "";
 	}
 	
-	public String getIdArea() {
+	public String getIdArea() throws SQLException {
 		String query = "SELECT COUNT(area) AS TOTAL FROM Area WHERE area = ?";
 		String[] values = {this.proyecto.getArea()};
 		String[] columns = {"TOTAL"};
@@ -255,7 +257,7 @@ public class DAOProyecto implements IDAOProyecto {
 		return results != null ? results[0][0] : "";
 	}
 	
-	public String getAreaById(String idArea) {
+	public String getAreaById(String idArea) throws SQLException {
 		String query = "SELECT area FROM Area WHERE idArea = ?";
 		String[] values = {idArea};
 		String[] names = {"area"};
@@ -263,7 +265,7 @@ public class DAOProyecto implements IDAOProyecto {
 		return results != null ? results[0][0] : "";
 	}
 	
-	public String getPeriodById(String idPeriod) {
+	public String getPeriodById(String idPeriod) throws SQLException {
 		String query = "SELECT periodo FROM Periodo WHERE idPeriodo = ?";
 		String[] values = {idPeriod};
 		String[] names = {"periodo"};
@@ -271,7 +273,7 @@ public class DAOProyecto implements IDAOProyecto {
 		return results != null ? results[0][0] : "";
 	}
 	
-	public boolean haveStudents() {
+	public boolean haveStudents() throws SQLException {
 		String query = "SELECT COUNT(idProyecto) AS TOTAL FROM Asignacion " +
 			"WHERE idProyecto = ? AND estaActivo = 1";
 		String[] values = {this.getId()};
@@ -280,7 +282,7 @@ public class DAOProyecto implements IDAOProyecto {
 		return results != null && !results[0][0].equals("0");
 	}
 	
-	public static Proyecto[] getAll() {
+	public static Proyecto[] getAll() throws SQLException {
 		String query = "SELECT Proyecto.nombre, metodologia, objetivoGeneral, objetivoMediato, " +
 			"objetivoInmediato, recursos, responsabilidades, cupo, descripcion, Area.area, " +
 			"responsable, Periodo.periodo, Organizacion.nombre, fechaInicio, fechaFin " +
@@ -327,7 +329,7 @@ public class DAOProyecto implements IDAOProyecto {
 		return proyectos;
 	}
 	
-	public static Proyecto getByName(String name) {
+	public static Proyecto getByName(String name) throws SQLException {
 		assert name != null : "Name is null: DAOProject.getByName()";
 		ConexionBD connection = new ConexionBD();
 		Proyecto proyecto;
@@ -377,7 +379,7 @@ public class DAOProyecto implements IDAOProyecto {
 		
 	}
 	
-	public boolean fillAreaTable(ObservableList<String> listAreas) {
+	public boolean fillAreaTable(ObservableList<String> listAreas) throws SQLException {
 		boolean filled = false;
 		String query = "SELECT area FROM Area";
 		for (String[] name: this.connection.seleccionar(query, null, new String[] {"area"})) {

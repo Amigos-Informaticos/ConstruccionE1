@@ -1,12 +1,12 @@
 package Tests;
 
-import Models.Actividad;
 import Models.Practicante;
 import Models.Professor;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -26,18 +26,7 @@ public class CUPF1 {
 		return professor;
 	}
 	
-	public Actividad getActivity() {
-		Actividad actividad = new Actividad();
-		actividad.setTitle("Actividad #1");
-		actividad.setDescription(
-			"Para la primera actividad, se debe subir un archivo con extensión txt");
-		actividad.setStartDate(
-			DateTimeFormatter.ofPattern("dd/MM/yyy").format(LocalDateTime.now()));
-		actividad.setDeliveryDate("2020-07-20");
-		actividad.setStudent(getStudent());
-		actividad.setProfessor(getProfessor());
-		return actividad;
-	}
+
 	
 	public Practicante getStudent() {
 		Practicante practicante = new Practicante();
@@ -51,32 +40,23 @@ public class CUPF1 {
 	}
 	
 	@Test
-	public void aRegisterProfessor() {
+	public void aRegisterProfessor() throws SQLException {
 		assertTrue(getProfessor().signUp());
 	}
 	
 	@Test
-	public void bRegisterStudent() {
+	public void bRegisterStudent() throws SQLException {
 		assertTrue(getStudent().registrar());
 	}
 	
+
 	@Test
-	public void cGenerateActivity() {
-		assertTrue(getActivity().create());
-	}
-	
-	@Test
-	public void dDeleteActivity() {
-		assertTrue(getActivity().delete());
-	}
-	
-	@Test
-	public void eDeleteStudent() {
+	public void eDeleteStudent() throws SQLException {
 		assertTrue(getStudent().eliminar());
 	}
 	
 	@Test
-	public void fDeleteProfessor() {
+	public void fDeleteProfessor() throws SQLException {
 		assertTrue(getProfessor().delete());
 	}
 }

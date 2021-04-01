@@ -25,6 +25,7 @@ import javafx.scene.input.MouseEvent;
 import tools.Logger;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AdminProfessorController implements Initializable {
@@ -54,13 +55,16 @@ public class AdminProfessorController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         listShift = FXCollections.observableArrayList();
         listProfessor = FXCollections.observableArrayList();
-        Turno.llenarTurno(listShift);
 
 
         try {
             new Professor().obtenerProfesores(listProfessor);
-        } catch (Exception exception) {
+            Turno.llenarTurno(listShift);
 
+        } catch (SQLException exception) {
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
 
 
@@ -106,6 +110,8 @@ public class AdminProfessorController implements Initializable {
             }
         } catch (AssertionError e) {
             new Logger().log(e.getMessage());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -138,6 +144,8 @@ public class AdminProfessorController implements Initializable {
             }
         } catch(AssertionError e){
             new Logger().log(e.getMessage());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
     @FXML
@@ -155,6 +163,8 @@ public class AdminProfessorController implements Initializable {
                 }
             }catch(AssertionError e){
                 new Logger().log(e.getMessage());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
         }
     }

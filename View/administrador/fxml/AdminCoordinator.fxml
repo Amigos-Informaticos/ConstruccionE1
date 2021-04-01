@@ -88,17 +88,17 @@
                      <children>
                         <JFXButton fx:id="btnRegister" onAction="#signUp" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #28AD56;" text="Registrar" textFill="WHITE">
                            <font>
-                              <Font nombre="System Bold" size="12.0" />
+                              <Font name="System Bold" size="12.0"/>
                            </font>
                         </JFXButton>
                         <JFXButton fx:id="btnUpdate" disable="true" layoutX="10.0" layoutY="10.0" onAction="#update" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #969696;" text="Actualizar" textFill="WHITE">
                            <font>
-                              <Font nombre="System Bold" size="12.0" />
+                              <Font name="System Bold" size="12.0"/>
                            </font>
                         </JFXButton>
                         <JFXButton fx:id="btnDelete" disable="true" layoutX="10.0" layoutY="10.0" onAction="#delete" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #e61010;" text="Eliminar" textFill="WHITE">
                            <font>
-                              <Font nombre="System Bold" size="12.0" />
+                              <Font name="System Bold" size="12.0"/>
                            </font>
                         </JFXButton>
                      </children>
@@ -146,7 +146,7 @@
                                     <Insets left="20.0" />
                                  </padding>
                                  <font>
-                                    <Font nombre="System Bold" size="18.0" />
+                                    <Font name="System Bold" size="18.0"/>
                                  </font>
                               </Label>
                               <Label fx:id="lblNames" GridPane.rowIndex="1">
@@ -159,7 +159,7 @@
                                     <Insets left="20.0" />
                                  </padding>
                                  <font>
-                                    <Font nombre="System Bold" size="18.0" />
+                                    <Font name="System Bold" size="18.0"/>
                                  </font>
                               </Label>
                               <Label fx:id="lblLastnames" GridPane.rowIndex="3">
@@ -172,7 +172,7 @@
                                     <Insets left="20.0" />
                                  </padding>
                                  <font>
-                                    <Font nombre="System Bold" size="18.0" />
+                                    <Font name="System Bold" size="18.0"/>
                                  </font>
                               </Label>
                               <Label fx:id="lblEmail" GridPane.rowIndex="5">
@@ -185,7 +185,7 @@
                                     <Insets left="20.0" />
                                  </padding>
                                  <font>
-                                    <Font nombre="System Bold" size="18.0" />
+                                    <Font name="System Bold" size="18.0"/>
                                  </font>
                               </Label>
                               <Label fx:id="lblPersonalNo" GridPane.rowIndex="7">
@@ -198,7 +198,7 @@
                                     <Insets left="20.0" />
                                  </padding>
                                  <font>
-                                    <Font nombre="System Bold" size="18.0" />
+                                    <Font name="System Bold" size="18.0"/>
                                  </font>
                               </Label>
                               <Label fx:id="lblShift" GridPane.rowIndex="9">
@@ -208,7 +208,7 @@
                               </Label>
                               <Label text="Fecha de registro" textFill="#18529d" GridPane.rowIndex="10">
                                  <font>
-                                    <Font nombre="System Bold" size="18.0" />
+                                    <Font name="System Bold" size="18.0"/>
                                  </font>
                                  <padding>
                                     <Insets left="20.0" />

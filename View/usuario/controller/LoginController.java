@@ -13,8 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
-
 
 public class LoginController implements Initializable {
 	@FXML
@@ -33,35 +33,44 @@ public class LoginController implements Initializable {
 				Usuario usuario = new Usuario();
 				usuario.setEmail(emailField.getText().trim());
 				usuario.setContrasena(passwordField.getText().trim());
-				String type = usuario.tipo();
-				if (!"null".equals(type)) {
-					switch (type) {
-						case "Student":
-							usuario = new Practicante();
-							break;
-						case "Professor":
-							usuario = new Professor();
-							break;
-						case "Coordinator":
-							usuario = new Coordinador();
-							break;
-						case "Admin":
-							usuario = new Administrador();
-							break;
-						default:
+				String type;
+				try {
+					type = usuario.tipo();
+					if (!"null".equals(type)) {
+						switch (type) {
+							case "Student":
+								usuario = new Practicante();
+								break;
+							case "Professor":
+								usuario = new Professor();
+								break;
+							case "Coordinator":
+								usuario = new Coordinador();
+								break;
+							case "Admin":
+								usuario = new Administrador();
+								break;
+							default:
+						}
+						usuario.setEmail(emailField.getText().trim());
+						usuario.setContrasena(passwordField.getText().trim());
+						MainController.save("user", usuario);
+						MainController.activate(
+							"MainMenu" + type,
+							"Menu Principal " + type,
+							MainController.Sizes.MID);
+					} else {
+						MainController.alert(
+							Alert.AlertType.ERROR,
+							"No registrado",
+							"Credenciales no registradas");
 					}
-					usuario.setEmail(emailField.getText().trim());
-					usuario.setContrasena(passwordField.getText().trim());
-					MainController.save("user", usuario);
-					MainController.activate(
-						"MainMenu" + type,
-						"Menu Principal " + type,
-						MainController.Sizes.MID);
-				} else {
+				} catch (SQLException throwables) {
 					MainController.alert(
 						Alert.AlertType.ERROR,
-						"No registrado",
-						"Credenciales no registradas");
+						"ErrorBD",
+						"No se pudo establecer conexión con la base de datos"
+					);
 				}
 			} else {
 				MainController.alert(
@@ -76,7 +85,6 @@ public class LoginController implements Initializable {
 				"Algún campo se encuentra vacío");
 		}
 	}
-	
 	
 	public boolean checkEmptyFields() {
 		return emailField.getText().length() != 0 && passwordField.getText().length() != 0;
