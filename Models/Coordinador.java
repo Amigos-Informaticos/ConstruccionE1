@@ -37,15 +37,15 @@ public class Coordinador extends Usuario {
 	public Coordinador() {
 	}
 	
-	public Coordinador(String names, String lastNames, String email, String password,
+	public Coordinador(String nombres, String apellidos, String email, String contrasena,
 	                   String noPersonal) {
-		super(names, lastNames, email, password);
+		super(nombres, apellidos, email, contrasena);
 		this.noPersonal = noPersonal;
 	}
 	
-	public Coordinador(String names, String lastNames, String email, String password,
+	public Coordinador(String nombres, String apellidos, String email, String contrasena,
 	                   String noPersonal, String fechaRegistro, String fechaBaja) {
-		super(names, lastNames, email, password);
+		super(nombres, apellidos, email, contrasena);
 		this.noPersonal = noPersonal;
 		this.fechaRegistro = fechaRegistro;
 		this.fechaBaja = fechaBaja;
