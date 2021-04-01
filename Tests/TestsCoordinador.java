@@ -170,7 +170,7 @@ public class TestsCoordinador {
 	@Test
 	public void getAllProjects() {
 		try {
-			for (Proyecto proyecto: DAOProyecto.getAll()) {
+			for (Proyecto proyecto: DAOProyecto.obtenerTodos()) {
 				assertNotNull(proyecto);
 				P.pln(proyecto.getNombre());
 			}
@@ -182,7 +182,7 @@ public class TestsCoordinador {
 	@Test
 	public void getRequestedProjects() {
 		try {
-			for (Proyecto proyecto: Asignacion.requestedProjects(practicante)) {
+			for (Proyecto proyecto: Asignacion.proyectosSeleccionados(practicante)) {
 				assertNotNull(proyecto);
 				P.pln(proyecto.getNombre());
 			}
