@@ -16,28 +16,23 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 	@Override
 	public boolean registrar() {
 		assert this.coordinador.estaCompleto() :
-			"Coordinador incompleto: DAOCoordinador.registrarse()";
-		assert !this.estaRegistrado() : "Coordinador ya registrado: DAOCoordinador.registrarse()";
-		assert !this.hayOtro() : "Ya hay otro coordinador: DAOCoordinador.registrarse()";
-		
-		boolean registrado = false;
+				"Coordinador incompleto: DAOCoordinador.registrarSP()";
+		assert !this.estaRegistrado() : "Coordinador ya registrado: DAOCoordinador.registrarSP()";
+		assert !this.hayOtro() : "Ya hay otro coordinador: DAOCoordinador.registrarSP()";
+		boolean registrado;
 		String query =
-			"INSERT INTO MiembroFEI (nombres, apellidos, correoElectronico, contrasena, estaActivo)" +
-				"VALUES (?, ?, ?, ?, ?)";
+				"CALL SPI_registrarCoordinador(?, ?, ?, ?, ?, ?)";
 		String[] valores =
-			{this.coordinador.getNombres(),
-				this.coordinador.getApellidos(),
-				this.coordinador.getEmail(),
-				this.coordinador.getContrasena(), "1"};
-		if (this.conexion.ejecutar(query, valores)) {
-			query = "INSERT INTO Coordinador (idMiembro, noPersonal, fechaRegistro, turno, registrador) VALUES " +
-				"((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?),?,(SELECT CURRENT_DATE), ?,?)";
-			valores = new String[] {this.coordinador.getEmail(), this.coordinador.getNoPersonal(), "1", "16"};
-			registrado = this.conexion.ejecutar(query, valores);
-		}
+				{this.coordinador.getNombres(),
+						this.coordinador.getApellidos(),
+						this.coordinador.getEmail(),
+						this.coordinador.getContrasena(),
+						this.coordinador.getNoPersonal(),
+						this.coordinador.getTurno()};
+		registrado = this.conexion.ejecutarSP(query, valores);
 		return registrado;
 	}
-	
+
 	public boolean actualizar() {
 		assert coordinador != null : "Coordinador es nulo: DAOCoordinador.actualizar()";
 		assert coordinador.estaCompleto() : "Coordinador imcompleto: DAOCoordinador.actualizar()";
