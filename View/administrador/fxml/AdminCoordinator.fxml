@@ -33,7 +33,7 @@
                <children>
                   <ImageView disable="true" fitHeight="272.0" fitWidth="216.0" layoutX="34.0" layoutY="34.0" opacity="0.12" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../images/logo_uv.png" />
+                        <Image url="/View/images/logo_uv.png" />
                      </image>
                   </ImageView>
                   <GridPane layoutX="9.0" layoutY="63.0" prefHeight="227.0" prefWidth="241.0">
@@ -110,7 +110,7 @@
                   </Label>
                   <ImageView fx:id="backArrow" fitHeight="36.0" fitWidth="37.0" layoutX="14.0" layoutY="16.0" onMouseClicked="#onBackArrowClicked" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../images/back_arrow_64px.png" />
+                        <Image url="/View/images/back_arrow_64px.png" />
                      </image>
                   </ImageView>
                </children>

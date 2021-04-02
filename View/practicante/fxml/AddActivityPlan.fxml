@@ -16,18 +16,18 @@
       <ImageView disable="true" fitHeight="417.0" fitWidth="389.0" layoutX="194.0" layoutY="17.0"
                  opacity="0.08" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../images/logo_uv.png"/>
+            <Image url="@/View/images/logo_uv.png"/>
          </image>
       </ImageView>
       <HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;">
          <children>
-            <ImageView fitHeight="59.0" fitWidth="28.0" onMouseClicked="#exit" pickOnBounds="true"
+            <ImageView fitHeight="59.0" fitWidth="28.0" onMouseClicked="#salir" pickOnBounds="true"
                        preserveRatio="true">
                <image>
-                  <Image url="@../../images/icon_back_white.png" />
+                  <Image url="@/View/images/icon_back_white.png"/>
                </image>
                <HBox.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets left="10.0" top="10.0"/>
                </HBox.margin>
             </ImageView>
             <Label text="Generar Reporte" textFill="WHITE">
@@ -40,7 +40,9 @@
             </Label>
          </children>
       </HBox>
-      <JFXButton layoutX="260.0" layoutY="343.0" onMouseClicked="#saveFile" prefHeight="28.0" prefWidth="181.0" style="-fx-background-color: #28AD56;" text="Aceptar" textFill="WHITE">
+      <JFXButton layoutX="260.0" layoutY="343.0" onMouseClicked="#guardarArchivo" prefHeight="28.0"
+                 prefWidth="181.0" style="-fx-background-color: #28AD56;" text="Aceptar"
+                 textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0"/>
          </font>
@@ -50,14 +52,17 @@
             <Font size="27.0" />
          </font>
       </Label>
-      <JFXButton layoutX="260.0" layoutY="215.0" onMouseClicked="#openFileExplorer" prefHeight="39.0" prefWidth="181.0" style="-fx-background-color: #18529D;" text="Seleccionar" textFill="WHITE">
+      <JFXButton layoutX="260.0" layoutY="215.0" onMouseClicked="#abrirExploradorArchivos"
+                 prefHeight="39.0" prefWidth="181.0" style="-fx-background-color: #18529D;"
+                 text="Seleccionar" textFill="WHITE">
          <font>
-	         <Font name="System Bold" size="18.0"/>
+            <Font name="System Bold" size="18.0"/>
          </font>
       </JFXButton>
-      <JFXTextField fx:id="fileName" layoutX="237.0" layoutY="282.0" prefHeight="25.0" prefWidth="228.0" promptText="Nombre del archivo">
+      <JFXTextField fx:id="nombreArchivo" layoutX="237.0" layoutY="282.0" prefHeight="25.0"
+                    prefWidth="228.0" promptText="Nombre del archivo">
          <font>
-	         <Font name="System Italic" size="12.0"/>
+            <Font name="System Italic" size="12.0"/>
          </font>
       </JFXTextField>
    </children>

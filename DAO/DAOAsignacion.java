@@ -85,9 +85,14 @@ public class DAOAsignacion {
 		Proyecto[] proyectos = null;
 		ConexionBD conexionBD = new ConexionBD();
 		String query = "SELECT nombre " +
-			"FROM Proyecto INNER JOIN Solicitud ON Proyecto.idProyecto = Solicitud.idProyecto " +
-			"WHERE Solicitud.idMiembro = ?";
-		String[] valores = {new DAOPracticante(practicante).getId()};
+			"FROM Proyecto INNER JOIN SeleccionProyecto " +
+			"ON Proyecto.idProyecto = SeleccionProyecto.idProyecto " +
+			"INNER JOIN MiembroFEI " +
+			"ON SeleccionProyecto.idMiembro = MiembroFEI.idMiembro " +
+			"WHERE MiembroFEI.idMiembro = " +
+			"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
+		
+		String[] valores = {practicante.getEmail()};
 		String[] columnas = {"nombre"};
 		String[][] resultados = conexionBD.seleccionar(query, valores, columnas);
 		if (resultados != null && resultados.length > 0) {

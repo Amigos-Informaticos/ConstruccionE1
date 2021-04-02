@@ -24,7 +24,7 @@ public class ListProjectsController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		ObservableList<Proyecto> listProyectos = FXCollections.observableArrayList();
 		try {
-			Proyecto.fillTable(listProyectos);
+			Proyecto.llenarTabla(listProyectos);
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}

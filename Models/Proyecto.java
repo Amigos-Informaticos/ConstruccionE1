@@ -215,8 +215,8 @@ public class Proyecto {
 		return daoProyecto.estaRegistrado();
 	}
 	
-	public static void fillTable(ObservableList<Proyecto> projectsList) throws SQLException {
-		Proyecto[] proyectos = DAOProyecto.getAll();
+	public static void llenarTabla(ObservableList<Proyecto> projectsList) throws SQLException {
+		Proyecto[] proyectos = DAOProyecto.obtenerTodos();
 		Collections.addAll(projectsList, proyectos);
 	}
 	
@@ -227,6 +227,10 @@ public class Proyecto {
 			filled = true;
 		}
 		return filled;
+	}
+	
+	public static int contarProyectos() throws SQLException {
+		return DAOProyecto.obtenerTodos().length;
 	}
 	
 }

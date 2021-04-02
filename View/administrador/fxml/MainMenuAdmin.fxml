@@ -35,7 +35,7 @@
 		<ImageView fitHeight="224.0" fitWidth="172.0" layoutX="266.0" layoutY="212.0" opacity="0.23"
 		           pickOnBounds="true" preserveRatio="true">
 			<image>
-				<Image url="@../../images/logo_uv.png"/>
+				<Image url="/View/images/logo_uv.png"/>
 			</image>
 		</ImageView>
 		<JFXButton layoutX="375.0" layoutY="172.0" onMouseClicked="#onClickCoordinator"
@@ -47,12 +47,12 @@
 		</JFXButton>
 		<ImageView fitHeight="60.0" fitWidth="59.0" layoutX="23.0" layoutY="172.0">
 			<image>
-				<Image url="@../../images/icon_professor.png"/>
+				<Image url="/View/images/icon_professor.png"/>
 			</image>
 		</ImageView>
 		<ImageView fitHeight="60.0" fitWidth="59.0" layoutX="375.0" layoutY="172.0">
 			<image>
-				<Image url="@../../images/icon_coordinator.png"/>
+				<Image url="/View/images/icon_coordinator.png"/>
 			</image>
 		</ImageView>
 	</children>
