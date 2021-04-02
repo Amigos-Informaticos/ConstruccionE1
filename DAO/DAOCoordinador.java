@@ -35,7 +35,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		return registrado;
 	}
 
-	public boolean actualizar() {
+	public boolean actualizar() throws SQLException{
 		assert coordinador != null : "Coordinador es nulo: DAOCoordinador.actualizar()";
 		assert coordinador.estaCompleto() : "Coordinador imcompleto: DAOCoordinador.actualizar()";
 		assert this.estaActivo() : "Coordinador inactivo: DAOCoordinador.actualizar()";

@@ -1,7 +1,6 @@
 package Models;
 
 import DAO.DAOProfesor;
-import Exceptions.CustomException;
 import IDAO.IDAOProfessor;
 import javafx.collections.ObservableList;
 
@@ -85,6 +84,8 @@ public class Professor extends Usuario {
 
 		}catch(SQLException exception){
 			throw new Exception(exception.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}

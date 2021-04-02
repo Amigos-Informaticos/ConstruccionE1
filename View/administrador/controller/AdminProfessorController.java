@@ -57,12 +57,16 @@ public class AdminProfessorController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         listShift = FXCollections.observableArrayList();
-        Turno.llenarTurno(listShift);
+        try {
+            Turno.llenarTurno(listShift);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
         listProfessor = FXCollections.observableArrayList();
 
         try {
-            new Professor().fillTableProfessor(listProfessor);
+            new Professor().obtenerProfesores(listProfessor);
             tblViewProfessor.setItems(listProfessor);
         }catch (NullPointerException nullPointerException){
             MainController.alert(
@@ -70,6 +74,8 @@ public class AdminProfessorController implements Initializable {
                     "No hay profesores registrados",
                     "Pulse aceptar para continuar"
             );
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 

@@ -28,7 +28,11 @@ public class DAOCoordinadorTests {
 		coordinador.setNumeroPersonal("N000011");
 		coordinador.setTurno("Vespertino");
 		DAOCoordinador daoCoordinador = new DAOCoordinador(coordinador);
-		assertTrue(daoCoordinador.registrar());
+		try {
+			assertTrue(daoCoordinador.registrar());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -73,16 +77,19 @@ public class DAOCoordinadorTests {
     public void d_deleteProfessor() {
         try {
 	        assertTrue(this.getDAOCoordinador().eliminar());
-        } catch (AssertionError e) {
+        } catch (AssertionError | SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
     @Test
     public void e_testGetIdShift() {
-        System.out.println(getDAOCoordinador().getTurno());
-	    assertNotNull(getDAOCoordinador().getTurno());
-    }
+		try {
+			assertNotNull(getDAOCoordinador().getTurno());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+	}
 	
 	@Test
 	public void z_getAll() {
@@ -107,7 +114,11 @@ public class DAOCoordinadorTests {
 	
 	@Test
 	public void hayOtro() {
-		assertTrue(new Coordinador().hayOtro());
+		try {
+			assertTrue(new Coordinador().hayOtro());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 	
 	private DAOCoordinador getDAOCoordinador() {
