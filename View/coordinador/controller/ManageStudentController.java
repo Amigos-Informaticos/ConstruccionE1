@@ -240,4 +240,9 @@ public class ManageStudentController implements Initializable {
         }
     }
 
+    @FXML
+    public void actualizar(){
+        System.out.println("actualizando");
+    }
+
 }
