@@ -94,7 +94,7 @@ public class Asignacion {
 		return DAOAsignacion.guardarSolicitud(practicante, proyecto);
 	}
 	
-	public static Proyecto[] requestedProjects(Practicante practicante) throws SQLException {
+	public static Proyecto[] proyectosSeleccionados(Practicante practicante) throws SQLException {
 		return DAOAsignacion.proyectosSolicitados(practicante);
 	}
 	

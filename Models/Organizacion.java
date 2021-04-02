@@ -109,4 +109,8 @@ public class Organizacion {
 	public static Organizacion obtenerPorNombre(String name) throws SQLException {
 		return DAOOrganizacion.obtenerPorNombre(name);
 	}
+
+	public boolean actualizar(String nombreAntiguo) throws SQLException{
+		return new DAOOrganizacion(this).actualizar(nombreAntiguo);
+	}
 }

@@ -8,43 +8,52 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane maxHeight="450.0" maxWidth="700.0" minHeight="450.0" minWidth="700.0" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.administrador.controller.MainMenuAdminController">
-   <children>
-      <HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Separator prefHeight="5.0" prefWidth="83.0" />
-            <Label text="Administrador" textFill="WHITE">
-               <font>
-                  <Font size="35.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <JFXButton layoutX="14.0" layoutY="172.0" onMouseClicked="#onClickProfessor" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Profesor" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </JFXButton>
-      <ImageView fitHeight="224.0" fitWidth="172.0" layoutX="266.0" layoutY="212.0" opacity="0.23" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../images/logo_uv.png" />
-         </image>
-      </ImageView>
-      <JFXButton layoutX="375.0" layoutY="172.0" onMouseClicked="#onClickCoordinator" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Coordinador" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </JFXButton>
-      <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="23.0" layoutY="172.0">
-         <image>
-            <Image url="@../../images/icon_professor.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="375.0" layoutY="172.0">
-         <image>
-            <Image url="@../../images/icon_coordinator.png" />
-         </image>
-      </ImageView>
-   </children>
+<AnchorPane maxHeight="450.0" maxWidth="700.0" minHeight="450.0" minWidth="700.0" prefHeight="450.0"
+            prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="View.administrador.controller.MainMenuAdminController">
+	<children>
+		<HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;"
+		      AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<children>
+				<Separator prefHeight="5.0" prefWidth="83.0"/>
+				<Label text="Administrador" textFill="WHITE">
+					<font>
+						<Font size="35.0"/>
+					</font>
+				</Label>
+			</children>
+		</HBox>
+		<JFXButton layoutX="14.0" layoutY="172.0" onMouseClicked="#onClickProfessor"
+		           prefHeight="60.0"
+		           prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Profesor"
+		           textAlignment="CENTER" textFill="WHITE">
+			<font>
+				<Font name="System Bold" size="20.0"/>
+			</font>
+		</JFXButton>
+		<ImageView fitHeight="224.0" fitWidth="172.0" layoutX="266.0" layoutY="212.0" opacity="0.23"
+		           pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="/View/images/logo_uv.png"/>
+			</image>
+		</ImageView>
+		<JFXButton layoutX="375.0" layoutY="172.0" onMouseClicked="#onClickCoordinator"
+		           prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;"
+		           text="Coordinador" textAlignment="CENTER" textFill="WHITE">
+			<font>
+				<Font name="System Bold" size="20.0"/>
+			</font>
+		</JFXButton>
+		<ImageView fitHeight="60.0" fitWidth="59.0" layoutX="23.0" layoutY="172.0">
+			<image>
+				<Image url="/View/images/icon_professor.png"/>
+			</image>
+		</ImageView>
+		<ImageView fitHeight="60.0" fitWidth="59.0" layoutX="375.0" layoutY="172.0">
+			<image>
+				<Image url="/View/images/icon_coordinator.png"/>
+			</image>
+		</ImageView>
+	</children>
 </AnchorPane>

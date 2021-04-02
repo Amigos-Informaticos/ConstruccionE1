@@ -16,7 +16,7 @@
       <ImageView disable="true" fitHeight="427.0" fitWidth="350.0" layoutX="350.0" layoutY="9.0"
                  opacity="0.23" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../images/logo_uv.png"/>
+            <Image url="/View/images/logo_uv.png"/>
          </image>
       </ImageView>
       <HBox maxHeight="60.0" maxWidth="350.0" prefHeight="60.0" prefWidth="350.0"
@@ -54,17 +54,17 @@
       </JFXButton>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="284.0">
          <image>
-            <Image url="@../../images/icon_organization.png" />
+            <Image url="/View/images/icon_organization.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="108.0">
          <image>
-            <Image url="@../../images/icon_students.png" />
+            <Image url="/View/images/icon_students.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="197.0">
          <image>
-            <Image url="@../../images/icon_project.png" />
+            <Image url="/View/images/icon_project.png" />
          </image>
       </ImageView>
    </children>
