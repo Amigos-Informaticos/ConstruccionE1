@@ -28,7 +28,7 @@ public class MainMenuStudent implements Initializable {
 	
 	}
 	
-	public void chooseProject(MouseEvent mouseEvent) {
+	public void seleccionarProyecto(MouseEvent mouseEvent) {
 		try {
 			if (Proyecto.contarProyectos() > 0) {
 				MainController.activate(
@@ -52,7 +52,7 @@ public class MainMenuStudent implements Initializable {
 		}
 	}
 	
-	public void generateProject(MouseEvent mouseEvent) {
+	public void generarReporte(MouseEvent mouseEvent) {
 		MainController.activate(
 			"GenerateReport",
 			"Generar Reporte",
@@ -61,7 +61,8 @@ public class MainMenuStudent implements Initializable {
 		
 	}
 	
-	public void addActivity(MouseEvent mouseEvent) {
+	public void subirDocumento(MouseEvent mouseEvent) {
+		
 		MainController.activate(
 			"AddActivityPlan",
 			"Añadir Plan de Actividades",

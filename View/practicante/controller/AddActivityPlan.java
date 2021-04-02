@@ -15,19 +15,19 @@ import java.util.ResourceBundle;
 
 public class AddActivityPlan implements Initializable {
 	@FXML
-	private JFXTextField fileName;
-	private File selectedFile;
+	private JFXTextField nombreArchivo;
+	private File archivoSeleccionado;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		fileName.setEditable(false);
-		verifyPrecondition();
+		nombreArchivo.setEditable(false);
+		verificarPrecondicion();
 	}
 	
-	private void verifyPrecondition() {
-		boolean has = false;
+	private void verificarPrecondicion() {
+		boolean archivoSubido = false;
 		try {
-			has = ((Practicante) MainController.get("user")).tienePlanActividades();
+			archivoSubido = ((Practicante) MainController.get("user")).tienePlanActividades();
 		} catch (SQLException throwables) {
 			MainController.alert(
 				Alert.AlertType.ERROR,
@@ -35,22 +35,22 @@ public class AddActivityPlan implements Initializable {
 				"No se pudo establecer conexión con la base de datos"
 			);
 		}
-		if (has) {
+		if (archivoSubido) {
 			MainController.alert(
 				Alert.AlertType.WARNING,
 				"Ya ha subido su plan de actividades",
 				"Pulse aceptar para continuar"
 			);
-			exit();
+			salir();
 		}
 	}
 	
 	@FXML
-	private void openFileExplorer() {
-		this.selectedFile = new File(String.valueOf(MainController.fileExplorer()));
-		if (this.selectedFile.getName() != null) {
-			if (this.validExtension(this.selectedFile.getExt())) {
-				this.fileName.setText(this.selectedFile.getName());
+	private void abrirExploradorArchivos() {
+		this.archivoSeleccionado = new File(String.valueOf(MainController.fileExplorer()));
+		if (this.archivoSeleccionado.getName() != null) {
+			if (this.extensionValida(this.archivoSeleccionado.getExt())) {
+				this.nombreArchivo.setText(this.archivoSeleccionado.getName());
 			} else {
 				MainController.alert(
 					Alert.AlertType.WARNING,
@@ -62,7 +62,7 @@ public class AddActivityPlan implements Initializable {
 	}
 	
 	@FXML
-	private void exit() {
+	private void salir() {
 		MainController.activate(
 			"MainMenuStudent",
 			"Menu Principal Practicante",
@@ -70,11 +70,11 @@ public class AddActivityPlan implements Initializable {
 	}
 	
 	@FXML
-	private void saveFile() throws SQLException {
+	private void guardarArchivo() throws SQLException {
 		Documento file = new Documento(
-			selectedFile.getName(),
+			archivoSeleccionado.getName(),
 			"PlanActividades",
-			selectedFile,
+			archivoSeleccionado,
 			(Practicante) MainController.get("user")
 		);
 		if (file.save()) {
@@ -83,7 +83,7 @@ public class AddActivityPlan implements Initializable {
 				"Plan guardado exitosamente",
 				"Pulse aceptar para continuar"
 			);
-			exit();
+			salir();
 		} else {
 			MainController.alert(
 				Alert.AlertType.ERROR,
@@ -93,7 +93,9 @@ public class AddActivityPlan implements Initializable {
 		}
 	}
 	
-	private boolean validExtension(String extension) {
-		return extension.equals("pdf") || extension.equals("docx");
+	private boolean extensionValida(String extension) {
+		return extension.equals("pdf") ||
+			extension.equals("docx") ||
+			extension.equals("doc");
 	}
 }
