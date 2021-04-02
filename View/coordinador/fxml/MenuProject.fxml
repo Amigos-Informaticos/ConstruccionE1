@@ -34,7 +34,7 @@
       <ImageView fitHeight="378.0" fitWidth="283.0" layoutX="377.0" layoutY="38.0" opacity="0.23"
                  pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../images/logo_uv.png"/>
+            <Image url="/View/images/logo_uv.png"/>
          </image>
       </ImageView>
       <JFXButton layoutX="368.0" layoutY="186.0" onMouseClicked="#onClickProjects" prefHeight="60.0"
@@ -46,12 +46,12 @@
       </JFXButton>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="38.0" layoutY="186.0">
          <image>
-            <Image url="@../../images/icon_create.png" />
+            <Image url="/View/images/icon_create.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="380.0" layoutY="186.0">
          <image>
-            <Image url="@../../images/icon_project.png" />
+            <Image url="/View/images/icon_project.png" />
          </image>
       </ImageView>
    </children>

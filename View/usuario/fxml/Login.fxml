@@ -17,7 +17,7 @@
                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                  AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../../images/fei_photo.jpg"/>
+            <Image url="/View/images/fei_photo.jpg"/>
          </image>
       </ImageView>
       <JFXTextField fx:id="emailField" focusColor="#28ad56" layoutX="53.0" layoutY="205.0"
@@ -25,7 +25,7 @@
       <ImageView fitHeight="35.0" fitWidth="37.0" layoutX="12.0" layoutY="260.0" pickOnBounds="true"
                  preserveRatio="true">
          <image>
-            <Image url="@../../images/icon_password.png"/>
+            <Image url="/View/images/icon_password.png"/>
          </image>
       </ImageView>
       <Label layoutX="9.0" layoutY="140.0" prefHeight="27.0" prefWidth="291.0"
@@ -53,17 +53,17 @@
       </Label>
       <ImageView fitHeight="35.0" fitWidth="37.0" layoutX="12.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../images/icon_email.png" />
+            <Image url="/View/images/icon_email.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="42.0" fitWidth="21.0" layoutX="273.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../images/icon_eye.png" />
+            <Image url="/View/images/icon_eye.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="35.0" layoutX="137.0" layoutY="307.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../images/logo_uv.png" />
+            <Image url="/View/images/logo_uv.png" />
          </image>
       </ImageView>
       <Label layoutX="89.0" layoutY="351.0" opacity="0.4" text="Universidad Veracruzana" />
