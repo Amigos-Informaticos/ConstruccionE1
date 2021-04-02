@@ -282,7 +282,7 @@ public class DAOProyecto implements IDAOProyecto {
 		return results != null && !results[0][0].equals("0");
 	}
 	
-	public static Proyecto[] getAll() throws SQLException {
+	public static Proyecto[] obtenerTodos() throws SQLException {
 		String query = "SELECT Proyecto.nombre, metodologia, objetivoGeneral, objetivoMediato, " +
 			"objetivoInmediato, recursos, responsabilidades, cupo, descripcion, Area.area, " +
 			"responsable, Periodo.periodo, Organizacion.nombre, fechaInicio, fechaFin " +
@@ -307,24 +307,27 @@ public class DAOProyecto implements IDAOProyecto {
 			"fechaFin"
 		};
 		String[][] responses = new ConexionBD().seleccionar(query, null, names);
-		Proyecto[] proyectos = new Proyecto[responses.length];
-		for (int i = 0; i < responses.length; i++) {
-			proyectos[i] = new Proyecto();
-			proyectos[i].setNombre(responses[i][0]);
-			proyectos[i].setDescripcion(responses[i][1]);
-			proyectos[i].setMetodologia(responses[i][2]);
-			proyectos[i].setObjetivoGeneral(responses[i][3]);
-			proyectos[i].setObjetivoMediato(responses[i][4]);
-			proyectos[i].setObjetivoInmediato(responses[i][5]);
-			proyectos[i].setRecursos(responses[i][6]);
-			proyectos[i].setResponsabilidades(responses[i][7]);
-			proyectos[i].setCapacidad(Integer.parseInt(responses[i][8]));
-			proyectos[i].setArea(responses[i][9]);
-			proyectos[i].setResponsable(DAOResponsableProyecto.get(responses[i][10]));
-			proyectos[i].setPeriodo(responses[i][11]);
-			proyectos[i].setOrganization(responses[i][12]);
-			proyectos[i].setFechaInicio(responses[i][13]);
-			proyectos[i].setFechaFin(responses[i][14]);
+		Proyecto[] proyectos = new Proyecto[0];
+		if (responses != null) {
+			proyectos = new Proyecto[responses.length];
+			for (int i = 0; i < responses.length; i++) {
+				proyectos[i] = new Proyecto();
+				proyectos[i].setNombre(responses[i][0]);
+				proyectos[i].setDescripcion(responses[i][1]);
+				proyectos[i].setMetodologia(responses[i][2]);
+				proyectos[i].setObjetivoGeneral(responses[i][3]);
+				proyectos[i].setObjetivoMediato(responses[i][4]);
+				proyectos[i].setObjetivoInmediato(responses[i][5]);
+				proyectos[i].setRecursos(responses[i][6]);
+				proyectos[i].setResponsabilidades(responses[i][7]);
+				proyectos[i].setCapacidad(Integer.parseInt(responses[i][8]));
+				proyectos[i].setArea(responses[i][9]);
+				proyectos[i].setResponsable(DAOResponsableProyecto.get(responses[i][10]));
+				proyectos[i].setPeriodo(responses[i][11]);
+				proyectos[i].setOrganization(responses[i][12]);
+				proyectos[i].setFechaInicio(responses[i][13]);
+				proyectos[i].setFechaFin(responses[i][14]);
+			}
 		}
 		return proyectos;
 	}

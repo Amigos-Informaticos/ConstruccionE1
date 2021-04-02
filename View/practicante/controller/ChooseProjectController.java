@@ -34,34 +34,37 @@ public class ChooseProjectController implements Initializable {
 	public JFXTextField area;
 	public JFXTextField organization;
 	
-	private Proyecto[] selectedProyectos;
+	private Proyecto[] proyectosSeleccionados;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		checkConditions();
 		ObservableList<Proyecto> proyectoObservableList = FXCollections.observableArrayList();
 		try {
-			Proyecto.fillTable(proyectoObservableList);
+			Proyecto.llenarTabla(proyectoObservableList);
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
-		projectTable.setItems(proyectoObservableList);
-		tableColumn.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
-		checkProject();
-		generalObjective.setEditable(false);
-		this.resources.setEditable(false);
-		responsabilities.setEditable(false);
-		area.setEditable(false);
-		organization.setEditable(false);
+		if (proyectoObservableList.size() > 0) {
+			projectTable.setItems(proyectoObservableList);
+			tableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+			checkProject();
+			generalObjective.setEditable(false);
+			this.resources.setEditable(false);
+			responsabilities.setEditable(false);
+			area.setEditable(false);
+			organization.setEditable(false);
+		}
 	}
 	
 	public void checkConditions() {
 		try {
-			selectedProyectos = Asignacion.requestedProjects((Practicante) MainController.get("user"));
+			proyectosSeleccionados = Asignacion.proyectosSeleccionados(
+				(Practicante) MainController.get("user"));
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
-		if (selectedProyectos.length >= 3) {
+		if (proyectosSeleccionados != null && proyectosSeleccionados.length >= 3) {
 			MainController.alert(
 				Alert.AlertType.WARNING,
 				"Limite de proyectos seleccionados",
@@ -92,7 +95,7 @@ public class ChooseProjectController implements Initializable {
 	public void selectProject() {
 		Proyecto selectedProyecto = projectTable.getSelectionModel().getSelectedItem();
 		if (selectedProyecto != null) {
-			if (isSelected(selectedProyectos, selectedProyecto)) {
+			if (isSelected(proyectosSeleccionados, selectedProyecto)) {
 				MainController.alert(
 					Alert.AlertType.WARNING,
 					"Proyecto ya seleccionado",
