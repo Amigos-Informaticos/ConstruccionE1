@@ -85,10 +85,6 @@ public class AdminCoordinatorController implements Initializable {
 		}catch(SQLException e ){
 
 		}
-
-
-
-
 	}
 	
 	@FXML

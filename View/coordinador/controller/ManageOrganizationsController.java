@@ -42,6 +42,8 @@ public class ManageOrganizationsController implements Initializable {
 
     private ObservableList<Organizacion> listOrganizacion;
 
+    private String tempNombreAntiguo;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         listOrganizacion = FXCollections.observableArrayList();
@@ -79,6 +81,7 @@ public class ManageOrganizationsController implements Initializable {
                             txtLocality.setText(newValue.getDireccion().get("localidad"));
                             cmbSector.setValue(newValue.getSector());
                             enableEdit();
+                            tempNombreAntiguo = newValue.getNombre();
                         } else {
                             cleanFormProfessor();
                             enableRegister();
@@ -150,7 +153,6 @@ public class ManageOrganizationsController implements Initializable {
         if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea eliminar?", "")) {
             try {
                 if (tblViewOrganization.getSelectionModel().getSelectedItem().eliminar()) {
-                    listOrganizacion.remove(tblViewOrganization.getSelectionModel().getSelectedIndex());
                     MainController.alert(Alert.AlertType.INFORMATION,
                             "Organización eliminada",
                             "Organización eliminada exitosamente");
@@ -160,6 +162,39 @@ public class ManageOrganizationsController implements Initializable {
                         Alert.AlertType.INFORMATION,
                         "DBError",
                         "No se pudo establecer conexión con Base de Datos"
+                );
+            }
+        }
+    }
+
+    @FXML
+    public void actualizar(){
+        if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea actualizar?", "")){
+            Organizacion organizacion = new Organizacion();
+            this.instanciarOrganizacion(organizacion);
+            if (organizacion.estaCompleto()) {
+                try {
+                    if (organizacion.actualizar(tempNombreAntiguo)) {
+                        listOrganizacion.remove(tblViewOrganization.getSelectionModel().getSelectedIndex());
+                        listOrganizacion.add(organizacion);
+                        MainController.alert(
+                                Alert.AlertType.INFORMATION,
+                                "Organizacion actualizada exitosamente",
+                                "Pulse aceptar para continuar"
+                        );
+                    }
+                } catch (SQLException throwables) {
+                    MainController.alert(
+                            Alert.AlertType.WARNING,
+                            "Error al conectar con la base de datos",
+                            "Pulse aceptar para continuar"
+                    );
+                }
+            } else {
+                MainController.alert(
+                        Alert.AlertType.INFORMATION,
+                        "Llene todos los campos correctamente",
+                        "Pulse aceptar para continuar"
                 );
             }
         }

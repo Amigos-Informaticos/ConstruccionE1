@@ -43,7 +43,7 @@ public class AssignProjectController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		ObservableList<Proyecto> proyectoObservableList = FXCollections.observableArrayList();
 		try {
-			Proyecto.fillTable(proyectoObservableList);
+			Proyecto.llenarTabla(proyectoObservableList);
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
