@@ -5,6 +5,7 @@ import tools.File;
 import tools.P;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 
 public class Asignacion {
 	private Practicante practicante;
@@ -13,7 +14,7 @@ public class Asignacion {
 	private Coordinador coordinador;
 	private float score;
 	
-	public Asignacion(Practicante practicante, Proyecto proyecto, Coordinador coordinador) {
+	public Asignacion(Practicante practicante, Proyecto proyecto, Coordinador coordinador) throws SQLException {
 		this.practicante = practicante;
 		this.proyecto = proyecto;
 		practicante.cargarProfesor();
@@ -61,7 +62,7 @@ public class Asignacion {
 		this.coordinador = coordinador;
 	}
 	
-	public boolean assignProject() throws FileNotFoundException {
+	public boolean assignProject() throws FileNotFoundException, SQLException {
 		Documento documento = new Documento();
 		documento.setTitle("Documento de asignacion");
 		documento.setAuthor(this.coordinador);
@@ -85,15 +86,15 @@ public class Asignacion {
 			this.professor.estaCompleto();
 	}
 	
-	public boolean removeAssignment() {
+	public boolean removeAssignment() throws SQLException {
 		return new DAOAsignacion(this).eliminarAsignacion();
 	}
 	
-	public static boolean saveRequest(Practicante practicante, Proyecto proyecto) {
+	public static boolean saveRequest(Practicante practicante, Proyecto proyecto) throws SQLException {
 		return DAOAsignacion.guardarSolicitud(practicante, proyecto);
 	}
 	
-	public static Proyecto[] requestedProjects(Practicante practicante) {
+	public static Proyecto[] requestedProjects(Practicante practicante) throws SQLException {
 		return DAOAsignacion.proyectosSolicitados(practicante);
 	}
 	

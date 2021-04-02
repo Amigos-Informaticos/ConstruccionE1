@@ -2,14 +2,16 @@ package IDAO;
 
 import Exceptions.CustomException;
 
+import java.sql.SQLException;
+
 public interface IDAOUsuario {
-	boolean iniciarSesion() throws CustomException;
+	boolean iniciarSesion() throws CustomException, SQLException;
 	
-	boolean registrar() throws CustomException;
+	boolean registrar() throws CustomException, SQLException;
 	
-	boolean estaRegistrado() throws CustomException;
+	boolean estaRegistrado() throws CustomException, SQLException;
 	
-	boolean eliminar() throws CustomException;
+	boolean eliminar() throws CustomException, SQLException;
 	
-	boolean reactivar() throws CustomException;
+	boolean reactivar() throws CustomException, SQLException;
 }

@@ -6,6 +6,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class DAOPracticanteTests {
 	
 	@Test
-	public void a_signUpPracticante() {
+	public void a_signUpPracticante() throws SQLException {
 		assertTrue(getInstancePracticante().registrar());
 	}
 	
@@ -22,7 +24,7 @@ public class DAOPracticanteTests {
 	}
 	
 	@Test
-	public void c_getAllPracticantes() {
+	public void c_getAllPracticantes() throws SQLException {
 		Practicante[] practicantes = DAOPracticante.obtenerTodos();
 		for (Practicante practicante: practicantes) {
 			assertNotNull(practicante);
@@ -80,7 +82,7 @@ public class DAOPracticanteTests {
 	}
 	
 	@Test
-	public void z_deletePracticante() {
+	public void z_deletePracticante() throws SQLException {
 		assertTrue(getDAOPracticante().eliminar());
 	}
 	

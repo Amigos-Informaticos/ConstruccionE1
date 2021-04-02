@@ -4,6 +4,8 @@ import DAO.DAOCoordinador;
 import Exceptions.CustomException;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
+
 public class Coordinador extends Usuario {
 	private String noPersonal;
 	private String fechaRegistro;
@@ -69,56 +71,57 @@ public class Coordinador extends Usuario {
 		this.noPersonal = noPersonal;
 	}
 	
-	public boolean registrar() {
+	public boolean registrar() throws SQLException {
 		return new DAOCoordinador(this).registrar();
 	}
 	
-	public boolean iniciarSesion() {
+	public boolean iniciarSesion() throws SQLException {
 		return new DAOCoordinador(this).iniciarSesion();
 	}
 	
-	public boolean actualizar() {
+	public boolean actualizar() throws SQLException {
 		return new DAOCoordinador(this).actualizar();
 	}
 	
-	public boolean eliminar() {
+	public boolean eliminar() throws SQLException {
 		return new DAOCoordinador(this).eliminar();
 	}
 	
-	public boolean registrarProyecto(Proyecto proyecto) throws CustomException {
+	public boolean registrarProyecto(Proyecto proyecto) throws CustomException, SQLException {
 		return proyecto.registrar();
 	}
 	
-	public boolean eliminarProyecto(Proyecto proyecto) throws CustomException {
+	public boolean eliminarProyecto(Proyecto proyecto) throws CustomException, SQLException {
 		return proyecto.eliminarProyecto();
 	}
 	
-	public boolean hayOtro() {
+	public boolean hayOtro() throws SQLException {
 		DAOCoordinador daoCoordinador = new DAOCoordinador(this);
 		return daoCoordinador.hayOtro();
 	}
 	
-	public boolean registrarPracticante(Practicante practicante) throws CustomException {
+	public boolean registrarPracticante(Practicante practicante) throws CustomException, SQLException {
 		return practicante.registrar();
 	}
 	
-	public boolean eliminarPracticante(Practicante practicante) throws CustomException {
+	public boolean eliminarPracticante(Practicante practicante) throws CustomException, SQLException {
 		return practicante.eliminar();
 	}
 	
-	public boolean registrarOrganizacion(Organizacion organizacion) {
+	public boolean registrarOrganizacion(Organizacion organizacion) throws SQLException {
 		return organizacion.registrar();
 	}
 	
-	public boolean eliminarOrganizacion(Organizacion organizacion) {
+	public boolean eliminarOrganizacion(Organizacion organizacion) throws SQLException {
 		return organizacion.registrar();
 	}
 	
-	public boolean asignarProyecto(Practicante practicante, String projectName) throws CustomException {
+	public boolean asignarProyecto(Practicante practicante, String projectName)
+		throws CustomException, SQLException {
 		return practicante.asignarProyecto(projectName);
 	}
 	
-	public boolean estaRegistrado() {
+	public boolean estaRegistrado() throws SQLException {
 		return new DAOCoordinador(this).estaRegistrado();
 	}
 	
@@ -126,15 +129,15 @@ public class Coordinador extends Usuario {
 		return super.estaCompleto() && noPersonal != null;
 	}
 	
-	public void llenarTablaCoordinador(ObservableList<Coordinador> listaCoordinador) {
+	public void llenarTablaCoordinador(ObservableList<Coordinador> listaCoordinador) throws SQLException {
 		listaCoordinador.addAll(DAOCoordinador.obtenerTodos());
 	}
 	
-	public Coordinador[] obtenerTodos() {
+	public Coordinador[] obtenerTodos() throws SQLException {
 		return DAOCoordinador.obtenerTodos();
 	}
 	
-	public Coordinador obtenerActivo() {
+	public Coordinador obtenerActivo() throws SQLException {
 		return DAOCoordinador.obtenerActivo();
 	}
 	

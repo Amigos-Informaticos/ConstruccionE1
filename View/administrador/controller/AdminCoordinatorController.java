@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import tools.Logger;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AdminCoordinatorController implements Initializable {
@@ -68,17 +69,26 @@ public class AdminCoordinatorController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Coordinador coordinador = new Coordinador();
-		/*if (coordinador.hayOtro()) {
-			coordinador = DAOCoordinador.obtenerActivo();
-			fillDetailsCoordinator(coordinador);
-			enableEdit();
-		} else {
-			enableRegister();
-		}*/
-		ObservableList<String> listShift = FXCollections.observableArrayList();
-		Turno.llenarTurno(listShift);
-		cmbShift.setItems(listShift);
+		try{
+			Coordinador coordinador = new Coordinador();
+			if (coordinador.hayOtro()) {
+				coordinador = DAOCoordinador.obtenerActivo();
+				fillDetailsCoordinator(coordinador);
+				enableEdit();
+			} else {
+				enableRegister();
+			}
+			ObservableList<String> listShift = FXCollections.observableArrayList();
+			Turno.llenarTurno(listShift);
+			cmbShift.setItems(listShift);
+
+		}catch(SQLException e ){
+
+		}
+
+
+
+
 	}
 	
 	@FXML
@@ -109,6 +119,8 @@ public class AdminCoordinatorController implements Initializable {
 			}
 		} catch (AssertionError e) {
 			new Logger().log(e.getMessage());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
 		}
 	}
 	
@@ -142,6 +154,8 @@ public class AdminCoordinatorController implements Initializable {
 			}
 		} catch (AssertionError e) {
 			new Logger().log(e.getMessage());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
 		}
 	}
 	
@@ -161,6 +175,8 @@ public class AdminCoordinatorController implements Initializable {
 				}
 			} catch (AssertionError e) {
 				new Logger().log(e.getMessage());
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
 			}
 		}
 		

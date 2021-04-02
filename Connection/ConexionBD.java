@@ -74,14 +74,14 @@ public class ConexionBD {
 		return true;
 	}
 	
-	public boolean openConnection() {
+	public boolean openConnection() throws SQLException {
 		boolean isOpen = false;
 		if (this.isReady()) {
 			try {
 				Class.forName(this.driver);
 				this.connection = DriverManager.getConnection(this.url, this.user, this.password);
 				isOpen = true;
-			} catch (ClassNotFoundException | SQLException e) {
+			} catch (ClassNotFoundException e) {
 				Logger.staticLog(e, true);
 			}
 		}
@@ -134,7 +134,7 @@ public class ConexionBD {
 		return queryExecuted;
 	}
 	
-	public String[][] seleccionar(String query, String[] values, String[] names) {
+	public String[][] seleccionar(String query, String[] values, String[] names) throws SQLException {
 		int tableSize;
 		String[][] responses = new String[0][0];
 		try {
@@ -161,6 +161,9 @@ public class ConexionBD {
 			}
 		} catch (SQLException e) {
 			Logger.staticLog(e, true);
+			System.out.println("SQL EXCEPTION");
+			throw new SQLException(e.getMessage());
+			
 		}
 		return responses.length > 0 ? responses : null;
 	}

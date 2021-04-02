@@ -3,6 +3,8 @@ package Models;
 import DAO.DAODocumento;
 import tools.File;
 
+import java.sql.SQLException;
+
 public class Documento {
 	private String title;
 	private String type;
@@ -56,7 +58,7 @@ public class Documento {
 			this.type != null;
 	}
 	
-	public boolean save() {
+	public boolean save() throws SQLException {
 		return new DAODocumento(this).save(this.author.getEmail());
 	}
 	
@@ -64,7 +66,7 @@ public class Documento {
 		return new DAODocumento(this).saveLocally();
 	}
 	
-	public boolean downloadFile() {
+	public boolean downloadFile() throws SQLException {
 		return new DAODocumento(this).downloadFile();
 	}
 	

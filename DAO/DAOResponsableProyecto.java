@@ -3,6 +3,8 @@ package DAO;
 import Connection.ConexionBD;
 import Models.ResponsableProyecto;
 
+import java.sql.SQLException;
+
 public class DAOResponsableProyecto {
 	private final ResponsableProyecto responsableProyecto;
 	private final ConexionBD conexion = new ConexionBD();
@@ -11,7 +13,7 @@ public class DAOResponsableProyecto {
 		this.responsableProyecto = responsableProyecto;
 	}
 	
-	public boolean registrarse() {
+	public boolean registrarse() throws SQLException {
 		assert this.responsableProyecto != null :
 			"Responable es nulo: DAOResponsableProyecto.registrarse()";
 		assert this.responsableProyecto.estaCompleto() :
@@ -32,7 +34,7 @@ public class DAOResponsableProyecto {
 		return this.conexion.ejecutar(query, valores);
 	}
 	
-	public boolean estaRegistrado() {
+	public boolean estaRegistrado() throws SQLException {
 		String query = "SELECT COUNT (correoElectronico) AS TOTAL FROM Responsable " +
 			"WHERE correoElectronico = ?";
 		String[] valores = {this.responsableProyecto.getEmail()};
@@ -41,7 +43,7 @@ public class DAOResponsableProyecto {
 		return resultados != null && resultados[0][0].equals("1");
 	}
 	
-	public boolean eliminar() {
+	public boolean eliminar() throws SQLException {
 		boolean eliminado = false;
 		if (this.responsableProyecto != null && this.estaRegistrado()) {
 			String query = "UPDATE Responsable SET estaActivo = WHERE correoElectronico = ?";
@@ -51,7 +53,7 @@ public class DAOResponsableProyecto {
 		return eliminado;
 	}
 	
-	public boolean estaActivo() {
+	public boolean estaActivo() throws SQLException {
 		boolean estaActivo = false;
 		if (this.estaRegistrado() &&
 			this.responsableProyecto != null &&
@@ -65,7 +67,7 @@ public class DAOResponsableProyecto {
 		return estaActivo;
 	}
 	
-	public boolean reactivar() {
+	public boolean reactivar() throws SQLException {
 		boolean reactivado = false;
 		if (this.responsableProyecto != null && this.estaRegistrado() && this.estaActivo()) {
 			String query = "UPDATE Responsable SET estaActivo = 1 WHERE correoElectronico = ?";
@@ -75,7 +77,7 @@ public class DAOResponsableProyecto {
 		return reactivado;
 	}
 	
-	public static ResponsableProyecto get(String responsibleEmail) {
+	public static ResponsableProyecto get(String responsibleEmail) throws SQLException {
 		ConexionBD conexion = new ConexionBD();
 		ResponsableProyecto responsable = new ResponsableProyecto();
 		responsable.setEmail(responsibleEmail);

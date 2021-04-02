@@ -3,6 +3,8 @@ package DAO;
 import Connection.ConexionBD;
 import Models.Administrador;
 
+import java.sql.SQLException;
+
 public class DAOAdministrador {
 	private final Administrador administrador;
 	private final ConexionBD conexion = new ConexionBD();
@@ -11,7 +13,7 @@ public class DAOAdministrador {
 		this.administrador = administrador;
 	}
 	
-	public boolean estaRegistrado() {
+	public boolean estaRegistrado() throws SQLException {
 		assert this.administrador != null :
 			"Administrador es nulo: DAOAdministrador.estaRegistrado()";
 		String query = "SELECT COUNT(Administrador.idMiembro) AS TOTAL " +
@@ -23,7 +25,7 @@ public class DAOAdministrador {
 		return resultados != null && resultados[0][0].equals("1");
 	}
 	
-	public boolean iniciarSesion() {
+	public boolean iniciarSesion() throws SQLException {
 		assert this.administrador != null :
 			"Administrador es nulo: DAOAdministrador.iniciarSesion()";
 		assert this.administrador.estaCompleto() :

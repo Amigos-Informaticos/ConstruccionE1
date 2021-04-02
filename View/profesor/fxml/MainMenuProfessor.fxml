@@ -28,7 +28,7 @@
                  prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;"
                  text="Generar actividad" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font nombre="System Bold" size="20.0" />
+            <Font name="System Bold" size="20.0" />
          </font></JFXButton>
       <ImageView fitHeight="224.0" fitWidth="172.0" layoutX="521.0" layoutY="90.0" opacity="0.23" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -37,12 +37,12 @@
       </ImageView>
       <JFXButton layoutX="195.0" layoutY="197.0" onMouseClicked="#onClickEvaluateReport" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Evaluar reporte" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font nombre="System Bold" size="20.0" />
+            <Font name="System Bold" size="20.0" />
          </font>
       </JFXButton>
       <JFXButton layoutX="195.0" layoutY="284.0" prefHeight="60.0" prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Añadir formato de presentación" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font nombre="System Bold" size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
       <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="207.0" layoutY="108.0">

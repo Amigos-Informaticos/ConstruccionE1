@@ -3,27 +3,35 @@ package IDAO;
 import Connection.ConexionBD;
 import Models.Professor;
 
+import java.sql.SQLException;
+
 public interface IDAOProfessor extends IDAOUsuario {
-	static Professor[] getAll() {
-		String query =
-			"SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, " +
-				"Turno.turno AS turno " +
-				"FROM MiembroFEI INNER JOIN Profesor ON MiembroFEI.idMiembro = Profesor.idMiembro " +
-				"INNER JOIN Turno ON Profesor.turno = Turno.idTurno WHERE estaActivo = 1";
-		String[] names =
-			{"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "turno"};
-		String[][] responses = new ConexionBD().seleccionar(query, null, names);
-		Professor[] professors = new Professor[responses.length];
-        for (int i = 0; i < responses.length; i++) {
-            professors[i] = new Professor(
-                    responses[i][0],
-                    responses[i][1],
-                    responses[i][2],
-                    responses[i][3],
-                    responses[i][4],
-                    responses[i][5]
-            );
-        }
+	static Professor[] obtenerTodosProfesores() throws Exception {
+		Professor[] professors = null;
+		try{
+			String query =
+					"SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, " +
+							"Turno.turno AS turno " +
+							"FROM MiembroFEI INNER JOIN Profesor ON MiembroFEI.idMiembro = Profesor.idMiembro " +
+							"INNER JOIN Turno ON Profesor.turno = Turno.idTurno WHERE estaActivo = 1";
+			String[] names =
+					{"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "turno"};
+			String[][] responses = new ConexionBD().seleccionar(query, null, names);
+			professors = new Professor[responses.length];
+			for (int i = 0; i < responses.length; i++) {
+				professors[i] = new Professor(
+						responses[i][0],
+						responses[i][1],
+						responses[i][2],
+						responses[i][3],
+						responses[i][4],
+						responses[i][5]
+				);
+			}
+		}catch(Exception exception){
+			throw new Exception(exception.getMessage());
+		}
+
 		return professors;
 	}
 	
@@ -31,14 +39,14 @@ public interface IDAOProfessor extends IDAOUsuario {
 		return null;
 	}
 	
-	boolean iniciarSesion();
+	boolean iniciarSesion() throws SQLException;
 	
-	boolean registrar();
+	boolean registrar() throws SQLException;
 	
-	boolean update();
+	boolean update() throws SQLException;
 	
-	boolean eliminar();
+	boolean eliminar() throws SQLException;
 	
-	boolean reactivar();
+	boolean reactivar() throws SQLException;
 	
 }

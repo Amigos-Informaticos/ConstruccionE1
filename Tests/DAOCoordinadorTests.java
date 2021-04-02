@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import tools.P;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -30,7 +32,7 @@ public class DAOCoordinadorTests {
 	}
 	
 	@Test
-	public void b_isRegistered() {
+	public void b_isRegistered() throws SQLException {
 		Coordinador coordinador = new Coordinador();
 		coordinador.setNombres("Angel Juan");
 		coordinador.setApellidos("Rodriguez Perez");
@@ -57,8 +59,12 @@ public class DAOCoordinadorTests {
 		roberto.setPersonalNo("N000001");
 	    roberto.setShift("1");
 	    try {
-		    assertTrue(daoProfesor.update());
-	    } catch (AssertionError e) {
+			try {
+				assertTrue(daoProfesor.update());
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
+			}
+		} catch (AssertionError e) {
 		    e.printStackTrace();
 	    }
     }
@@ -80,14 +86,19 @@ public class DAOCoordinadorTests {
 	
 	@Test
 	public void z_getAll() {
-		for (Professor professor: IDAOProfessor.getAll()) {
-			assertNotNull(professor.getNombres());
-			P.pln(professor.getNombres());
+
+		try {
+			for (Professor professor: IDAOProfessor.obtenerTodosProfesores()) {
+				assertNotNull(professor.getNombres());
+				P.pln(professor.getNombres());
+			}
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 	}
 	
 	@Test
-	public void z_getActive() {
+	public void z_getActive() throws SQLException {
 		Coordinador coordinador = null;
 		coordinador = DAOCoordinador.obtenerActivo();
 		System.out.println(coordinador);

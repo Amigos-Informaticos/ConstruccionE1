@@ -21,6 +21,7 @@ import javafx.util.StringConverter;
 import tools.Logger;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ManageStudentController implements Initializable {
@@ -61,12 +62,9 @@ public class ManageStudentController implements Initializable {
         try {
             new Practicante().llenarTablaPracticantes(listPracticante);
         } catch (NullPointerException e) {
-            MainController.alert(
-                    Alert.AlertType.WARNING,
-                    "No hay estudiantes registrados",
-                    "Pulse aceptar para continuar"
-            );
-            MainController.activate("MainMenuCoordinator");
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
         tblViewPracticante.setItems(listPracticante);
@@ -76,12 +74,19 @@ public class ManageStudentController implements Initializable {
 
         listProfesor = FXCollections.observableArrayList();
         try{
-            new Professor().fillTableProfessor(listProfesor);
+            new Professor().obtenerProfesores(listProfesor);
         }catch (NullPointerException e){
             MainController.alert(
                     Alert.AlertType.WARNING,
                     "No hay profesores",
                     "No hay profesores registrados para asociar a los practicantes"
+            );
+            MainController.activate("MainMenuCoordinator");
+        }catch (Exception e){
+            MainController.alert(
+                    Alert.AlertType.WARNING,
+                    "ErrorBD",
+                    "Error al conectar con la base de datos"
             );
             MainController.activate("MainMenuCoordinator");
         }
@@ -145,19 +150,23 @@ public class ManageStudentController implements Initializable {
         Practicante practicante = new Practicante();
         this.instanceStudent(practicante);
         if (practicante.estaCompleto()) {
-            if (practicante.registrar()) {
-                listPracticante.add(practicante);
-                MainController.alert(
-                        Alert.AlertType.INFORMATION,
-                        "Practicante registrado correctamente",
-                        "Pulse aceptar para continuar"
-                );
-            } else {
-                MainController.alert(
-                        Alert.AlertType.WARNING,
-                        "Error al conectar con la base de datos",
-                        "Pulse aceptar para continuar"
-                );
+            try {
+                if (practicante.registrar()) {
+                    listPracticante.add(practicante);
+                    MainController.alert(
+                            Alert.AlertType.INFORMATION,
+                            "Practicante registrado correctamente",
+                            "Pulse aceptar para continuar"
+                    );
+                } else {
+                    MainController.alert(
+                            Alert.AlertType.WARNING,
+                            "Error al conectar con la base de datos",
+                            "Pulse aceptar para continuar"
+                    );
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
         } else {
             MainController.alert(
@@ -170,11 +179,19 @@ public class ManageStudentController implements Initializable {
 
     private void instanceStudent(Practicante practicante) {
         practicante.setNombres(txtNombre.getText());
+
         practicante.setApellidos(txtApellido.getText());
         practicante.setMatricula(txtMatricula.getText());
         practicante.setEmail(txtEmail.getText());
         practicante.setContrasena(txtContrasenia.getText());
         practicante.setProfesor(cmbProfesor.getValue());
+
+        System.out.println(practicante.getNombres());
+        System.out.println(practicante.getApellidos());
+        System.out.println(practicante.getMatricula());
+        System.out.println(practicante.getEmail());
+        System.out.println(practicante.getContrasena());
+        System.out.println(practicante.getProfesor().getEmail());
     }
 
     @FXML
@@ -188,6 +205,8 @@ public class ManageStudentController implements Initializable {
             }
         } catch (CustomException e) {
             e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -215,6 +234,8 @@ public class ManageStudentController implements Initializable {
                 }
             } catch (AssertionError e) {
                 new Logger().log(e.getMessage());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
         }
     }

@@ -17,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ChooseProjectController implements Initializable {
@@ -39,7 +40,11 @@ public class ChooseProjectController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		checkConditions();
 		ObservableList<Proyecto> proyectoObservableList = FXCollections.observableArrayList();
-		Proyecto.fillTable(proyectoObservableList);
+		try {
+			Proyecto.fillTable(proyectoObservableList);
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		projectTable.setItems(proyectoObservableList);
 		tableColumn.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
 		checkProject();
@@ -51,7 +56,11 @@ public class ChooseProjectController implements Initializable {
 	}
 	
 	public void checkConditions() {
-		selectedProyectos = Asignacion.requestedProjects((Practicante) MainController.get("user"));
+		try {
+			selectedProyectos = Asignacion.requestedProjects((Practicante) MainController.get("user"));
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		if (selectedProyectos.length >= 3) {
 			MainController.alert(
 				Alert.AlertType.WARNING,
@@ -90,7 +99,11 @@ public class ChooseProjectController implements Initializable {
 					"El proyecto que intenta seleccionado ya ha sido seleccionado previamente"
 				);
 			} else {
-				Asignacion.saveRequest((Practicante) MainController.get("user"), selectedProyecto);
+				try {
+					Asignacion.saveRequest((Practicante) MainController.get("user"), selectedProyecto);
+				} catch (SQLException throwables) {
+					throwables.printStackTrace();
+				}
 				MainController.alert(
 					Alert.AlertType.INFORMATION,
 					"Proyecto seleccionado exitosamente",

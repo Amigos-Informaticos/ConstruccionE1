@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ListProjectsController implements Initializable {
@@ -22,7 +23,11 @@ public class ListProjectsController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ObservableList<Proyecto> listProyectos = FXCollections.observableArrayList();
-		Proyecto.fillTable(listProyectos);
+		try {
+			Proyecto.fillTable(listProyectos);
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 		tblProject.setItems(listProyectos);
 		clmNameProject.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
 	}
