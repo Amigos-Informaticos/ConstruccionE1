@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MenuProjectController implements Initializable {
+public class MenuProyectoController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

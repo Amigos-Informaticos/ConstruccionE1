@@ -24,7 +24,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ManageStudentController implements Initializable {
+public class AdministrarPracticanteController implements Initializable {
     @FXML
     private TableView<Practicante> tblViewPracticante;
     @FXML
@@ -211,7 +211,7 @@ public class ManageStudentController implements Initializable {
     }
 
     public void onClickBack() {
-        MainController.activate("MainMenuCoordinator", "Menu", MainController.Sizes.MID);
+        MainController.activate("MenuCoordinador", "Menu", MainController.Sizes.MID);
     }
 
     @FXML

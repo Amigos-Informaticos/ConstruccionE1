@@ -20,7 +20,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ManageOrganizationsController implements Initializable {
+public class AdministrarOrganizacionController implements Initializable {
     @FXML
     private TableView<Organizacion> tblViewOrganization;
     @FXML
@@ -145,7 +145,7 @@ public class ManageOrganizationsController implements Initializable {
     }
 
     public void onClickBack() {
-        MainController.activate("MainMenuCoordinator", "Menu", MainController.Sizes.MID);
+        MainController.activate("MenuCoordinador", "Menu", MainController.Sizes.MID);
     }
 
     @FXML

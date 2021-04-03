@@ -14,7 +14,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ListProjectsController implements Initializable {
+public class ListaProyectosController implements Initializable {
 	@FXML
 	private TableView<Proyecto> tblProject;
 	@FXML
