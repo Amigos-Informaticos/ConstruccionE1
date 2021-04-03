@@ -18,6 +18,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Paint;
+import tools.LimitadorTextfield;
+import java.awt.*;
 import tools.Logger;
 
 import java.awt.event.KeyAdapter;
@@ -63,7 +65,11 @@ public class AdministrarOrganizacionController implements Initializable {
         ObservableList<String> listSector = FXCollections.observableArrayList();
 
         txtTel.addEventHandler(KeyEvent.KEY_TYPED, event -> SoloNumerosEnteros(event));
-        FNumKeyTyped(txtTel,KeyEvent , 4);
+        txtNo.addEventHandler(KeyEvent.KEY_TYPED, event -> SoloNumerosEnteros(event));
+        txtTel.setOnKeyTyped(event ->{
+            int maxCharacters = 5;
+            if(txtTel.getText().length() > maxCharacters) event.consume();
+        });
 
         try {
             new Organizacion().llenarSector(listSector);
