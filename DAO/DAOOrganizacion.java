@@ -19,7 +19,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
         assert !this.organizacion.getDireccion().isEmpty() :
                 "Direccion esta vacia: DAOOrganizacion.actualizarDireccion()";
 
-        String query = "UPDATE Direccion SET calle = ?, numero = ?, colonia = ?, localidad = ? WHERE idOrganizacion;";
+        String query = "UPDATE Direccion SET calle = ?, numero = ?, colonia = ?, localidad = ? WHERE idOrganizacion = ?;";
         String[] valores = {
                 this.organizacion.getDireccion().get("calle"),
                 this.organizacion.getDireccion().get("numero"),

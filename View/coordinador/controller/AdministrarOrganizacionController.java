@@ -156,6 +156,7 @@ public class AdministrarOrganizacionController implements Initializable {
                     MainController.alert(Alert.AlertType.INFORMATION,
                             "Organización eliminada",
                             "Organización eliminada exitosamente");
+                    listOrganizacion.remove(tblViewOrganization.getSelectionModel().getSelectedIndex());
                 }
             } catch (AssertionError | SQLException e) {
                 MainController.alert(
