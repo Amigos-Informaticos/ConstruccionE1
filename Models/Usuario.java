@@ -126,13 +126,13 @@ public class Usuario {
 		administradorAuxiliar.setEmail(this.getEmail());
 		administradorAuxiliar.setContrasenaLimpia(this.getContrasena());
 		if (practicanteAuxiliar.iniciarSesion()) {
-			tipo = "Student";
+			tipo = "Estudiante";
 		} else if (profesorAuxiliar.logIn()) {
-			tipo = "Professor";
+			tipo = "Profesor";
 		} else if (coordinadorAuxiliar.iniciarSesion()) {
-			tipo = "Coordinator";
+			tipo = "Coordinador";
 		} else if (administradorAuxiliar.login()) {
-			tipo = "Admin";
+			tipo = "Administrador";
 		}
 		return tipo;
 	}

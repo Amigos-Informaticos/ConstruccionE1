@@ -180,7 +180,7 @@ public class AdminCoordinatorController implements Initializable {
 	
 	@FXML
 	public void onBackArrowClicked(MouseEvent event) {
-		MainController.activate("MainMenuAdmin", "Menú Administrador", MainController.Sizes.MID);
+		MainController.activate("MenuAdministrador", "Menú Administrador", MainController.Sizes.MID);
 	}
 	
 	private void instanceCoordinator(Coordinador coordinador) {

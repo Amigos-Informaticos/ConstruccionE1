@@ -64,7 +64,7 @@ public class AddActivityPlan implements Initializable {
 	@FXML
 	private void salir() {
 		MainController.activate(
-			"MainMenuStudent",
+			"MenuPracticante",
 			"Menu Principal Practicante",
 			MainController.Sizes.MID);
 	}
