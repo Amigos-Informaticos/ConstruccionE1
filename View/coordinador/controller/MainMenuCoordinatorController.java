@@ -9,11 +9,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainMenuCoordinatorController implements Initializable {
-    /*
-    @FXML JFXButton btnStudents;
-    @FXML JFXButton btnProjects;
-    @FXML JFXButton btnOrganizations;
-     */
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -32,6 +27,6 @@ public class MainMenuCoordinatorController implements Initializable {
 
     @FXML
     public void onClickOrganizations(MouseEvent clickEvent){
-        MainController.activate("ManageOrganizations","Organizaciones",MainController.Sizes.MID);
+        MainController.activate("AdministrarOrganizacion","Organizaciones",MainController.Sizes.MID);
     }
 }
