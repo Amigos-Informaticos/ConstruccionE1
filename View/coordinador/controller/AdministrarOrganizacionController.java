@@ -1,6 +1,7 @@
 package View.coordinador.controller;
 
 import Models.Organizacion;
+import Models.Usuario;
 import View.MainController;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -14,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Paint;
 import tools.Logger;
 
 import java.net.URL;
@@ -165,6 +167,12 @@ public class AdministrarOrganizacionController implements Initializable {
                         "No se pudo establecer conexión con Base de Datos"
                 );
             }
+        }
+    }
+
+    private void mostrarCamposErroneos() {
+        if(!Organizacion.esNombre(txtName.getText())){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
         }
     }
 

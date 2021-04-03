@@ -12,7 +12,11 @@ public class Organizacion {
 	private String telefono;
 	private String sector;
 	private final Map<String, String> direccion = new HashMap<>();
-	
+
+	public static boolean esNombre(String name) {
+		return true;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
