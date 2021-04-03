@@ -71,7 +71,7 @@ public class ChooseProjectController implements Initializable {
 				"Ya ha llegado a su límite de 3 proyectos"
 			);
 			MainController.activate(
-				"MainMenuStudent",
+				"MenuPracticante",
 				"Menu Principal Practicante",
 				MainController.Sizes.MID
 			);
@@ -136,7 +136,7 @@ public class ChooseProjectController implements Initializable {
 	
 	public void exit() {
 		MainController.activate(
-			"MainMenuStudent",
+			"MenuPracticante",
 			"Menu Principal Practicante",
 			MainController.Sizes.MID);
 	}

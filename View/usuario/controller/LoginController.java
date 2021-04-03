@@ -38,16 +38,16 @@ public class LoginController implements Initializable {
 					type = usuario.tipo();
 					if (!"null".equals(type)) {
 						switch (type) {
-							case "Student":
+							case "Estudiante":
 								usuario = new Practicante();
 								break;
-							case "Professor":
+							case "Profesor":
 								usuario = new Professor();
 								break;
-							case "Coordinator":
+							case "Coordinador":
 								usuario = new Coordinador();
 								break;
-							case "Admin":
+							case "Administrador":
 								usuario = new Administrador();
 								break;
 							default:
@@ -56,7 +56,7 @@ public class LoginController implements Initializable {
 						usuario.setContrasena(passwordField.getText().trim());
 						MainController.save("user", usuario);
 						MainController.activate(
-							"MainMenu" + type,
+							"Menu" + type,
 							"Menu Principal " + type,
 							MainController.Sizes.MID);
 					} else {
