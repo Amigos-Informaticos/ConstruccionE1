@@ -7,7 +7,7 @@ import javafx.scene.input.MouseEvent;
 public class MainMenuProfessorController {
     @FXML
     public void onClickGenerateActivity(MouseEvent event){
-        //MainController.activate("GenerateActivity", "Generar Actividad", MainController.Sizes.MID);
+        MainController.activate("GenerateActivity", "Generar Actividad", MainController.Sizes.MID);
     }
     @FXML
     public void onClickEvaluateReport(MouseEvent event){

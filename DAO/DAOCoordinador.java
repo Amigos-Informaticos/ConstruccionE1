@@ -4,7 +4,6 @@ import Connection.ConexionBD;
 import IDAO.IDAOCoordinador;
 import IDAO.Turno;
 import Models.Coordinador;
-
 import java.sql.SQLException;
 
 public class DAOCoordinador implements IDAOCoordinador, Turno {

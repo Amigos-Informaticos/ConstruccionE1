@@ -93,7 +93,7 @@ public class GenerateReport implements Initializable {
 	@FXML
 	private void exit() {
 		MainController.activate(
-			"MainMenuStudent",
+			"MenuPracticante",
 			"Menu Principal Practicante",
 			MainController.Sizes.MID
 		);
