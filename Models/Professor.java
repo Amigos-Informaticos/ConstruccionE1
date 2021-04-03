@@ -3,7 +3,6 @@ package Models;
 import DAO.DAOProfesor;
 import IDAO.IDAOProfessor;
 import javafx.collections.ObservableList;
-
 import java.sql.SQLException;
 import java.util.Collections;
 
