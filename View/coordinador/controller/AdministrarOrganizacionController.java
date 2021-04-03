@@ -14,10 +14,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Paint;
 import tools.Logger;
 
+import java.awt.event.KeyAdapter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -32,7 +35,7 @@ public class AdministrarOrganizacionController implements Initializable {
     @FXML
     private JFXTextField txtName;
     @FXML
-    private JFXTextField txtTel;
+    private JFXTextField txtTel = new JFXTextField("4");
     @FXML
     private JFXTextField txtStreet;
     @FXML
@@ -58,6 +61,9 @@ public class AdministrarOrganizacionController implements Initializable {
         clmnName.setCellValueFactory(new PropertyValueFactory<Organizacion, String>("nombre"));
 
         ObservableList<String> listSector = FXCollections.observableArrayList();
+
+        txtTel.addEventHandler(KeyEvent.KEY_TYPED, event -> SoloNumerosEnteros(event));
+        FNumKeyTyped(txtTel,KeyEvent , 4);
 
         try {
             new Organizacion().llenarSector(listSector);
@@ -174,6 +180,21 @@ public class AdministrarOrganizacionController implements Initializable {
         if(!Organizacion.esNombre(txtName.getText())){
             txtName.setUnFocusColor(Paint.valueOf("red"));
         }
+        if(!Organizacion.esTelefono(txtTel.getText())){
+            txtTel.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(!Organizacion.esCalle(txtStreet.getText())){
+            txtTel.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(!Organizacion.esNumero(txtNo.getText())){
+            txtTel.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(!Organizacion.esColonia(txtColony.getText())){
+            txtTel.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(!Organizacion.esLocalidad(txtLocality.getText())){
+            txtTel.setUnFocusColor(Paint.valueOf("red"));
+        }
     }
 
     @FXML
@@ -206,6 +227,24 @@ public class AdministrarOrganizacionController implements Initializable {
                         "Pulse aceptar para continuar"
                 );
             }
+        }
+    }
+
+    public void SoloNumerosEnteros(KeyEvent keyEvent) {
+        try{
+            char key = keyEvent.getCharacter().charAt(0);
+
+            if (!Character.isDigit(key))
+                keyEvent.consume();
+
+        } catch (Exception ex){ }
+    }
+
+    public static void FNumKeyTyped(TextField txt, KeyEvent evt, int pValor)
+    {
+        if (txt.getText().length()>=pValor)
+        {
+            evt.consume();
         }
     }
 }
