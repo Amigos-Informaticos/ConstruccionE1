@@ -2,6 +2,7 @@ package View.administrador.controller;
 
 import IDAO.Turno;
 import Models.Professor;
+import Models.Usuario;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -22,8 +23,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Paint;
 import tools.Logger;
-
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -54,25 +55,32 @@ public class AdminProfessorController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         listShift = FXCollections.observableArrayList();
-        listProfessor = FXCollections.observableArrayList();
+        try {
+            Turno.llenarTurno(listShift);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
+        listProfessor = FXCollections.observableArrayList();
 
         try {
             new Professor().obtenerProfesores(listProfessor);
-            Turno.llenarTurno(listShift);
-
-        } catch (SQLException exception) {
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
+            tblViewProfessor.setItems(listProfessor);
+        }catch (NullPointerException nullPointerException){
+            MainController.alert(
+                    Alert.AlertType.INFORMATION,
+                    "No hay profesores registrados",
+                    "Pulse aceptar para continuar"
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
         cmbShift.setItems(listShift);
-        tblViewProfessor.setItems(listProfessor);
         clmnEmail.setCellValueFactory(new PropertyValueFactory<Professor, String>("email"));
-        clmnNames.setCellValueFactory(new PropertyValueFactory<Professor, String>("names"));
-        clmnLastNames.setCellValueFactory(new PropertyValueFactory<Professor, String>("lastnames"));
+        clmnNames.setCellValueFactory(new PropertyValueFactory<Professor, String>("nombres"));
+        clmnLastNames.setCellValueFactory(new PropertyValueFactory<Professor, String>("apellidos"));
         clmnPersonalNo.setCellValueFactory(new PropertyValueFactory<Professor, String>("personalNo"));
         clmnShift.setCellValueFactory(new PropertyValueFactory<Professor, String>("shift"));
     
@@ -107,11 +115,21 @@ public class AdminProfessorController implements Initializable {
                             "LLene todos los campos correctamente",
                             "Pulse aceptar para continuar"
                     );
+                    mostrarCamposErroneos();
             }
         } catch (AssertionError e) {
             new Logger().log(e.getMessage());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }
+    }
+
+    private void mostrarCamposErroneos() {
+        if(!Usuario.esEmail(txtEmail.getText())){
+            txtEmail.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(!Usuario.esNombre(txtNames.getText())){
+            txtNames.setUnFocusColor(Paint.valueOf("red"));
         }
     }
 
@@ -193,7 +211,7 @@ public class AdminProfessorController implements Initializable {
     }
     @FXML
     public void onBackArrowClicked(MouseEvent event){
-        MainController.activate("MainMenuAdmin", "Menú Administrador", MainController.Sizes.MID);
+        MainController.activate("MenuAdministrador", "Menú Administrador", MainController.Sizes.MID);
     }
 
     EventHandler<KeyEvent> handleLetters = new EventHandler<KeyEvent>() {

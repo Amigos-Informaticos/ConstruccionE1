@@ -2,7 +2,7 @@ package Connection;
 
 import Configuration.Configuracion;
 import tools.Logger;
-
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -103,6 +103,24 @@ public class ConexionBD {
 		try {
 			this.openConnection();
 			PreparedStatement statement = this.connection.prepareStatement(query);
+			if (valores != null) {
+				for (int i = 0; i < valores.length; i++) {
+					statement.setString(i + 1, valores[i]);
+				}
+			}
+			queryExecuted = statement.executeUpdate() > 0;
+			this.closeConnection();
+		} catch (SQLException e) {
+			Logger.staticLog(e, true);
+		}
+		return queryExecuted;
+	}
+
+	public boolean ejecutarSP(String query, String[] valores){
+		boolean queryExecuted = false;
+		try {
+			this.openConnection();
+			CallableStatement statement = this.connection.prepareCall(query);
 			if (valores != null) {
 				for (int i = 0; i < valores.length; i++) {
 					statement.setString(i + 1, valores[i]);
