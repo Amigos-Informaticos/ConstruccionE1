@@ -31,6 +31,7 @@ public class LimitadorTextfield {
                 keyEvent.consume();
 
         } catch (Exception ex) {
+            System.out.println(ex);
         }
     }
 
@@ -42,6 +43,7 @@ public class LimitadorTextfield {
                 keyEvent.consume();
 
         } catch (Exception ex) {
+            System.out.println(ex);
         }
     }
 
@@ -56,6 +58,7 @@ public class LimitadorTextfield {
 
             }
         } catch (Exception ex) {
+            System.out.println(ex);
         }
     }
 }

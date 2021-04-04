@@ -33,7 +33,7 @@ public class AdministrarOrganizacionController implements Initializable {
     @FXML
     private JFXTextField txtName;
     @FXML
-    private JFXTextField txtTel = new JFXTextField("4");
+    private JFXTextField txtTel;
     @FXML
     private JFXTextField txtStreet;
     @FXML
@@ -229,24 +229,6 @@ public class AdministrarOrganizacionController implements Initializable {
                         "Pulse aceptar para continuar"
                 );
             }
-        }
-    }
-
-    public void SoloNumerosEnteros(KeyEvent keyEvent) {
-        try{
-            char key = keyEvent.getCharacter().charAt(0);
-
-            if (!Character.isDigit(key))
-                keyEvent.consume();
-
-        } catch (Exception ex){ }
-    }
-
-    public static void FNumKeyTyped(TextField txt, KeyEvent evt, int pValor)
-    {
-        if (txt.getText().length()>=pValor)
-        {
-            evt.consume();
         }
     }
 }
