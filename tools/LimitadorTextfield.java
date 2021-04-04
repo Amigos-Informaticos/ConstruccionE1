@@ -51,11 +51,8 @@ public class LimitadorTextfield {
         try {
             char key = keyEvent.getCharacter().charAt(0);
 
-            if (!Character.isLetterOrDigit(key)){
-                if (!Character.isSpaceChar(key)){
+            if (!Character.isLetterOrDigit(key) && !Character.isSpaceChar(key)){
                     keyEvent.consume();
-                }
-
             }
         } catch (Exception ex) {
             System.out.println(ex);
