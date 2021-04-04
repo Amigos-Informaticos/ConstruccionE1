@@ -80,7 +80,8 @@ public class Organizacion {
 	public boolean estaCompleto() {
 		return this.nombre != null &&
 			!this.direccion.isEmpty() &&
-			this.sector != null;
+			this.sector != null &&
+				this.telefono != null;
 	}
 	
 	public boolean estaRegistrado() throws SQLException {

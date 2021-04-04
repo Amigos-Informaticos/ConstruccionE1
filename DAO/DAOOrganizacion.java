@@ -38,23 +38,13 @@ public class DAOOrganizacion implements IDAOOrganizacion {
         boolean registrado;
         String query;
         String[] valores;
-        if (!this.estaRegistrado()) {
-            String sector = this.organizacion.getSector();
-            if (!this.estaRegistradoSector(sector)) {
-                this.registrarSector(sector);
-            }
-            query = "INSERT INTO Organizacion (nombre, estaActivo, idSector, telefono) " +
-                    "VALUES (?, 1, ?, ?)";
-            valores = new String[]{
-                    this.organizacion.getNombre(),
-                    this.getIdSector(),
-                    this.organizacion.getTelefono()};
-            registrado = this.conexion.ejecutar(query, valores) && this.registrarDireccion();
-        } else {
-            query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
-            valores = new String[]{this.organizacion.getNombre()};
-            registrado = this.conexion.ejecutar(query, valores);
-        }
+        query = "INSERT INTO Organizacion (nombre, estaActivo, idSector, telefono) " +
+                "VALUES (?, 1, ?, ?)";
+        valores = new String[]{
+                this.organizacion.getNombre(),
+                this.getIdSector(),
+                this.organizacion.getTelefono()};
+        registrado = this.conexion.ejecutar(query, valores) && this.registrarDireccion();
         return registrado;
     }
 
