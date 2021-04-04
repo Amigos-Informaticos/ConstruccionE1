@@ -18,10 +18,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.util.StringConverter;
-import sun.font.EAttribute;
 import tools.Logger;
 
 import java.net.URL;
@@ -161,22 +159,21 @@ public class AdministrarPracticanteController implements Initializable {
         Practicante practicante = new Practicante();
 
 
-        if(this.validarCamposVacios()){
-            if(this.comprobarCamposInvalidos()){
-                this.instanceStudent(practicante);
-                try {
-                    if(practicante.registrar()){
-                        this.mostrarMensajeRegistroExitoso();
-                        this.actualizarTabla();
-                        this.limpiarCampos();
+        if(this.validarCamposVacios() && this.comprobarCamposInvalidos() ){
 
-                    }
+            this.instanceStudent(practicante);
+            try {
+                if(practicante.registrar()){
+                    this.mostrarMensajeRegistroExitoso();
+                    this.actualizarTabla();
+                    this.limpiarCampos();
 
-                } catch (SQLException throwables) {
-                    this.mostrarMensajeErrorBD();
                 }
 
+            } catch (SQLException throwables) {
+                this.mostrarMensajeErrorBD();
             }
+
 
 
             /*if (practicante.estaCompleto()) {
