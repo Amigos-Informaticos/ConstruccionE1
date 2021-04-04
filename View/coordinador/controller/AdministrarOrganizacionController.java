@@ -1,7 +1,6 @@
 package View.coordinador.controller;
 
 import Models.Organizacion;
-import Models.Usuario;
 import View.MainController;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -19,10 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Paint;
 import tools.LimitadorTextfield;
-import java.awt.*;
-import tools.Logger;
 
-import java.awt.event.KeyAdapter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -63,15 +59,13 @@ public class AdministrarOrganizacionController implements Initializable {
         clmnName.setCellValueFactory(new PropertyValueFactory<Organizacion, String>("nombre"));
 
         ObservableList<String> listSector = FXCollections.observableArrayList();
-
-        //txtTel.addEventHandler(KeyEvent.KEY_TYPED, event -> SoloNumerosEnteros(event));
-        LimitadorTextfield.soloCaracteres(txtName);
+        LimitadorTextfield.soloTexto(txtName);
         LimitadorTextfield.soloNumeros(txtTel);
-        txtNo.addEventHandler(KeyEvent.KEY_TYPED, event -> SoloNumerosEnteros(event));
+        LimitadorTextfield.soloTexto(txtStreet);
+        LimitadorTextfield.soloTexto(txtColony);
         LimitadorTextfield.soloTexto(txtLocality);
-
-        LimitadorTextfield.limitarCaracteres(txtTel,10);
-        LimitadorTextfield.limitarCaracteres(txtNo,3);
+        LimitadorTextfield.limitarTamanio(txtTel,10);
+        LimitadorTextfield.limitarTamanio(txtNo,5);
 
         try {
             new Organizacion().llenarSector(listSector);

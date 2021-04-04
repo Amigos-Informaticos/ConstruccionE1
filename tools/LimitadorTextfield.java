@@ -3,53 +3,59 @@ package tools;
 import com.jfoenix.controls.JFXTextField;
 import javafx.scene.input.KeyEvent;
 
-public class LimitadorTextfield{
-    public static void limitarCaracteres(JFXTextField textField, int tamanio){
-        textField.setOnKeyTyped(event ->{
-            int maxCharacters = tamanio-1;
-            if(textField.getText().length() > maxCharacters) event.consume();
+public class LimitadorTextfield {
+
+    public static void limitarTamanio(JFXTextField textField, int tamanio) {
+        textField.setOnKeyTyped(event -> {
+            if (textField.getText().length() > (tamanio-1)) event.consume();
         });
     }
 
-    public static void soloNumeros(JFXTextField textField){
+    public static void soloNumeros(JFXTextField textField) {
         textField.addEventHandler(KeyEvent.KEY_TYPED, event -> soloNumerosEnterosEvent(event));
     }
 
-    public static void soloCaracteres(JFXTextField textField){
+    public static void soloCaracteres(JFXTextField textField) {
         textField.addEventHandler(KeyEvent.KEY_TYPED, event -> soloCaracteresEvent(event));
     }
 
-    public static void soloTexto(JFXTextField textField){
+    public static void soloTexto(JFXTextField textField) {
         textField.addEventHandler(KeyEvent.KEY_TYPED, event -> soloTextoEvent(event));
     }
 
     public static void soloNumerosEnterosEvent(KeyEvent keyEvent) {
-        try{
+        try {
             char key = keyEvent.getCharacter().charAt(0);
 
             if (!Character.isDigit(key))
                 keyEvent.consume();
 
-        } catch (Exception ex){ }
+        } catch (Exception ex) {
+        }
     }
 
     public static void soloCaracteresEvent(KeyEvent keyEvent) {
-        try{
+        try {
             char key = keyEvent.getCharacter().charAt(0);
 
             if (Character.isDigit(key))
                 keyEvent.consume();
 
-        } catch (Exception ex){ }
+        } catch (Exception ex) {
+        }
     }
 
     public static void soloTextoEvent(KeyEvent keyEvent) {
-        try{
+        try {
             char key = keyEvent.getCharacter().charAt(0);
 
-            if (!Character.isLetterOrDigit(key))
-                keyEvent.consume();
+            if (!Character.isLetterOrDigit(key)){
+                if (!Character.isSpaceChar(key)){
+                    keyEvent.consume();
+                }
 
-        } catch (Exception ex){ }
+            }
+        } catch (Exception ex) {
+        }
     }
 }
