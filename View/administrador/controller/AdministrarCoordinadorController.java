@@ -1,6 +1,5 @@
 package View.administrador.controller;
 
-import DAO.DAOCoordinador;
 import IDAO.Turno;
 import Models.Coordinador;
 import View.MainController;
@@ -23,7 +22,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class AdminCoordinatorController implements Initializable {
+public class AdministrarCoordinadorController implements Initializable {
     @FXML
     private TableView<Coordinador> tableViewCoordinator;
     @FXML
@@ -73,7 +72,7 @@ public class AdminCoordinatorController implements Initializable {
         try {
             if (coordinador.hayOtro()) {
                 coordinador = coordinador.obtenerActivo();
-                fillDetailsCoordinator(coordinador);
+                llenarDetallesCoordinador(coordinador);
                 enableEdit();
             } else {
                 enableRegister();
@@ -95,28 +94,35 @@ public class AdminCoordinatorController implements Initializable {
                 "Pulse aceptar para continuar")) {
             if (coordinador.estaCompleto()) {
                 try {
-                    if (coordinador.registrar()) {
-                        MainController.alert(
-                                Alert.AlertType.INFORMATION,
-                                "Coordinador registrado correctamente",
-                                "Pulse aceptar para continuar"
-                        );
-                        fillDetailsCoordinator(coordinador);
-                        enableEdit();
+                    if (!coordinador.estaRegistrado()) {
+                        if (coordinador.registrar()) {
+                            MainController.alert(
+                                    Alert.AlertType.INFORMATION,
+                                    "Coordinador registrado correctamente",
+                                    "Pulse aceptar para continuar"
+                            );
+                            llenarDetallesCoordinador(coordinador);
+                            enableEdit();
+                        } else {
+                            MainController.alert(
+                                    Alert.AlertType.WARNING,
+                                    "Ocurrio un error al conectarse a la base de datos",
+                                    "Pulse aceptar para continuar"
+                            );
+                        }
                     } else {
-                        MainController.alert(
-                                Alert.AlertType.WARNING,
-                                "Ocurrio un error al conectarse a la base de datos",
+                        MainController.alert(Alert.AlertType.WARNING,
+                                "La cuenta ya se encuentra registrada",
                                 "Pulse aceptar para continuar"
                         );
                     }
-                } catch (SQLException throwables) {
+                } catch (SQLException sqlException) {
                     MainController.alert(
                             Alert.AlertType.ERROR,
                             "Ocurrio un error al conectarse a la base de datos",
                             "Pulse aceptar para continuar"
                     );
-                    Logger.staticLog(throwables, true);
+                    Logger.staticLog(sqlException, true);
                 }
             } else {
                 MainController.alert(
@@ -158,32 +164,38 @@ public class AdminCoordinatorController implements Initializable {
             }
         } catch (AssertionError e) {
             new Logger().log(e.getMessage());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            Logger.staticLog(sqlException, true);
         }
     }
 
     @FXML
-    public void delete() {
+    public void eliminar() {
         if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "")) {
             try {
                 if (coordinador.eliminar()) {
+                    MainController.alert(
+                            Alert.AlertType.INFORMATION,
+                            "Acción realizada exitosamente",
+                            "Pulse aceptar para continuar"
+                    );
                     enableRegister();
                     cleanFormCoordinator();
+                    limpiarDetallesCoordinador();
                 } else {
                     MainController.alert(
                             Alert.AlertType.ERROR,
-                            "No se pudo eliminar al coordinador",
+                            "Error al conectarse a la base de datos",
                             "Pulse aceptar para continuar"
                     );
                 }
-            } catch (AssertionError e) {
-                e.printStackTrace();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+                Logger.staticLog(sqlException, true);
                 MainController.alert(
                         Alert.AlertType.WARNING,
-                        "Ocurrio un error al conectarse a la base de datos",
+                        "Error al conectarse a la base de datos",
                         "Pulse aceptar para continuar"
                 );
             }
@@ -211,13 +223,22 @@ public class AdminCoordinatorController implements Initializable {
         txtNoPersonal.setText(null);
     }
 
-    private void fillDetailsCoordinator(Coordinador coordinador) {
+    private void llenarDetallesCoordinador(Coordinador coordinador) {
         lblNames.setText(coordinador.getNombres());
         lblLastnames.setText(coordinador.getApellidos());
         lblEmail.setText(coordinador.getEmail());
         lblPersonalNo.setText(coordinador.getNoPersonal());
         lblShift.setText(coordinador.getTurno());
         lblRegistrationDate.setText(coordinador.getFechaRegistro());
+    }
+
+    private void limpiarDetallesCoordinador(){
+        lblNames.setText(null);
+        lblLastnames.setText(null);
+        lblEmail.setText(null);
+        lblPersonalNo.setText(null);
+        lblShift.setText(null);
+        lblRegistrationDate.setText(null);
     }
 
     private void enableRegister() {
