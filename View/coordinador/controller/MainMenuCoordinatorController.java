@@ -22,7 +22,7 @@ public class MainMenuCoordinatorController implements Initializable {
 
     @FXML
     public void onClickStudents(MouseEvent clickEvent){
-            MainController.activate("ManageStudents","Practicantes",MainController.Sizes.MID);
+            MainController.activate("AdministrarPracticante","Practicantes",MainController.Sizes.MID);
     }
 
     @FXML
