@@ -21,7 +21,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class CreateProjectController implements Initializable {
+public class CrearProyectoController implements Initializable {
 	@FXML
 	private JFXComboBox<String> cmbOrganizations;
 	

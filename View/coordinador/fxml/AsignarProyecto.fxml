@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171"
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="View.coordinador.controller.ListProjectsController">
+            fx:controller="View.coordinador.controller.AsignarProyectoController">
    <children>
       <HBox prefHeight="73.0" prefWidth="350.0" style="-fx-background-color: #18529D;">
          <children>
@@ -24,7 +24,7 @@
                   <Insets right="10.0" top="15.0"/>
                </HBox.margin>
             </ImageView>
-            <Label text="Proyectos" textFill="WHITE">
+            <Label text="Asignar Proyecto" textFill="WHITE">
                <font>
                   <Font size="34.0" />
                </font>
@@ -40,17 +40,35 @@
             <Insets left="30.0" />
          </padding>
       </HBox>
-      <TableView fx:id="tblProject" layoutX="175.0" layoutY="73.0" onMouseClicked="#selectProject" prefHeight="377.0" prefWidth="350.0">
+      <TableView fx:id="projectTable" layoutX="350.0" layoutY="164.0" onMouseClicked="#selectProject" prefHeight="183.0" prefWidth="350.0">
         <columns>
-          <TableColumn fx:id="clmNameProject" prefWidth="349.0" text="Proyecto" />
+          <TableColumn fx:id="clmName" prefWidth="349.0" text="Proyecto" />
         </columns>
       </TableView>
-      <JFXButton layoutX="14.0" layoutY="85.0" onMouseClicked="#clickBack" prefHeight="25.0"
-                 prefWidth="78.0" style="-fx-background-color: #18529D;" text="Atrás"
-                 textFill="WHITE">
+      <Label fx:id="lbName" layoutX="28.0" layoutY="116.0" text="Nombre">
          <font>
-            <Font name="System Bold" size="12.0"/>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbRegNo" layoutX="28.0" layoutY="170.0" text="Matrícula">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbEmail" layoutX="30.0" layoutY="222.0" text="Correo Electrónico">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="575.0" layoutY="382.0" onMouseClicked="#assign" prefHeight="25.0" prefWidth="111.0" style="-fx-background-color: #28AD56;" text="Asignar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
          </font>
       </JFXButton>
+      <TableView fx:id="requestTable" layoutX="350.0" layoutY="71.0" onMouseClicked="#selectProject" prefHeight="94.0" prefWidth="350.0">
+        <columns>
+          <TableColumn fx:id="clmNameRequest" prefWidth="349.0" text="Proyectos solicitados" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

@@ -13,14 +13,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import tools.Logger;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Paint;
+import tools.LimitadorTextfield;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ManageOrganizationsController implements Initializable {
+public class AdministrarOrganizacionController implements Initializable {
     @FXML
     private TableView<Organizacion> tblViewOrganization;
     @FXML
@@ -56,6 +59,13 @@ public class ManageOrganizationsController implements Initializable {
         clmnName.setCellValueFactory(new PropertyValueFactory<Organizacion, String>("nombre"));
 
         ObservableList<String> listSector = FXCollections.observableArrayList();
+        LimitadorTextfield.soloTexto(txtName);
+        LimitadorTextfield.soloNumeros(txtTel);
+        LimitadorTextfield.soloTexto(txtStreet);
+        LimitadorTextfield.soloTexto(txtColony);
+        LimitadorTextfield.soloTexto(txtLocality);
+        LimitadorTextfield.limitarTamanio(txtTel,10);
+        LimitadorTextfield.limitarTamanio(txtNo,5);
 
         try {
             new Organizacion().llenarSector(listSector);
@@ -80,24 +90,11 @@ public class ManageOrganizationsController implements Initializable {
                             txtColony.setText(newValue.getDireccion().get("colonia"));
                             txtLocality.setText(newValue.getDireccion().get("localidad"));
                             cmbSector.setValue(newValue.getSector());
-                            enableEdit();
                             tempNombreAntiguo = newValue.getNombre();
-                        } else {
-                            cleanFormProfessor();
-                            enableRegister();
                         }
                     }
                 }
         );
-    }
-
-    public void enableEdit() {
-    }
-
-    public void cleanFormProfessor() {
-    }
-
-    public void enableRegister() {
     }
 
     @FXML
@@ -127,6 +124,7 @@ public class ManageOrganizationsController implements Initializable {
                     "Llene todos los campos correctamente",
                     "Pulse aceptar para continuar"
             );
+            mostrarCamposErroneos();
         }
     }
 
@@ -145,7 +143,7 @@ public class ManageOrganizationsController implements Initializable {
     }
 
     public void onClickBack() {
-        MainController.activate("MainMenuCoordinator", "Menu", MainController.Sizes.MID);
+        MainController.activate("MenuCoordinador", "Menu", MainController.Sizes.MID);
     }
 
     @FXML
@@ -156,6 +154,7 @@ public class ManageOrganizationsController implements Initializable {
                     MainController.alert(Alert.AlertType.INFORMATION,
                             "Organización eliminada",
                             "Organización eliminada exitosamente");
+                    listOrganizacion.remove(tblViewOrganization.getSelectionModel().getSelectedIndex());
                 }
             } catch (AssertionError | SQLException e) {
                 MainController.alert(
@@ -164,6 +163,27 @@ public class ManageOrganizationsController implements Initializable {
                         "No se pudo establecer conexión con Base de Datos"
                 );
             }
+        }
+    }
+
+    private void mostrarCamposErroneos() {
+        if(txtName.getText().equals("")){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtTel.getText().equals("")){
+            txtTel.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtStreet.getText().equals("")){
+            txtStreet.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtColony.getText().equals("")){
+            txtColony.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtLocality.getText().equals("")){
+            txtLocality.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtNo.getText().equals("")){
+            txtNo.setUnFocusColor(Paint.valueOf("red"));
         }
     }
 

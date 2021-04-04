@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ProjectCalendarizationController implements Initializable {
+public class CalendarizacionProyectoController implements Initializable {
 	@FXML
 	private JFXTextField[] txtNamesOfActivity = new JFXTextField[6];
 	@FXML
@@ -46,6 +46,6 @@ public class ProjectCalendarizationController implements Initializable {
 	}
 	
 	public void onClickBack(MouseEvent clickEvent) {
-		MainController.activate("CreateProjectController", "Crear Proyecto", MainController.Sizes.LARGE);
+		MainController.activate("CrearProyectoController", "Crear Proyecto", MainController.Sizes.LARGE);
 	}
 }

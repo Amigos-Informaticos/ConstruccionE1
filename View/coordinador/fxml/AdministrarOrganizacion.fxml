@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.coordinador.controller.ManageOrganizationsController">
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.coordinador.controller.AdministrarOrganizacionController">
    <children>
       <SplitPane dividerPositions="0.6876790830945558" layoutY="71.0" prefHeight="380.0" prefWidth="700.0">
          <items>
