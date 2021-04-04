@@ -137,6 +137,7 @@ public class AdministrarOrganizacionController implements Initializable {
                     "Llene todos los campos correctamente",
                     "Pulse aceptar para continuar"
             );
+            mostrarCamposErroneos();
         }
     }
 
@@ -179,23 +180,23 @@ public class AdministrarOrganizacionController implements Initializable {
     }
 
     private void mostrarCamposErroneos() {
-        if(!Organizacion.esNombre(txtName.getText())){
+        if(txtName.getText().equals("")){
             txtName.setUnFocusColor(Paint.valueOf("red"));
         }
-        if(!Organizacion.esTelefono(txtTel.getText())){
+        if(txtTel.getText().equals("")){
             txtTel.setUnFocusColor(Paint.valueOf("red"));
         }
-        if(!Organizacion.esCalle(txtStreet.getText())){
-            txtTel.setUnFocusColor(Paint.valueOf("red"));
+        if(txtStreet.getText().equals("")){
+            txtStreet.setUnFocusColor(Paint.valueOf("red"));
         }
-        if(!Organizacion.esNumero(txtNo.getText())){
-            txtTel.setUnFocusColor(Paint.valueOf("red"));
+        if(txtColony.getText().equals("")){
+            txtColony.setUnFocusColor(Paint.valueOf("red"));
         }
-        if(!Organizacion.esColonia(txtColony.getText())){
-            txtTel.setUnFocusColor(Paint.valueOf("red"));
+        if(txtLocality.getText().equals("")){
+            txtLocality.setUnFocusColor(Paint.valueOf("red"));
         }
-        if(!Organizacion.esLocalidad(txtLocality.getText())){
-            txtTel.setUnFocusColor(Paint.valueOf("red"));
+        if(txtNo.getText().equals("")){
+            txtNo.setUnFocusColor(Paint.valueOf("red"));
         }
     }
 
