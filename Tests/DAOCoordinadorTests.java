@@ -2,9 +2,9 @@ package Tests;
 
 import DAO.DAOCoordinador;
 import DAO.DAOProfesor;
-import IDAO.IDAOProfessor;
+import IDAO.IDAOProfesor;
 import Models.Coordinador;
-import Models.Professor;
+import Models.Profesor;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -54,7 +54,7 @@ public class DAOCoordinadorTests {
 	
 	@Test
 	public void c_updateProfesor() {
-		Professor roberto = new Professor();
+		Profesor roberto = new Profesor();
 		DAOProfesor daoProfesor = new DAOProfesor(roberto);
 		roberto.setNombres("Alexis");
 		roberto.setApellidos("Alvarez Ortega");
@@ -95,9 +95,9 @@ public class DAOCoordinadorTests {
 	public void z_getAll() {
 
 		try {
-			for (Professor professor: IDAOProfessor.obtenerTodosProfesores()) {
-				assertNotNull(professor.getNombres());
-				P.pln(professor.getNombres());
+			for (Profesor profesor : IDAOProfesor.obtenerTodosProfesores()) {
+				assertNotNull(profesor.getNombres());
+				P.pln(profesor.getNombres());
 			}
 		} catch (Exception exception) {
 			exception.printStackTrace();

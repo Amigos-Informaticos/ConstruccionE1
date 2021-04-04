@@ -1,7 +1,6 @@
 package Tests;
 
-import Exceptions.CustomException;
-import Models.Professor;
+import Models.Profesor;
 import org.junit.Test;
 import tools.Logger;
 
@@ -9,8 +8,8 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ProfessorTests {
-    private Professor professor = new Professor(
+public class ProfesorTests {
+    private Profesor profesor = new Profesor(
             "",
             "Knowledge",
             "test@hotmail.com",
@@ -22,7 +21,7 @@ public class ProfessorTests {
     @Test
     public void a_signUpProfessor() {
         try {
-            assertTrue(this.professor.signUp());
+            assertTrue(this.profesor.signUp());
         } catch (AssertionError | SQLException e) {
             new Logger().log(e.getMessage());
         }
@@ -32,7 +31,7 @@ public class ProfessorTests {
     public void b_updateProfessor() {
         try {
             try {
-                assertTrue(this.professor.update());
+                assertTrue(this.profesor.update());
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -44,7 +43,7 @@ public class ProfessorTests {
     @Test
     public void c_deleteProfessor() {
         try {
-            assertTrue(this.professor.delete());
+            assertTrue(this.profesor.delete());
         } catch (AssertionError e) {
             new Logger().log(e.getMessage());
         } catch (SQLException throwables) {
@@ -55,7 +54,7 @@ public class ProfessorTests {
     @Test
     public void d_reactive() {
         try {
-            assertTrue(this.professor.reactive());
+            assertTrue(this.profesor.reactive());
         } catch (AssertionError e) {
             new Logger().log(e.getMessage());
         } catch (SQLException throwables) {
@@ -66,7 +65,7 @@ public class ProfessorTests {
     @Test
     public void d_logInProfessor() {
         try {
-            assertTrue(this.professor.logIn());
+            assertTrue(this.profesor.logIn());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

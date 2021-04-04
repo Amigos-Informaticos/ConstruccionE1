@@ -2,7 +2,7 @@ package View.coordinador.controller;
 
 import Exceptions.CustomException;
 import Models.Practicante;
-import Models.Professor;
+import Models.Profesor;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -34,7 +34,7 @@ public class ManageStudentController implements Initializable {
     @FXML
     private TableColumn<Practicante, String> clmnMatricula;
     @FXML
-    private JFXComboBox<Professor> cmbProfesor;
+    private JFXComboBox<Profesor> cmbProfesor;
 
 
     @FXML
@@ -52,7 +52,7 @@ public class ManageStudentController implements Initializable {
     JFXButton btnRegistrar;
 
     private ObservableList<Practicante> listPracticante;
-    private ObservableList<Professor> listProfesor;
+    private ObservableList<Profesor> listProfesor;
 
     private Practicante practicante;
 
@@ -74,7 +74,7 @@ public class ManageStudentController implements Initializable {
 
         listProfesor = FXCollections.observableArrayList();
         try{
-            new Professor().obtenerProfesores(listProfesor);
+            new Profesor().obtenerProfesores(listProfesor);
         }catch (NullPointerException e){
             MainController.alert(
                     Alert.AlertType.WARNING,
@@ -94,14 +94,14 @@ public class ManageStudentController implements Initializable {
         cmbProfesor.setItems(listProfesor);
         eventManager();
 
-        cmbProfesor.setConverter(new StringConverter<Professor>() {
+        cmbProfesor.setConverter(new StringConverter<Profesor>() {
             @Override
-            public String toString(Professor professor) {
-                return professor.getNombres();
+            public String toString(Profesor profesor) {
+                return profesor.getNombres();
             }
 
             @Override
-            public Professor fromString(String string) {
+            public Profesor fromString(String string) {
                 return null;
             }
         });

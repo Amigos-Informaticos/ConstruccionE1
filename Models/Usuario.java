@@ -116,7 +116,7 @@ public class Usuario {
 		Practicante practicanteAuxiliar = new Practicante();
 		practicanteAuxiliar.setEmail(this.getEmail());
 		practicanteAuxiliar.setContrasenaLimpia(this.getContrasena());
-		Professor profesorAuxiliar = new Professor();
+		Profesor profesorAuxiliar = new Profesor();
 		profesorAuxiliar.setEmail(this.getEmail());
 		profesorAuxiliar.setContrasenaLimpia(this.getContrasena());
 		Coordinador coordinadorAuxiliar = new Coordinador();

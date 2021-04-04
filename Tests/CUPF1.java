@@ -1,29 +1,27 @@
 package Tests;
 
 import Models.Practicante;
-import Models.Professor;
+import Models.Profesor;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CUPF1 {
 	
-	public Professor getProfessor() {
-		Professor professor = new Professor();
-		professor.setNombres("Octavio");
-		professor.setApellidos("Ocharan");
-		professor.setEmail("ocha@hotmail.com");
-		professor.setContrasena("ocha1234");
-		professor.setPersonalNo("N000002");
-		professor.setShift("1");
-		return professor;
+	public Profesor getProfessor() {
+		Profesor profesor = new Profesor();
+		profesor.setNombres("Octavio");
+		profesor.setApellidos("Ocharan");
+		profesor.setEmail("ocha@hotmail.com");
+		profesor.setContrasena("ocha1234");
+		profesor.setPersonalNo("N000002");
+		profesor.setShift("1");
+		return profesor;
 	}
 	
 
