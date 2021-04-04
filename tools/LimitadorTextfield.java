@@ -1,25 +1,55 @@
 package tools;
 
 import com.jfoenix.controls.JFXTextField;
+import javafx.scene.input.KeyEvent;
 
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
-import java.awt.*;
-
-public class LimitadorTextfield extends PlainDocument {
-    private TextField editor;
-    private int num;
-
-    public LimitadorTextfield(TextField editor, int num) {
-        this.editor = editor;
-        this.num = num;
+public class LimitadorTextfield{
+    public static void limitarCaracteres(JFXTextField textField, int tamanio){
+        textField.setOnKeyTyped(event ->{
+            int maxCharacters = tamanio-1;
+            if(textField.getText().length() > maxCharacters) event.consume();
+        });
     }
 
-    public void insertString(int arg0, String arg1, AttributeSet arg2) throws BadLocationException {
-        if ((editor.getText().length()+arg1.length()) > this.num){
-            return;
-        }super.insertString(arg0,arg1,arg2);
+    public static void soloNumeros(JFXTextField textField){
+        textField.addEventHandler(KeyEvent.KEY_TYPED, event -> soloNumerosEnterosEvent(event));
     }
 
+    public static void soloCaracteres(JFXTextField textField){
+        textField.addEventHandler(KeyEvent.KEY_TYPED, event -> soloCaracteresEvent(event));
+    }
+
+    public static void soloTexto(JFXTextField textField){
+        textField.addEventHandler(KeyEvent.KEY_TYPED, event -> soloTextoEvent(event));
+    }
+
+    public static void soloNumerosEnterosEvent(KeyEvent keyEvent) {
+        try{
+            char key = keyEvent.getCharacter().charAt(0);
+
+            if (!Character.isDigit(key))
+                keyEvent.consume();
+
+        } catch (Exception ex){ }
+    }
+
+    public static void soloCaracteresEvent(KeyEvent keyEvent) {
+        try{
+            char key = keyEvent.getCharacter().charAt(0);
+
+            if (Character.isDigit(key))
+                keyEvent.consume();
+
+        } catch (Exception ex){ }
+    }
+
+    public static void soloTextoEvent(KeyEvent keyEvent) {
+        try{
+            char key = keyEvent.getCharacter().charAt(0);
+
+            if (!Character.isLetterOrDigit(key))
+                keyEvent.consume();
+
+        } catch (Exception ex){ }
+    }
 }

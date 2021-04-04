@@ -64,12 +64,14 @@ public class AdministrarOrganizacionController implements Initializable {
 
         ObservableList<String> listSector = FXCollections.observableArrayList();
 
-        txtTel.addEventHandler(KeyEvent.KEY_TYPED, event -> SoloNumerosEnteros(event));
+        //txtTel.addEventHandler(KeyEvent.KEY_TYPED, event -> SoloNumerosEnteros(event));
+        LimitadorTextfield.soloCaracteres(txtName);
+        LimitadorTextfield.soloNumeros(txtTel);
         txtNo.addEventHandler(KeyEvent.KEY_TYPED, event -> SoloNumerosEnteros(event));
-        txtTel.setOnKeyTyped(event ->{
-            int maxCharacters = 5;
-            if(txtTel.getText().length() > maxCharacters) event.consume();
-        });
+        LimitadorTextfield.soloTexto(txtLocality);
+
+        LimitadorTextfield.limitarCaracteres(txtTel,10);
+        LimitadorTextfield.limitarCaracteres(txtNo,3);
 
         try {
             new Organizacion().llenarSector(listSector);
