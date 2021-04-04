@@ -12,7 +12,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ViewProjectController implements Initializable {
+public class VerProyectoController implements Initializable {
 	@FXML
 	private JFXTextField txtOrganization;
 	

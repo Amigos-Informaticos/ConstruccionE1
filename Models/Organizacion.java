@@ -12,11 +12,31 @@ public class Organizacion {
 	private String telefono;
 	private String sector;
 	private final Map<String, String> direccion = new HashMap<>();
-	
-	public String getNombre() {
-		return nombre;
+
+	public static boolean esNombre(String name) {
+		return true;
 	}
-	
+
+	public static boolean esTelefono(String telefono){
+		return true;
+	}
+
+	public static boolean esCalle(String calle){
+		return true;
+	}
+
+	public static boolean esNumero(String numero){
+		return true;
+	}
+
+	public static boolean esColonia(String colonia){
+		return true;
+	}
+
+	public static boolean esLocalidad(String localidad){
+		return true;
+	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -43,6 +63,10 @@ public class Organizacion {
 		this.direccion.put("numero", numero);
 		this.direccion.put("colonia", colonia);
 		this.direccion.put("localidad", localidad);
+	}
+
+	public String getNombre() {
+		return nombre;
 	}
 	
 	public Map<String, String> getDireccion() {

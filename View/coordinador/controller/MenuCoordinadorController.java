@@ -8,12 +8,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainMenuCoordinatorController implements Initializable {
-    /*
-    @FXML JFXButton btnStudents;
-    @FXML JFXButton btnProjects;
-    @FXML JFXButton btnOrganizations;
-     */
+public class MenuCoordinadorController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -27,11 +22,11 @@ public class MainMenuCoordinatorController implements Initializable {
 
     @FXML
     public void onClickProjects(MouseEvent clickEvent){
-        MainController.activate("MenuProject","Menú de Proyectos",MainController.Sizes.MID);
+        MainController.activate("MenuProyecto","Menú de Proyectos",MainController.Sizes.MID);
     }
 
     @FXML
     public void onClickOrganizations(MouseEvent clickEvent){
-        MainController.activate("ManageOrganizations","Organizaciones",MainController.Sizes.MID);
+        MainController.activate("AdministrarOrganizacion","Organizaciones",MainController.Sizes.MID);
     }
 }

@@ -21,7 +21,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
-public class AssignProjectController implements Initializable {
+public class AsignarProyectoController implements Initializable {
 	@FXML
 	Label lbName;
 	@FXML
