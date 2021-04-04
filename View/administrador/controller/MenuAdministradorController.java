@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainMenuAdminController implements Initializable {
+public class MenuAdministradorController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -28,5 +28,14 @@ public class MainMenuAdminController implements Initializable {
 			"AdministrarCoordinador",
 			"Administrar coordinador",
 			MainController.Sizes.MID);
+	}
+
+	@FXML
+	public void onClickCerrarSesion(MouseEvent event){
+		MainController.clearMemory();
+		MainController.activate(
+				"Login",
+				"Login",
+				MainController.Sizes.SMALL);
 	}
 }
