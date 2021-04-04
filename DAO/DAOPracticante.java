@@ -121,18 +121,56 @@ public class DAOPracticante implements IDAOPracticante {
 	
 	@Override
 	public boolean estaRegistrado() throws SQLException {
-		assert this.practicante != null : "Practicante es nulo: DAOPracticante.estaRegistrado()";
-		assert this.practicante.getEmail() != null :
-			"Email de practicante es nulo: DAOPracticante.estaRegistrado()";
-		
-		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL FROM MiembroFEI " +
-			"WHERE correoElectronico = ?";
-		String[] valores = {this.practicante.getEmail()};
-		String[] nombres = {"TOTAL"};
-		String[][] resultados = this.conexion.seleccionar(query, valores, nombres);
-		return resultados != null && resultados[0][0].equals("1");
+
+		boolean registrado = false;
+
+		if(!estaRegistradoMatricula()){
+
+			assert this.practicante != null : "Practicante es nulo: DAOPracticante.estaRegistrado()";
+			assert this.practicante.getEmail() != null :
+					"Email de practicante es nulo: DAOPracticante.estaRegistrado()";
+
+			String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL FROM MiembroFEI " +
+					"WHERE correoElectronico = ?" ;
+
+
+			String[] valores = {this.practicante.getEmail()};
+			String[] nombres = {"TOTAL"};
+			String[][] resultados = this.conexion.seleccionar(query, valores, nombres);
+
+			if(resultados != null &&  Integer.parseInt(resultados[0][0])> 0 ){
+				registrado = true;
+			}
+		}else {
+			registrado = true;
+		}
+
+
+		return registrado;
 	}
-	
+
+	public boolean estaRegistradoMatricula() throws SQLException{
+
+		boolean registrado = false;
+
+		String query = "SELECT COUNT(Practicante.matricula) AS TOTAL FROM Practicante " +
+		"WHERE matricula= ? ";
+
+		String[] valores = {this.practicante.getMatricula()};
+
+		String [] nombres = {"TOTAL"};
+
+		String [][] resultados = this.conexion.seleccionar(query,valores,nombres);
+
+		if( resultados!= null	&& Integer.parseInt(resultados[0][0]) > 0){
+			registrado = true;
+		}
+
+		return  registrado;
+
+	}
+
+
 	public boolean estaActivo() throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.estaActivo()";
 		assert this.practicante.getEmail() != null :

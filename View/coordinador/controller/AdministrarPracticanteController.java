@@ -124,8 +124,16 @@ public class AdministrarPracticanteController implements Initializable {
                             txtApellido.setText(newValue.getApellidos());
                             txtEmail.setText(newValue.getEmail());
                             txtMatricula.setText(newValue.getMatricula());
-                            txtContrasenia.setText(newValue.getContrasena());
                             practicante = tblViewPracticante.getSelectionModel().getSelectedItem();
+
+                            try {
+                                cmbProfesor.setValue(newValue.recuperarProfesor());
+
+
+                            } catch (SQLException throwables) {
+                                mostrarMensajeErrorBD();
+                            }
+
                             MainController.save("student", practicante);
                             enableEdit();
                         } else {
@@ -159,61 +167,33 @@ public class AdministrarPracticanteController implements Initializable {
         Practicante practicante = new Practicante();
 
 
-        if(this.validarCamposVacios() && this.comprobarCamposInvalidos() ){
+        if(this.validarCamposCompletos() && this.comprobarCamposValidos() ){
 
             this.instanceStudent(practicante);
             try {
-                if(practicante.registrar()){
-                    this.mostrarMensajeRegistroExitoso();
-                    this.actualizarTabla();
-                    this.limpiarCampos();
+                if(!practicante.estaRegistrado()){
+                    if(practicante.registrar()){
+                        this.mostrarMensajeRegistroExitoso();
+                        this.actualizarTabla();
+                        this.limpiarCampos();
+
+                    }
+                }else{
+                    this.mostrarMensajePracticanteRegistradoPreviamente();
 
                 }
 
+
             } catch (SQLException throwables) {
+                throwables.printStackTrace();
                 this.mostrarMensajeErrorBD();
             }
 
-
-
-            /*if (practicante.estaCompleto()) {
-                this.instanceStudent(practicante);
-
-                try {
-                    if (practicante.registrar()) {
-                        listPracticante.add(practicante);
-                        MainController.alert(
-                                Alert.AlertType.INFORMATION,
-                                "Practicante registrado correctamente",
-                                "Pulse aceptar para continuar"
-                        );
-                    } else {
-                        MainController.alert(
-                                Alert.AlertType.WARNING,
-                                "Error al conectar con la base de datos",
-                                "Pulse aceptar para continuar"
-                        );
-                    }
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            } else {
-                MainController.alert(
-                        Alert.AlertType.INFORMATION,
-                        "Estudiante incompleto",
-                        "Estudiante incompleto"
-                );
-            }*/
         }
 
-
-
-
-
-
-
-
     }
+
+
 
     private void instanceStudent(Practicante practicante) {
         practicante.setNombres(txtNombre.getText());
@@ -280,10 +260,24 @@ public class AdministrarPracticanteController implements Initializable {
 
     @FXML
     public void actualizar(){
-        System.out.println("actualizando");
+        if (this.txtContrasenia.getText().isEmpty()){
+
+            if(this.validarCamposCompletosSinContrasena() && this.comprobarCamposValidos()){
+
+
+            }
+
+        }else{
+
+            if(this.validarCamposCompletos() && this.comprobarCamposValidos()){
+
+
+            }
+
+        }
     }
 
-    private boolean   validarCamposVacios(){
+    private boolean validarCamposCompletos(){
         boolean camposCompletos = false;
 
         if(
@@ -308,8 +302,35 @@ public class AdministrarPracticanteController implements Initializable {
         return  camposCompletos;
     }
 
+    private  boolean validarCamposCompletosSinContrasena(){
+        boolean camposCompletos = false;
 
-    private  boolean comprobarCamposInvalidos() {
+        if(
+                !this.txtApellido.getText().isEmpty() &&
+                !this.txtEmail.getText().isEmpty() &&
+                !this.txtMatricula.getText().isEmpty() &&
+                !this.txtNombre.getText().isEmpty() &&
+                this.cmbProfesor.getValue() != null
+
+        ){
+            camposCompletos = true;
+        }
+
+        if(!camposCompletos){
+            MainController.alert(
+                    Alert.AlertType.INFORMATION,
+                    "ERROR",
+                    "Campos vacíos. Por favor, ingrese toda la información"
+            );
+        }
+
+        return  camposCompletos;
+    }
+
+
+
+
+    private  boolean comprobarCamposValidos() {
         boolean camposValidos = true;
 
         boolean dialogoMostrado = false;
@@ -346,9 +367,6 @@ public class AdministrarPracticanteController implements Initializable {
         }
 
 
-
-
-
         return  camposValidos;
 
     }
@@ -375,6 +393,14 @@ public class AdministrarPracticanteController implements Initializable {
                 Alert.AlertType.INFORMATION,
                 "Registro exitoso",
                 "Practicante registrado exitosamente"
+        );
+    }
+
+    private void mostrarMensajePracticanteRegistradoPreviamente(){
+        MainController.alert(
+                Alert.AlertType.INFORMATION,
+                "Error",
+                "Practicante registrado previamente"
         );
     }
 
