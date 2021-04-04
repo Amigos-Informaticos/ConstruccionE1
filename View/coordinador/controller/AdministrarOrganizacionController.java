@@ -90,24 +90,11 @@ public class AdministrarOrganizacionController implements Initializable {
                             txtColony.setText(newValue.getDireccion().get("colonia"));
                             txtLocality.setText(newValue.getDireccion().get("localidad"));
                             cmbSector.setValue(newValue.getSector());
-                            enableEdit();
                             tempNombreAntiguo = newValue.getNombre();
-                        } else {
-                            cleanFormProfessor();
-                            enableRegister();
                         }
                     }
                 }
         );
-    }
-
-    public void enableEdit() {
-    }
-
-    public void cleanFormProfessor() {
-    }
-
-    public void enableRegister() {
     }
 
     @FXML
