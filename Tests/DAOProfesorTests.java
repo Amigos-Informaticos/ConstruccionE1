@@ -1,8 +1,8 @@
 package Tests;
 
 import DAO.DAOProfesor;
-import IDAO.IDAOProfessor;
-import Models.Professor;
+import IDAO.IDAOProfesor;
+import Models.Profesor;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class DAOProfesorTests {
 	@Test
 	public void a_signUpProfesor() {
-		Professor alexis = new Professor();
+		Profesor alexis = new Profesor();
 		DAOProfesor daoProfesor = new DAOProfesor(alexis);
 		alexis.setNombres("Octavio");
 		alexis.setApellidos("Ocharan");
@@ -35,7 +35,7 @@ public class DAOProfesorTests {
 	
 	@Test
 	public void b_isRegistered() {
-		Professor alexis = new Professor();
+		Profesor alexis = new Profesor();
 		alexis.setNombres("Alexis");
 		alexis.setApellidos("Alvarez");
 		alexis.setEmail("alexisao@hotmail.com");
@@ -52,7 +52,7 @@ public class DAOProfesorTests {
 	
 	@Test
 	public void c_updateProfesor() {
-		Professor roberto = new Professor();
+		Profesor roberto = new Profesor();
 		DAOProfesor daoProfesor = new DAOProfesor(roberto);
 		roberto.setNombres("Alexis");
 		roberto.setApellidos("Alvarez Ortega");
@@ -94,9 +94,9 @@ public class DAOProfesorTests {
 	@Test
 	public void z_getAll() {
 		try {
-			for (Professor professor: IDAOProfessor.obtenerTodosProfesores()) {
-				assertNotNull(professor.getNombres());
-				P.pln(professor.getNombres());
+			for (Profesor profesor : IDAOProfesor.obtenerTodosProfesores()) {
+				assertNotNull(profesor.getNombres());
+				P.pln(profesor.getNombres());
 			}
 		} catch (Exception exception) {
 
@@ -107,8 +107,8 @@ public class DAOProfesorTests {
 		return new DAOProfesor(getInstanceProfesor());
 	}
 	
-	private Professor getInstanceProfesor() {
-		return new Professor(
+	private Profesor getInstanceProfesor() {
+		return new Profesor(
 			"Alexis",
 			"Alvarez Ortega",
 			"alexisao@hotmail.com",

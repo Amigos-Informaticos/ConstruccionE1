@@ -73,17 +73,21 @@ public class Usuario {
 	}
 	
 	public void setContrasena(String contrasena) {
-		try {
-			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-			byte[] mensaje = messageDigest.digest(contrasena.getBytes());
-			BigInteger numero = new BigInteger(1, mensaje);
-			StringBuilder hasheado = new StringBuilder(numero.toString(16));
-			while (hasheado.length() < 32) {
-				hasheado.insert(0, "0");
+		if(esContrasena(contrasena)){
+			try {
+				MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+				byte[] mensaje = messageDigest.digest(contrasena.getBytes());
+				BigInteger numero = new BigInteger(1, mensaje);
+				StringBuilder hasheado = new StringBuilder(numero.toString(16));
+				while (hasheado.length() < 32) {
+					hasheado.insert(0, "0");
+				}
+				this.contrasena = hasheado.toString();
+			} catch (NoSuchAlgorithmException e) {
+				Logger.staticLog(e, true);
 			}
-			this.contrasena = hasheado.toString();
-		} catch (NoSuchAlgorithmException e) {
-			Logger.staticLog(e, true);
+		} else {
+			this.contrasena = null;
 		}
 	}
 	
@@ -99,14 +103,18 @@ public class Usuario {
 	}
 	
 	public static boolean esNombre(String name) {
-		return Pattern.compile("^[A-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$").matcher(name).matches();
+		return Pattern.compile("^[A-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$").matcher(name==null?"":name).matches();
 	}
 	
 	public static boolean esEmail(String email) {
 		String emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]" +
 			"+@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])" +
 			"?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*$";
-		return Pattern.compile(emailRegex).matcher(email).matches();
+		return Pattern.compile(emailRegex).matcher(email==null?"":email).matches();
+	}
+
+	public static boolean esContrasena(String contrasena){
+		return contrasena != null && (contrasena.length()>0 && contrasena.length()<33);
 	}
 	
 	public String tipo() throws SQLException {
@@ -116,7 +124,7 @@ public class Usuario {
 		Practicante practicanteAuxiliar = new Practicante();
 		practicanteAuxiliar.setEmail(this.getEmail());
 		practicanteAuxiliar.setContrasenaLimpia(this.getContrasena());
-		Professor profesorAuxiliar = new Professor();
+		Profesor profesorAuxiliar = new Profesor();
 		profesorAuxiliar.setEmail(this.getEmail());
 		profesorAuxiliar.setContrasenaLimpia(this.getContrasena());
 		Coordinador coordinadorAuxiliar = new Coordinador();

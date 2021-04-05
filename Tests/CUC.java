@@ -5,7 +5,7 @@ import Models.Asignacion;
 import Models.Coordinador;
 import Models.Organizacion;
 import Models.Practicante;
-import Models.Professor;
+import Models.Profesor;
 import Models.Proyecto;
 import Models.ResponsableProyecto;
 import org.junit.FixMethodOrder;
@@ -30,15 +30,15 @@ public class CUC {
 		);
 	}
 	
-	public Professor getProfessor() {
-		Professor professor = new Professor();
-		professor.setNombres("Octavio");
-		professor.setApellidos("Ocharan");
-		professor.setEmail("ocha@hotmail.com");
-		professor.setContrasena("ocha1234");
-		professor.setPersonalNo("N000002");
-		professor.setShift("1");
-		return professor;
+	public Profesor getProfessor() {
+		Profesor profesor = new Profesor();
+		profesor.setNombres("Octavio");
+		profesor.setApellidos("Ocharan");
+		profesor.setEmail("ocha@hotmail.com");
+		profesor.setContrasena("ocha1234");
+		profesor.setPersonalNo("N000002");
+		profesor.setShift("1");
+		return profesor;
 	}
 	
 	public Practicante getStudent() {

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class Practicante extends Usuario {
 	private String matricula;
-	private Professor profesor;
+	private Profesor profesor;
 	
 	public Practicante() {
 	}
@@ -45,18 +45,18 @@ public class Practicante extends Usuario {
 		return DAOPracticante.get(practicante);
 	}
 	
-	public Professor getProfesor() {
+	public Profesor getProfesor() {
 		return profesor;
 	}
 	
-	public void setProfesor(Professor profesor) {
+	public void setProfesor(Profesor profesor) {
 		this.profesor = profesor;
 	}
 	
 	public boolean cargarProfesor() throws SQLException {
 		assert this.getEmail() != null : "Email es nulo: Student.cargarProfesor()";
 		boolean set = false;
-		Professor profesor = DAOProfesor.getByStudent(this);
+		Profesor profesor = DAOProfesor.getByStudent(this);
 		if (profesor != null) {
 			set = true;
 			this.setProfesor(profesor);

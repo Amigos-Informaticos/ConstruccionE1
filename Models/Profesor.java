@@ -1,34 +1,34 @@
 package Models;
 
 import DAO.DAOProfesor;
-import IDAO.IDAOProfessor;
+import IDAO.IDAOProfesor;
 import javafx.collections.ObservableList;
 import java.sql.SQLException;
 import java.util.Collections;
 
-public class Professor extends Usuario {
+public class Profesor extends Usuario {
 	private String personalNo;
 	private String shift;
 	
-	public Professor() {
+	public Profesor() {
 		this.personalNo = null;
 		this.shift = null;
 	}
 	
-	public Professor(String names, String lastnames, String email, String password,
-	                 String personalNo, String shift) {
+	public Profesor(String names, String lastnames, String email, String password,
+					String personalNo, String shift) {
 		super(names, lastnames, email, password);
 		this.personalNo = personalNo;
 		this.shift = shift;
 	}
 	
-	public Professor(Professor professor) {
-		setNombres(professor.getNombres());
-		setApellidos(professor.getApellidos());
-		setEmail(professor.getEmail());
-		setContrasenaLimpia(professor.getContrasena());
-		setShift(professor.getShift());
-		setPersonalNo(professor.getPersonalNo());
+	public Profesor(Profesor profesor) {
+		setNombres(profesor.getNombres());
+		setApellidos(profesor.getApellidos());
+		setEmail(profesor.getEmail());
+		setContrasenaLimpia(profesor.getContrasena());
+		setShift(profesor.getShift());
+		setPersonalNo(profesor.getPersonalNo());
 	}
 	
 	public String getPersonalNo() {
@@ -75,11 +75,11 @@ public class Professor extends Usuario {
 		return super.estaCompleto() && personalNo != null && shift != null;
 	}
 	
-	public void obtenerProfesores(ObservableList<Professor> listProfessor) throws Exception {
+	public void obtenerProfesores(ObservableList<Profesor> listaProfesores) throws Exception {
 
 		try{
-			Professor[] professors = IDAOProfessor.obtenerTodosProfesores();
-			Collections.addAll(listProfessor, professors);
+			Profesor[] profesores = IDAOProfesor.obtenerTodosProfesores();
+			Collections.addAll(listaProfesores, profesores);
 
 		}catch(SQLException exception){
 			throw new Exception(exception.getMessage());
