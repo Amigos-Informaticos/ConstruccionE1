@@ -2,6 +2,7 @@ package View.administrador.controller;
 
 import IDAO.Turno;
 import Models.Coordinador;
+import Models.Usuario;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -16,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Paint;
 import tools.Logger;
 
 import java.net.URL;
@@ -130,6 +132,7 @@ public class AdministrarCoordinadorController implements Initializable {
                         "Campos incorrectos o incompletos",
                         "Pulse aceptar para continuar"
                 );
+                mostrarCamposErroneos();
             }
         }
     }
@@ -208,12 +211,16 @@ public class AdministrarCoordinadorController implements Initializable {
     }
 
     private void instanceCoordinator(Coordinador coordinador) {
-        coordinador.setEmail(txtEmail.getText());
-        coordinador.setContrasena(pwdPassword.getText());
-        coordinador.setNombres(txtNames.getText());
-        coordinador.setApellidos(txtLastNames.getText());
-        coordinador.setNumeroPersonal(txtNoPersonal.getText());
-        coordinador.setTurno(cmbShift.getValue());
+        if(coordinador!=null){
+            coordinador.setEmail(txtEmail.getText());
+            coordinador.setContrasena(pwdPassword.getText());
+            coordinador.setNombres(txtNames.getText());
+            coordinador.setApellidos(txtLastNames.getText());
+            coordinador.setNumeroPersonal(txtNoPersonal.getText());
+            coordinador.setTurno(cmbShift.getValue());
+        } else{
+            coordinador = new Coordinador();
+        }
     }
 
     private void cleanFormCoordinator() {
@@ -221,6 +228,40 @@ public class AdministrarCoordinadorController implements Initializable {
         txtNames.setText(null);
         txtLastNames.setText(null);
         txtNoPersonal.setText(null);
+    }
+
+    private void mostrarCamposErroneos() {
+        if(!Usuario.esEmail(txtEmail.getText())){
+            txtEmail.setUnFocusColor(Paint.valueOf("red"));
+        } else {
+            txtEmail.setUnFocusColor(Paint.valueOf("black"));
+        }
+        if(!Usuario.esNombre(txtNames.getText())){
+            txtNames.setUnFocusColor(Paint.valueOf("red"));
+        } else {
+            txtNames.setUnFocusColor(Paint.valueOf("black"));
+        }
+        if(!Usuario.esNombre(txtLastNames.getText())){
+            txtLastNames.setUnFocusColor(Paint.valueOf("red"));
+        } else {
+            txtLastNames.setUnFocusColor(Paint.valueOf("black"));
+        }
+        if(!Usuario.esContrasena(pwdPassword.getText())){
+            pwdPassword.setUnFocusColor(Paint.valueOf("red"));
+        } else {
+            pwdPassword.setUnFocusColor(Paint.valueOf("black"));
+        }
+        if(!Coordinador.esNoPersonal(txtNoPersonal.getText())){
+            txtNoPersonal.setUnFocusColor(Paint.valueOf("red"));
+        } else {
+            txtNoPersonal.setUnFocusColor(Paint.valueOf("black"));
+        }
+        if(cmbShift.getValue()==null || cmbShift.getValue().equals("")){
+            cmbShift.setUnFocusColor(Paint.valueOf("red"));
+        } else {
+            cmbShift.setUnFocusColor(Paint.valueOf("black"));
+        }
+
     }
 
     private void llenarDetallesCoordinador(Coordinador coordinador) {
