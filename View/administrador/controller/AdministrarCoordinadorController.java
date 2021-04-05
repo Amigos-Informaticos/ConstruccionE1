@@ -218,8 +218,6 @@ public class AdministrarCoordinadorController implements Initializable {
             coordinador.setApellidos(txtLastNames.getText());
             coordinador.setNumeroPersonal(txtNoPersonal.getText());
             coordinador.setTurno(cmbShift.getValue());
-        } else{
-            coordinador = new Coordinador();
         }
     }
 
