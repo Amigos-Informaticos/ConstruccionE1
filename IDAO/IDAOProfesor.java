@@ -5,7 +5,7 @@ import Models.Profesor;
 import java.sql.SQLException;
 
 public interface IDAOProfesor extends IDAOUsuario {
-    static Profesor[] obtenerTodosProfesores() throws Exception {
+    static Profesor[] obtenerTodosProfesores() throws SQLException {
         Profesor[] profesores = null;
         try {
             String query =
@@ -27,8 +27,8 @@ public interface IDAOProfesor extends IDAOUsuario {
                         responses[i][5]
                 );
             }
-        } catch (Exception exception) {
-            throw new Exception(exception.getMessage());
+        } catch (SQLException exception) {
+            throw new SQLException(exception.getMessage());
         }
 
         return profesores;
