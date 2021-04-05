@@ -9,22 +9,6 @@ public class Coordinador extends Usuario {
     private String fechaRegistro;
     private String turno;
 
-    public String getTurno() {
-        return turno;
-    }
-
-    public void setTurno(String shift) {
-        this.turno = shift;
-    }
-
-    public String getFechaRegistro() {
-        return fechaRegistro;
-    }
-
-    public void setFechaRegistro(String registrationDate) {
-        this.fechaRegistro = registrationDate;
-    }
-
     public Coordinador() {
     }
 
@@ -51,14 +35,37 @@ public class Coordinador extends Usuario {
         }
     }
 
+    public String getTurno() {
+        return turno;
+    }
+
+    public void setTurno(String shift) {
+        this.turno = shift;
+    }
+
+    public String getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(String registrationDate) {
+        this.fechaRegistro = registrationDate;
+    }
+
     public String getNoPersonal() {
         return noPersonal;
     }
 
     public void setNumeroPersonal(String noPersonal) {
-        this.noPersonal = noPersonal;
+        if (esNoPersonal(noPersonal)) {
+            this.noPersonal = noPersonal;
+        } else {
+            this.noPersonal = null;
+        }
     }
 
+    public static boolean esNoPersonal(String noPersonal){
+        return noPersonal != null && (noPersonal.length()>0 && noPersonal.length()<33);
+    }
     public boolean registrar() throws SQLException {
         return new DAOCoordinador(this).registrar();
     }
@@ -114,7 +121,7 @@ public class Coordinador extends Usuario {
     }
 
     public boolean estaCompleto() {
-        return super.estaCompleto() && noPersonal != null;
+        return super.estaCompleto() && noPersonal != null && turno != null;
     }
 
     public Coordinador obtenerActivo() throws SQLException {
