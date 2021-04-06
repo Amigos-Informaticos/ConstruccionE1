@@ -17,7 +17,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class GenerateReport implements Initializable {
+public class GenerarReporteController implements Initializable {
 	public JFXTextField name1;
 	public JFXTextField name2;
 	public JFXTextField name3;

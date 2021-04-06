@@ -3,7 +3,7 @@ package View.usuario.controller;
 import Models.Administrador;
 import Models.Coordinador;
 import Models.Practicante;
-import Models.Professor;
+import Models.Profesor;
 import Models.Usuario;
 import View.MainController;
 import com.jfoenix.controls.JFXPasswordField;
@@ -42,7 +42,7 @@ public class LoginController implements Initializable {
 								usuario = new Practicante();
 								break;
 							case "Profesor":
-								usuario = new Professor();
+								usuario = new Profesor();
 								break;
 							case "Coordinador":
 								usuario = new Coordinador();

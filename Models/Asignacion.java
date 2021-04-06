@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class Asignacion {
 	private Practicante practicante;
 	private Proyecto proyecto;
-	private Professor professor;
+	private Profesor profesor;
 	private Coordinador coordinador;
 	private float score;
 	
@@ -18,7 +18,7 @@ public class Asignacion {
 		this.practicante = practicante;
 		this.proyecto = proyecto;
 		practicante.cargarProfesor();
-		this.professor = practicante.getProfesor();
+		this.profesor = practicante.getProfesor();
 		this.coordinador = coordinador;
 	}
 	
@@ -46,12 +46,12 @@ public class Asignacion {
 		this.score = score;
 	}
 	
-	public Professor getProfesor() {
-		return professor;
+	public Profesor getProfesor() {
+		return profesor;
 	}
 	
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
+	public void setProfessor(Profesor profesor) {
+		this.profesor = profesor;
 	}
 	
 	public Coordinador getCoordinator() {
@@ -80,10 +80,10 @@ public class Asignacion {
 	public boolean estaCompleto() {
 		return this.practicante != null &&
 			this.proyecto != null &&
-			this.professor != null &&
+			this.profesor != null &&
 			this.practicante.estaCompleto() &&
 			this.proyecto.estaCompleto() &&
-			this.professor.estaCompleto();
+			this.profesor.estaCompleto();
 	}
 	
 	public boolean removeAssignment() throws SQLException {

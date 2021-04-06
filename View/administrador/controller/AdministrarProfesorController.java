@@ -1,7 +1,7 @@
 package View.administrador.controller;
 
 import IDAO.Turno;
-import Models.Professor;
+import Models.Profesor;
 import Models.Usuario;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
@@ -29,13 +29,13 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class AdminProfessorController implements Initializable {
-    @FXML private TableView<Professor> tblViewProfessor;
-    @FXML private TableColumn<Professor, String> clmnEmail;
-    @FXML private TableColumn<Professor, String> clmnNames;
-    @FXML private TableColumn<Professor, String> clmnLastNames;
-    @FXML private TableColumn<Professor, String> clmnPersonalNo;
-    @FXML private TableColumn<Professor, String> clmnShift;
+public class AdministrarProfesorController implements Initializable {
+    @FXML private TableView<Profesor> tblViewProfessor;
+    @FXML private TableColumn<Profesor, String> clmnEmail;
+    @FXML private TableColumn<Profesor, String> clmnNames;
+    @FXML private TableColumn<Profesor, String> clmnLastNames;
+    @FXML private TableColumn<Profesor, String> clmnPersonalNo;
+    @FXML private TableColumn<Profesor, String> clmnShift;
 
     @FXML private JFXTextField txtEmail;
     @FXML private JFXPasswordField pwdPassword;
@@ -48,9 +48,9 @@ public class AdminProfessorController implements Initializable {
     @FXML private JFXButton btnUpdate;
     @FXML private ImageView backArrow;
 
-    private Professor professor;
+    private Profesor profesor;
     private ObservableList<String> listShift;
-    private ObservableList<Professor> listProfessor;
+    private ObservableList<Profesor> listaProfesores;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -61,11 +61,11 @@ public class AdminProfessorController implements Initializable {
             throwables.printStackTrace();
         }
 
-        listProfessor = FXCollections.observableArrayList();
+        listaProfesores = FXCollections.observableArrayList();
 
         try {
-            new Professor().obtenerProfesores(listProfessor);
-            tblViewProfessor.setItems(listProfessor);
+            new Profesor().obtenerProfesores(listaProfesores);
+            tblViewProfessor.setItems(listaProfesores);
         }catch (NullPointerException nullPointerException){
             MainController.alert(
                     Alert.AlertType.INFORMATION,
@@ -78,11 +78,11 @@ public class AdminProfessorController implements Initializable {
 
 
         cmbShift.setItems(listShift);
-        clmnEmail.setCellValueFactory(new PropertyValueFactory<Professor, String>("email"));
-        clmnNames.setCellValueFactory(new PropertyValueFactory<Professor, String>("nombres"));
-        clmnLastNames.setCellValueFactory(new PropertyValueFactory<Professor, String>("apellidos"));
-        clmnPersonalNo.setCellValueFactory(new PropertyValueFactory<Professor, String>("personalNo"));
-        clmnShift.setCellValueFactory(new PropertyValueFactory<Professor, String>("shift"));
+        clmnEmail.setCellValueFactory(new PropertyValueFactory<Profesor, String>("email"));
+        clmnNames.setCellValueFactory(new PropertyValueFactory<Profesor, String>("nombres"));
+        clmnLastNames.setCellValueFactory(new PropertyValueFactory<Profesor, String>("apellidos"));
+        clmnPersonalNo.setCellValueFactory(new PropertyValueFactory<Profesor, String>("personalNo"));
+        clmnShift.setCellValueFactory(new PropertyValueFactory<Profesor, String>("shift"));
     
         txtNames.addEventFilter(KeyEvent.ANY, handleLetters);
         txtLastNames.addEventFilter(KeyEvent.ANY, handleLetters);
@@ -91,12 +91,12 @@ public class AdminProfessorController implements Initializable {
 
     @FXML
     public void signUp(){
-        professor = new Professor();
-        this.instanceProfessor(professor);
+        profesor = new Profesor();
+        this.instanceProfessor(profesor);
         try {
-            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea registrar?", "") && professor.estaCompleto()) {
-                if (professor.signUp()) {
-                    listProfessor.add(professor);
+            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea registrar?", "") && profesor.estaCompleto()) {
+                if (profesor.signUp()) {
+                    listaProfesores.add(profesor);
                     MainController.alert(
                         Alert.AlertType.INFORMATION,
                         "Profesor registrado correctamente",
@@ -135,17 +135,17 @@ public class AdminProfessorController implements Initializable {
 
     @FXML
     public void update(){
-        professor = new Professor();
-        this.instanceProfessor(professor);
+        profesor = new Profesor();
+        this.instanceProfessor(profesor);
         try {
-            if (professor.estaCompleto()) {
-                if (professor.update()) {
+            if (profesor.estaCompleto()) {
+                if (profesor.update()) {
                     MainController.alert(
                         Alert.AlertType.INFORMATION,
                         "Profesor modificado satisfactoriamente",
                         "Pulse aceptar para continuar"
                     );
-                    listProfessor.set(tblViewProfessor.getSelectionModel().getSelectedIndex(), professor);
+                    listaProfesores.set(tblViewProfessor.getSelectionModel().getSelectedIndex(), profesor);
                 } else {
                     MainController.alert(
                         Alert.AlertType.ERROR,
@@ -171,7 +171,7 @@ public class AdminProfessorController implements Initializable {
         if(MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro que desea eliminar?","")){
             try{
                 if(tblViewProfessor.getSelectionModel().getSelectedItem().delete()){
-                    listProfessor.remove(tblViewProfessor.getSelectionModel().getSelectedIndex());
+                    listaProfesores.remove(tblViewProfessor.getSelectionModel().getSelectedIndex());
                 } else{
                     MainController.alert(
                             Alert.AlertType.INFORMATION,
@@ -188,12 +188,12 @@ public class AdminProfessorController implements Initializable {
     }
     public void eventManager(){
         tblViewProfessor.getSelectionModel().selectedItemProperty().addListener(
-                new ChangeListener<Professor>() {
+                new ChangeListener<Profesor>() {
                     @Override
-                    public void changed(ObservableValue<? extends Professor> observable, Professor oldValue,
-                                        Professor newValue) {
+                    public void changed(ObservableValue<? extends Profesor> observable, Profesor oldValue,
+                                        Profesor newValue) {
                         if(newValue != null) {
-                            professor = newValue;
+                            profesor = newValue;
                             txtEmail.setText(newValue.getEmail());
                             txtNames.setText(newValue.getNombres());
                             txtLastNames.setText(newValue.getApellidos());
@@ -201,7 +201,7 @@ public class AdminProfessorController implements Initializable {
                             cmbShift.setValue(newValue.getShift());
                             enableEdit();
                         } else {
-                            professor = null;
+                            profesor = null;
                             cleanFormProfessor();
                             enableRegister();
                         }
@@ -235,13 +235,13 @@ public class AdminProfessorController implements Initializable {
             }
         }
     };
-    private void instanceProfessor(Professor professor) {
-        professor.setEmail(txtEmail.getText());
-        professor.setContrasena(pwdPassword.getText());
-        professor.setNombres(txtNames.getText());
-        professor.setApellidos(txtLastNames.getText());
-        professor.setPersonalNo(txtNoPersonal.getText());
-        professor.setShift(cmbShift.getValue());
+    private void instanceProfessor(Profesor profesor) {
+        profesor.setEmail(txtEmail.getText());
+        profesor.setContrasena(pwdPassword.getText());
+        profesor.setNombres(txtNames.getText());
+        profesor.setApellidos(txtLastNames.getText());
+        profesor.setPersonalNo(txtNoPersonal.getText());
+        profesor.setShift(cmbShift.getValue());
     }
     private void cleanFormProfessor(){
         txtEmail.setText(null);

@@ -93,7 +93,9 @@ public class ConexionFTP {
 			try {
 				InputStream stream = new FileInputStream(ruta);
 				this.clienteFTP.setFileType(FTP.BINARY_FILE_TYPE);
-				this.clienteFTP.storeFile(directorioRemoto + file.getName(), stream);
+				this.clienteFTP.storeFile(
+					this.directorioRemoto + directorioRemoto + file.getName(),
+					stream);
 				stream.close();
 				enviado = true;
 			} catch (IOException e) {

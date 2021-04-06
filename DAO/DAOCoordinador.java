@@ -87,9 +87,9 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		assert this.coordinador != null : "Coordinador es nulo: DAOCoordinador.eliminar()";
 		assert this.estaRegistrado() : "Coordinador no registrado: DAOCoordinador.eliminar()";
 		assert this.estaActivo() : "Coordinador inactivo: DAOCoordinador.eliminar()";
-		String query = "UPDATE MiembroFEI SET estaActivo = 0 WHERE correoElectronico = ?";
+		String query = "CALL SPA_eliminarCoordinador(?)";
 		String[] valores = {this.coordinador.getEmail()};
-		return this.conexion.ejecutar(query, valores);
+		return this.conexion.ejecutarSP(query, valores);
 	}
 	
 	public boolean estaActivo() throws SQLException {
@@ -142,7 +142,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 	public static Coordinador obtenerActivo() throws SQLException {
 		Coordinador coordinador = new Coordinador();
 		String query =
-			"SELECT nombres, apellidos, correoElectronico, contrasena noPersonal, fechaRegistro, " +
+			"SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, fechaRegistro, " +
 				"Turno.turno FROM " +
 				"MiembroFEI INNER JOIN Coordinador ON MiembroFEI.idMiembro = Coordinador.idMiembro " +
 				"INNER JOIN Turno ON Turno.idTurno = Coordinador.turno WHERE estaActivo = 1";
@@ -159,42 +159,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		}
 		return coordinador;
 	}
-	
-	public static Coordinador[] obtenerTodos() throws SQLException {
-		String query =
-			"SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, estaActivo, " +
-				"fechaRegistro, fechaBaja FROM " +
-				"MiembroFEI INNER JOIN Coordinador ON MiembroFEI.idMiembro = Coordinador.idMiembro " +
-				"WHERE estaActivo=1";
-		String[] columnas = {
-			"nombres",
-			"apellidos",
-			"correoElectronico",
-			"contrasena",
-			"noPersonal",
-			"estaActivo",
-			"fechaRegistro",
-			"fechaBaja"
-		};
-		Coordinador[] coordinadores = null;
-		String[][] resultados = new ConexionBD().seleccionar(query, null, columnas);
-		if (resultados != null && resultados.length > 0) {
-			coordinadores = new Coordinador[resultados.length];
-			for (int i = 0; i < resultados.length; i++) {
-				coordinadores[i] = new Coordinador(
-					resultados[i][0],
-					resultados[i][1],
-					resultados[i][2],
-					resultados[i][3],
-					resultados[i][4],
-					resultados[i][6],
-					resultados[i][7]
-				);
-			}
-		}
-		return coordinadores;
-	}
-	
+
 	private String getIdCoordinador() throws SQLException {
 		String query =
 			"SELECT idMiembro AS idCoordinator FROM MiembroFEI WHERE correoElectronico = ?";
