@@ -4,12 +4,13 @@ import DAO.DAOPracticante;
 import DAO.DAOProfesor;
 import Exceptions.CustomException;
 import javafx.collections.ObservableList;
+import tools.File;
 
 import java.sql.SQLException;
 
 public class Practicante extends Usuario {
 	private String matricula;
-	private Professor profesor;
+	private Profesor profesor;
 	
 	public Practicante() {
 	}
@@ -45,7 +46,7 @@ public class Practicante extends Usuario {
 		return DAOPracticante.get(practicante);
 	}
 	
-	public Professor getProfesor() {
+	public Profesor getProfesor() {
 		return profesor;
 	}
 
@@ -60,14 +61,14 @@ public class Practicante extends Usuario {
 	}
 
 	
-	public void setProfesor(Professor profesor) {
+	public void setProfesor(Profesor profesor) {
 		this.profesor = profesor;
 	}
 	
 	public boolean cargarProfesor() throws SQLException {
 		assert this.getEmail() != null : "Email es nulo: Student.cargarProfesor()";
 		boolean set = false;
-		Professor profesor = DAOProfesor.getByStudent(this);
+		Profesor profesor = DAOProfesor.getByStudent(this);
 		if (profesor != null) {
 			set = true;
 			this.setProfesor(profesor);
@@ -145,8 +146,8 @@ public class Practicante extends Usuario {
 		new DAOPracticante(this).llenarTablaPracticantes(listaPracticantes);
 	}
 	
-	public boolean tienePlanActividades() throws SQLException {
-		return new DAOPracticante(this).tienePlanActividades();
+	public boolean guardarDocumento(File documento) throws SQLException {
+		return new DAOPracticante(this).guardarDocumento(documento);
 	}
 
 	public  boolean actualizarProfesor() throws SQLException{

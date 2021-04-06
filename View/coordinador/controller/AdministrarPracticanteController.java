@@ -2,7 +2,7 @@ package View.coordinador.controller;
 
 import Exceptions.CustomException;
 import Models.Practicante;
-import Models.Professor;
+import Models.Profesor;
 import Models.Usuario;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
@@ -38,6 +38,7 @@ public class AdministrarPracticanteController implements Initializable {
     private TableColumn<Practicante, String> clmnMatricula;
     @FXML
     private JFXComboBox<String> cmbProfesor;
+    private JFXComboBox<Profesor> cmbProfesor;
 
 
     @FXML
@@ -57,6 +58,7 @@ public class AdministrarPracticanteController implements Initializable {
     private ObservableList<Practicante> listPracticante;
     private ObservableList<Professor> listProfesor;
     private  ObservableList<String> profesoresRecuperados;
+    private ObservableList<Profesor> listProfesor;
 
     private Practicante practicante;
 
@@ -79,7 +81,7 @@ public class AdministrarPracticanteController implements Initializable {
 
         listProfesor = FXCollections.observableArrayList();
         try{
-            new Professor().obtenerProfesores(listProfesor);
+            new Profesor().obtenerProfesores(listProfesor);
         }catch (NullPointerException e){
             MainController.alert(
                     Alert.AlertType.WARNING,
@@ -209,9 +211,9 @@ public class AdministrarPracticanteController implements Initializable {
 
         }
 
+
+
     }
-
-
 
     private void instanceStudent(Practicante practicante) {
         practicante.setNombres(txtNombre.getText());

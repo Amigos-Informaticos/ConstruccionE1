@@ -1,11 +1,13 @@
 package DAO;
 
 import Connection.ConexionBD;
+import Connection.ConexionFTP;
 import Exceptions.CustomException;
 import IDAO.IDAOPracticante;
 import Models.Practicante;
 import Models.Proyecto;
 import javafx.collections.ObservableList;
+import tools.File;
 
 import java.sql.SQLException;
 
@@ -560,5 +562,26 @@ public class DAOPracticante implements IDAOPracticante {
 			row++;
 		}
 		return filled;
+	}
+	
+	public boolean guardarDocumento(File documento) throws SQLException {
+		assert documento != null : "Documento es nulo: DAOPracticante.guardarDocumento()";
+		assert this.practicante.estaCompleto() :
+			"Practicante incompleto: DAOPracticante.guardarDocumento()";
+		
+		boolean guardado = false;
+		String rutaRemota = this.practicante.getMatricula() + documento.getName();
+		ConexionFTP ftp = new ConexionFTP();
+		if (ftp.enviarArchivo(documento.getStringPath(), rutaRemota)) {
+			String query = "INSERT INTO Documento (propietario, ruta, nombre)" +
+				"VALUES (?, ?, ?)";
+			String[] valores = {
+				this.getId(),
+				rutaRemota,
+				documento.getNameNoExt()
+			};
+			guardado = this.conexion.ejecutar(query, valores);
+		}
+		return guardado;
 	}
 }

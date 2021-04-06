@@ -1,41 +1,41 @@
 package DAO;
 
 import Connection.ConexionBD;
-import IDAO.IDAOProfessor;
+import IDAO.IDAOProfesor;
 import IDAO.Turno;
 import Models.Practicante;
-import Models.Professor;
+import Models.Profesor;
 
 import java.sql.SQLException;
 
-public class DAOProfesor implements IDAOProfessor, Turno {
-	private Professor professor;
+public class DAOProfesor implements IDAOProfesor, Turno {
+	private Profesor profesor;
 	private final ConexionBD connection = new ConexionBD();
 	
-	public DAOProfesor(Professor professor) {
-		this.professor = professor;
+	public DAOProfesor(Profesor profesor) {
+		this.profesor = profesor;
 	}
 	
-	public Professor getProfessor() {
-		return professor;
+	public Profesor getProfessor() {
+		return profesor;
 	}
 	
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
+	public void setProfessor(Profesor profesor) {
+		this.profesor = profesor;
 	}
 	
 	@Override
 	public boolean update() throws SQLException {
-		assert professor != null : "Professor is null : update()";
-		assert professor.estaCompleto() : "Professor is not complete : update()";
+		assert profesor != null : "Professor is null : update()";
+		assert profesor.estaCompleto() : "Professor is not complete : update()";
 		assert this.isActive() : "Professor has not a status active on the system";
 		boolean updated = false;
 		String query = "UPDATE MiembroFEI SET nombres = ?, apellidos = ? WHERE correoElectronico = ?";
-		String[] values = {this.professor.getNombres(), this.professor.getApellidos(),
-			this.professor.getEmail()};
+		String[] values = {this.profesor.getNombres(), this.profesor.getApellidos(),
+			this.profesor.getEmail()};
 		if (this.connection.ejecutar(query, values)) {
 			query = "UPDATE Profesor SET noPersonal = ?, turno = ? WHERE idMiembro = ?";
-			values = new String[] {this.professor.getPersonalNo(), this.getIdShift(), this.getId()};
+			values = new String[] {this.profesor.getPersonalNo(), this.getIdShift(), this.getId()};
 			if (this.connection.ejecutar(query, values)) {
 				updated = true;
 			}
@@ -45,19 +45,19 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 	
 	@Override
 	public boolean eliminar() throws SQLException {
-		assert this.professor != null : "Professor null is null : delete()";
+		assert this.profesor != null : "Professor null is null : delete()";
 		assert this.isActive() : "Professor is not active : delete()";
 		String query = "UPDATE MiembroFEI SET estaActivo = 0 WHERE correoElectronico = ?";
-		String[] values = {this.professor.getEmail()};
+		String[] values = {this.profesor.getEmail()};
 		return this.connection.ejecutar(query, values);
 	}
 	
 	@Override
 	public boolean reactivar() throws SQLException {
-		assert this.professor != null : "Professor is null : reactive()";
+		assert this.profesor != null : "Professor is null : reactive()";
 		assert !this.isActive() : "Professor is not active : reactive()";
 		String query = "UPDATE MiembroFEI SET estaActivo = 1 WHERE correoElectronico = ?";
-		String[] values = {this.professor.getEmail()};
+		String[] values = {this.profesor.getEmail()};
 		return this.connection.ejecutar(query, values);
 	}
 	
@@ -68,55 +68,55 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL " +
 			"FROM MiembroFEI INNER JOIN Profesor ON MiembroFEI.idMiembro = Profesor.idMiembro " +
 			"WHERE correoElectronico = ? AND contrasena = ? AND estaActivo = 1";
-		String[] values = {this.professor.getEmail(), this.professor.getContrasena()};
-		String[] names = {"TOTAL"};
+		String[] valores = {this.profesor.getEmail(), this.profesor.getContrasena()};
+		String[] nombres = {"TOTAL"};
 
-		String[][] results = new String[0][];
+		String[][] resultados = new String[0][];
 		try {
-			results = this.connection.seleccionar(query, values, names);
+			resultados = this.connection.seleccionar(query, valores, nombres);
 		} catch (Exception e) {
 			throw new SQLException(e.getMessage());
 		}
-		return results != null && results[0][0].equals("1");
+		return resultados != null && resultados[0][0].equals("1");
 	}
 	
 	@Override
 	public boolean registrar() throws SQLException {
-		assert this.professor.estaCompleto() : "Professor not complete: DAOProfessor.signUp()";
-		boolean signedUp = false;
+		assert this.profesor.estaCompleto() : "Professor not complete: DAOProfessor.signUp()";
+		boolean registrado = false;
 		if (!this.estaRegistrado()) {
 			String query = "INSERT INTO MiembroFEI " +
 				"(nombres, apellidos, correoElectronico, contrasena, estaActivo) " +
 				"VALUES (?, ?, ?, ?, ?)";
-			String[] values = {this.professor.getNombres(), this.professor.getApellidos(),
-				this.professor.getEmail(), this.professor.getContrasena(), "1"};
-			if (this.connection.ejecutar(query, values)) {
+			String[] valores = {this.profesor.getNombres(), this.profesor.getApellidos(),
+				this.profesor.getEmail(), this.profesor.getContrasena(), "1"};
+			if (this.connection.ejecutar(query, valores)) {
 				query = "INSERT INTO Profesor (idMiembro, fechaRegistro, noPersonal, turno) " +
 					"VALUES ((SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?), " +
 					"(SELECT CURRENT_DATE), ?, ?)";
-				values = new String[] {
-					this.professor.getEmail(),
-					this.professor.getPersonalNo(),
+				valores = new String[] {
+					this.profesor.getEmail(),
+					this.profesor.getPersonalNo(),
 					this.getIdShift()
 				};
-				signedUp = this.connection.ejecutar(query, values);
+				registrado = this.connection.ejecutar(query, valores);
 			}
 		} else {
 			if (!this.isActive()) {
 				this.reactivar();
-				signedUp = true;
+				registrado = true;
 			}
 		}
-		return signedUp;
+		return registrado;
 	}
 	
 	public boolean isActive() throws SQLException {
-		assert this.professor != null : "Professor is null: DAOProfessor.isActive()";
-		assert this.professor.getEmail() != null :
+		assert this.profesor != null : "Professor is null: DAOProfessor.isActive()";
+		assert this.profesor.getEmail() != null :
 			"Professor's email is null: DAOProfessor.isActive()";
 		assert this.estaRegistrado() : "Professor is not registered: DAOProfessor.isActive()";
 		String query = "SELECT estaActivo FROM MiembroFEI WHERE correoElectronico = ?";
-		String[] values = {this.professor.getEmail()};
+		String[] values = {this.profesor.getEmail()};
 		String[] names = {"estaActivo"};
 		String[][] results = this.connection.seleccionar(query, values, names);
 		return results != null && results[0][0].equals("1");
@@ -124,12 +124,12 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 	
 	@Override
 	public boolean estaRegistrado() throws SQLException {
-		assert this.professor != null;
-		assert this.professor.getEmail() != null;
+		assert this.profesor != null;
+		assert this.profesor.getEmail() != null;
 		String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL " +
 			"FROM MiembroFEI INNER JOIN Profesor ON MiembroFEI.idMiembro = Profesor.idMiembro " +
 			"WHERE correoElectronico = ?";
-		String[] values = {this.professor.getEmail()};
+		String[] values = {this.profesor.getEmail()};
 		String[] names = {"TOTAL"};
 		String[][] results = this.connection.seleccionar(query, values, names);
 		return results != null && results[0][0].equals("1");
@@ -137,7 +137,7 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 	
 	public String getIdShift() throws SQLException {
 		String query = "SELECT Turno.idTurno AS Turno FROM Turno WHERE turno = ?";
-		String[] values = {this.professor.getShift()};
+		String[] values = {this.profesor.getShift()};
 		String[] names = {"Turno"};
 		String[][] results = this.connection.seleccionar(query, values, names);
 		return results != null ? results[0][0] : "";
@@ -145,38 +145,38 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 	
 	@Override
 	public String getTurno() throws SQLException {
-		assert this.professor != null : "Professor is null: DAOProfessor.getShift()";
-		assert this.professor.getEmail() != null :
+		assert this.profesor != null : "Professor is null: DAOProfessor.getShift()";
+		assert this.profesor.getEmail() != null :
 			"Professor's email is null: DAOProfessor.getShoft()";
 		String query = "SELECT turno FROM Turno " +
 			"INNER JOIN Profesor ON Turno.idTurno = Profesor.turno " +
 			"INNER JOIN Usuario ON Profesor.idUsuario = Usuario.idUsuario " +
 			"WHERE Usuario.correoElectronico = ?";
-		String[] values = {this.professor.getEmail()};
+		String[] values = {this.profesor.getEmail()};
 		String[] responses = {"turno"};
 		String[][] results = this.connection.seleccionar(query, values, responses);
 		return results != null ? results[0][0] : "";
 	}
 	
 	public String getId() throws SQLException {
-		assert this.professor.getEmail() != null : "Professor's email is null: DAOProfessor.getId()";
+		assert this.profesor.getEmail() != null : "Professor's email is null: DAOProfessor.getId()";
 		String query = "SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?";
-		String[] values = {this.professor.getEmail()};
+		String[] values = {this.profesor.getEmail()};
 		String[] names = {"idMiembro"};
 		String[][] results = this.connection.seleccionar(query, values, names);
 		return results != null ? results[0][0] : "";
 	}
 	
 	public static String getId(String professorEmail) throws SQLException {
-		Professor professor = new Professor();
-		professor.setEmail(professorEmail);
-		return new DAOProfesor(professor).getId();
+		Profesor profesor = new Profesor();
+		profesor.setEmail(professorEmail);
+		return new DAOProfesor(profesor).getId();
 	}
 	
-	public static Professor getByEmail(String email) throws SQLException {
+	public static Profesor getByEmail(String email) throws SQLException {
 		assert email != null : "Email is null: DAOProfessor.getByEmail()";
 		ConexionBD connection = new ConexionBD();
-		Professor professor = null;
+		Profesor profesor = null;
 		String query = "SELECT COUNT(correoElectronico) AS TOTAL " +
 			"FROM MiembroFEI WHERE correoElectronico = ?";
 		String[] values = {email};
@@ -188,7 +188,7 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 				"WHERE correoElectronico = ? AND estaActivo = 1";
 			columns = new String[] {"nombres", "apellidos", "contrasena", "noPersonal", "turno"};
 			String[] responses = connection.seleccionar(query, values, columns)[0];
-			professor = new Professor(
+			profesor = new Profesor(
 				responses[0],
 				responses[1],
 				email,
@@ -197,15 +197,15 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 				responses[4]
 			);
 		}
-		return professor;
+		return profesor;
 	}
 	
-	public static Professor getByStudent(Practicante practicante) throws SQLException {
+	public static Profesor getByStudent(Practicante practicante) throws SQLException {
 		assert practicante != null : "Student is null: DAOProfessor.getByStudent()";
 		assert practicante.getEmail() != null : "Student's email is null: DAOProfessor.getByStudent()";
 		assert practicante.estaRegistrado() : "Student is not registered: DAOProfessor.getByStudent()";
 		ConexionBD connection = new ConexionBD();
-		Professor professor;
+		Profesor profesor;
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, " +
 			"Turno.turno AS turno " +
 			"FROM MiembroFEI INNER JOIN Profesor ON MiembroFEI.idMiembro = Profesor.idMiembro " +
@@ -222,13 +222,13 @@ public class DAOProfesor implements IDAOProfessor, Turno {
 			"turno"
 		};
 		String[] responses = connection.seleccionar(query, values, columns)[0];
-		professor = new Professor();
-		professor.setNombres(responses[0]);
-		professor.setApellidos(responses[1]);
-		professor.setEmail(responses[2]);
-		professor.setContrasena(responses[3]);
-		professor.setPersonalNo(responses[4]);
-		professor.setShift(responses[5]);
-		return professor;
+		profesor = new Profesor();
+		profesor.setNombres(responses[0]);
+		profesor.setApellidos(responses[1]);
+		profesor.setEmail(responses[2]);
+		profesor.setContrasena(responses[3]);
+		profesor.setPersonalNo(responses[4]);
+		profesor.setShift(responses[5]);
+		return profesor;
 	}
 }
