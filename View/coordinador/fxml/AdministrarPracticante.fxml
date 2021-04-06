@@ -141,7 +141,7 @@
             <children>
             <ImageView fitHeight="55.0" fitWidth="36.0" onMouseClicked="#onClickBack" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="/View/images/icon_back_white.png" />
+                  <Image url="@/View/coordinador/fxml/AdministrarPracticante.fxml" />
                </image>
                <HBox.margin>
                   <Insets right="10.0" top="16.0" />
