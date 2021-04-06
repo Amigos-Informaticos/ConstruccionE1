@@ -155,7 +155,7 @@ public class AdministrarOrganizacionController implements Initializable {
     }
 
     @FXML
-    public void delete() {
+    public void eliminar() {
         if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea eliminar la Organización?", "")) {
             try {
                 if (tblViewOrganization.getSelectionModel().getSelectedItem().eliminar()) {

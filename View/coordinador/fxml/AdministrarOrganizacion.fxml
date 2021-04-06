@@ -33,7 +33,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton onMouseClicked="#delete" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #FA2119;" text="Eliminar" textFill="WHITE">
+                        <JFXButton onMouseClicked="#eliminar" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #FA2119;" text="Eliminar" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
