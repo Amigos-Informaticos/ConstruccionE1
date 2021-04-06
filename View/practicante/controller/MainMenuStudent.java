@@ -1,5 +1,8 @@
 package View.practicante.controller;
 
+import DAO.DAOPracticante;
+import Exceptions.CustomException;
+import Models.Practicante;
 import Models.Proyecto;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
@@ -21,7 +24,7 @@ public class MainMenuStudent implements Initializable {
 	public JFXButton generarReporte;
 	
 	@FXML
-	public JFXButton anadirActividad;
+	public JFXButton subirHorario;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -32,7 +35,7 @@ public class MainMenuStudent implements Initializable {
 		try {
 			if (Proyecto.contarProyectos() > 0) {
 				MainController.activate(
-					"ChooseProject",
+					"SeleccionarProyecto",
 					"Solicitar Proyecto",
 					MainController.Sizes.MID
 				);
@@ -54,7 +57,7 @@ public class MainMenuStudent implements Initializable {
 	
 	public void generarReporte(MouseEvent mouseEvent) {
 		MainController.activate(
-			"GenerateReport",
+			"GenerarReporte",
 			"Generar Reporte",
 			MainController.Sizes.MID
 		);
@@ -62,11 +65,27 @@ public class MainMenuStudent implements Initializable {
 	}
 	
 	public void subirDocumento(MouseEvent mouseEvent) {
-		
-		MainController.activate(
-			"AddActivityPlan",
-			"Añadir Plan de Actividades",
-			MainController.Sizes.MID
-		);
+		try {
+			Practicante practicante = DAOPracticante.get((Practicante) MainController.get("user"));
+			if (practicante.getProyecto() != null) {
+				MainController.activate(
+					"SubirHorario",
+					"Añadir Plan de Actividades",
+					MainController.Sizes.MID
+				);
+			} else {
+				MainController.alert(
+					Alert.AlertType.ERROR,
+					"Sin proyecto",
+					"No ha sido asignado a ningún proyecto"
+				);
+			}
+		} catch (SQLException | CustomException throwables) {
+			MainController.alert(
+				Alert.AlertType.ERROR,
+				"ErrorBD",
+				"No se pudo establecer conexión con la base de datos"
+			);
+		}
 	}
 }

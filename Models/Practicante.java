@@ -4,6 +4,7 @@ import DAO.DAOPracticante;
 import DAO.DAOProfesor;
 import Exceptions.CustomException;
 import javafx.collections.ObservableList;
+import tools.File;
 
 import java.sql.SQLException;
 
@@ -122,7 +123,7 @@ public class Practicante extends Usuario {
 		new DAOPracticante(this).llenarTablaPracticantes(listaPracticantes);
 	}
 	
-	public boolean tienePlanActividades() throws SQLException {
-		return new DAOPracticante(this).tienePlanActividades();
+	public boolean guardarDocumento(File documento) throws SQLException {
+		return new DAOPracticante(this).guardarDocumento(documento);
 	}
 }

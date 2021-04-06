@@ -1,6 +1,6 @@
 package View.practicante.controller;
 
-import Models.Documento;
+import DAO.DAOPracticante;
 import Models.Practicante;
 import View.MainController;
 import com.jfoenix.controls.JFXTextField;
@@ -13,7 +13,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class AddActivityPlan implements Initializable {
+public class SubirHorarioController implements Initializable {
 	@FXML
 	private JFXTextField nombreArchivo;
 	private File archivoSeleccionado;
@@ -21,28 +21,6 @@ public class AddActivityPlan implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		nombreArchivo.setEditable(false);
-		verificarPrecondicion();
-	}
-	
-	private void verificarPrecondicion() {
-		boolean archivoSubido = false;
-		try {
-			archivoSubido = ((Practicante) MainController.get("user")).tienePlanActividades();
-		} catch (SQLException throwables) {
-			MainController.alert(
-				Alert.AlertType.ERROR,
-				"ErrorBD",
-				"No se pudo establecer conexión con la base de datos"
-			);
-		}
-		if (archivoSubido) {
-			MainController.alert(
-				Alert.AlertType.WARNING,
-				"Ya ha subido su plan de actividades",
-				"Pulse aceptar para continuar"
-			);
-			salir();
-		}
 	}
 	
 	@FXML
@@ -71,16 +49,11 @@ public class AddActivityPlan implements Initializable {
 	
 	@FXML
 	private void guardarArchivo() throws SQLException {
-		Documento file = new Documento(
-			archivoSeleccionado.getName(),
-			"PlanActividades",
-			archivoSeleccionado,
-			(Practicante) MainController.get("user")
-		);
-		if (file.save()) {
+		Practicante practicante = DAOPracticante.get((Practicante) MainController.get("user"));
+		if (practicante.guardarDocumento(archivoSeleccionado)) {
 			MainController.alert(
 				Alert.AlertType.INFORMATION,
-				"Plan guardado exitosamente",
+				"Documento guardado exitosamente",
 				"Pulse aceptar para continuar"
 			);
 			salir();

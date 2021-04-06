@@ -20,7 +20,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ChooseProjectController implements Initializable {
+public class SeleccionarProyectoController implements Initializable {
 	
 	@FXML
 	public TableView<Proyecto> projectTable;
