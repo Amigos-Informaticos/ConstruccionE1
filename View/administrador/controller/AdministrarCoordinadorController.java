@@ -10,12 +10,15 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import tools.Logger;
@@ -86,6 +89,8 @@ public class AdministrarCoordinadorController implements Initializable {
         } catch (SQLException e) {
             Logger.staticLog(e, true);
         }
+        txtNames.addEventFilter(KeyEvent.ANY, handleLetters);
+        txtLastNames.addEventFilter(KeyEvent.ANY, handleLetters);
     }
 
     @FXML
@@ -259,7 +264,6 @@ public class AdministrarCoordinadorController implements Initializable {
         } else {
             cmbShift.setUnFocusColor(Paint.valueOf("black"));
         }
-
     }
 
     private void llenarDetallesCoordinador(Coordinador coordinador) {
@@ -298,4 +302,25 @@ public class AdministrarCoordinadorController implements Initializable {
         btnRegister.setDisable(true);
     }
 
+    EventHandler<KeyEvent> handleLetters = new EventHandler<KeyEvent>() {
+        private boolean willConsume;
+        @Override
+        public void handle(KeyEvent event) {
+            Object tempO = event.getSource();
+            if(willConsume){
+                event.consume();
+            }
+            String temp = event.getCode().toString();
+            if(!event.getCode().toString().matches("[a-zA-Z]")
+                    && event.getCode() != KeyCode.BACK_SPACE
+                    && event.getCode() != KeyCode.SPACE
+                    && event.getCode() != KeyCode.SHIFT){
+                if(event.getEventType() == KeyEvent.KEY_PRESSED){
+                    willConsume = true;
+                }else if(event.getEventType() == KeyEvent.KEY_RELEASED){
+                    willConsume = false;
+                }
+            }
+        }
+    };
 }

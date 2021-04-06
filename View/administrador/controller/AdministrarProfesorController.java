@@ -1,6 +1,7 @@
 package View.administrador.controller;
 
 import IDAO.Turno;
+import Models.Coordinador;
 import Models.Profesor;
 import Models.Usuario;
 import View.MainController;
@@ -90,12 +91,12 @@ public class AdministrarProfesorController implements Initializable {
     }
 
     @FXML
-    public void signUp(){
+    public void registrar(){
         profesor = new Profesor();
         this.instanceProfessor(profesor);
-        try {
+        /*try {
             if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea registrar?", "") && profesor.estaCompleto()) {
-                if (profesor.signUp()) {
+                if (profesor.registrar()) {
                     listaProfesores.add(profesor);
                     MainController.alert(
                         Alert.AlertType.INFORMATION,
@@ -121,15 +122,49 @@ public class AdministrarProfesorController implements Initializable {
             new Logger().log(e.getMessage());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-    }
+        }*/
 
-    private void mostrarCamposErroneos() {
-        if(!Usuario.esEmail(txtEmail.getText())){
-            txtEmail.setUnFocusColor(Paint.valueOf("red"));
-        }
-        if(!Usuario.esNombre(txtNames.getText())){
-            txtNames.setUnFocusColor(Paint.valueOf("red"));
+        if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Estás seguro que deseas agregar?",
+                "Pulse aceptar para continuar")) {
+            if (profesor.estaCompleto()) {
+                try {
+                    if (!profesor.estaRegistrado()) {
+                        if (profesor.registrar()) {
+                            MainController.alert(
+                                    Alert.AlertType.INFORMATION,
+                                    "Profesor registrado correctamente",
+                                    "Pulse aceptar para continuar"
+                            );
+                            listaProfesores.add(profesor);
+                        } else {
+                            MainController.alert(
+                                    Alert.AlertType.WARNING,
+                                    "Ocurrio un error al conectarse a la base de datos",
+                                    "Pulse aceptar para continuar"
+                            );
+                        }
+                    } else {
+                        MainController.alert(Alert.AlertType.WARNING,
+                                "La cuenta ya se encuentra registrada",
+                                "Pulse aceptar para continuar"
+                        );
+                    }
+                } catch (SQLException sqlException) {
+                    MainController.alert(
+                            Alert.AlertType.ERROR,
+                            "Ocurrio un error al conectarse a la base de datos",
+                            "Pulse aceptar para continuar"
+                    );
+                    Logger.staticLog(sqlException, true);
+                }
+            } else {
+                MainController.alert(
+                        Alert.AlertType.WARNING,
+                        "Campos incorrectos o incompletos",
+                        "Pulse aceptar para continuar"
+                );
+                mostrarCamposErroneos();
+            }
         }
     }
 
@@ -170,7 +205,7 @@ public class AdministrarProfesorController implements Initializable {
     public void delete(){
         if(MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro que desea eliminar?","")){
             try{
-                if(tblViewProfessor.getSelectionModel().getSelectedItem().delete()){
+                if(tblViewProfessor.getSelectionModel().getSelectedItem().eliminar()){
                     listaProfesores.remove(tblViewProfessor.getSelectionModel().getSelectedIndex());
                 } else{
                     MainController.alert(
@@ -197,8 +232,8 @@ public class AdministrarProfesorController implements Initializable {
                             txtEmail.setText(newValue.getEmail());
                             txtNames.setText(newValue.getNombres());
                             txtLastNames.setText(newValue.getApellidos());
-                            txtNoPersonal.setText(newValue.getPersonalNo());
-                            cmbShift.setValue(newValue.getShift());
+                            txtNoPersonal.setText(newValue.getNoPersonal());
+                            cmbShift.setValue(newValue.getTurno());
                             enableEdit();
                         } else {
                             profesor = null;
@@ -240,8 +275,8 @@ public class AdministrarProfesorController implements Initializable {
         profesor.setContrasena(pwdPassword.getText());
         profesor.setNombres(txtNames.getText());
         profesor.setApellidos(txtLastNames.getText());
-        profesor.setPersonalNo(txtNoPersonal.getText());
-        profesor.setShift(cmbShift.getValue());
+        profesor.setNumeroPersonal(txtNoPersonal.getText());
+        profesor.setTurno(cmbShift.getValue());
     }
     private void cleanFormProfessor(){
         txtEmail.setText(null);
@@ -264,5 +299,38 @@ public class AdministrarProfesorController implements Initializable {
         btnDelete.setDisable(false);
         btnUpdate.setDisable(false);
         btnRegister.setDisable(true);
+    }
+
+    private void mostrarCamposErroneos() {
+        if(!Usuario.esEmail(txtEmail.getText())){
+            txtEmail.setUnFocusColor(Paint.valueOf("red"));
+        } else {
+            txtEmail.setUnFocusColor(Paint.valueOf("black"));
+        }
+        if(!Usuario.esNombre(txtNames.getText())){
+            txtNames.setUnFocusColor(Paint.valueOf("red"));
+        } else {
+            txtNames.setUnFocusColor(Paint.valueOf("black"));
+        }
+        if(!Usuario.esNombre(txtLastNames.getText())){
+            txtLastNames.setUnFocusColor(Paint.valueOf("red"));
+        } else {
+            txtLastNames.setUnFocusColor(Paint.valueOf("black"));
+        }
+        if(!Usuario.esContrasena(pwdPassword.getText())){
+            pwdPassword.setUnFocusColor(Paint.valueOf("red"));
+        } else {
+            pwdPassword.setUnFocusColor(Paint.valueOf("black"));
+        }
+        if(!Profesor.esNoPersonal(txtNoPersonal.getText())){
+            txtNoPersonal.setUnFocusColor(Paint.valueOf("red"));
+        } else {
+            txtNoPersonal.setUnFocusColor(Paint.valueOf("black"));
+        }
+        if(cmbShift.getValue()==null || cmbShift.getValue().equals("")){
+            cmbShift.setUnFocusColor(Paint.valueOf("red"));
+        } else {
+            cmbShift.setUnFocusColor(Paint.valueOf("black"));
+        }
     }
 }
