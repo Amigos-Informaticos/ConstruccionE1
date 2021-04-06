@@ -1,5 +1,8 @@
 package View.practicante.controller;
 
+import DAO.DAOPracticante;
+import Exceptions.CustomException;
+import Models.Practicante;
 import Models.Proyecto;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
@@ -62,11 +65,27 @@ public class MainMenuStudent implements Initializable {
 	}
 	
 	public void subirDocumento(MouseEvent mouseEvent) {
-		
-		MainController.activate(
-			"SubirHorario",
-			"Añadir Plan de Actividades",
-			MainController.Sizes.MID
-		);
+		try {
+			Practicante practicante = DAOPracticante.get((Practicante) MainController.get("user"));
+			if (practicante.getProyecto() != null) {
+				MainController.activate(
+					"SubirHorario",
+					"Añadir Plan de Actividades",
+					MainController.Sizes.MID
+				);
+			} else {
+				MainController.alert(
+					Alert.AlertType.ERROR,
+					"Sin proyecto",
+					"No ha sido asignado a ningún proyecto"
+				);
+			}
+		} catch (SQLException | CustomException throwables) {
+			MainController.alert(
+				Alert.AlertType.ERROR,
+				"ErrorBD",
+				"No se pudo establecer conexión con la base de datos"
+			);
+		}
 	}
 }
