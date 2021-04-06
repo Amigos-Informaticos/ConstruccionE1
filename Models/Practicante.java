@@ -87,6 +87,14 @@ public class Practicante extends Usuario {
 	public boolean actualizar() throws SQLException {
 		return new DAOPracticante(this).actualizar();
 	}
+
+	public  boolean actualizarConContrasenia(String correoElectronicoAntiguo) throws SQLException{
+		return new DAOPracticante(this).actualizarConContrasenia(correoElectronicoAntiguo);
+	}
+
+	public  boolean actualizarSinContrasenia(String correoElectronicoAntiguo) throws  SQLException{
+		return  new  DAOPracticante(this).actualizarSinContrasenia(correoElectronicoAntiguo);
+	}
 	
 	public boolean eliminar() throws SQLException {
 		return new DAOPracticante(this).eliminar();
@@ -127,6 +135,10 @@ public class Practicante extends Usuario {
 	public boolean estaRegistrado() throws SQLException {
 		return new DAOPracticante(this).estaRegistrado();
 	}
+
+	public  boolean estaRegistradoActualizar(String correoElectronicoAntiguo) throws  SQLException{
+		return  new  DAOPracticante(this).estaRegistradoActualizar(correoElectronicoAntiguo);
+	}
 	
 	public void llenarTablaPracticantes(ObservableList<Practicante> listaPracticantes)
 		throws NullPointerException, SQLException {
@@ -135,5 +147,9 @@ public class Practicante extends Usuario {
 	
 	public boolean tienePlanActividades() throws SQLException {
 		return new DAOPracticante(this).tienePlanActividades();
+	}
+
+	public  boolean actualizarProfesor() throws SQLException{
+		return new DAOPracticante(this).actualizarProfesor();
 	}
 }

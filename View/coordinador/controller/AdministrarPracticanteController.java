@@ -22,6 +22,7 @@ import javafx.scene.paint.Paint;
 import javafx.util.StringConverter;
 import tools.Logger;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -36,7 +37,7 @@ public class AdministrarPracticanteController implements Initializable {
     @FXML
     private TableColumn<Practicante, String> clmnMatricula;
     @FXML
-    private JFXComboBox<Professor> cmbProfesor;
+    private JFXComboBox<String> cmbProfesor;
 
 
     @FXML
@@ -55,12 +56,14 @@ public class AdministrarPracticanteController implements Initializable {
 
     private ObservableList<Practicante> listPracticante;
     private ObservableList<Professor> listProfesor;
+    private  ObservableList<String> profesoresRecuperados;
 
     private Practicante practicante;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         listPracticante = FXCollections.observableArrayList();
+        profesoresRecuperados = FXCollections.observableArrayList();
         try {
             new Practicante().llenarTablaPracticantes(listPracticante);
         } catch (NullPointerException e) {
@@ -93,22 +96,31 @@ public class AdministrarPracticanteController implements Initializable {
             MainController.activate("MainMenuCoordinator");
         }
 
-        cmbProfesor.setItems(listProfesor);
+        this.llenarListaProfesores();
+        cmbProfesor.setItems(this.profesoresRecuperados);
         eventManager();
 
-        cmbProfesor.setConverter(new StringConverter<Professor>() {
-            @Override
-            public String toString(Professor professor) {
-                return professor.getNombres();
-            }
 
-            @Override
-            public Professor fromString(String string) {
-                return null;
-            }
-        });
     }
 
+    private void llenarListaProfesores(){
+        for (Professor profesor: this.listProfesor) {
+            this.profesoresRecuperados.add(profesor.getNombres());
+        }
+    }
+
+    private  Professor obtenerProfesorPorNombres(String nombres){
+        Professor profesor = null;
+
+        for (Professor profesorLista: this.listProfesor) {
+            if(profesorLista.getNombres().equals(nombres)){
+                profesor = profesorLista;
+                break;
+            }
+        }
+
+        return  profesor;
+    }
 
 
 
@@ -127,7 +139,13 @@ public class AdministrarPracticanteController implements Initializable {
                             practicante = tblViewPracticante.getSelectionModel().getSelectedItem();
 
                             try {
-                                cmbProfesor.setValue(newValue.recuperarProfesor());
+
+                                Professor profesor = new Professor();
+                                profesor = newValue.recuperarProfesor();
+                                cmbProfesor.setValue(profesor.getNombres());
+                                newValue.setProfesor(profesor);
+                                txtContrasenia.setText("");
+
 
 
                             } catch (SQLException throwables) {
@@ -202,7 +220,25 @@ public class AdministrarPracticanteController implements Initializable {
         practicante.setMatricula(txtMatricula.getText());
         practicante.setEmail(txtEmail.getText());
         practicante.setContrasena(txtContrasenia.getText());
-        practicante.setProfesor(cmbProfesor.getValue());
+        practicante.setProfesor(this.obtenerProfesorPorNombres(cmbProfesor.getValue()));
+
+        System.out.println(practicante.getNombres());
+        System.out.println(practicante.getApellidos());
+        System.out.println(practicante.getMatricula());
+        System.out.println(practicante.getEmail());
+        System.out.println(practicante.getContrasena());
+        System.out.println(practicante.getProfesor().getEmail());
+    }
+
+    private  void instanciarEstudianteSinContrasenia(Practicante practicante){
+
+        practicante.setNombres(txtNombre.getText());
+
+        practicante.setApellidos(txtApellido.getText());
+        practicante.setMatricula(txtMatricula.getText());
+        practicante.setEmail(txtEmail.getText());
+        practicante.setContrasenaLimpia(txtContrasenia.getText());
+        practicante.setProfesor(this.obtenerProfesorPorNombres(cmbProfesor.getValue()));
 
         System.out.println(practicante.getNombres());
         System.out.println(practicante.getApellidos());
@@ -260,19 +296,73 @@ public class AdministrarPracticanteController implements Initializable {
 
     @FXML
     public void actualizar(){
-        if (this.txtContrasenia.getText().isEmpty()){
+        Practicante practicanteAntiguo =  tblViewPracticante.getSelectionModel().getSelectedItem();
 
-            if(this.validarCamposCompletosSinContrasena() && this.comprobarCamposValidos()){
+        Practicante practicanteNuevo =  new Practicante();
 
+        try {
+            if (this.txtContrasenia.getText().equals("")) {
+                this.instanciarEstudianteSinContrasenia(practicanteNuevo);
+                if (this.validarCamposCompletosSinContrasena() && this.comprobarCamposValidos()) {
+
+                    if(!sonPracticantesIguales(practicanteAntiguo, practicanteNuevo)){
+                        try {
+                            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Desea modificar la informacion del practicante?", "")) {
+
+                                if (!practicanteNuevo.estaRegistradoActualizar(practicanteAntiguo.getEmail())) {
+                                    practicanteNuevo.actualizarSinContrasenia(practicanteAntiguo.getEmail());
+                                    practicanteNuevo.actualizarProfesor();
+                                    this.mostrarMensajePracticanteActualizado();
+                                    this.actualizarTabla();
+                                    this.limpiarCampos();
+
+                                } else {
+                                    this.mostrarMensajePracticanteRegistradoPreviamente();
+                                }
+                            }
+
+                        } catch (SQLException throwables) {
+                            this.mostrarMensajeErrorBD();
+                        }
+
+                    }
+
+
+
+                }
+
+            } else {
+                this.instanceStudent(practicanteNuevo);
+                if (this.validarCamposCompletos() && this.comprobarCamposValidos()) {
+
+                    if(!this.sonPracticantesIguales(practicanteAntiguo,practicanteNuevo)){
+                        if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Desea modificar la informacion del practicante?", "")) {
+                            try {
+                                if (!practicanteNuevo.estaRegistradoActualizar(practicanteAntiguo.getEmail())) {
+
+                                    practicanteNuevo.actualizarConContrasenia(practicanteAntiguo.getEmail());
+                                    practicanteNuevo.actualizarProfesor();
+                                    this.mostrarMensajePracticanteActualizado();
+                                    this.actualizarTabla();
+                                    this.limpiarCampos();
+
+
+                                } else {
+                                    this.mostrarMensajePracticanteRegistradoPreviamente();
+                                }
+                            } catch (SQLException throwables) {
+                                this.mostrarMensajeErrorBD();
+                            }
+
+                        }
+
+                    }
+
+
+                }
 
             }
-
-        }else{
-
-            if(this.validarCamposCompletos() && this.comprobarCamposValidos()){
-
-
-            }
+        }catch (Exception e){
 
         }
     }
@@ -380,6 +470,7 @@ public class AdministrarPracticanteController implements Initializable {
         );
     }
 
+
     private  void mostrarMensajeErrorBD(){
         MainController.alert(
                 Alert.AlertType.INFORMATION,
@@ -399,10 +490,18 @@ public class AdministrarPracticanteController implements Initializable {
     private void mostrarMensajePracticanteRegistradoPreviamente(){
         MainController.alert(
                 Alert.AlertType.INFORMATION,
-                "Error",
-                "Practicante registrado previamente"
+                "Practicante registrado previamente",
+                ""
         );
     }
+    private  void mostrarMensajePracticanteActualizado(){
+        MainController.alert(
+                Alert.AlertType.INFORMATION,
+                "Practicante actualizado exitosamente",
+                ""
+        );
+    }
+
 
     private  void actualizarTabla(){
         listPracticante = FXCollections.observableArrayList();
@@ -413,5 +512,25 @@ public class AdministrarPracticanteController implements Initializable {
             mostrarMensajeErrorBD();
         }
     }
+    private boolean sonPracticantesIguales(Practicante practicanteAntiguo, Practicante practicanteNuevo){
+        boolean sonIguales = false ;
+
+        if(
+                practicanteAntiguo.getEmail().equals(practicanteNuevo.getEmail())
+                && practicanteAntiguo.getNombres().equals(practicanteNuevo.getNombres())
+                && practicanteAntiguo.getApellidos().equals(practicanteNuevo.getApellidos())
+                && practicanteAntiguo.getMatricula().equals(practicanteNuevo.getMatricula())
+                && practicanteAntiguo.getProfesor().getPersonalNo().equals(practicanteNuevo.getProfesor().getPersonalNo())
+
+        ){
+            sonIguales = true;
+        }
+
+
+        return sonIguales;
+    }
+
+
+
 
 }
