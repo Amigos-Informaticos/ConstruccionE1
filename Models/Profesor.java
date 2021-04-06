@@ -7,19 +7,19 @@ import java.sql.SQLException;
 import java.util.Collections;
 
 public class Profesor extends Usuario {
-	private String personalNo;
-	private String shift;
+	private String noPersonal;
+	private String turno;
 	
 	public Profesor() {
-		this.personalNo = null;
-		this.shift = null;
+		this.noPersonal = null;
+		this.turno = null;
 	}
 	
 	public Profesor(String names, String lastnames, String email, String password,
-					String personalNo, String shift) {
+					String noPersonal, String turno) {
 		super(names, lastnames, email, password);
-		this.personalNo = personalNo;
-		this.shift = shift;
+		this.noPersonal = noPersonal;
+		this.turno = turno;
 	}
 	
 	public Profesor(Profesor profesor) {
@@ -27,31 +27,35 @@ public class Profesor extends Usuario {
 		setApellidos(profesor.getApellidos());
 		setEmail(profesor.getEmail());
 		setContrasenaLimpia(profesor.getContrasena());
-		setShift(profesor.getShift());
-		setPersonalNo(profesor.getPersonalNo());
+		setTurno(profesor.getTurno());
+		setNumeroPersonal(profesor.getNoPersonal());
 	}
 	
-	public String getPersonalNo() {
-		return personalNo;
+	public String getNoPersonal() {
+		return noPersonal;
 	}
 	
-	public String getShift() {
-		return shift;
+	public String getTurno() {
+		return turno;
+	}
+
+	public void setNumeroPersonal(String noPersonal) {
+		if (esNoPersonal(noPersonal)) {
+			this.noPersonal = noPersonal;
+		} else {
+			this.noPersonal = null;
+		}
 	}
 	
-	public void setPersonalNo(String personalNo) {
-		this.personalNo = personalNo;
+	public void setTurno(String turno) {
+		this.turno = turno;
 	}
 	
-	public void setShift(String shift) {
-		this.shift = shift;
-	}
-	
-	public boolean logIn() throws  SQLException {
+	public boolean iniciarSesion() throws  SQLException {
 		return new DAOProfesor(this).iniciarSesion();
 	}
 	
-	public boolean signUp() throws SQLException {
+	public boolean registrar() throws SQLException {
 		return new DAOProfesor(this).registrar();
 	}
 	
@@ -59,20 +63,24 @@ public class Profesor extends Usuario {
 		return new DAOProfesor(this).update();
 	}
 	
-	public boolean delete() throws SQLException {
+	public boolean eliminar() throws SQLException {
 		return new DAOProfesor(this).eliminar();
 	}
 	
-	public boolean reactive() throws SQLException {
+	public boolean reactivar() throws SQLException {
 		return new DAOProfesor(this).reactivar();
 	}
-	
-	public boolean isRegistered() throws SQLException {
+
+	public static boolean esNoPersonal(String noPersonal){
+		return noPersonal != null && (noPersonal.length()>0 && noPersonal.length()<33);
+	}
+
+	public boolean estaRegistrado() throws SQLException {
 		return new DAOProfesor(this).estaRegistrado();
 	}
 	
 	public boolean estaCompleto() {
-		return super.estaCompleto() && personalNo != null && shift != null;
+		return super.estaCompleto() && noPersonal != null && turno != null;
 	}
 	
 	public void obtenerProfesores(ObservableList<Profesor> listaProfesores) throws Exception {

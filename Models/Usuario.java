@@ -135,7 +135,7 @@ public class Usuario {
 		administradorAuxiliar.setContrasenaLimpia(this.getContrasena());
 		if (practicanteAuxiliar.iniciarSesion()) {
 			tipo = "Estudiante";
-		} else if (profesorAuxiliar.logIn()) {
+		} else if (profesorAuxiliar.iniciarSesion()) {
 			tipo = "Profesor";
 		} else if (coordinadorAuxiliar.iniciarSesion()) {
 			tipo = "Coordinador";
