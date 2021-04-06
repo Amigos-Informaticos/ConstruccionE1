@@ -46,9 +46,9 @@
             <Font name="System Bold" size="20.0"/>
          </font>
       </JFXButton>
-      <JFXButton fx:id="anadirActividad" onMouseClicked="#subirDocumento" layoutX="195.0"
+      <JFXButton fx:id="subirHorario" onMouseClicked="#subirDocumento" layoutX="195.0"
                  layoutY="284.0" prefHeight="60.0"
-                 prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Añadir Actividad"
+                 prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Subir Horario"
                  textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0"/>

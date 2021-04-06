@@ -38,7 +38,7 @@ public class LoginController implements Initializable {
 					type = usuario.tipo();
 					if (!"null".equals(type)) {
 						switch (type) {
-							case "Estudiante":
+							case "Practicante":
 								usuario = new Practicante();
 								break;
 							case "Profesor":
