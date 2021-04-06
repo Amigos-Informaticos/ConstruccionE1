@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="View.practicante.controller.AddActivityPlan">
+            fx:controller="View.practicante.controller.SubirHorarioController">
    <children>
       <ImageView disable="true" fitHeight="417.0" fitWidth="389.0" layoutX="194.0" layoutY="17.0"
                  opacity="0.08" pickOnBounds="true" preserveRatio="true">
@@ -30,12 +30,12 @@
                   <Insets left="10.0" top="10.0"/>
                </HBox.margin>
             </ImageView>
-            <Label text="Generar Reporte" textFill="WHITE">
+            <Label text="Subir Horario1" textFill="WHITE">
                <font>
-                  <Font size="35.0" />
+                  <Font size="35.0"/>
                </font>
                <HBox.margin>
-                  <Insets left="10.0" />
+                  <Insets left="10.0"/>
                </HBox.margin>
             </Label>
          </children>

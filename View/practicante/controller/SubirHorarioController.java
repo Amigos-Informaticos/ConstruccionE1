@@ -13,7 +13,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class AddActivityPlan implements Initializable {
+public class SubirHorarioController implements Initializable {
 	@FXML
 	private JFXTextField nombreArchivo;
 	private File archivoSeleccionado;
