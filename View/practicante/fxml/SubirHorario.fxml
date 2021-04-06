@@ -30,7 +30,7 @@
                   <Insets left="10.0" top="10.0"/>
                </HBox.margin>
             </ImageView>
-            <Label text="Subir Horario1" textFill="WHITE">
+            <Label text="Subir Horario" textFill="WHITE">
                <font>
                   <Font size="35.0"/>
                </font>

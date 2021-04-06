@@ -21,7 +21,7 @@ public class MainMenuStudent implements Initializable {
 	public JFXButton generarReporte;
 	
 	@FXML
-	public JFXButton anadirActividad;
+	public JFXButton subirHorario;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -32,7 +32,7 @@ public class MainMenuStudent implements Initializable {
 		try {
 			if (Proyecto.contarProyectos() > 0) {
 				MainController.activate(
-					"ChooseProject",
+					"SeleccionarProyecto",
 					"Solicitar Proyecto",
 					MainController.Sizes.MID
 				);
@@ -54,7 +54,7 @@ public class MainMenuStudent implements Initializable {
 	
 	public void generarReporte(MouseEvent mouseEvent) {
 		MainController.activate(
-			"GenerateReport",
+			"GenerarReporte",
 			"Generar Reporte",
 			MainController.Sizes.MID
 		);
@@ -64,7 +64,7 @@ public class MainMenuStudent implements Initializable {
 	public void subirDocumento(MouseEvent mouseEvent) {
 		
 		MainController.activate(
-			"AddActivityPlan",
+			"SubirHorario",
 			"Añadir Plan de Actividades",
 			MainController.Sizes.MID
 		);
