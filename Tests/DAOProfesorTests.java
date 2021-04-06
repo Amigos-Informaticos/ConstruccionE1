@@ -24,8 +24,8 @@ public class DAOProfesorTests {
 		alexis.setApellidos("Ocharan");
 		alexis.setEmail("ocha@hotmail.com");
 		alexis.setContrasena("ocha1234");
-		alexis.setPersonalNo("N000002");
-		alexis.setShift("1");
+		alexis.setNumeroPersonal("N000002");
+		alexis.setTurno("1");
 		try {
 			assertTrue(daoProfesor.registrar());
 		} catch (SQLException throwables) {
@@ -40,8 +40,8 @@ public class DAOProfesorTests {
 		alexis.setApellidos("Alvarez");
 		alexis.setEmail("alexisao@hotmail.com");
 		alexis.setContrasena("alexis123");
-		alexis.setPersonalNo("N12345678");
-		alexis.setShift("1");
+		alexis.setNumeroPersonal("N12345678");
+		alexis.setTurno("1");
 		DAOProfesor daoProfesor = new DAOProfesor(alexis);
 		try {
 			assertTrue(daoProfesor.estaRegistrado());
@@ -58,8 +58,8 @@ public class DAOProfesorTests {
 		roberto.setApellidos("Alvarez Ortega");
 		roberto.setEmail("alexisao@hotmail.com");
 		roberto.setContrasena("alexis123");
-		roberto.setPersonalNo("N000001");
-		roberto.setShift("1");
+		roberto.setNumeroPersonal("N000001");
+		roberto.setTurno("1");
 		try {
 			assertTrue(daoProfesor.update());
 		} catch (AssertionError e) {

@@ -60,8 +60,8 @@ public class DAOCoordinadorTests {
 		roberto.setApellidos("Alvarez Ortega");
 		roberto.setEmail("alexisao@hotmail.com");
 		roberto.setContrasena("alexis123");
-		roberto.setPersonalNo("N000001");
-	    roberto.setShift("1");
+		roberto.setNumeroPersonal("N000001");
+	    roberto.setTurno("1");
 	    try {
 			try {
 				assertTrue(daoProfesor.update());
