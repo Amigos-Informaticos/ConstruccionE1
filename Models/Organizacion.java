@@ -138,4 +138,14 @@ public class Organizacion {
 	public boolean actualizar(String nombreAntiguo) throws SQLException{
 		return new DAOOrganizacion(this).actualizar(nombreAntiguo);
 	}
+
+	@Override
+	public String toString() {
+		return "Organizacion{" +
+				"nombre='" + nombre + '\'' +
+				", telefono='" + telefono + '\'' +
+				", sector='" + sector + '\'' +
+				", direccion=" + direccion +
+				'}';
+	}
 }
