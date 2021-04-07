@@ -33,7 +33,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton onMouseClicked="#delete" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #FA2119;" text="Eliminar" textFill="WHITE">
+                        <JFXButton onMouseClicked="#eliminar" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #FA2119;" text="Eliminar" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -103,7 +103,7 @@
          <children>
             <ImageView fitHeight="40.0" fitWidth="34.0" onMouseClicked="#onClickBack" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="/View/images/icon_back_white.png" />
+                  <Image url="@/View/images/icon_back_white.png" />
                </image>
                <HBox.margin>
                   <Insets right="10.0" top="15.0" />
