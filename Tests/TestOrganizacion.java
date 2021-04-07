@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.sql.SQLException;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class TestOrganizacion {
@@ -51,6 +52,7 @@ public class TestOrganizacion {
         try {
             Organizacion organizacion = Organizacion.obtenerPorNombre("Efra y asociados");
             System.out.println(organizacion.toString());
+            assertNotNull(organizacion);
         } catch (SQLException throwables) {
             System.out.println(throwables);
         }
@@ -59,7 +61,7 @@ public class TestOrganizacion {
     @Test
     public void actualizarOrganizacion(){
         try {
-            crearNuevaOrganizacion().actualizar("Efra y asociados");
+            assertTrue(crearNuevaOrganizacion().actualizar("Efra y asociados"));
         } catch (SQLException throwables) {
             System.out.println(throwables);
         }
@@ -70,6 +72,7 @@ public class TestOrganizacion {
         try {
             Organizacion organizacion = Organizacion.obtenerPorNombre("Dafne y asociados");
             System.out.println(organizacion.toString());
+            assertNotNull(organizacion);
         } catch (SQLException throwables) {
             System.out.println(throwables);
         }
@@ -78,7 +81,7 @@ public class TestOrganizacion {
     @Test
     public void eliminarOrganizacion(){
         try {
-            crearNuevaOrganizacion().eliminar();
+            assertTrue(crearNuevaOrganizacion().eliminar());
         } catch (SQLException throwables) {
             System.out.println(throwables);
         }
