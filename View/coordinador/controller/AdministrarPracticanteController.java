@@ -468,6 +468,16 @@ public class AdministrarPracticanteController implements Initializable {
             this.txtApellido.setUnFocusColor(Paint.valueOf("red"));
         }
 
+        if(!this.esMatriculaValida(this.txtMatricula.getText())){
+            camposValidos = false;
+            if(!dialogoMostrado){
+                mostrarMensajeInformacionIncorrecta();
+
+            }
+            this.txtMatricula.setUnFocusColor(Paint.valueOf("red"));
+
+        }
+
 
         return  camposValidos;
 
@@ -540,6 +550,39 @@ public class AdministrarPracticanteController implements Initializable {
 
 
         return sonIguales;
+    }
+    private boolean esMatriculaValida(String matricula) {
+        boolean matriculaValida = true;
+
+        String mensaje = "";
+
+        if (matricula.length() == 9) {
+            if (matricula.charAt(0) != 'S' && matricula.charAt(0) != 's') {
+                matriculaValida = false;
+                mensaje = "Matricula no válida";
+                System.out.println(matricula.charAt(0) + "!= S o s");
+                System.out.println("No inicia con S y tiene mas de 9 caracteres");
+            }
+        } else if (matricula.length() == 10) {
+            if (matricula.charAt(0) != 'Z' && matricula.charAt(0) != 'z') {
+                matriculaValida = false;
+                mensaje = "Matrícula no válida";
+                System.out.println("Tiene 10 caracteres, pero no comiensa con Z");
+            } else {
+                if (matricula.charAt(1) != 'S' && matricula.charAt(1) != 's') {
+                    matriculaValida = false;
+                    mensaje = "Matricula no válida";
+                    System.out.println("Comienza con Z pero la siguiente letre no es una S");
+                }
+            }
+
+        } else {
+            mensaje = "Matricula no válida";
+            matriculaValida = false;
+        }
+
+
+        return matriculaValida;
     }
 
 
