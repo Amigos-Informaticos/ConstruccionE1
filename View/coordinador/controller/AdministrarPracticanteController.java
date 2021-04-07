@@ -18,7 +18,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import tools.Logger;
 import java.net.URL;
@@ -321,7 +320,7 @@ public class AdministrarPracticanteController implements Initializable {
 
                     if(!sonPracticantesIguales(practicanteAntiguo, practicanteNuevo) && MainController.alert(Alert.AlertType.CONFIRMATION,"¿Desea modificar la informacion del practicante?", "")){
                         try {
-                            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Desea modificar la informacion del practicante?", "")) {
+                            if (!practicanteNuevo.estaRegistradoActualizar(practicanteAntiguo.getEmail())) {
 
                                 practicanteNuevo.actualizarSinContrasenia(practicanteAntiguo.getEmail());
                                 practicanteNuevo.actualizarProfesor();
