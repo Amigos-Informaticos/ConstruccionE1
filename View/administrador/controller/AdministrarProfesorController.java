@@ -1,7 +1,6 @@
 package View.administrador.controller;
 
 import IDAO.Turno;
-import Models.Coordinador;
 import Models.Profesor;
 import Models.Usuario;
 import View.MainController;
@@ -50,14 +49,14 @@ public class AdministrarProfesorController implements Initializable {
     @FXML private ImageView backArrow;
 
     private Profesor profesor;
-    private ObservableList<String> listShift;
+    private ObservableList<String> listaTurnos;
     private ObservableList<Profesor> listaProfesores;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        listShift = FXCollections.observableArrayList();
+        listaTurnos = FXCollections.observableArrayList();
         try {
-            Turno.llenarTurno(listShift);
+            Turno.llenarTurno(listaTurnos);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -77,13 +76,12 @@ public class AdministrarProfesorController implements Initializable {
             e.printStackTrace();
         }
 
-
-        cmbShift.setItems(listShift);
+        cmbShift.setItems(listaTurnos);
         clmnEmail.setCellValueFactory(new PropertyValueFactory<Profesor, String>("email"));
         clmnNames.setCellValueFactory(new PropertyValueFactory<Profesor, String>("nombres"));
         clmnLastNames.setCellValueFactory(new PropertyValueFactory<Profesor, String>("apellidos"));
-        clmnPersonalNo.setCellValueFactory(new PropertyValueFactory<Profesor, String>("personalNo"));
-        clmnShift.setCellValueFactory(new PropertyValueFactory<Profesor, String>("shift"));
+        clmnPersonalNo.setCellValueFactory(new PropertyValueFactory<Profesor, String>("noPersonal"));
+        clmnShift.setCellValueFactory(new PropertyValueFactory<Profesor, String>("turno"));
     
         txtNames.addEventFilter(KeyEvent.ANY, handleLetters);
         txtLastNames.addEventFilter(KeyEvent.ANY, handleLetters);
@@ -94,36 +92,6 @@ public class AdministrarProfesorController implements Initializable {
     public void registrar(){
         profesor = new Profesor();
         this.instanceProfessor(profesor);
-        /*try {
-            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea registrar?", "") && profesor.estaCompleto()) {
-                if (profesor.registrar()) {
-                    listaProfesores.add(profesor);
-                    MainController.alert(
-                        Alert.AlertType.INFORMATION,
-                        "Profesor registrado correctamente",
-                        "Pulse aceptar para continuar"
-                    );
-                } else {
-                    MainController.alert(
-                        Alert.AlertType.WARNING,
-                            "Error al conectar con la base de datos",
-                            "Pulse aceptar para continuar"
-                    );
-                }
-            } else {
-                    MainController.alert(
-                            Alert.AlertType.INFORMATION,
-                            "LLene todos los campos correctamente",
-                            "Pulse aceptar para continuar"
-                    );
-                    mostrarCamposErroneos();
-            }
-        } catch (AssertionError e) {
-            new Logger().log(e.getMessage());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }*/
-
         if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Estás seguro que deseas agregar?",
                 "Pulse aceptar para continuar")) {
             if (profesor.estaCompleto()) {
@@ -202,7 +170,7 @@ public class AdministrarProfesorController implements Initializable {
         }
     }
     @FXML
-    public void delete(){
+    public void eliminar(){
         if(MainController.alert(Alert.AlertType.CONFIRMATION,"¿Está seguro que desea eliminar?","")){
             try{
                 if(tblViewProfessor.getSelectionModel().getSelectedItem().eliminar()){

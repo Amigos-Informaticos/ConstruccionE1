@@ -80,7 +80,7 @@ public class AdministrarCoordinadorController implements Initializable {
                 llenarDetallesCoordinador(coordinador);
                 enableEdit();
             } else {
-                enableRegister();
+                habilitarRegistro();
             }
             ObservableList<String> listShift = FXCollections.observableArrayList();
             Turno.llenarTurno(listShift);
@@ -182,15 +182,15 @@ public class AdministrarCoordinadorController implements Initializable {
     public void eliminar() {
         if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "")) {
             try {
+                habilitarRegistro();
+                limpiarFormularioCoordinador();
+                limpiarDetallesCoordinador();
                 if (coordinador.eliminar()) {
                     MainController.alert(
                             Alert.AlertType.INFORMATION,
                             "Acción realizada exitosamente",
                             "Pulse aceptar para continuar"
                     );
-                    enableRegister();
-                    cleanFormCoordinator();
-                    limpiarDetallesCoordinador();
                 } else {
                     MainController.alert(
                             Alert.AlertType.ERROR,
@@ -226,7 +226,7 @@ public class AdministrarCoordinadorController implements Initializable {
         }
     }
 
-    private void cleanFormCoordinator() {
+    private void limpiarFormularioCoordinador() {
         txtEmail.setText(null);
         txtNames.setText(null);
         txtLastNames.setText(null);
@@ -284,7 +284,7 @@ public class AdministrarCoordinadorController implements Initializable {
         lblRegistrationDate.setText(null);
     }
 
-    private void enableRegister() {
+    private void habilitarRegistro() {
         txtEmail.setDisable(false);
         pwdPassword.setDisable(false);
 

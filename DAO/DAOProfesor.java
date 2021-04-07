@@ -25,6 +25,24 @@ public class DAOProfesor implements IDAOProfesor, Turno {
     }
 
     @Override
+    public boolean registrar() throws SQLException {
+        assert this.profesor.estaCompleto() : "Profesor no completo: DAOProfesor.registrar()";
+        boolean registrado = false;
+        if (!this.estaRegistrado()) {
+            String query =
+                    "CALL SPI_registrarProfesor(?, ?, ?, ?, ?, ?)";
+            String[] valores =
+                    {this.profesor.getNombres(),
+                            this.profesor.getApellidos(),
+                            this.profesor.getEmail(),
+                            this.profesor.getContrasena(),
+                            this.profesor.getNoPersonal(),
+                            this.profesor.getTurno()};
+            registrado = this.connection.ejecutarSP(query, valores);
+        }
+        return registrado;
+    }
+    @Override
     public boolean update() throws SQLException {
         assert profesor != null : "Professor is null : update()";
         assert profesor.estaCompleto() : "Professor is not complete : update()";
@@ -63,8 +81,8 @@ public class DAOProfesor implements IDAOProfesor, Turno {
 
     @Override
     public boolean iniciarSesion() throws SQLException {
-        assert this.estaRegistrado() : "Professor is not registered: DAOProfessor.logIn()";
-        assert this.isActive() : "Professor is not active: DAOProfessor.logIn()";
+        assert this.estaRegistrado() : "Professor is not registered: DAOProfessor.iniciarSesion()";
+        assert this.isActive() : "Professor is not active: DAOProfessor.iniciarSesion()";
         String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL " +
                 "FROM MiembroFEI INNER JOIN Profesor ON MiembroFEI.idMiembro = Profesor.idMiembro " +
                 "WHERE correoElectronico = ? AND contrasena = ? AND estaActivo = 1";
@@ -78,30 +96,6 @@ public class DAOProfesor implements IDAOProfesor, Turno {
             throw new SQLException(e.getMessage());
         }
         return resultados != null && resultados[0][0].equals("1");
-    }
-
-    @Override
-    public boolean registrar() throws SQLException {
-        assert this.profesor.estaCompleto() : "Profesor no completo: DAOProfesor.registrar()";
-        boolean registrado = false;
-        if (!this.estaRegistrado()) {
-            String query =
-                    "CALL SPI_registrarProfesor(?, ?, ?, ?, ?, ?)";
-            String[] valores =
-                    {this.profesor.getNombres(),
-                            this.profesor.getApellidos(),
-                            this.profesor.getEmail(),
-                            this.profesor.getContrasena(),
-                            this.profesor.getNoPersonal(),
-                            this.profesor.getTurno()};
-            registrado = this.connection.ejecutarSP(query, valores);
-        } else {
-            if (!this.isActive()) {
-                this.reactivar();
-                registrado = true;
-            }
-        }
-        return registrado;
     }
 
     public boolean isActive() throws SQLException {
@@ -121,8 +115,7 @@ public class DAOProfesor implements IDAOProfesor, Turno {
         assert this.profesor != null;
         assert this.profesor.getEmail() != null;
         String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL " +
-                "FROM MiembroFEI INNER JOIN Profesor ON MiembroFEI.idMiembro = Profesor.idMiembro " +
-                "WHERE correoElectronico = ?";
+                "FROM MiembroFEI WHERE correoElectronico = ?";
         String[] values = {this.profesor.getEmail()};
         String[] names = {"TOTAL"};
         String[][] results = this.connection.seleccionar(query, values, names);

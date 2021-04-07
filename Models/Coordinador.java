@@ -19,10 +19,10 @@ public class Coordinador extends Usuario {
     }
 
     public Coordinador(String nombres, String apellidos, String email, String contrasena,
-                       String noPersonal, String fechaRegistro) {
+                       String noPersonal, String turno) {
         super(nombres, apellidos, email, contrasena);
         this.noPersonal = noPersonal;
-        this.fechaRegistro = fechaRegistro;
+        this.turno = turno;
     }
 
     public Coordinador(Coordinador coordinador) {

@@ -116,7 +116,7 @@ public class Usuario {
 	public static boolean esContrasena(String contrasena){
 		return contrasena != null && (contrasena.length()>0 && contrasena.length()<33);
 	}
-	
+
 	public String tipo() throws SQLException {
 		assert this.getEmail() != null;
 		assert this.getContrasena() != null;
@@ -135,7 +135,7 @@ public class Usuario {
 		administradorAuxiliar.setContrasenaLimpia(this.getContrasena());
 		if (practicanteAuxiliar.iniciarSesion()) {
 			tipo = "Practicante";
-		} else if (profesorAuxiliar.logIn()) {
+		} else if (profesorAuxiliar.iniciarSesion()) {
 			tipo = "Profesor";
 		} else if (coordinadorAuxiliar.iniciarSesion()) {
 			tipo = "Coordinador";
@@ -143,5 +143,15 @@ public class Usuario {
 			tipo = "Administrador";
 		}
 		return tipo;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario{" +
+				"nombres='" + nombres + '\'' +
+				", apellidos='" + apellidos + '\'' +
+				", email='" + email + '\'' +
+				", contrasena='" + contrasena + '\'' +
+				'}';
 	}
 }

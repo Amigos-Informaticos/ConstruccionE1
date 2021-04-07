@@ -6,10 +6,10 @@ import javafx.collections.ObservableList;
 import java.sql.SQLException;
 import java.util.Collections;
 
-public class Profesor extends Usuario {
+public class Profesor extends Usuario implements  IDAOProfesor{
 	private String noPersonal;
 	private String turno;
-	
+
 	public Profesor() {
 		this.noPersonal = null;
 		this.turno = null;
@@ -83,17 +83,21 @@ public class Profesor extends Usuario {
 		return super.estaCompleto() && noPersonal != null && turno != null;
 	}
 	
-	public void obtenerProfesores(ObservableList<Profesor> listaProfesores) throws Exception {
-
+	public void obtenerProfesores(ObservableList<Profesor> listaProfesores) throws SQLException {
 		try{
-			Profesor[] profesores = IDAOProfesor.obtenerTodosProfesores();
+			Profesor[] profesores = IDAOProfesor.obtenerProfesores();
 			Collections.addAll(listaProfesores, profesores);
 
 		}catch(SQLException exception){
-			throw new Exception(exception.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
+			throw new SQLException(exception.getMessage());
 		}
+	}
 
+	@Override
+	public String toString() {
+		return super.toString() + " Profesor{" +
+				"noPersonal='" + noPersonal + '\'' +
+				", turno='" + turno + '\'' +
+				'}';
 	}
 }
