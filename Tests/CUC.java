@@ -36,8 +36,8 @@ public class CUC {
 		profesor.setApellidos("Ocharan");
 		profesor.setEmail("ocha@hotmail.com");
 		profesor.setContrasena("ocha1234");
-		profesor.setPersonalNo("N000002");
-		profesor.setShift("1");
+		profesor.setNumeroPersonal("N000002");
+		profesor.setTurno("1");
 		return profesor;
 	}
 	

@@ -19,8 +19,8 @@ public class CUPF1 {
 		profesor.setApellidos("Ocharan");
 		profesor.setEmail("ocha@hotmail.com");
 		profesor.setContrasena("ocha1234");
-		profesor.setPersonalNo("N000002");
-		profesor.setShift("1");
+		profesor.setNumeroPersonal("N000002");
+		profesor.setTurno("1");
 		return profesor;
 	}
 	
@@ -39,7 +39,7 @@ public class CUPF1 {
 	
 	@Test
 	public void aRegisterProfessor() throws SQLException {
-		assertTrue(getProfessor().signUp());
+		assertTrue(getProfessor().registrar());
 	}
 	
 	@Test
@@ -55,6 +55,6 @@ public class CUPF1 {
 	
 	@Test
 	public void fDeleteProfessor() throws SQLException {
-		assertTrue(getProfessor().delete());
+		assertTrue(getProfessor().eliminar());
 	}
 }

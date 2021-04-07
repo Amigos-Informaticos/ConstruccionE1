@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProfesorTests {
     private Profesor profesor = new Profesor(
-            "",
-            "Knowledge",
+            "Juan Carlos",
+            "Rodriguez Perez",
             "test@hotmail.com",
             "profesor123",
             "N0000004",
@@ -19,23 +19,19 @@ public class ProfesorTests {
     );
 
     @Test
-    public void a_signUpProfessor() {
+    public void a_registrar() {
         try {
-            assertTrue(this.profesor.signUp());
+            assertTrue(this.profesor.registrar());
         } catch (AssertionError | SQLException e) {
             new Logger().log(e.getMessage());
         }
     }
 
     @Test
-    public void b_updateProfessor() {
+    public void b_estaRegistrado(){
         try {
-            try {
-                assertTrue(this.profesor.update());
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        } catch (AssertionError e) {
+            assertTrue(this.profesor.estaRegistrado());
+        } catch (AssertionError | SQLException e) {
             new Logger().log(e.getMessage());
         }
     }
@@ -43,7 +39,7 @@ public class ProfesorTests {
     @Test
     public void c_deleteProfessor() {
         try {
-            assertTrue(this.profesor.delete());
+            assertTrue(this.profesor.eliminar());
         } catch (AssertionError e) {
             new Logger().log(e.getMessage());
         } catch (SQLException throwables) {
@@ -52,20 +48,9 @@ public class ProfesorTests {
     }
 
     @Test
-    public void d_reactive() {
+    public void d_iniciarSesion() {
         try {
-            assertTrue(this.profesor.reactive());
-        } catch (AssertionError e) {
-            new Logger().log(e.getMessage());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    @Test
-    public void d_logInProfessor() {
-        try {
-            assertTrue(this.profesor.logIn());
+            assertTrue(this.profesor.iniciarSesion());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
