@@ -103,26 +103,34 @@ public class AdministrarOrganizacionController implements Initializable {
         this.instanciarOrganizacion(organizacion);
         if (organizacion.estaCompleto()) {
             try {
-                if (organizacion.registrar()) {
-                    listOrganizacion.add(organizacion);
+                if(!organizacion.estaRegistrado()){
+                    if (organizacion.registrar()) {
+                        listOrganizacion.add(organizacion);
+                        MainController.alert(
+                                Alert.AlertType.INFORMATION,
+                                "Registro Exitoso",
+                                "Organizacion registrada exitosamente"
+                        );
+                    }
+                }else{
                     MainController.alert(
                             Alert.AlertType.INFORMATION,
-                            "Organizacion registrada exitosamente",
-                            "Pulse aceptar para continuar"
+                            "Registro duplicado",
+                            "Esta organización ya está registrada"
                     );
                 }
             } catch (SQLException throwables) {
                 MainController.alert(
                         Alert.AlertType.WARNING,
-                        "Error al conectar con la base de datos",
-                        "Pulse aceptar para continuar"
+                        "ErrorBD",
+                        "No se pudo establecer conexión con la Base de Datos"
                 );
             }
         } else {
             MainController.alert(
                     Alert.AlertType.INFORMATION,
-                    "Llene todos los campos correctamente",
-                    "Pulse aceptar para continuar"
+                    "Información Incorrecta",
+                    "Llene los campos correctamente"
             );
             mostrarCamposErroneos();
         }
@@ -137,7 +145,7 @@ public class AdministrarOrganizacionController implements Initializable {
                 txtLocality.getText()
         );
         organizacion.setSector(cmbSector.getValue());
-        if (!txtTel.getText().equals("")) {
+        if (txtTel.getText().length()==10) {
             organizacion.setTelefono(txtTel.getText());
         }
     }
@@ -147,20 +155,20 @@ public class AdministrarOrganizacionController implements Initializable {
     }
 
     @FXML
-    public void delete() {
-        if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea eliminar?", "")) {
+    public void eliminar() {
+        if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea eliminar la Organización?", "")) {
             try {
                 if (tblViewOrganization.getSelectionModel().getSelectedItem().eliminar()) {
                     MainController.alert(Alert.AlertType.INFORMATION,
-                            "Organización eliminada",
+                            "Eliminación Exitosa",
                             "Organización eliminada exitosamente");
                     listOrganizacion.remove(tblViewOrganization.getSelectionModel().getSelectedIndex());
                 }
             } catch (AssertionError | SQLException e) {
                 MainController.alert(
                         Alert.AlertType.INFORMATION,
-                        "DBError",
-                        "No se pudo establecer conexión con Base de Datos"
+                        "ErrorBD",
+                        "No se pudo establecer conexión con la Base de Datos"
                 );
             }
         }
@@ -170,7 +178,7 @@ public class AdministrarOrganizacionController implements Initializable {
         if(txtName.getText().equals("")){
             txtName.setUnFocusColor(Paint.valueOf("red"));
         }
-        if(txtTel.getText().equals("")){
+        if(txtTel.getText().equals("") || txtTel.getText().length()<10){
             txtTel.setUnFocusColor(Paint.valueOf("red"));
         }
         if(txtStreet.getText().equals("")){
@@ -189,7 +197,7 @@ public class AdministrarOrganizacionController implements Initializable {
 
     @FXML
     public void actualizar(){
-        if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea actualizar?", "")){
+        if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea actualizar la Organización?", "")){
             Organizacion organizacion = new Organizacion();
             this.instanciarOrganizacion(organizacion);
             if (organizacion.estaCompleto()) {
@@ -199,23 +207,24 @@ public class AdministrarOrganizacionController implements Initializable {
                         listOrganizacion.add(organizacion);
                         MainController.alert(
                                 Alert.AlertType.INFORMATION,
-                                "Organizacion actualizada exitosamente",
-                                "Pulse aceptar para continuar"
+                                "Actualización Exitosa",
+                                "Organizacion actualizada exitosamente"
                         );
                     }
                 } catch (SQLException throwables) {
                     MainController.alert(
                             Alert.AlertType.WARNING,
-                            "Error al conectar con la base de datos",
-                            "Pulse aceptar para continuar"
+                            "ErrorBD",
+                            "No se pudo establecer conexión con la Base de Datos"
                     );
                 }
             } else {
                 MainController.alert(
                         Alert.AlertType.INFORMATION,
-                        "Llene todos los campos correctamente",
-                        "Pulse aceptar para continuar"
+                        "Información Incorrecta",
+                        "Llene los campos correctamente"
                 );
+                mostrarCamposErroneos();
             }
         }
     }

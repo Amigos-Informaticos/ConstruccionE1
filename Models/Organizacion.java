@@ -80,7 +80,8 @@ public class Organizacion {
 	public boolean estaCompleto() {
 		return this.nombre != null &&
 			!this.direccion.isEmpty() &&
-			this.sector != null;
+			this.sector != null &&
+				this.telefono != null;
 	}
 	
 	public boolean estaRegistrado() throws SQLException {
@@ -136,5 +137,15 @@ public class Organizacion {
 
 	public boolean actualizar(String nombreAntiguo) throws SQLException{
 		return new DAOOrganizacion(this).actualizar(nombreAntiguo);
+	}
+
+	@Override
+	public String toString() {
+		return "Organizacion{" +
+				"nombre='" + nombre + '\'' +
+				", telefono='" + telefono + '\'' +
+				", sector='" + sector + '\'' +
+				", direccion=" + direccion +
+				'}';
 	}
 }

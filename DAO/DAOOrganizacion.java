@@ -38,23 +38,13 @@ public class DAOOrganizacion implements IDAOOrganizacion {
         boolean registrado;
         String query;
         String[] valores;
-        if (!this.estaRegistrado()) {
-            String sector = this.organizacion.getSector();
-            if (!this.estaRegistradoSector(sector)) {
-                this.registrarSector(sector);
-            }
-            query = "INSERT INTO Organizacion (nombre, estaActivo, idSector, telefono) " +
-                    "VALUES (?, 1, ?, ?)";
-            valores = new String[]{
-                    this.organizacion.getNombre(),
-                    this.getIdSector(),
-                    this.organizacion.getTelefono()};
-            registrado = this.conexion.ejecutar(query, valores) && this.registrarDireccion();
-        } else {
-            query = "UPDATE Organizacion SET estaActivo = 1 WHERE nombre = ?";
-            valores = new String[]{this.organizacion.getNombre()};
-            registrado = this.conexion.ejecutar(query, valores);
-        }
+        query = "INSERT INTO Organizacion (nombre, estaActivo, idSector, telefono) " +
+                "VALUES (?, 1, ?, ?)";
+        valores = new String[]{
+                this.organizacion.getNombre(),
+                this.getIdSector(),
+                this.organizacion.getTelefono()};
+        registrado = this.conexion.ejecutar(query, valores) && this.registrarDireccion();
         return registrado;
     }
 
@@ -246,7 +236,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
         Organizacion organizacion = new Organizacion();
         organizacion.setNombre(nombre);
         if (new DAOOrganizacion(organizacion).estaRegistrado()) {
-            String query = "SELECT Sector.sector, calle, numero, colonia, localidad, telefono" +
+            String query = "SELECT Sector.sector, calle, numero, colonia, localidad, telefono " +
                     "FROM Organizacion INNER JOIN Sector ON Organizacion.idSector = Sector.idSector " +
                     "INNER JOIN Direccion ON Organizacion.idOrganizacion = Direccion.idOrganizacion " +
                     "WHERE Organizacion.nombre = ? AND Organizacion.estaActivo = 1";
