@@ -302,7 +302,7 @@ public class AdministrarCoordinadorController implements Initializable {
         btnRegister.setDisable(true);
     }
 
-    EventHandler<KeyEvent> handleLetters = new EventHandler<KeyEvent>() {
+    private EventHandler<KeyEvent> handleLetters = new EventHandler<KeyEvent>() {
         private boolean willConsume;
         @Override
         public void handle(KeyEvent event) {
