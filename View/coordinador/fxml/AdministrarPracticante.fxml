@@ -17,13 +17,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane  prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.coordinador.controller.AdministrarPracticanteController">
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.coordinador.controller.AdministrarPracticanteController">
     <children>
         <SplitPane dividerPositions="0.49331103678929766" layoutY="71.0" prefHeight="380.0" prefWidth="700.0">
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                     <children>
-                        <GridPane  layoutY="14.0" prefHeight="215.0" prefWidth="341.0">
+                        <GridPane layoutY="14.0" prefHeight="215.0" prefWidth="341.0">
                             <columnConstraints>
                                 <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="165.0" minWidth="10.0" prefWidth="116.0" />
                                 <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="225.0" />
@@ -102,12 +102,12 @@
                                         <Font name="System Bold" size="12.0" />
                                     </font>
                                 </JFXButton>
-                                <JFXButton onMouseClicked="#actualizar" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #FAD125;" text="Actualizar" textFill="WHITE">
+                                <JFXButton fx:id="btnActualizar" onMouseClicked="#actualizar" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #FAD125;" text="Actualizar" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>
                                 </JFXButton>
-                                <JFXButton onMouseClicked="#eliminarPracticante" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #FA2119;" text="Eliminar" textFill="WHITE">
+                                <JFXButton fx:id="btnEliminar" onMouseClicked="#eliminarPracticante" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #FA2119;" text="Eliminar" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>
@@ -137,11 +137,11 @@
                 </AnchorPane>
             </items>
         </SplitPane>
-        <HBox prefHeight="73.0" prefWidth="700.0" style="-fx-background-color: #18529D;">
+        <HBox onMouseClicked="#clickPanel" prefHeight="73.0" prefWidth="700.0" style="-fx-background-color: #18529D;">
             <children>
             <ImageView fitHeight="55.0" fitWidth="36.0" onMouseClicked="#onClickBack" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="/View/images/icon_back_white.png" />
+                  <Image url="@/View/images/icon_back_white.png" />
                </image>
                <HBox.margin>
                   <Insets right="10.0" top="16.0" />

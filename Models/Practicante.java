@@ -50,9 +50,9 @@ public class Practicante extends Usuario {
 		return profesor;
 	}
 
-	public  Professor recuperarProfesor() throws  SQLException{
+	public  Profesor recuperarProfesor() throws  SQLException{
 
-		Professor profesor = DAOProfesor.getByStudent(this);
+		Profesor profesor = DAOProfesor.getByStudent(this);
 
 		System.out.println("PROFESOR RECUPERADO: " + profesor.getNombres());
 

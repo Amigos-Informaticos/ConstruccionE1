@@ -18,16 +18,18 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
-import javafx.util.StringConverter;
 import tools.Logger;
-
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AdministrarPracticanteController implements Initializable {
+    @FXML
+    public JFXButton btnEliminar;
+    @FXML
+    public JFXButton btnActualizar;
     @FXML
     private TableView<Practicante> tblViewPracticante;
     @FXML
@@ -38,7 +40,7 @@ public class AdministrarPracticanteController implements Initializable {
     private TableColumn<Practicante, String> clmnMatricula;
     @FXML
     private JFXComboBox<String> cmbProfesor;
-    private JFXComboBox<Profesor> cmbProfesor;
+
 
 
     @FXML
@@ -52,11 +54,12 @@ public class AdministrarPracticanteController implements Initializable {
     @FXML
     JFXTextField txtContrasenia;
 
+
+
     @FXML
     JFXButton btnRegistrar;
 
     private ObservableList<Practicante> listPracticante;
-    private ObservableList<Professor> listProfesor;
     private  ObservableList<String> profesoresRecuperados;
     private ObservableList<Profesor> listProfesor;
 
@@ -71,7 +74,7 @@ public class AdministrarPracticanteController implements Initializable {
         } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            this.mostrarMensajeErrorBD();
         }
 
         tblViewPracticante.setItems(listPracticante);
@@ -106,15 +109,15 @@ public class AdministrarPracticanteController implements Initializable {
     }
 
     private void llenarListaProfesores(){
-        for (Professor profesor: this.listProfesor) {
+        for (Profesor profesor: this.listProfesor) {
             this.profesoresRecuperados.add(profesor.getNombres());
         }
     }
 
-    private  Professor obtenerProfesorPorNombres(String nombres){
-        Professor profesor = null;
+    private  Profesor obtenerProfesorPorNombres(String nombres){
+        Profesor profesor = null;
 
-        for (Professor profesorLista: this.listProfesor) {
+        for (Profesor profesorLista: this.listProfesor) {
             if(profesorLista.getNombres().equals(nombres)){
                 profesor = profesorLista;
                 break;
@@ -142,11 +145,14 @@ public class AdministrarPracticanteController implements Initializable {
 
                             try {
 
-                                Professor profesor = new Professor();
+                                Profesor profesor = new Profesor();
                                 profesor = newValue.recuperarProfesor();
                                 cmbProfesor.setValue(profesor.getNombres());
                                 newValue.setProfesor(profesor);
                                 txtContrasenia.setText("");
+                                btnRegistrar.setDisable(true);
+                                btnEliminar.setDisable(false);
+                                btnActualizar.setDisable(false);
 
 
 
@@ -165,9 +171,15 @@ public class AdministrarPracticanteController implements Initializable {
     }
 
     public void enableEdit() {
+        this.btnEliminar.setDisable(false);
+        this.btnActualizar.setDisable(false);
     }
 
     public void enableRegister() {
+        this.limpiarCampos();
+        this.btnRegistrar.setDisable(false);
+        this.btnEliminar.setDisable(true);
+        this.btnActualizar.setDisable(true);
     }
 
     public void limpiarCampos() {
@@ -533,6 +545,6 @@ public class AdministrarPracticanteController implements Initializable {
     }
 
 
-
-
+    public void clickPanel(MouseEvent mouseEvent) {
+    }
 }
