@@ -542,7 +542,7 @@ public class AdministrarPracticanteController implements Initializable {
                 && practicanteAntiguo.getNombres().equals(practicanteNuevo.getNombres())
                 && practicanteAntiguo.getApellidos().equals(practicanteNuevo.getApellidos())
                 && practicanteAntiguo.getMatricula().equals(practicanteNuevo.getMatricula())
-                && practicanteAntiguo.getProfesor().getPersonalNo().equals(practicanteNuevo.getProfesor().getPersonalNo())
+                && practicanteAntiguo.getProfesor().getNoPersonal().equals(practicanteNuevo.getProfesor().getNoPersonal())
 
         ){
             sonIguales = true;
