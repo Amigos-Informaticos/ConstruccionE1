@@ -98,6 +98,7 @@ public class DAOProfesorTests {
 			for (Profesor profesor: profesores) {
 				System.out.println(profesor);
 			}
+			assertNotNull(profesores);
 		} catch (AssertionError e) {
 			System.out.println(e.getMessage());
 		} catch (SQLException throwables) {

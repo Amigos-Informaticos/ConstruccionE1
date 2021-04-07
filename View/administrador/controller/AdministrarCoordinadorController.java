@@ -306,11 +306,9 @@ public class AdministrarCoordinadorController implements Initializable {
         private boolean willConsume;
         @Override
         public void handle(KeyEvent event) {
-            Object tempO = event.getSource();
             if(willConsume){
                 event.consume();
             }
-            String temp = event.getCode().toString();
             if(!event.getCode().toString().matches("[a-zA-Z]")
                     && event.getCode() != KeyCode.BACK_SPACE
                     && event.getCode() != KeyCode.SPACE
