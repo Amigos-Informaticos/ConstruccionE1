@@ -95,7 +95,7 @@ public class DAOCoordinadorTests {
 	public void z_getAll() {
 
 		try {
-			for (Profesor profesor : IDAOProfesor.obtenerTodosProfesores()) {
+			for (Profesor profesor : IDAOProfesor.obtenerProfesores()) {
 				assertNotNull(profesor.getNombres());
 				P.pln(profesor.getNombres());
 			}
