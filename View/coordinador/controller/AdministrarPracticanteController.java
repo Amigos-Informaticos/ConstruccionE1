@@ -319,21 +319,20 @@ public class AdministrarPracticanteController implements Initializable {
                 this.instanciarEstudianteSinContrasenia(practicanteNuevo);
                 if (this.validarCamposCompletosSinContrasena() && this.comprobarCamposValidos()) {
 
-                    if(!sonPracticantesIguales(practicanteAntiguo, practicanteNuevo)){
+                    if(!sonPracticantesIguales(practicanteAntiguo, practicanteNuevo) && MainController.alert(Alert.AlertType.CONFIRMATION,"¿Desea modificar la informacion del practicante?", "")){
                         try {
                             if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Desea modificar la informacion del practicante?", "")) {
 
-                                if (!practicanteNuevo.estaRegistradoActualizar(practicanteAntiguo.getEmail())) {
-                                    practicanteNuevo.actualizarSinContrasenia(practicanteAntiguo.getEmail());
-                                    practicanteNuevo.actualizarProfesor();
-                                    this.mostrarMensajePracticanteActualizado();
-                                    this.actualizarTabla();
-                                    this.limpiarCampos();
+                                practicanteNuevo.actualizarSinContrasenia(practicanteAntiguo.getEmail());
+                                practicanteNuevo.actualizarProfesor();
+                                this.mostrarMensajePracticanteActualizado();
+                                this.actualizarTabla();
+                                this.limpiarCampos();
 
-                                } else {
-                                    this.mostrarMensajePracticanteRegistradoPreviamente();
-                                }
+                            } else {
+                                this.mostrarMensajePracticanteRegistradoPreviamente();
                             }
+
 
                         } catch (SQLException throwables) {
                             this.mostrarMensajeErrorBD();
@@ -349,26 +348,26 @@ public class AdministrarPracticanteController implements Initializable {
                 this.instanceStudent(practicanteNuevo);
                 if (this.validarCamposCompletos() && this.comprobarCamposValidos()) {
 
-                    if(!this.sonPracticantesIguales(practicanteAntiguo,practicanteNuevo)){
-                        if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Desea modificar la informacion del practicante?", "")) {
-                            try {
-                                if (!practicanteNuevo.estaRegistradoActualizar(practicanteAntiguo.getEmail())) {
+                    if(!this.sonPracticantesIguales(practicanteAntiguo,practicanteNuevo) && MainController.alert(Alert.AlertType.CONFIRMATION, "¿Desea modificar la informacion del practicante?", "") ){
 
-                                    practicanteNuevo.actualizarConContrasenia(practicanteAntiguo.getEmail());
-                                    practicanteNuevo.actualizarProfesor();
-                                    this.mostrarMensajePracticanteActualizado();
-                                    this.actualizarTabla();
-                                    this.limpiarCampos();
+                        try {
+                            if (!practicanteNuevo.estaRegistradoActualizar(practicanteAntiguo.getEmail())) {
+
+                                practicanteNuevo.actualizarConContrasenia(practicanteAntiguo.getEmail());
+                                practicanteNuevo.actualizarProfesor();
+                                this.mostrarMensajePracticanteActualizado();
+                                this.actualizarTabla();
+                                this.limpiarCampos();
 
 
-                                } else {
-                                    this.mostrarMensajePracticanteRegistradoPreviamente();
-                                }
-                            } catch (SQLException throwables) {
-                                this.mostrarMensajeErrorBD();
+                            } else {
+                                this.mostrarMensajePracticanteRegistradoPreviamente();
                             }
-
+                        } catch (SQLException throwables) {
+                            this.mostrarMensajeErrorBD();
                         }
+
+
 
                     }
 
@@ -545,6 +544,5 @@ public class AdministrarPracticanteController implements Initializable {
     }
 
 
-    public void clickPanel(MouseEvent mouseEvent) {
-    }
+
 }
