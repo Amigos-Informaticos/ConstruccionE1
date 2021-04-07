@@ -10,12 +10,15 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import tools.Logger;
@@ -77,7 +80,7 @@ public class AdministrarCoordinadorController implements Initializable {
                 llenarDetallesCoordinador(coordinador);
                 enableEdit();
             } else {
-                enableRegister();
+                habilitarRegistro();
             }
             ObservableList<String> listShift = FXCollections.observableArrayList();
             Turno.llenarTurno(listShift);
@@ -86,6 +89,8 @@ public class AdministrarCoordinadorController implements Initializable {
         } catch (SQLException e) {
             Logger.staticLog(e, true);
         }
+        txtNames.addEventFilter(KeyEvent.ANY, handleLetters);
+        txtLastNames.addEventFilter(KeyEvent.ANY, handleLetters);
     }
 
     @FXML
@@ -177,15 +182,15 @@ public class AdministrarCoordinadorController implements Initializable {
     public void eliminar() {
         if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "")) {
             try {
+                habilitarRegistro();
+                limpiarFormularioCoordinador();
+                limpiarDetallesCoordinador();
                 if (coordinador.eliminar()) {
                     MainController.alert(
                             Alert.AlertType.INFORMATION,
                             "Acción realizada exitosamente",
                             "Pulse aceptar para continuar"
                     );
-                    enableRegister();
-                    cleanFormCoordinator();
-                    limpiarDetallesCoordinador();
                 } else {
                     MainController.alert(
                             Alert.AlertType.ERROR,
@@ -221,7 +226,7 @@ public class AdministrarCoordinadorController implements Initializable {
         }
     }
 
-    private void cleanFormCoordinator() {
+    private void limpiarFormularioCoordinador() {
         txtEmail.setText(null);
         txtNames.setText(null);
         txtLastNames.setText(null);
@@ -259,7 +264,6 @@ public class AdministrarCoordinadorController implements Initializable {
         } else {
             cmbShift.setUnFocusColor(Paint.valueOf("black"));
         }
-
     }
 
     private void llenarDetallesCoordinador(Coordinador coordinador) {
@@ -280,7 +284,7 @@ public class AdministrarCoordinadorController implements Initializable {
         lblRegistrationDate.setText(null);
     }
 
-    private void enableRegister() {
+    private void habilitarRegistro() {
         txtEmail.setDisable(false);
         pwdPassword.setDisable(false);
 
@@ -298,4 +302,23 @@ public class AdministrarCoordinadorController implements Initializable {
         btnRegister.setDisable(true);
     }
 
+    private EventHandler<KeyEvent> handleLetters = new EventHandler<KeyEvent>() {
+        private boolean willConsume;
+        @Override
+        public void handle(KeyEvent event) {
+            if(willConsume){
+                event.consume();
+            }
+            if(!event.getCode().toString().matches("[a-zA-Z]")
+                    && event.getCode() != KeyCode.BACK_SPACE
+                    && event.getCode() != KeyCode.SPACE
+                    && event.getCode() != KeyCode.SHIFT){
+                if(event.getEventType() == KeyEvent.KEY_PRESSED){
+                    willConsume = true;
+                }else if(event.getEventType() == KeyEvent.KEY_RELEASED){
+                    willConsume = false;
+                }
+            }
+        }
+    };
 }

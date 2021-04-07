@@ -24,8 +24,8 @@ public class DAOProfesorTests {
 		alexis.setApellidos("Ocharan");
 		alexis.setEmail("ocha@hotmail.com");
 		alexis.setContrasena("ocha1234");
-		alexis.setPersonalNo("N000002");
-		alexis.setShift("1");
+		alexis.setNumeroPersonal("N000002");
+		alexis.setTurno("1");
 		try {
 			assertTrue(daoProfesor.registrar());
 		} catch (SQLException throwables) {
@@ -38,10 +38,10 @@ public class DAOProfesorTests {
 		Profesor alexis = new Profesor();
 		alexis.setNombres("Alexis");
 		alexis.setApellidos("Alvarez");
-		alexis.setEmail("alexisao@hotmail.com");
+		alexis.setEmail("a@b.c");
 		alexis.setContrasena("alexis123");
-		alexis.setPersonalNo("N12345678");
-		alexis.setShift("1");
+		alexis.setNumeroPersonal("N12345678");
+		alexis.setTurno("1");
 		DAOProfesor daoProfesor = new DAOProfesor(alexis);
 		try {
 			assertTrue(daoProfesor.estaRegistrado());
@@ -58,8 +58,8 @@ public class DAOProfesorTests {
 		roberto.setApellidos("Alvarez Ortega");
 		roberto.setEmail("alexisao@hotmail.com");
 		roberto.setContrasena("alexis123");
-		roberto.setPersonalNo("N000001");
-		roberto.setShift("1");
+		roberto.setNumeroPersonal("N000001");
+		roberto.setTurno("1");
 		try {
 			assertTrue(daoProfesor.update());
 		} catch (AssertionError e) {
@@ -73,6 +73,32 @@ public class DAOProfesorTests {
 	public void d_deleteProfessor() {
 		try {
 			assertTrue(this.getDAOProfesor().eliminar());
+		} catch (AssertionError e) {
+			System.out.println(e.getMessage());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+	}
+
+	@Test
+	public void estaActivo(){
+		try {
+			assertTrue(this.getDAOProfesor().estaRegistrado());
+		} catch (AssertionError e) {
+			System.out.println(e.getMessage());
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+	}
+
+	@Test
+	public void obtenerProfesores(){
+		try {
+			Profesor[] profesores = IDAOProfesor.obtenerProfesores();
+			for (Profesor profesor: profesores) {
+				System.out.println(profesor);
+			}
+			assertNotNull(profesores);
 		} catch (AssertionError e) {
 			System.out.println(e.getMessage());
 		} catch (SQLException throwables) {
@@ -94,7 +120,7 @@ public class DAOProfesorTests {
 	@Test
 	public void z_getAll() {
 		try {
-			for (Profesor profesor : IDAOProfesor.obtenerTodosProfesores()) {
+			for (Profesor profesor : IDAOProfesor.obtenerProfesores()) {
 				assertNotNull(profesor.getNombres());
 				P.pln(profesor.getNombres());
 			}
