@@ -87,11 +87,7 @@
          </font>
       </JFXButton>
       <JFXComboBox fx:id="cmbOrganizations" focusColor="#28ad56" layoutX="391.0" layoutY="21.0" prefHeight="31.0" prefWidth="227.0" promptText="Organización" />
-      <JFXButton layoutX="375.0" layoutY="647.0" onMouseClicked="#onClickCalendarization" prefHeight="31.0" prefWidth="141.0" style="-fx-background-color: #18529D;" text="Calendarización" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </JFXButton>
+
       <JFXTextField fx:id="txtGeneralObjective" layoutX="250.0" layoutY="179.0" prefHeight="25.0" prefWidth="360.0" />
       <Label layoutX="57.0" layoutY="291.0" text="METODOLOGÍA:" textFill="#18529d">
          <font>

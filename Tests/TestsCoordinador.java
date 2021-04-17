@@ -215,7 +215,6 @@ public class TestsCoordinador {
 		proyecto.setOrganization(this.getOrganization());
 		proyecto.setFechaInicio("2020-07-19");
 		proyecto.setFechaFin("2020-09-07");
-		proyecto.setActividaadCalendarizada(calendarizedActivities);
 		try {
 			assertTrue(proyecto.registrar());
 		} catch (SQLException throwables) {

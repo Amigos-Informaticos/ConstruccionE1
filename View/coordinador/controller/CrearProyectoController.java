@@ -72,7 +72,7 @@ public class CrearProyectoController implements Initializable {
 		try {
 			loadValues();
 		} catch (SQLException throwables) {
-			throwables.printStackTrace();
+			System.out.println(throwables);
 		}
 	}
 	

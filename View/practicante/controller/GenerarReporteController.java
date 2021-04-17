@@ -48,9 +48,9 @@ public class GenerarReporteController implements Initializable {
 		} catch (CustomException e) {
 			Logger.staticLog(e);
 		}
-		loadActivities();
+		//loadActivities();
 	}
-	
+	/*
 	private void loadActivities() {
 		ActividadCalendarizada[] activities = assignedProyecto.getActividaadCalendarizada();
 		if (activities.length == 0) {
@@ -68,6 +68,7 @@ public class GenerarReporteController implements Initializable {
 			}
 		}
 	}
+	 */
 	
 	private void preconditions() throws CustomException {
 		Practicante practicante = (Practicante) MainController.get("user");

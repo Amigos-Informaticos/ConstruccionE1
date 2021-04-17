@@ -61,24 +61,7 @@ public class DAOProyecto implements IDAOProyecto {
 		}
 		return signedUp;
 	}
-	
-	public boolean registCalendarizedActivities() throws SQLException {
-		boolean registered = true;
-		ActividadCalendarizada[] calendarizedActivities = this.proyecto.getActividaadCalendarizada();
-		String query = "INSERT INTO ActividadCalendarizada (nombre,fecha,idProyecto) VALUES (?,?,?)";
-		for (ActividadCalendarizada actividadCalendarizada: calendarizedActivities) {
-			String[] values = {
-				actividadCalendarizada.getNombre(),
-				actividadCalendarizada.getFecha(),
-				this.getId()
-			};
-			if (actividadCalendarizada.getNombre() != null) {
-				registered = this.connection.ejecutar(query, values);
-			}
-		}
-		return registered;
-	}
-	
+
 	@Override
 	public boolean estaRegistrado() throws SQLException {
 		assert this.proyecto != null : "Project is null: DAOProject.isRegistered()";
