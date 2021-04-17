@@ -16,7 +16,7 @@ public class MenuProyectoController implements Initializable {
 
     @FXML
     public void onClickCreate(MouseEvent clickEvent){
-        MainController.activate("CreateProject","Crear Proyecto", MainController.Sizes.LARGE);
+        MainController.activate("CrearProyecto","Crear Proyecto", MainController.Sizes.LARGE);
     }
 
     @FXML

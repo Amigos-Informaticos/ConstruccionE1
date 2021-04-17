@@ -34,22 +34,7 @@ public class DAOProyecto implements IDAOProyecto {
 			if (!this.proyecto.getResponsable().estaRegistrado()) {
 				this.proyecto.getResponsable().registrar();
 			}
-			String query = "INSERT INTO Proyecto (nombre, " +
-				"descripcion, " +
-				"metodologia, " +
-				"objetivoGeneral, " +
-				"objetivoMediato, " +
-				"objetivoInmediato, " +
-				"recursos, " +
-				"responsabilidades, " +
-				"cupo, " +
-				"area, " +
-				"responsable, " +
-				"idPeriodo, " +
-				"idOrganizacion, " +
-				"fechaInicio, " +
-				"fechaFin) " +
-				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String query = "CALL SPI_crearProyecto (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			String[] values = {this.proyecto.getNombre(),
 				this.proyecto.getDescripcion(),
 				this.proyecto.getMetodologia(),
@@ -59,14 +44,14 @@ public class DAOProyecto implements IDAOProyecto {
 				this.proyecto.getRecursos(),
 				this.proyecto.getResponsabilidades(),
 				String.valueOf(this.proyecto.getCapacidad()),
-				getIdArea(),
+				this.proyecto.getArea(),
 				this.proyecto.getResponsable().getEmail(),
-				getIdPeriod(),
-				this.proyecto.getOrganization().getId(),
+				this.proyecto.getPeriodo(),
+				this.proyecto.getOrganization().getNombre(),
 				this.proyecto.getFechaInicio(),
 				this.proyecto.getFechaFin()
 			};
-			signedUp = this.connection.ejecutar(query, values);
+			signedUp = this.connection.ejecutarSP(query, values);
 		} else if (this.estaRegistrado() && !this.estaActivo()) {
 			String query = "UPDATE Proyecto SET estaActivo = 1 WHERE nombre = ?";
 			String[] values = {this.proyecto.getNombre()};
