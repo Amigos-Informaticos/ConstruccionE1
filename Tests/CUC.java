@@ -113,7 +113,7 @@ public class CUC {
 			throwables.printStackTrace();
 		}
 	}
-	
+	/*
 	@Test
 	public void cRegisterProyect() {
 		Proyecto proyecto = getProject();
@@ -129,6 +129,8 @@ public class CUC {
 			throwables.printStackTrace();
 		}
 	}
+
+	 */
 	
 	@Test
 	public void dAssignProject() throws FileNotFoundException, SQLException {

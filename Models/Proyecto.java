@@ -24,7 +24,6 @@ public class Proyecto {
 	private Organizacion organizacion;
 	private String fechaInicio;
 	private String fechaFin;
-	private ActividadCalendarizada[] actividaadCalendarizada;
 	private Coordinador coordinador;
 	
 	public String getNombre() {
@@ -158,15 +157,7 @@ public class Proyecto {
 	public void setCoordinator(Coordinador coordinador) {
 		this.coordinador = coordinador;
 	}
-	
-	public ActividadCalendarizada[] getActividaadCalendarizada() {
-		return this.actividaadCalendarizada;
-	}
-	
-	public void setActividaadCalendarizada(ActividadCalendarizada[] actividaadCalendarizada) {
-		this.actividaadCalendarizada = actividaadCalendarizada;
-	}
-	
+
 	public boolean estaCompleto() {
 		return this.nombre != null &&
 			this.descripcion != null &&
@@ -185,7 +176,7 @@ public class Proyecto {
 	public boolean registrar() throws SQLException {
 		boolean registered = false;
 		DAOProyecto daoProyecto = new DAOProyecto(this);
-		if (daoProyecto.registrarse() && daoProyecto.registCalendarizedActivities()) {
+		if (daoProyecto.registrarse()) {
 			registered = true;
 		}
 		return registered;
