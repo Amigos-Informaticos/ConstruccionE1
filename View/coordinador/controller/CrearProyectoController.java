@@ -113,14 +113,8 @@ public class CrearProyectoController implements Initializable {
 		}
 	}
 	
-	public void onClickOk(MouseEvent clickEvent) {
-		MainController.save("initialDate", initialDate.getValue());
-		MainController.save("finalDate", finalDate.getValue());
-		MainController.activate("CreateProject", "Crear Proyecto", MainController.Sizes.LARGE);
-	}
-	
 	public void onClickBack(MouseEvent clickEvent) {
-		MainController.activate("CreateProject", "Crear Proyecto", MainController.Sizes.LARGE);
+		MainController.activate("MenuProyecto", "Proyectos", MainController.Sizes.MID);
 	}
 	
 	public void signUp() throws SQLException {
