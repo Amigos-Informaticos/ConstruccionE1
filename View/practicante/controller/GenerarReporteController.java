@@ -48,27 +48,8 @@ public class GenerarReporteController implements Initializable {
 		} catch (CustomException e) {
 			Logger.staticLog(e);
 		}
-		//loadActivities();
 	}
-	/*
-	private void loadActivities() {
-		ActividadCalendarizada[] activities = assignedProyecto.getActividaadCalendarizada();
-		if (activities.length == 0) {
-			MainController.alert(
-				Alert.AlertType.WARNING,
-				"No hay actividades calendarizadas",
-				"Su proyecto no ha registrado ninguna actividad calendarizada"
-			);
-			exit();
-		} else {
-			JFXTextField[] names = {name1, name2, name3, name4, name5};
-			for (int i = 0; i < activities.length; i++) {
-				names[i].setText(activities[i].getNombre());
-				names[i].setEditable(false);
-			}
-		}
-	}
-	 */
+
 	
 	private void preconditions() throws CustomException {
 		Practicante practicante = (Practicante) MainController.get("user");

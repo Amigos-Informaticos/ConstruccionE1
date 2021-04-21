@@ -1,6 +1,5 @@
 package View.coordinador.controller;
 
-import Models.ActividadCalendarizada;
 import Models.Organizacion;
 import Models.Proyecto;
 import Models.ResponsableProyecto;
@@ -24,7 +23,6 @@ import java.util.ResourceBundle;
 public class CrearProyectoController implements Initializable {
 	@FXML
 	private JFXComboBox<String> cmbOrganizations;
-	
 	@FXML
 	private JFXTextField txtName;
 	@FXML
@@ -77,7 +75,7 @@ public class CrearProyectoController implements Initializable {
 	}
 	
 	public void loadValues() throws SQLException {
-		if (MainController.getStageName().equals("CreateProject")) {
+		if (MainController.getStageName().equals("CrearProyecto")) {
 			listOrganizations = FXCollections.observableArrayList();
 			Organizacion.llenarNombres(listOrganizations);
 			cmbOrganizations.setItems(listOrganizations);
