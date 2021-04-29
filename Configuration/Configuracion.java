@@ -1,7 +1,7 @@
 package Configuration;
 
 import Connection.ConexionBD;
-import Connection.ConexionFTP;
+//import Connection.ConexionFTP;
 import tools.Dir;
 import tools.File;
 
@@ -37,7 +37,7 @@ public class Configuracion {
 			connection.setPassword(connectionFile.readLine());
 		}
 	}
-	
+	/*
 	public static void cargarConexionFTP(ConexionFTP connection) {
 		File connectionFile = getFTPConnectionFile();
 		if (!connectionFile.exists()) {
@@ -50,6 +50,8 @@ public class Configuracion {
 			connection.setDirectorioRemoto(connectionFile.readLine());
 		}
 	}
+
+	 */
 	
 	public static HashMap<String, String> loadScreens(String path) {
 		HashMap<String, String> screens = new HashMap<>();

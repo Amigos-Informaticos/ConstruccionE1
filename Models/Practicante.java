@@ -145,10 +145,12 @@ public class Practicante extends Usuario {
 		throws NullPointerException, SQLException {
 		new DAOPracticante(this).llenarTablaPracticantes(listaPracticantes);
 	}
-	
+	/*
 	public boolean guardarDocumento(File documento) throws SQLException {
 		return new DAOPracticante(this).guardarDocumento(documento);
 	}
+
+	 */
 
 	public  boolean actualizarProfesor() throws SQLException{
 		return new DAOPracticante(this).actualizarProfesor();

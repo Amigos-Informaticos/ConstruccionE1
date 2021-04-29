@@ -122,14 +122,19 @@ public class CrearProyectoController implements Initializable {
     public void signUp() throws SQLException {
         instanceProject();
         if (proyecto.estaCompleto()) {
-            if (proyecto.registrar()) {
-                MainController.alert(Alert.AlertType.INFORMATION,
-                        "Proyecto registrado",
-                        "El Proyecto se registró exitosamente");
-            } else {
-                MainController.alert(Alert.AlertType.INFORMATION,
-                        "Error con Base de Datos",
-                        "No se pudo conectar con Base de Datos");
+            if (proyecto.validarFechas()) {
+                if (proyecto.registrar()) {
+                    MainController.alert(Alert.AlertType.INFORMATION,
+                            "Proyecto registrado",
+                            "El Proyecto se registró exitosamente");
+                } else {
+                    MainController.alert(Alert.AlertType.INFORMATION,
+                            "Error con Base de Datos",
+                            "No se pudo conectar con Base de Datos");
+                }
+            }else {
+                MainController.alert(Alert.AlertType.WARNING,
+                        "Fechas incorrectas","Las fechas que proporcionó son incorectas.");
             }
         } else {
             MainController.alert(
@@ -166,12 +171,6 @@ public class CrearProyectoController implements Initializable {
         responsableProyecto.setApellido(txtLastnameResponsible.getText());
         responsableProyecto.setOrganizacion(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
         return responsableProyecto;
-    }
-
-    public boolean validarFechas(LocalDate fechaInicial, LocalDate fechaFinal) {
-        LocalDate fechaActual = LocalDate.now();
-        return fechaActual.isBefore(fechaInicial) &&
-                fechaFinal.isAfter(fechaInicial);
     }
 
 
