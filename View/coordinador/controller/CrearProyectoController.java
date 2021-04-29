@@ -183,10 +183,8 @@ public class CrearProyectoController implements Initializable {
         proyecto.setMetodologia(txtMethodology.getText());
         proyecto.setRecursos(txtResources.getText());
         proyecto.setResponsabilidades(txtResponsibilities.getText());
-        if (!txtCapacity.getText().equals("")) {
-            if (!(Integer.parseInt(txtCapacity.getText()) < 1 )){
+        if (!txtCapacity.getText().equals("") || !(Integer.parseInt(txtCapacity.getText()) < 1 )) {
                 proyecto.setCapacidad(Integer.parseInt(txtCapacity.getText()));
-            }
         }
         proyecto.setOrganization(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
         proyecto.setPeriodo(cmbPeriod.getValue());
