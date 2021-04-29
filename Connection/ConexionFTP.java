@@ -1,4 +1,4 @@
-/*
+
 package Connection;
 
 import Configuration.Configuracion;
@@ -109,4 +109,3 @@ public class ConexionFTP {
 	}
 }
 
- */

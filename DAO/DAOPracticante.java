@@ -1,7 +1,7 @@
 package DAO;
 
 import Connection.ConexionBD;
-//import Connection.ConexionFTP;
+import Connection.ConexionFTP;
 import Exceptions.CustomException;
 import IDAO.IDAOPracticante;
 import Models.Practicante;
@@ -563,7 +563,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return filled;
 	}
-	/*
+
 	public boolean guardarDocumento(File documento) throws SQLException {
 		assert documento != null : "Documento es nulo: DAOPracticante.guardarDocumento()";
 		assert this.practicante.estaCompleto() :
@@ -585,5 +585,5 @@ public class DAOPracticante implements IDAOPracticante {
 		return guardado;
 	}
 	
-	 */
+
 }

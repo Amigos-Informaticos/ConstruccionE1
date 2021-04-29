@@ -88,7 +88,6 @@ public class CrearProyectoController implements Initializable {
         LimitadorTextfield.soloTexto(txtPositionResponsible);
         LimitadorTextfield.soloTexto(txtNameResponsible);
         LimitadorTextfield.soloTexto(txtLastnameResponsible);
-        LimitadorTextfield.soloTexto(txtEmailResponsible);
         LimitadorTextfield.soloNumeros(txtCapacity);
 
         LimitadorTextfield.limitarTamanio(txtName,50);
@@ -241,8 +240,7 @@ public class CrearProyectoController implements Initializable {
         if(txtEmailResponsible.getText().equals("")){
             txtName.setUnFocusColor(Paint.valueOf("red"));
         }
-        int capacity = Integer.parseInt(txtCapacity.getText());
-        if(txtCapacity.getText().equals("") || capacity<1){
+        if(txtCapacity.getText().equals("")||){
             txtName.setUnFocusColor(Paint.valueOf("red"));
         }
     }
