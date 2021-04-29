@@ -38,6 +38,6 @@ public class ListaProyectosController implements Initializable {
 	}
 	
 	public void clickBack() {
-		MainController.activate("MenuProject", "Proyectos", MainController.Sizes.MID);
+		MainController.activate("MenuProyecto", "Proyectos", MainController.Sizes.MID);
 	}
 }

@@ -5,6 +5,7 @@ import DAO.DAOProyecto;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Collections;
 
 public class Proyecto {
@@ -223,5 +224,12 @@ public class Proyecto {
 	public static int contarProyectos() throws SQLException {
 		return DAOProyecto.obtenerTodos().length;
 	}
-	
+
+	public boolean validarFechas() {
+		LocalDate fechaActual = LocalDate.now();
+		LocalDate fechaInicial = LocalDate.parse(fechaInicio);
+		LocalDate fechaFinal = LocalDate.parse(fechaFin);
+		return fechaActual.isBefore(fechaInicial) &&
+				fechaFinal.isAfter(fechaInicial);
+	}
 }
