@@ -189,10 +189,10 @@ public class CrearProyectoController implements Initializable {
         proyecto.setOrganization(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
         proyecto.setPeriodo(cmbPeriod.getValue());
         proyecto.setArea(cmbArea.getValue());
-        if(!(initialDate.getValue() == null)){
+        if((initialDate.getValue() != null)){
             proyecto.setFechaInicio(initialDate.getValue().toString());
         }
-        if(!(finalDate.getValue() == null)){
+        if((finalDate.getValue() != null)){
             proyecto.setFechaFin(finalDate.getValue().toString());
         }
         proyecto.setResponsable(this.instanceResponsible());
