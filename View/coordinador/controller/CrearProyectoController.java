@@ -213,56 +213,50 @@ public class CrearProyectoController implements Initializable {
     }
 
     public void mostrarCamposEroneos(){
-        if(txtName.getText().equals("")){
-            txtName.setUnFocusColor(Paint.valueOf("red"));
-        }
+        marcarCampoErroneo(txtName);
         if(txtDescription.getText().equals("")){
             txtDescription.setUnFocusColor(Paint.valueOf("red"));
         }
-        if(txtMediateObjective.getText().equals("")){
-            txtMediateObjective.setUnFocusColor(Paint.valueOf("red"));
-        }
-        if(txtInmediateObjective.getText().equals("")){
-            txtInmediateObjective.setUnFocusColor(Paint.valueOf("red"));
-        }
-        if(txtGeneralObjective.getText().equals("")){
-            txtGeneralObjective.setUnFocusColor(Paint.valueOf("red"));
-        }
-        if(txtMethodology.getText().equals("")){
-            txtMethodology.setUnFocusColor(Paint.valueOf("red"));
-        }
+        marcarCampoErroneo(txtMediateObjective);
+        marcarCampoErroneo(txtInmediateObjective);
+        marcarCampoErroneo(txtGeneralObjective);
+        marcarCampoErroneo(txtMethodology);
         if(txtResources.getText().equals("")){
             txtResources.setUnFocusColor(Paint.valueOf("red"));
         }
         if(txtResponsibilities.getText().equals("")){
             txtResponsibilities.setUnFocusColor(Paint.valueOf("red"));
         }
-        if(txtNameResponsible.getText().equals("")){
-            txtNameResponsible.setUnFocusColor(Paint.valueOf("red"));
-        }
-        if(txtLastnameResponsible.getText().equals("")){
-            txtLastnameResponsible.setUnFocusColor(Paint.valueOf("red"));
-        }
-        if(txtPositionResponsible.getText().equals("")){
-            txtPositionResponsible.setUnFocusColor(Paint.valueOf("red"));
-        }
-        if(txtEmailResponsible.getText().equals("")){
-            txtEmailResponsible.setUnFocusColor(Paint.valueOf("red"));
-        }
+        marcarCampoErroneo(txtNameResponsible);
+        marcarCampoErroneo(txtLastnameResponsible);
+        marcarCampoErroneo(txtPositionResponsible);
+        marcarCampoErroneo(txtEmailResponsible);
         if(txtCapacity.getText().equals("") || proyecto.getCapacidad() < 1){
             txtCapacity.setUnFocusColor(Paint.valueOf("red"));
         }
-        if(proyecto.getArea() == null){
-            cmbArea.setUnFocusColor(Paint.valueOf("red"));
+    }
+
+    public void marcarCampoErroneo(JFXTextField textField){
+        if (textField.getText().equals("")) {
+            textField.setUnFocusColor(Paint.valueOf("red"));
         }
-        if(proyecto.getPeriodo() == null){
-            cmbArea.setUnFocusColor(Paint.valueOf("red"));
-        }
+    }
+
+    public void mostrarFechasErroneas(){
         if(initialDate.getValue() == null){
             initialDate.setPromptText("ERROR:Fecha Inicial");
         }
         if(finalDate.getValue() == null){
             finalDate.setPromptText("ERROR: Fecha Final");
+        }
+    }
+
+    public void mostarCombosErroeos(){
+        if(proyecto.getArea() == null){
+            cmbArea.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(proyecto.getPeriodo() == null){
+            cmbArea.setUnFocusColor(Paint.valueOf("red"));
         }
     }
 
