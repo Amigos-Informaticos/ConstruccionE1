@@ -20,8 +20,6 @@ import tools.LimitadorTextfield;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.Month;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class CrearProyectoController implements Initializable {
@@ -172,7 +170,7 @@ public class CrearProyectoController implements Initializable {
                     "IncorrectEntries",
                     "Debe llenar los datos correctamente"
             );
-            this.mostrarCamposEroneos();
+            this.mostrarErrores();
         }
     }
 
@@ -212,7 +210,7 @@ public class CrearProyectoController implements Initializable {
         return responsableProyecto;
     }
 
-    public void mostrarCamposEroneos(){
+    public void mostrarErrores(){
         marcarCampoErroneo(txtName);
         if(txtDescription.getText().equals("")){
             txtDescription.setUnFocusColor(Paint.valueOf("red"));
@@ -234,6 +232,8 @@ public class CrearProyectoController implements Initializable {
         if(txtCapacity.getText().equals("") || proyecto.getCapacidad() < 1){
             txtCapacity.setUnFocusColor(Paint.valueOf("red"));
         }
+        this.mostrarFechasErroneas();
+        this.mostarCombosErroeos();
     }
 
     public void marcarCampoErroneo(JFXTextField textField){
@@ -256,7 +256,7 @@ public class CrearProyectoController implements Initializable {
             cmbArea.setUnFocusColor(Paint.valueOf("red"));
         }
         if(proyecto.getPeriodo() == null){
-            cmbArea.setUnFocusColor(Paint.valueOf("red"));
+            cmbPeriod.setUnFocusColor(Paint.valueOf("red"));
         }
     }
 
