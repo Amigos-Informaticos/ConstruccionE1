@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Paint;
 import tools.LimitadorTextfield;
 
 import java.net.URL;
@@ -201,6 +202,49 @@ public class CrearProyectoController implements Initializable {
         responsableProyecto.setApellido(txtLastnameResponsible.getText());
         responsableProyecto.setOrganizacion(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
         return responsableProyecto;
+    }
+
+    public void mostrarCamposEroneos(){
+        if(txtName.getText().equals("")){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtDescription.getText().equals("")){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtMediateObjective.getText().equals("")){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtInmediateObjective.getText().equals("")){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtGeneralObjective.getText().equals("")){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtMethodology.getText().equals("")){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtResources.getText().equals("")){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtResponsibilities.getText().equals("")){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtNameResponsible.getText().equals("")){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtLastnameResponsible.getText().equals("")){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtPositionResponsible.getText().equals("")){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(txtEmailResponsible.getText().equals("")){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
+        int capacity = Integer.parseInt(txtCapacity.getText());
+        if(txtCapacity.getText().equals("") || capacity<1){
+            txtName.setUnFocusColor(Paint.valueOf("red"));
+        }
     }
 
 
