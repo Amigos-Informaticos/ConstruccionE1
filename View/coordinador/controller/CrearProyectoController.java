@@ -172,6 +172,7 @@ public class CrearProyectoController implements Initializable {
                     "IncorrectEntries",
                     "Debe llenar los datos correctamente"
             );
+            this.mostrarCamposEroneos();
         }
     }
 
@@ -184,12 +185,20 @@ public class CrearProyectoController implements Initializable {
         proyecto.setMetodologia(txtMethodology.getText());
         proyecto.setRecursos(txtResources.getText());
         proyecto.setResponsabilidades(txtResponsibilities.getText());
-        proyecto.setCapacidad(Integer.parseInt(txtCapacity.getText()));
+        if (!txtCapacity.getText().equals("")) {
+            if (!(Integer.parseInt(txtCapacity.getText()) < 1 )){
+                proyecto.setCapacidad(Integer.parseInt(txtCapacity.getText()));
+            }
+        }
         proyecto.setOrganization(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
         proyecto.setPeriodo(cmbPeriod.getValue());
         proyecto.setArea(cmbArea.getValue());
-        proyecto.setFechaInicio(initialDate.getValue().toString());
-        proyecto.setFechaFin(finalDate.getValue().toString());
+        if(!(initialDate.getValue() == null)){
+            proyecto.setFechaInicio(initialDate.getValue().toString());
+        }
+        if(!(finalDate.getValue() == null)){
+            proyecto.setFechaFin(finalDate.getValue().toString());
+        }
         proyecto.setResponsable(this.instanceResponsible());
     }
 
@@ -208,40 +217,52 @@ public class CrearProyectoController implements Initializable {
             txtName.setUnFocusColor(Paint.valueOf("red"));
         }
         if(txtDescription.getText().equals("")){
-            txtName.setUnFocusColor(Paint.valueOf("red"));
+            txtDescription.setUnFocusColor(Paint.valueOf("red"));
         }
         if(txtMediateObjective.getText().equals("")){
-            txtName.setUnFocusColor(Paint.valueOf("red"));
+            txtMediateObjective.setUnFocusColor(Paint.valueOf("red"));
         }
         if(txtInmediateObjective.getText().equals("")){
-            txtName.setUnFocusColor(Paint.valueOf("red"));
+            txtInmediateObjective.setUnFocusColor(Paint.valueOf("red"));
         }
         if(txtGeneralObjective.getText().equals("")){
-            txtName.setUnFocusColor(Paint.valueOf("red"));
+            txtGeneralObjective.setUnFocusColor(Paint.valueOf("red"));
         }
         if(txtMethodology.getText().equals("")){
-            txtName.setUnFocusColor(Paint.valueOf("red"));
+            txtMethodology.setUnFocusColor(Paint.valueOf("red"));
         }
         if(txtResources.getText().equals("")){
-            txtName.setUnFocusColor(Paint.valueOf("red"));
+            txtResources.setUnFocusColor(Paint.valueOf("red"));
         }
         if(txtResponsibilities.getText().equals("")){
-            txtName.setUnFocusColor(Paint.valueOf("red"));
+            txtResponsibilities.setUnFocusColor(Paint.valueOf("red"));
         }
         if(txtNameResponsible.getText().equals("")){
-            txtName.setUnFocusColor(Paint.valueOf("red"));
+            txtNameResponsible.setUnFocusColor(Paint.valueOf("red"));
         }
         if(txtLastnameResponsible.getText().equals("")){
-            txtName.setUnFocusColor(Paint.valueOf("red"));
+            txtLastnameResponsible.setUnFocusColor(Paint.valueOf("red"));
         }
         if(txtPositionResponsible.getText().equals("")){
-            txtName.setUnFocusColor(Paint.valueOf("red"));
+            txtPositionResponsible.setUnFocusColor(Paint.valueOf("red"));
         }
         if(txtEmailResponsible.getText().equals("")){
-            txtName.setUnFocusColor(Paint.valueOf("red"));
+            txtEmailResponsible.setUnFocusColor(Paint.valueOf("red"));
         }
-        if(txtCapacity.getText().equals("")||){
-            txtName.setUnFocusColor(Paint.valueOf("red"));
+        if(txtCapacity.getText().equals("") || proyecto.getCapacidad() < 1){
+            txtCapacity.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(proyecto.getArea() == null){
+            cmbArea.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(proyecto.getPeriodo() == null){
+            cmbArea.setUnFocusColor(Paint.valueOf("red"));
+        }
+        if(initialDate.getValue() == null){
+            initialDate.setPromptText("ERROR:Fecha Inicial");
+        }
+        if(finalDate.getValue() == null){
+            finalDate.setPromptText("ERROR: Fecha Final");
         }
     }
 
