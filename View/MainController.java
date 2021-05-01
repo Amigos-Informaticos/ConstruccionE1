@@ -18,14 +18,14 @@ import java.util.Map;
 
 public class MainController extends Application {
 	private static Stage stage;
-	private static String name;
-	private static String title = null;
+	private static String nombre;
+	private static String titulo = null;
 	private static Usuario usuario;
-	private static String type;
-	private static final HashMap<String, String> screens = new HashMap<>();
-	private static final HashMap<Sizes, double[]> size = new HashMap<>();
-	private static Sizes currentSize = null;
-	private static final Map<String, Object> controllerMemory = new HashMap<>();
+	private static String tipo;
+	private static final HashMap<String, String> ventanas = new HashMap<>();
+	private static final HashMap<Sizes, double[]> tamanios = new HashMap<>();
+	private static Sizes tamanioActual = null;
+	private static final Map<String, Object> memoriaControlador = new HashMap<>();
 	
 	public enum Sizes {
 		SMALL,
@@ -34,78 +34,62 @@ public class MainController extends Application {
 	}
 	
 	public static void save(String varName, Object data) {
-		if (controllerMemory.containsKey(varName)) {
-			controllerMemory.replace(varName, data);
+		if (memoriaControlador.containsKey(varName)) {
+			memoriaControlador.replace(varName, data);
 		} else {
-			controllerMemory.put(varName, data);
+			memoriaControlador.put(varName, data);
 		}
 	}
 	
 	public static Object get(String varName) {
-		return controllerMemory.get(varName);
+		return memoriaControlador.get(varName);
 	}
 	
 	public static void clearMemory() {
-		for (Map.Entry<String, Object> entry: controllerMemory.entrySet()) {
+		for (Map.Entry<String, Object> entry: memoriaControlador.entrySet()) {
 			if (!entry.getKey().equals("user")) {
-				controllerMemory.remove(entry.getValue());
+				memoriaControlador.remove(entry.getValue());
 			}
 		}
 	}
 	
 	public static boolean has(String varName) {
-		return controllerMemory.containsKey(varName);
+		return memoriaControlador.containsKey(varName);
 	}
 	
 	public static String getStageName() {
-		return name;
-	}
-	
-	public static Usuario getUser() {
-		return usuario;
-	}
-	
-	public static void setUser(Usuario usuario) {
-		MainController.usuario = usuario;
-	}
-	
-	public static String getType() {
-		return type;
-	}
-	
-	public static void setType(String type) {
-		MainController.type = type;
+		return nombre;
 	}
 	
 	public static void activate(String name, String title, Sizes size) {
-		MainController.currentSize = size;
+		MainController.tamanioActual = size;
 		MainController.activate(name, title);
 	}
 	
 	public static void activate(String name, String title) {
-		MainController.title = title;
+		MainController.titulo = title;
 		MainController.activate(name);
 	}
 	
 	public static void activate(String name) {
 		try {
-			MainController.name = name;
+			MainController.nombre = name;
 			Scene newScene = new Scene(
-				FXMLLoader.load(MainController.class.getResource(screens.get(name))));
+				FXMLLoader.load(MainController.class.getResource(ventanas.get(name))));
 			MainController.stage.setScene(newScene);
-			if (MainController.currentSize != null) {
-				MainController.stage.setWidth(size.get(currentSize)[0]);
-				MainController.stage.setHeight(size.get(currentSize)[1]);
+			if (MainController.tamanioActual != null) {
+				MainController.stage.setWidth(tamanios.get(tamanioActual)[0]);
+				MainController.stage.setHeight(tamanios.get(tamanioActual)[1]);
 			} else {
 				MainController.stage.setWidth(newScene.getWidth());
 				MainController.stage.setHeight(newScene.getHeight());
 			}
-			if (MainController.title != null) {
-				MainController.stage.setTitle(MainController.title);
+			if (MainController.titulo != null) {
+				MainController.stage.setTitle(MainController.titulo);
 			} else {
 				MainController.stage.setTitle(name);
 			}
-			MainController.currentSize = null;
+			MainController.tamanioActual = null;
 		} catch (IOException e) {
 			new Logger().log(e);
 		}
@@ -113,16 +97,16 @@ public class MainController extends Application {
 	
 	public static void load() {
 		Configuracion.loadScreens("src/View/").forEach((name, location) ->
-			MainController.screens.put(
+			MainController.ventanas.put(
 				name,
 				location.substring(9)
 			));
 	}
 	
 	public static void loadSizes() {
-		size.put(Sizes.SMALL, new double[]{ 310.0, 450.0 });
-		size.put(Sizes.MID, new double[]{ 700.0, 450.0 });
-		size.put(Sizes.LARGE, new double[]{ 700.0, 710.0 });
+		tamanios.put(Sizes.SMALL, new double[] {310.0, 450.0});
+		tamanios.put(Sizes.MID, new double[] {700.0, 450.0});
+		tamanios.put(Sizes.LARGE, new double[] {700.0, 710.0});
 	}
 	
 	public static boolean alert(Alert.AlertType type, String header, String message) {
@@ -140,17 +124,17 @@ public class MainController extends Application {
 	}
 	
 	public static void hit(String name, String title, Sizes size) {
-		MainController.currentSize = size;
+		MainController.tamanioActual = size;
 		MainController.hit(name, title);
 	}
 	
 	public static void hit(String name, String title) {
-		MainController.title = title;
+		MainController.titulo = title;
 		MainController.hit(name);
 	}
 	
 	public static void hit(String name) {
-		MainController.name = name;
+		MainController.nombre = name;
 		Application.launch();
 	}
 	
@@ -160,7 +144,7 @@ public class MainController extends Application {
 		MainController.stage.setResizable(false);
 		MainController.load();
 		MainController.loadSizes();
-		MainController.activate(MainController.name);
+		MainController.activate(MainController.nombre);
 		MainController.stage.show();
 	}
 }
