@@ -1,7 +1,6 @@
 package View;
 
 import Configuration.Configuracion;
-import Models.Usuario;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,8 +19,6 @@ public class MainController extends Application {
 	private static Stage stage;
 	private static String nombre;
 	private static String titulo = null;
-	private static Usuario usuario;
-	private static String tipo;
 	private static final HashMap<String, String> ventanas = new HashMap<>();
 	private static final HashMap<Sizes, double[]> tamanios = new HashMap<>();
 	private static Sizes tamanioActual = null;
