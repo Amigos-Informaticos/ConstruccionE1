@@ -23,25 +23,34 @@ import java.util.ResourceBundle;
 public class SeleccionarProyectoController implements Initializable {
 	
 	@FXML
-	public TableView<Proyecto> projectTable;
+	public TableView<Proyecto> tablaProyectos;
 	
 	@FXML
-	public TableColumn<Proyecto, String> tableColumn;
-	public Label name;
-	public JFXTextArea resources;
+	public TableColumn<Proyecto, String> columnaTabla;
+	
+	@FXML
 	public JFXTextField area;
-	public JFXTextField organization;
+	
+	@FXML
 	public Label nombre;
+	
+	@FXML
 	public JFXTextArea objetivoGeneral;
+	
+	@FXML
 	public JFXTextArea recursos;
-	public JFXTextArea responsibilities;
+	
+	@FXML
+	public JFXTextArea responsabilidades;
+	
+	@FXML
 	public JFXTextField organizacion;
 	
 	private Proyecto[] proyectosSeleccionados;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		checkConditions();
+		comprobarCondiciones();
 		ObservableList<Proyecto> proyectoObservableList = FXCollections.observableArrayList();
 		try {
 			Proyecto.llenarTabla(proyectoObservableList);
@@ -53,18 +62,18 @@ public class SeleccionarProyectoController implements Initializable {
 			);
 		}
 		if (proyectoObservableList.size() > 0) {
-			projectTable.setItems(proyectoObservableList);
-			tableColumn.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+			tablaProyectos.setItems(proyectoObservableList);
+			columnaTabla.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 			checkProject();
 			objetivoGeneral.setEditable(false);
 			recursos.setEditable(false);
-			responsibilities.setEditable(false);
+			responsabilidades.setEditable(false);
 			area.setEditable(false);
 			organizacion.setEditable(false);
 		}
 	}
 	
-	public void checkConditions() {
+	public void comprobarCondiciones() {
 		try {
 			proyectosSeleccionados = Asignacion.proyectosSeleccionados(
 				(Practicante) MainController.get("user"));
@@ -90,13 +99,13 @@ public class SeleccionarProyectoController implements Initializable {
 	}
 	
 	public void checkProject() {
-		projectTable.getSelectionModel().selectedItemProperty().addListener(
+		tablaProyectos.getSelectionModel().selectedItemProperty().addListener(
 			(observableValue, oldValue, newValue) -> {
 				if (newValue != null) {
 					nombre.setText(newValue.getNombre());
 					objetivoGeneral.setText(newValue.getObjetivoGeneral());
 					recursos.setText(newValue.getRecursos());
-					responsibilities.setText(newValue.getResponsabilidades());
+					responsabilidades.setText(newValue.getResponsabilidades());
 					area.setText(newValue.getArea());
 					organizacion.setText(newValue.getOrganization().getNombre());
 				}
@@ -104,7 +113,7 @@ public class SeleccionarProyectoController implements Initializable {
 	}
 	
 	public void selectProject() {
-		Proyecto selectedProyecto = projectTable.getSelectionModel().getSelectedItem();
+		Proyecto selectedProyecto = tablaProyectos.getSelectionModel().getSelectedItem();
 		if (selectedProyecto != null) {
 			if (isSelected(proyectosSeleccionados, selectedProyecto)) {
 				MainController.alert(
