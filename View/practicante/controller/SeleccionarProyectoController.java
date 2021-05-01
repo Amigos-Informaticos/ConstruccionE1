@@ -28,11 +28,14 @@ public class SeleccionarProyectoController implements Initializable {
 	@FXML
 	public TableColumn<Proyecto, String> tableColumn;
 	public Label name;
-	public JFXTextArea generalObjective;
 	public JFXTextArea resources;
-	public JFXTextArea responsabilities;
 	public JFXTextField area;
 	public JFXTextField organization;
+	public Label nombre;
+	public JFXTextArea objetivoGeneral;
+	public JFXTextArea recursos;
+	public JFXTextArea responsibilities;
+	public JFXTextField organizacion;
 	
 	private Proyecto[] proyectosSeleccionados;
 	
@@ -42,18 +45,22 @@ public class SeleccionarProyectoController implements Initializable {
 		ObservableList<Proyecto> proyectoObservableList = FXCollections.observableArrayList();
 		try {
 			Proyecto.llenarTabla(proyectoObservableList);
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
+		} catch (SQLException throwable) {
+			MainController.alert(
+				Alert.AlertType.ERROR,
+				"ErrorBD",
+				"No se pudo establecer conexión con la base de datos"
+			);
 		}
 		if (proyectoObservableList.size() > 0) {
 			projectTable.setItems(proyectoObservableList);
-			tableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+			tableColumn.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 			checkProject();
-			generalObjective.setEditable(false);
-			this.resources.setEditable(false);
-			responsabilities.setEditable(false);
+			objetivoGeneral.setEditable(false);
+			recursos.setEditable(false);
+			responsibilities.setEditable(false);
 			area.setEditable(false);
-			organization.setEditable(false);
+			organizacion.setEditable(false);
 		}
 	}
 	
@@ -61,8 +68,12 @@ public class SeleccionarProyectoController implements Initializable {
 		try {
 			proyectosSeleccionados = Asignacion.proyectosSeleccionados(
 				(Practicante) MainController.get("user"));
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
+		} catch (SQLException throwable) {
+			MainController.alert(
+				Alert.AlertType.ERROR,
+				"ErrorBD",
+				"No se pudo establecer conexión con la base de datos"
+			);
 		}
 		if (proyectosSeleccionados != null && proyectosSeleccionados.length >= 3) {
 			MainController.alert(
@@ -82,12 +93,12 @@ public class SeleccionarProyectoController implements Initializable {
 		projectTable.getSelectionModel().selectedItemProperty().addListener(
 			(observableValue, oldValue, newValue) -> {
 				if (newValue != null) {
-					name.setText(newValue.getNombre());
-					generalObjective.setText(newValue.getObjetivoGeneral());
-					resources.setText(newValue.getRecursos());
-					responsabilities.setText(newValue.getResponsabilidades());
+					nombre.setText(newValue.getNombre());
+					objetivoGeneral.setText(newValue.getObjetivoGeneral());
+					recursos.setText(newValue.getRecursos());
+					responsibilities.setText(newValue.getResponsabilidades());
 					area.setText(newValue.getArea());
-					organization.setText(newValue.getOrganization().getNombre());
+					organizacion.setText(newValue.getOrganization().getNombre());
 				}
 			});
 	}
@@ -104,8 +115,12 @@ public class SeleccionarProyectoController implements Initializable {
 			} else {
 				try {
 					Asignacion.saveRequest((Practicante) MainController.get("user"), selectedProyecto);
-				} catch (SQLException throwables) {
-					throwables.printStackTrace();
+				} catch (SQLException throwable) {
+					MainController.alert(
+						Alert.AlertType.ERROR,
+						"ErrorBD",
+						"No se pudo establecer conexión con la base de datos"
+					);
 				}
 				MainController.alert(
 					Alert.AlertType.INFORMATION,

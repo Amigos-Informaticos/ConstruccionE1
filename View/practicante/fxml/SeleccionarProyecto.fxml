@@ -60,7 +60,7 @@
                          prefWidth="316.0"/>
             <JFXTextArea fx:id="recursos" layoutX="16.0" layoutY="172.0" prefHeight="50.0"
                          prefWidth="323.0"/>
-            <JFXTextArea fx:id="responsabilities" layoutX="17.0" layoutY="251.0" prefHeight="34.0"
+            <JFXTextArea fx:id="responsibilities" layoutX="17.0" layoutY="251.0" prefHeight="34.0"
                          prefWidth="323.0"/>
             <JFXTextField fx:id="area" layoutX="17.0" layoutY="305.0"/>
             <JFXTextField fx:id="organizacion" layoutX="17.0" layoutY="349.0" prefHeight="25.0"
