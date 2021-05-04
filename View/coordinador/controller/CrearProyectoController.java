@@ -257,6 +257,4 @@ public class CrearProyectoController implements Initializable {
             cmbPeriod.setUnFocusColor(Paint.valueOf("red"));
         }
     }
-
-
 }
