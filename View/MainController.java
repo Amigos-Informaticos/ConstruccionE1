@@ -1,7 +1,6 @@
 package View;
 
 import Configuration.Configuracion;
-import Models.Usuario;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -104,7 +103,7 @@ public class MainController extends Application {
 	public static void loadSizes() {
 		tamanios.put(Sizes.SMALL, new double[] {310.0, 450.0});
 		tamanios.put(Sizes.MID, new double[] {700.0, 450.0});
-		tamanios.put(Sizes.LARGE, new double[] {700.0, 710.0});
+		tamanios.put(Sizes.LARGE, new double[] {750.0, 760.0});
 	}
 	
 	public static boolean alert(Alert.AlertType type, String header, String message) {
