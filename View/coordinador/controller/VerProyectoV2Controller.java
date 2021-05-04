@@ -4,6 +4,7 @@ import Models.Organizacion;
 import Models.Proyecto;
 import View.MainController;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
@@ -14,6 +15,7 @@ import javafx.scene.control.Alert;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class VerProyectoV2Controller implements Initializable {
@@ -49,6 +51,11 @@ public class VerProyectoV2Controller implements Initializable {
 	private JFXComboBox<String> cmbArea;
 	@FXML
 	private JFXComboBox<String> cmbPeriod;
+
+	@FXML
+	private JFXDatePicker initialDate;
+	@FXML
+	private JFXDatePicker finalDate;
 
 	private ObservableList<String> listOrganizations;
 	private ObservableList<String> listAreas;
@@ -124,6 +131,10 @@ public class VerProyectoV2Controller implements Initializable {
 		txtCapacity.setText(String.valueOf(proyecto.getCapacidad()));
 		cmbArea.setValue(proyecto.getArea());
 		cmbPeriod.setValue(proyecto.getPeriodo());
+
+		initialDate.setValue(LocalDate.parse(proyecto.getFechaInicio()));
+		finalDate.setValue(LocalDate.parse(proyecto.getFechaFin()));
+
 	}
 
 	public void onClickBack() {
