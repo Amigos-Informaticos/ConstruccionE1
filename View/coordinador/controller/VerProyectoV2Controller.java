@@ -1,10 +1,13 @@
 package View.coordinador.controller;
 
+import Models.Organizacion;
 import Models.Proyecto;
 import View.MainController;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -46,11 +49,36 @@ public class VerProyectoV2Controller implements Initializable {
 	private JFXComboBox<String> cmbArea;
 	@FXML
 	private JFXComboBox<String> cmbPeriod;
+
+	private ObservableList<String> listOrganizations;
+	private ObservableList<String> listAreas;
+	private ObservableList<String> listPeriods;
 	
 	private Proyecto proyecto ;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		listOrganizations = FXCollections.observableArrayList();
+		try {
+			Organizacion.llenarNombres(listOrganizations);
+		} catch (SQLException throwables) {
+			System.out.println(throwables);;
+		}
+		cmbOrganizations.setItems(listOrganizations);
+
+		listAreas = FXCollections.observableArrayList();
+		try {
+			Proyecto.fillAreaTable(listAreas);
+		} catch (SQLException throwables) {
+			System.out.println(throwables);;
+		}
+		cmbArea.setItems(listAreas);
+
+		listPeriods = FXCollections.observableArrayList();
+		listPeriods.add("FEB-JUL");
+		listPeriods.add("AGO-ENE");
+		cmbPeriod.setItems(listPeriods);
+
 		proyecto =  (Proyecto) MainController.get("project");
 		this.inicializarCampos();
 
