@@ -37,7 +37,7 @@ public class Configuracion {
 			connection.setPassword(connectionFile.readLine());
 		}
 	}
-	
+
 	public static void cargarConexionFTP(ConexionFTP connection) {
 		File connectionFile = getFTPConnectionFile();
 		if (!connectionFile.exists()) {
