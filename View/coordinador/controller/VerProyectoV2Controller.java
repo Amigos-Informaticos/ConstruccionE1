@@ -13,9 +13,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class VerProyectoController implements Initializable {
+public class VerProyectoV2Controller implements Initializable {
 	@FXML
-	private JFXComboBox<String> cmbOrganization;
+	private JFXComboBox<String> cmbOrganizations;
 	@FXML
 	private JFXTextField txtName;
 	@FXML
@@ -43,9 +43,9 @@ public class VerProyectoController implements Initializable {
 	@FXML
 	private JFXTextField txtLastnameResponsible;
 	@FXML
-	private JFXTextField cmbArea;
+	private JFXComboBox<String> cmbArea;
 	@FXML
-	private JFXTextField cmbPeriod;
+	private JFXComboBox<String> cmbPeriod;
 	
 	private Proyecto proyecto ;
 	
@@ -78,7 +78,7 @@ public class VerProyectoController implements Initializable {
 
 
 	public void inicializarCampos(){
-		cmbOrganization.setValue(proyecto.getOrganization().getNombre());
+		cmbOrganizations.setValue(proyecto.getOrganization().getNombre());
 		txtName.setText(proyecto.getNombre());
 		txtDescription.setText(proyecto.getDescripcion());
 		txtGeneralObjective.setText(proyecto.getObjetivoGeneral());
@@ -94,7 +94,11 @@ public class VerProyectoController implements Initializable {
 		txtLastnameResponsible.setText(proyecto.getResponsable().getApellidos());
 
 		txtCapacity.setText(String.valueOf(proyecto.getCapacidad()));
-		cmbArea.setText(proyecto.getArea());
-		cmbPeriod.setText(proyecto.getPeriodo());
+		cmbArea.setValue(proyecto.getArea());
+		cmbPeriod.setValue(proyecto.getPeriodo());
+	}
+
+	public void onClickBack() {
+		MainController.activate("ListaProyectos", "Lista de Proyectos", MainController.Sizes.MID);
 	}
 }

@@ -124,8 +124,8 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </JFXButton>
-      <JFXTextField fx:id="txtOrganization" layoutX="384.0" layoutY="18.0" prefHeight="25.0" prefWidth="237.0" />
-      <JFXTextField fx:id="txtArea" layoutX="488.0" layoutY="503.0" />
-      <JFXTextField fx:id="txtPeriod" layoutX="488.0" layoutY="535.0" />
+      <JFXTextField fx:id="cmbOrganization" layoutX="384.0" layoutY="18.0" prefHeight="25.0" prefWidth="237.0" />
+      <JFXTextField fx:id="cmbArea" layoutX="488.0" layoutY="503.0" />
+      <JFXTextField fx:id="cmbPeriod" layoutX="488.0" layoutY="535.0" />
    </children>
 </AnchorPane>

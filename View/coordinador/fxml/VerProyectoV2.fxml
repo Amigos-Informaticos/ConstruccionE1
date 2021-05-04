@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="710.0" minWidth="700.0" prefHeight="710.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.coordinador.controller.VerProyectoController">
+<AnchorPane minHeight="710.0" minWidth="700.0" prefHeight="710.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.coordinador.controller.VerProyectoV2Controller">
    <children>
       <HBox maxWidth="350.0" minHeight="60.0" prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;">
          <children>
