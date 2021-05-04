@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import tools.LimitadorTextfield;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -85,12 +86,42 @@ public class VerProyectoV2Controller implements Initializable {
 		listPeriods.add("FEB-JUL");
 		listPeriods.add("AGO-ENE");
 		cmbPeriod.setItems(listPeriods);
+		limitarTextfields();
 
 		proyecto =  (Proyecto) MainController.get("project");
 		this.inicializarCampos();
-
 	}
-	
+
+	public void limitarTextfields() {
+		LimitadorTextfield.soloTexto(txtName);
+		LimitadorTextfield.soloTextoArea(txtDescription);
+		LimitadorTextfield.soloTexto(txtGeneralObjective);
+		LimitadorTextfield.soloTexto(txtMediateObjective);
+		LimitadorTextfield.soloTexto(txtInmediateObjective);
+		LimitadorTextfield.soloTexto(txtMethodology);
+		LimitadorTextfield.soloTextoArea(txtResources);
+		LimitadorTextfield.soloTextoArea(txtResponsibilities);
+		LimitadorTextfield.soloTexto(txtPositionResponsible);
+		LimitadorTextfield.soloTexto(txtNameResponsible);
+		LimitadorTextfield.soloTexto(txtLastnameResponsible);
+		LimitadorTextfield.soloNumeros(txtCapacity);
+
+		LimitadorTextfield.limitarTamanio(txtName, 50);
+		LimitadorTextfield.limitarTamanio(txtGeneralObjective, 50);
+		LimitadorTextfield.limitarTamanio(txtMediateObjective, 50);
+		LimitadorTextfield.limitarTamanio(txtInmediateObjective, 50);
+		LimitadorTextfield.limitarTamanio(txtMethodology, 50);
+		LimitadorTextfield.limitarTamanio(txtPositionResponsible, 20);
+		LimitadorTextfield.limitarTamanio(txtNameResponsible, 20);
+		LimitadorTextfield.limitarTamanio(txtLastnameResponsible, 20);
+		LimitadorTextfield.limitarTamanio(txtEmailResponsible, 20);
+		LimitadorTextfield.limitarTamanio(txtCapacity, 2);
+
+		LimitadorTextfield.limitarTamanioArea(txtDescription, 200);
+		LimitadorTextfield.limitarTamanioArea(txtResources, 200);
+		LimitadorTextfield.limitarTamanioArea(txtResponsibilities, 200);
+	}
+
 	public void delete() {
 		if (MainController.alert(Alert.AlertType.CONFIRMATION,
 			"Eliminar Proyecto",

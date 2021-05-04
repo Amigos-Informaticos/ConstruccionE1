@@ -74,7 +74,10 @@ public class CrearProyectoController implements Initializable {
         } catch (SQLException throwables) {
             System.out.println(throwables);
         }
+        limitarTextfields();
+    }
 
+    public void limitarTextfields() {
         LimitadorTextfield.soloTexto(txtName);
         LimitadorTextfield.soloTextoArea(txtDescription);
         LimitadorTextfield.soloTexto(txtGeneralObjective);
@@ -88,20 +91,20 @@ public class CrearProyectoController implements Initializable {
         LimitadorTextfield.soloTexto(txtLastnameResponsible);
         LimitadorTextfield.soloNumeros(txtCapacity);
 
-        LimitadorTextfield.limitarTamanio(txtName,50);
-        LimitadorTextfield.limitarTamanio(txtGeneralObjective,50);
-        LimitadorTextfield.limitarTamanio(txtMediateObjective,50);
-        LimitadorTextfield.limitarTamanio(txtInmediateObjective,50);
-        LimitadorTextfield.limitarTamanio(txtMethodology,50);
-        LimitadorTextfield.limitarTamanio(txtPositionResponsible,20);
-        LimitadorTextfield.limitarTamanio(txtNameResponsible,20);
-        LimitadorTextfield.limitarTamanio(txtLastnameResponsible,20);
-        LimitadorTextfield.limitarTamanio(txtEmailResponsible,20);
-        LimitadorTextfield.limitarTamanio(txtCapacity,2);
+        LimitadorTextfield.limitarTamanio(txtName, 50);
+        LimitadorTextfield.limitarTamanio(txtGeneralObjective, 50);
+        LimitadorTextfield.limitarTamanio(txtMediateObjective, 50);
+        LimitadorTextfield.limitarTamanio(txtInmediateObjective, 50);
+        LimitadorTextfield.limitarTamanio(txtMethodology, 50);
+        LimitadorTextfield.limitarTamanio(txtPositionResponsible, 20);
+        LimitadorTextfield.limitarTamanio(txtNameResponsible, 20);
+        LimitadorTextfield.limitarTamanio(txtLastnameResponsible, 20);
+        LimitadorTextfield.limitarTamanio(txtEmailResponsible, 20);
+        LimitadorTextfield.limitarTamanio(txtCapacity, 2);
 
-        LimitadorTextfield.limitarTamanioArea(txtDescription,200);
-        LimitadorTextfield.limitarTamanioArea(txtResources,200);
-        LimitadorTextfield.limitarTamanioArea(txtResponsibilities,200);
+        LimitadorTextfield.limitarTamanioArea(txtDescription, 200);
+        LimitadorTextfield.limitarTamanioArea(txtResources, 200);
+        LimitadorTextfield.limitarTamanioArea(txtResponsibilities, 200);
     }
 
     public void loadValues() throws SQLException {
@@ -160,9 +163,9 @@ public class CrearProyectoController implements Initializable {
                             "Error con Base de Datos",
                             "No se pudo conectar con Base de Datos");
                 }
-            }else {
+            } else {
                 MainController.alert(Alert.AlertType.WARNING,
-                        "Fechas incorrectas","Las fechas que proporcionó son incorectas.");
+                        "Fechas incorrectas", "Las fechas que proporcionó son incorectas.");
             }
         } else {
             MainController.alert(
@@ -183,16 +186,16 @@ public class CrearProyectoController implements Initializable {
         proyecto.setMetodologia(txtMethodology.getText());
         proyecto.setRecursos(txtResources.getText());
         proyecto.setResponsabilidades(txtResponsibilities.getText());
-        if (!txtCapacity.getText().equals("") || (Integer.parseInt(txtCapacity.getText()) < 1 )) {
-                proyecto.setCapacidad(Integer.parseInt(txtCapacity.getText()));
+        if (!txtCapacity.getText().equals("") || (Integer.parseInt(txtCapacity.getText()) < 1)) {
+            proyecto.setCapacidad(Integer.parseInt(txtCapacity.getText()));
         }
         proyecto.setOrganization(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
         proyecto.setPeriodo(cmbPeriod.getValue());
         proyecto.setArea(cmbArea.getValue());
-        if((initialDate.getValue() != null)){
+        if ((initialDate.getValue() != null)) {
             proyecto.setFechaInicio(initialDate.getValue().toString());
         }
-        if((finalDate.getValue() != null)){
+        if ((finalDate.getValue() != null)) {
             proyecto.setFechaFin(finalDate.getValue().toString());
         }
         proyecto.setResponsable(this.instanceResponsible());
@@ -208,52 +211,52 @@ public class CrearProyectoController implements Initializable {
         return responsableProyecto;
     }
 
-    public void mostrarErrores(){
+    public void mostrarErrores() {
         marcarCampoErroneo(txtName);
-        if(txtDescription.getText().equals("")){
+        if (txtDescription.getText().equals("")) {
             txtDescription.setUnFocusColor(Paint.valueOf("red"));
         }
         marcarCampoErroneo(txtMediateObjective);
         marcarCampoErroneo(txtInmediateObjective);
         marcarCampoErroneo(txtGeneralObjective);
         marcarCampoErroneo(txtMethodology);
-        if(txtResources.getText().equals("")){
+        if (txtResources.getText().equals("")) {
             txtResources.setUnFocusColor(Paint.valueOf("red"));
         }
-        if(txtResponsibilities.getText().equals("")){
+        if (txtResponsibilities.getText().equals("")) {
             txtResponsibilities.setUnFocusColor(Paint.valueOf("red"));
         }
         marcarCampoErroneo(txtNameResponsible);
         marcarCampoErroneo(txtLastnameResponsible);
         marcarCampoErroneo(txtPositionResponsible);
         marcarCampoErroneo(txtEmailResponsible);
-        if(txtCapacity.getText().equals("") || proyecto.getCapacidad() < 1){
+        if (txtCapacity.getText().equals("") || proyecto.getCapacidad() < 1) {
             txtCapacity.setUnFocusColor(Paint.valueOf("red"));
         }
         this.mostrarFechasErroneas();
         this.mostarCombosErroeos();
     }
 
-    public void marcarCampoErroneo(JFXTextField textField){
+    public void marcarCampoErroneo(JFXTextField textField) {
         if (textField.getText().equals("")) {
             textField.setUnFocusColor(Paint.valueOf("red"));
         }
     }
 
-    public void mostrarFechasErroneas(){
-        if(initialDate.getValue() == null){
+    public void mostrarFechasErroneas() {
+        if (initialDate.getValue() == null) {
             initialDate.setPromptText("ERROR:Fecha Inicial");
         }
-        if(finalDate.getValue() == null){
+        if (finalDate.getValue() == null) {
             finalDate.setPromptText("ERROR: Fecha Final");
         }
     }
 
-    public void mostarCombosErroeos(){
-        if(proyecto.getArea() == null){
+    public void mostarCombosErroeos() {
+        if (proyecto.getArea() == null) {
             cmbArea.setUnFocusColor(Paint.valueOf("red"));
         }
-        if(proyecto.getPeriodo() == null){
+        if (proyecto.getPeriodo() == null) {
             cmbPeriod.setUnFocusColor(Paint.valueOf("red"));
         }
     }
