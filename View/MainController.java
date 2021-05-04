@@ -88,7 +88,7 @@ public class MainController extends Application {
 			}
 			MainController.tamanioActual = null;
 		} catch (IOException e) {
-			new Logger().log(e);
+			Logger.staticLog(e);
 		}
 	}
 	
@@ -116,8 +116,7 @@ public class MainController extends Application {
 	
 	public static File fileExplorer() {
 		MainController.stage.setTitle("Seleccione un archivo");
-		FileChooser fileChooser = new FileChooser();
-		return fileChooser.showOpenDialog(MainController.stage);
+		return new FileChooser().showOpenDialog(MainController.stage);
 	}
 	
 	public static void hit(String name, String title, Sizes size) {
