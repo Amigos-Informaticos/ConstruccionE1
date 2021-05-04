@@ -47,29 +47,13 @@ public class VerProyectoController implements Initializable {
 	@FXML
 	private JFXTextField txtPeriod;
 	
-	private Proyecto proyecto = (Proyecto) MainController.get("Project");
+	private Proyecto proyecto ;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		txtOrganization.setText(proyecto.getOrganization().getNombre());
-		txtName.setText(proyecto.getNombre());
-		txtDescription.setText(proyecto.getDescripcion());
-		txtGeneralObjective.setText(proyecto.getObjetivoGeneral());
-		txtMediateObjective.setText(proyecto.getObjetivoMediato());
-		txtInmediateObjective.setText(proyecto.getObjetivoInmediato());
-		txtMethodology.setText(proyecto.getMetodologia());
-		txtResources.setText(proyecto.getRecursos());
-		txtResponsibilities.setText(proyecto.getResponsabilidades());
-		
-		txtPositionResponsible.setText(proyecto.getResponsable().getPosicion());
-		txtEmailResponsible.setText(proyecto.getResponsable().getEmail());
-		txtNameResponsible.setText(proyecto.getResponsable().getNombres());
-		txtLastnameResponsible.setText(proyecto.getResponsable().getApellidos());
-		
-		txtCapacity.setText(String.valueOf(proyecto.getCapacidad()));
-		txtArea.setText(proyecto.getArea());
-		txtPeriod.setText(proyecto.getPeriodo());
+		proyecto =  (Proyecto) MainController.get("project");
+		this.inicializarCampos();
+
 	}
 	
 	public void delete() {
@@ -90,5 +74,27 @@ public class VerProyectoController implements Initializable {
 				throwables.printStackTrace();
 			}
 		}
+	}
+
+
+	public void inicializarCampos(){
+		txtOrganization.setText(proyecto.getOrganization().getNombre());
+		txtName.setText(proyecto.getNombre());
+		txtDescription.setText(proyecto.getDescripcion());
+		txtGeneralObjective.setText(proyecto.getObjetivoGeneral());
+		txtMediateObjective.setText(proyecto.getObjetivoMediato());
+		txtInmediateObjective.setText(proyecto.getObjetivoInmediato());
+		txtMethodology.setText(proyecto.getMetodologia());
+		txtResources.setText(proyecto.getRecursos());
+		txtResponsibilities.setText(proyecto.getResponsabilidades());
+
+		txtPositionResponsible.setText(proyecto.getResponsable().getPosicion());
+		txtEmailResponsible.setText(proyecto.getResponsable().getEmail());
+		txtNameResponsible.setText(proyecto.getResponsable().getNombres());
+		txtLastnameResponsible.setText(proyecto.getResponsable().getApellidos());
+
+		txtCapacity.setText(String.valueOf(proyecto.getCapacidad()));
+		txtArea.setText(proyecto.getArea());
+		txtPeriod.setText(proyecto.getPeriodo());
 	}
 }

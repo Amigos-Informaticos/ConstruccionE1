@@ -31,12 +31,14 @@ public class ListaProyectosController implements Initializable {
 		tblProject.setItems(listProyectos);
 		clmNameProject.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("nombre"));
 	}
-	
+
 	public void selectProject() {
-		MainController.save("project", tblProject.getSelectionModel().getSelectedItem());
+
+		Proyecto proyecto = tblProject.getSelectionModel().getSelectedItem();
+		MainController.save("project", proyecto);
 		MainController.activate("VerProyecto", "Ver Proyecto", MainController.Sizes.LARGE);
 	}
-	
+
 	public void clickBack() {
 		MainController.activate("MenuProyecto", "Proyectos", MainController.Sizes.MID);
 	}

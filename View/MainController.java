@@ -1,6 +1,7 @@
 package View;
 
 import Configuration.Configuracion;
+import Models.Usuario;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
