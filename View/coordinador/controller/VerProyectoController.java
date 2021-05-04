@@ -70,7 +70,7 @@ public class VerProyectoController implements Initializable {
 		try {
 			Organizacion.llenarNombres(listOrganizations);
 		} catch (SQLException throwables) {
-			System.out.println(throwables);;
+			System.out.println(throwables);
 		}
 		cmbOrganizations.setItems(listOrganizations);
 
@@ -78,7 +78,7 @@ public class VerProyectoController implements Initializable {
 		try {
 			Proyecto.fillAreaTable(listAreas);
 		} catch (SQLException throwables) {
-			System.out.println(throwables);;
+			System.out.println(throwables);
 		}
 		cmbArea.setItems(listAreas);
 
