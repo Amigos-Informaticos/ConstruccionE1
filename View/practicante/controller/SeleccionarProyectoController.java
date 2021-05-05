@@ -1,5 +1,6 @@
 package View.practicante.controller;
 
+import DAO.DAOPracticante;
 import Models.Asignacion;
 import Models.Practicante;
 import Models.Proyecto;
@@ -50,7 +51,16 @@ public class SeleccionarProyectoController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		comprobarCondiciones();
+		try {
+			Practicante practicante = DAOPracticante.get((Practicante) MainController.get("user"));
+			proyectosSeleccionados = practicante.getSeleccion();
+		} catch (SQLException throwables) {
+			MainController.alert(
+				Alert.AlertType.ERROR,
+				"ErrorBD",
+				"No se pudo establecer conexión con la base de datos"
+			);
+		}
 		ObservableList<Proyecto> proyectoObservableList = FXCollections.observableArrayList();
 		try {
 			Proyecto.llenarTabla(proyectoObservableList);
@@ -70,31 +80,6 @@ public class SeleccionarProyectoController implements Initializable {
 			responsabilidades.setEditable(false);
 			area.setEditable(false);
 			organizacion.setEditable(false);
-		}
-	}
-	
-	public void comprobarCondiciones() {
-		try {
-			proyectosSeleccionados = Asignacion.proyectosSeleccionados(
-				(Practicante) MainController.get("user"));
-		} catch (SQLException throwable) {
-			MainController.alert(
-				Alert.AlertType.ERROR,
-				"ErrorBD",
-				"No se pudo establecer conexión con la base de datos"
-			);
-		}
-		if (proyectosSeleccionados != null && proyectosSeleccionados.length >= 3) {
-			MainController.alert(
-				Alert.AlertType.WARNING,
-				"Limite de proyectos seleccionados",
-				"Ya ha llegado a su límite de 3 proyectos"
-			);
-			MainController.activate(
-				"MenuPracticante",
-				"Menu Principal Practicante",
-				MainController.Sizes.MID
-			);
 		}
 	}
 	
@@ -149,10 +134,12 @@ public class SeleccionarProyectoController implements Initializable {
 	
 	public boolean isSelected(Proyecto[] selectedProyectos, Proyecto toSelect) {
 		boolean selected = false;
-		for (Proyecto proyecto: selectedProyectos) {
-			if (proyecto.getNombre().equals(toSelect.getNombre())) {
-				selected = true;
-				break;
+		if (selectedProyectos != null) {
+			for (Proyecto proyecto: selectedProyectos) {
+				if (proyecto.getNombre().equals(toSelect.getNombre())) {
+					selected = true;
+					break;
+				}
 			}
 		}
 		return selected;
