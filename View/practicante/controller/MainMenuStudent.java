@@ -32,7 +32,7 @@ public class MainMenuStudent implements Initializable {
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		try {
 			this.practicante = DAOPracticante.get((Practicante) MainController.get("user"));
-			if (practicante.getProyecto() != null) {
+			if (practicante.getProyecto() == null) {
 				btnSubirHorario.setText("Proyectos Seleccionados");
 				btnSubirHorario.setOnMouseClicked(event -> proyectosSeleccionados());
 			} else {
