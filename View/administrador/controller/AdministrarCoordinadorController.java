@@ -143,32 +143,32 @@ public class AdministrarCoordinadorController implements Initializable {
     }
 
     @FXML
-    public void update() {
+    public void actualizar() {
         coordinador = new Coordinador();
         this.instanceCoordinator(coordinador);
         try {
-            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "") &&
-                    coordinador.estaCompleto()) {
-                instanceCoordinator(coordinador);
-                if (coordinador.actualizar()) {
-                    MainController.alert(
-                            Alert.AlertType.INFORMATION,
-                            "Coordinador registrado exitosamente",
-                            "Pulse aceptar para continua"
-                    );
+            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "")) {
+                if (coordinador.estaCompleto()){
+                    if (coordinador.actualizar()) {
+                        MainController.alert(
+                                Alert.AlertType.INFORMATION,
+                                "Coordinador registrado exitosamente",
+                                "Pulse aceptar para continua"
+                        );
+                    } else {
+                        MainController.alert(
+                                Alert.AlertType.ERROR,
+                                "No se pudo actualizar al coordinador",
+                                "Pulse aceptar para continuar"
+                        );
+                    }
                 } else {
                     MainController.alert(
-                            Alert.AlertType.ERROR,
-                            "No se pudo actualizar al coordinador",
+                            Alert.AlertType.WARNING,
+                            "LLene todos los campos correctamente",
                             "Pulse aceptar para continuar"
                     );
                 }
-            } else {
-                MainController.alert(
-                        Alert.AlertType.WARNING,
-                        "LLene todos los campos correctamente",
-                        "Pulse aceptar para continuar"
-                );
             }
         } catch (AssertionError e) {
             new Logger().log(e.getMessage());

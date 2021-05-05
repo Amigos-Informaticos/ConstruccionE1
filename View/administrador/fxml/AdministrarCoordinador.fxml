@@ -89,7 +89,7 @@
                   <Font name="System Bold" size="12.0"/>
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnUpdate" disable="true" layoutX="10.0" layoutY="10.0" onAction="#update"
+            <JFXButton fx:id="btnUpdate" disable="true" layoutX="10.0" layoutY="10.0" onAction="#actualizar"
                        prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #969696;" text="Actualizar"
                        textFill="WHITE">
                <font>
