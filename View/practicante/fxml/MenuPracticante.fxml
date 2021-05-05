@@ -55,7 +55,8 @@
 				<Font name="System Bold" size="20.0"/>
 			</font>
 		</JFXButton>
-		<ImageView fitHeight="51.0" fitWidth="50.0" layoutX="200.0" layoutY="289.0">
+		<ImageView fx:id="imagenActividad" fitHeight="51.0" fitWidth="50.0" layoutX="200.0"
+		           layoutY="289.0">
 			<image>
 				<Image url="@/View/images/icon_activity.png"/>
 			</image>
