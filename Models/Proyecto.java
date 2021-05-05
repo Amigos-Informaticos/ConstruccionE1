@@ -5,6 +5,7 @@ import DAO.DAOProyecto;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Collections;
 
 public class Proyecto {
@@ -24,7 +25,6 @@ public class Proyecto {
 	private Organizacion organizacion;
 	private String fechaInicio;
 	private String fechaFin;
-	private ActividadCalendarizada[] actividaadCalendarizada;
 	private Coordinador coordinador;
 	
 	public String getNombre() {
@@ -158,15 +158,7 @@ public class Proyecto {
 	public void setCoordinator(Coordinador coordinador) {
 		this.coordinador = coordinador;
 	}
-	
-	public ActividadCalendarizada[] getActividaadCalendarizada() {
-		return this.actividaadCalendarizada;
-	}
-	
-	public void setActividaadCalendarizada(ActividadCalendarizada[] actividaadCalendarizada) {
-		this.actividaadCalendarizada = actividaadCalendarizada;
-	}
-	
+
 	public boolean estaCompleto() {
 		return this.nombre != null &&
 			this.descripcion != null &&
@@ -185,7 +177,7 @@ public class Proyecto {
 	public boolean registrar() throws SQLException {
 		boolean registered = false;
 		DAOProyecto daoProyecto = new DAOProyecto(this);
-		if (daoProyecto.registrarse() && daoProyecto.registCalendarizedActivities()) {
+		if (daoProyecto.registrarse()) {
 			registered = true;
 		}
 		return registered;
@@ -232,5 +224,12 @@ public class Proyecto {
 	public static int contarProyectos() throws SQLException {
 		return DAOProyecto.obtenerTodos().length;
 	}
-	
+
+	public boolean validarFechas() {
+		LocalDate fechaActual = LocalDate.now();
+		LocalDate fechaInicial = LocalDate.parse(fechaInicio);
+		LocalDate fechaFinal = LocalDate.parse(fechaFin);
+		return fechaActual.isBefore(fechaInicial) &&
+				fechaFinal.isAfter(fechaInicial);
+	}
 }

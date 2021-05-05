@@ -29,15 +29,17 @@ public class ListaProyectosController implements Initializable {
 			throwables.printStackTrace();
 		}
 		tblProject.setItems(listProyectos);
-		clmNameProject.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
+		clmNameProject.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("nombre"));
 	}
-	
+
 	public void selectProject() {
-		MainController.save("project", tblProject.getSelectionModel().getSelectedItem());
-		MainController.activate("ViewProject", "Ver Proyecto", MainController.Sizes.MID);
+
+		Proyecto proyecto = tblProject.getSelectionModel().getSelectedItem();
+		MainController.save("project", proyecto);
+		MainController.activate("VerProyecto", "Ver Proyecto", MainController.Sizes.LARGE);
 	}
-	
+
 	public void clickBack() {
-		MainController.activate("MenuProject", "Proyectos", MainController.Sizes.MID);
+		MainController.activate("MenuProyecto", "Proyectos", MainController.Sizes.MID);
 	}
 }
