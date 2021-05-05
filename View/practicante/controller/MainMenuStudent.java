@@ -93,7 +93,7 @@ public class MainMenuStudent implements Initializable {
 					"No hay proyectos registrados"
 				);
 			}
-		} catch (SQLException throwables) {
+		} catch (SQLException throwable) {
 			MainController.alert(
 				Alert.AlertType.ERROR,
 				"ErrorBD",
