@@ -65,6 +65,8 @@ public class VisualizarProyectosSeleccionadosController implements Initializable
 	}
 	
 	public void checkUno(MouseEvent mouseEvent) {
+		checkDos.setSelected(false);
+		checkTres.setSelected(false);
 		if (this.proyectos != null && this.proyectos.length >= 1) {
 			objetivoTextArea.setText(proyectos[0].getObjetivoGeneral());
 			recursosTextArea.setText(proyectos[0].getRecursos());
@@ -73,6 +75,8 @@ public class VisualizarProyectosSeleccionadosController implements Initializable
 	}
 	
 	public void checkDos(MouseEvent mouseEvent) {
+		checkUno.setSelected(false);
+		checkTres.setSelected(false);
 		if (this.proyectos != null && this.proyectos.length >= 2) {
 			objetivoTextArea.setText(proyectos[1].getObjetivoGeneral());
 			recursosTextArea.setText(proyectos[1].getRecursos());
@@ -81,6 +85,8 @@ public class VisualizarProyectosSeleccionadosController implements Initializable
 	}
 	
 	public void checkTres(MouseEvent mouseEvent) {
+		checkUno.setSelected(false);
+		checkDos.setSelected(false);
 		if (this.proyectos != null && this.proyectos.length == 3) {
 			objetivoTextArea.setText(proyectos[2].getObjetivoGeneral());
 			recursosTextArea.setText(proyectos[2].getRecursos());
