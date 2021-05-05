@@ -29,10 +29,6 @@ public class VisualizarProyectosSeleccionadosController implements Initializable
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		cargarProyectosSeleccionados();
-	}
-	
-	private void cargarProyectosSeleccionados() {
 		Practicante practicante = (Practicante) MainController.get("user");
 		try {
 			this.proyectos = practicante.getSeleccion();
