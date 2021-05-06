@@ -12,7 +12,7 @@ public class Organizacion {
 	private String telefono;
 	private String sector;
 	private final Map<String, String> direccion = new HashMap<>();
-
+	
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -40,7 +40,7 @@ public class Organizacion {
 		this.direccion.put("colonia", colonia);
 		this.direccion.put("localidad", localidad);
 	}
-
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -57,7 +57,7 @@ public class Organizacion {
 		return this.nombre != null &&
 			!this.direccion.isEmpty() &&
 			this.sector != null &&
-				this.telefono != null;
+			this.telefono != null;
 	}
 	
 	public boolean estaRegistrado() throws SQLException {
@@ -95,12 +95,13 @@ public class Organizacion {
 	}
 	
 	public static boolean llenarNombres(ObservableList<String> listaOrganizacion) throws SQLException {
-		boolean lleno = false;
 		DAOOrganizacion daoOrganization = new DAOOrganizacion(new Organizacion());
-		if (daoOrganization.llenarNombresOrganizaciones(listaOrganizacion)) {
-			lleno = true;
-		}
-		return lleno;
+		return daoOrganization.llenarNombresOrganizaciones(listaOrganizacion);
+	}
+	
+	public static boolean llenarTodosNombres(ObservableList<String> listaOrganizacion) throws SQLException {
+		DAOOrganizacion daoOrganization = new DAOOrganizacion(new Organizacion());
+		return daoOrganization.llenarNombresOrganizaciones(listaOrganizacion);
 	}
 	
 	public String getId() throws SQLException {
@@ -110,18 +111,18 @@ public class Organizacion {
 	public static Organizacion obtenerPorNombre(String name) throws SQLException {
 		return DAOOrganizacion.obtenerPorNombre(name);
 	}
-
-	public boolean actualizar(String nombreAntiguo) throws SQLException{
+	
+	public boolean actualizar(String nombreAntiguo) throws SQLException {
 		return new DAOOrganizacion(this).actualizar(nombreAntiguo);
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Organizacion{" +
-				"nombre='" + nombre + '\'' +
-				", telefono='" + telefono + '\'' +
-				", sector='" + sector + '\'' +
-				", direccion=" + direccion +
-				'}';
+			"nombre='" + nombre + '\'' +
+			", telefono='" + telefono + '\'' +
+			", sector='" + sector + '\'' +
+			", direccion=" + direccion +
+			'}';
 	}
 }

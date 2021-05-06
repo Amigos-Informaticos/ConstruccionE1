@@ -98,7 +98,7 @@ public class DAOAsignacion {
 		if (resultados != null && resultados.length > 0) {
 			proyectos = new Proyecto[resultados.length];
 			for (int i = 0; i < resultados.length; i++) {
-				proyectos[i] = DAOProyecto.getByName(resultados[i][0]);
+				proyectos[i] = DAOProyecto.obtenerPorNombre(resultados[i][0]);
 			}
 		}
 		return proyectos;

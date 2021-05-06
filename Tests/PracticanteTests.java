@@ -3,17 +3,13 @@ package Tests;
 import DAO.DAOProfesor;
 import DAO.DAOProyecto;
 import Exceptions.CustomException;
+import Models.Asignacion;
 import Models.Practicante;
 import Models.Proyecto;
-import org.junit.AfterClass;
 import org.junit.FixMethodOrder;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
 import org.junit.runners.MethodSorters;
 import tools.Logger;
-import tools.TelegramBot;
 
 import java.sql.SQLException;
 
@@ -22,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PracticanteTests {
-	private static final TelegramBot bot = new TelegramBot("AITests");
 	private final Practicante practicante = new Practicante(
 		"Juan Gabriel",
 		"Lopez Doriga",
@@ -31,84 +26,96 @@ public class PracticanteTests {
 		"S17012130"
 	);
 	
-	@Rule
-	public TestWatcher watcher = new TestWatcher() {
-		@Override
-		protected void succeeded(Description description) {
-			bot.addMessage(description.getClassName() + "." + description.getMethodName() + "\tSUCCESS");
-		}
-		
-		@Override
-		protected void failed(Throwable e, Description description) {
-			bot.addMessage(description.getClassName() + "." + description.getMethodName() + "\tFAILED");
-		}
-	};
-	
-	@AfterClass
-	public static void send() {
-		bot.send();
-	}
-	
 	@Test
-	public void a_signUpStudent() throws SQLException {
-		this.practicante.setProfesor(DAOProfesor.getByEmail("joo@hotmail.com"));
-		assertTrue(this.practicante.registrar());
-	}
-	
-	@Test
-	public void b_loginStudent() throws SQLException {
-		assertTrue(this.practicante.iniciarSesion());
-	}
-	
-	@Test
-	public void c_updatePracticante() throws SQLException {
-		this.practicante.setNombres("Emilio Olvedo");
-		assertTrue(this.practicante.actualizar());
-	}
-	
-	@Test
-	public void d_selectProject() throws SQLException {
-		assertTrue(this.practicante.seleccionarProyecto("Hackear la nasa"));
-	}
-	
-	@Test
-	public void e_getSelections() throws SQLException {
-		Proyecto proyecto = new DAOProyecto().cargarProyecto("Hackear la nasa");
-		assertEquals(proyecto.getNombre(), this.practicante.getSeleccion()[0].getNombre());
-	}
-	
-	@Test
-	public void f_setProject() {
+	public void a_registrarPracticante() {
 		try {
-			assertTrue(this.practicante.asignarProyecto("Hackear la nasa"));
-		} catch (CustomException | SQLException e) {
-			new Logger().log(e);
+			this.practicante.setProfesor(DAOProfesor.getByEmail("profesor@gmail.com"));
+			assertTrue(this.practicante.registrar());
+		} catch (SQLException throwable) {
+			Logger.staticLog(throwable);
 		}
 	}
 	
 	@Test
-	public void g_deleteSelectedProject() throws SQLException {
-		for (Proyecto proyecto: this.practicante.getSeleccion()) {
-			assertTrue(this.practicante.eliminarSeleccion(proyecto.getNombre()));
+	public void b_loginPracticante() {
+		try {
+			assertTrue(this.practicante.iniciarSesion());
+		} catch (SQLException throwable) {
+			Logger.staticLog(throwable);
 		}
 	}
 	
 	@Test
-	public void i_deleteReply() {
-	
+	public void c_actualizarPracticante() {
+		this.practicante.setNombres("Emilio Olvedo");
+		try {
+			assertTrue(this.practicante.actualizar());
+		} catch (SQLException throwable) {
+			Logger.staticLog(throwable);
+		}
 	}
 	
 	@Test
-	public void j_removeProject() {
+	public void d_seleccionarProyecto() {
+		try {
+			Proyecto proyecto = DAOProyecto.obtenerPorNombre("Gestion Estudiantes");
+			assertTrue(Asignacion.guardarSolicitud(this.practicante, proyecto));
+		} catch (SQLException throwable) {
+			Logger.staticLog(throwable);
+		}
+	}
+	
+	@Test
+	public void e_obtenerProyectosSeleccionados() {
+		try {
+			this.practicante.setProfesor(DAOProfesor.getByEmail("profesor@gmail.com"));
+			Proyecto proyecto = DAOProyecto.obtenerPorNombre("Gestion Estudiantes");
+			assertEquals(proyecto.getNombre(), this.practicante.getSeleccion()[0].getNombre());
+		} catch (SQLException throwable) {
+			Logger.staticLog(throwable);
+		}
+	}
+	
+	@Test
+	public void f_asignarProyecto() {
+		try {
+			Proyecto proyecto = DAOProyecto.obtenerPorNombre("Gestion Estudiantes");
+			assertTrue(this.practicante.asignarProyecto(proyecto.getNombre()));
+		} catch (SQLException throwable) {
+			Logger.staticLog(throwable);
+		}
+	}
+	
+	@Test
+	public void g_eliminarProyectoSeleccionado() {
+		try {
+			this.practicante.setProfesor(DAOProfesor.getByEmail("profesor@gmail.com"));
+			Proyecto[] proyectosSeleccinados = this.practicante.getSeleccion();
+			if (proyectosSeleccinados != null) {
+				for (Proyecto proyecto: proyectosSeleccinados) {
+					assertTrue(this.practicante.eliminarSeleccion(proyecto.getNombre()));
+				}
+			}
+		} catch (SQLException throwable) {
+			Logger.staticLog(throwable);
+		}
+	}
+	
+	@Test
+	public void h_eliminarProyectoAsignado() {
 		try {
 			assertTrue(this.practicante.eliminarProyecto());
-		} catch (CustomException | SQLException e) {
-			new Logger().log(e);
+		} catch (CustomException | SQLException throwable) {
+			Logger.staticLog(throwable);
 		}
 	}
 	
 	@Test
-	public void z_deleteStudent() throws SQLException {
-		assertTrue(this.practicante.eliminar());
+	public void i_eliminarPracticante() {
+		try {
+			assertTrue(this.practicante.eliminar());
+		} catch (SQLException throwable) {
+			Logger.staticLog(throwable);
+		}
 	}
 }
