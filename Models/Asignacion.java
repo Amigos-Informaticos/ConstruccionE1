@@ -2,7 +2,6 @@ package Models;
 
 import DAO.DAOAsignacion;
 import tools.File;
-import tools.P;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
@@ -72,8 +71,6 @@ public class Asignacion {
 		boolean generated = true;
 		documento.save();
 		boolean assigned = new DAOAsignacion(this).asignarProyecto(documento);
-		P.pln(generated);
-		P.pln(assigned);
 		return assigned && generated;
 	}
 	
@@ -90,7 +87,7 @@ public class Asignacion {
 		return new DAOAsignacion(this).eliminarAsignacion();
 	}
 	
-	public static boolean saveRequest(Practicante practicante, Proyecto proyecto) throws SQLException {
+	public static boolean guardarSolicitud(Practicante practicante, Proyecto proyecto) throws SQLException {
 		return DAOAsignacion.guardarSolicitud(practicante, proyecto);
 	}
 	

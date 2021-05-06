@@ -361,13 +361,13 @@ public class DAOPracticante implements IDAOPracticante {
 		int proyectosSeleccionados = proyectos != null ? Integer.parseInt(proyectos[0][0]) : 0;
 		
 		if (proyectosSeleccionados < 3) {
-			query = "SELECT COUNT(idMiembro) AS TOTAL FROM Solicitud " +
+			query = "SELECT COUNT(idMiembro) AS TOTAL FROM SeleccionProyecto " +
 				"WHERE idMiembro = ? AND idProyecto = " +
 				"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1)";
 			valores = new String[] {this.getId(), proyecto.getNombre()};
 			nombres = new String[] {"TOTAL"};
 			if (this.conexion.seleccionar(query, valores, nombres)[0][0].equals("0")) {
-				query = "INSERT INTO Solicitud (idProyecto, idMiembro) valores " +
+				query = "INSERT INTO Solicitud (idProyecto, idMiembro) VALUES " +
 					"((SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1), " +
 					"(SELECT MiembroFEI.idMiembro FROM MiembroFEI WHERE correoElectronico = ?))";
 				valores = new String[] {proyecto.getNombre(), this.practicante.getEmail()};

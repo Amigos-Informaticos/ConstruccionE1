@@ -2,7 +2,6 @@ package DAO;
 
 import Connection.ConexionBD;
 import IDAO.IDAOProyecto;
-import Models.ActividadCalendarizada;
 import Models.Proyecto;
 import javafx.collections.ObservableList;
 
@@ -300,7 +299,7 @@ public class DAOProyecto implements IDAOProyecto {
 		return proyectos;
 	}
 	
-	public static Proyecto getByName(String name) throws SQLException {
+	public static Proyecto obtenerPorNombre(String name) throws SQLException {
 		assert name != null : "Name is null: DAOProject.getByName()";
 		ConexionBD connection = new ConexionBD();
 		Proyecto proyecto;
