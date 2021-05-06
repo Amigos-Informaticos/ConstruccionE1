@@ -2,7 +2,6 @@ package DAO;
 
 import Connection.ConexionBD;
 import IDAO.IDAOProyecto;
-import Models.ActividadCalendarizada;
 import Models.Proyecto;
 import javafx.collections.ObservableList;
 
@@ -359,4 +358,22 @@ public class DAOProyecto implements IDAOProyecto {
 		}
 		return filled;
 	}
+
+
+	public boolean actualizarAarea(String areaAntigua, String nuevaArea){
+		boolean actualizada = false;
+
+		String query = "UPDATE Area SET area = ? WHERE area = ? ";
+		String valores [] = {nuevaArea, areaAntigua};
+
+		if(this.connection.ejecutar(query,valores)){
+			actualizada = true;
+		}
+
+		return  actualizada;
+
+	}
+
+
+
 }
