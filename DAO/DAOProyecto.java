@@ -9,19 +9,19 @@ import java.sql.SQLException;
 
 public class DAOProyecto implements IDAOProyecto {
 	private Proyecto proyecto;
-	private final ConexionBD connection;
+	private final ConexionBD conexion;
 	
 	public DAOProyecto() {
-		this.connection = new ConexionBD();
+		this.conexion = new ConexionBD();
 	}
 	
 	public DAOProyecto(Proyecto proyecto) {
 		this.proyecto = proyecto;
-		this.connection = new ConexionBD();
+		this.conexion = new ConexionBD();
 	}
 	
 	public DAOProyecto(String name) throws SQLException {
-		this.connection = new ConexionBD();
+		this.conexion = new ConexionBD();
 		this.proyecto = this.cargarProyecto(name);
 	}
 	
@@ -50,11 +50,11 @@ public class DAOProyecto implements IDAOProyecto {
 				this.proyecto.getFechaInicio(),
 				this.proyecto.getFechaFin()
 			};
-			signedUp = this.connection.ejecutarSP(query, values);
+			signedUp = this.conexion.ejecutarSP(query, values);
 		} else if (this.estaRegistrado() && !this.estaActivo()) {
 			String query = "UPDATE Proyecto SET estaActivo = 1 WHERE nombre = ?";
 			String[] values = {this.proyecto.getNombre()};
-			if (this.connection.ejecutar(query, values)) {
+			if (this.conexion.ejecutar(query, values)) {
 				signedUp = true;
 			}
 		}
@@ -80,7 +80,7 @@ public class DAOProyecto implements IDAOProyecto {
 		String query = "SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ?";
 		String[] values = {proyecto.getNombre()};
 		String[] names = {"TOTAL"};
-		String[][] results = this.connection.seleccionar(query, values, names);
+		String[][] results = this.conexion.seleccionar(query, values, names);
 		return results != null && results[0][0].equals("1");
 	}
 	
@@ -91,15 +91,15 @@ public class DAOProyecto implements IDAOProyecto {
 			"SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ? AND estaActivo = 1";
 		String[] values = {nombre};
 		String[] names = {"TOTAL"};
-		String[][] selection = this.connection.seleccionar(query, values, names);
+		String[][] selection = this.conexion.seleccionar(query, values, names);
 		if (selection != null && selection[0][0].equals("1")) {
 			query = "SELECT * FROM Proyecto WHERE nombre = ?";
 			String[] results = {"idProyecto", "nombre", "descripcion", "metodologia",
 				"objetivoGeneral", "objetivoMediato", "objetivoInmediato", "recursos",
 				"responsabilidades", "area", "responsable", "idPeriodo", "idOrganizacion"};
-			selection = this.connection.seleccionar(query, values, results);
+			selection = this.conexion.seleccionar(query, values, results);
 			if (selection != null) {
-				String[] projectReturned = this.connection.seleccionar(query, values, results)[0];
+				String[] projectReturned = this.conexion.seleccionar(query, values, results)[0];
 				
 				proyecto = new Proyecto();
 				proyecto.setNombre(projectReturned[1]);
@@ -122,19 +122,18 @@ public class DAOProyecto implements IDAOProyecto {
 	@Override
 	public boolean eliminar() throws SQLException {
 		boolean deleted = false;
-		if (this.proyecto != null && this.estaRegistrado()) {
-			if (this.estaActivo()) {
-				if (this.haveStudents()) {
-					String query = "DELETE FROM Asignacion WHERE idProyecto = ?;";
-					String[] values = {this.getId()};
-					this.connection.ejecutar(query, values);
-				}
-				String query = "UPDATE Proyecto SET estaActivo = 0 WHERE nombre = ?;";
-				String[] values = {this.proyecto.getNombre()};
-				deleted = this.connection.ejecutar(query, values);
-			} else {
-				deleted = true;
+		if (this.proyecto != null && this.estaRegistrado() && this.estaActivo()) {
+			if (this.tienePracticantes()) {
+				String query = "DELETE FROM Asignacion WHERE idProyecto = ?";
+				String[] values = {this.getId()};
+				this.conexion.ejecutar(query, values);
 			}
+			String query = "DELETE FROM SeleccionProyecto WHERE idProyecto = ?";
+			String[] values = {this.getId()};
+			this.conexion.ejecutar(query, values);
+			query = "UPDATE Proyecto SET estaActivo = 0 WHERE nombre = ?";
+			values = new String[] {this.proyecto.getNombre()};
+			deleted = this.conexion.ejecutar(query, values);
 		}
 		return deleted;
 	}
@@ -147,7 +146,7 @@ public class DAOProyecto implements IDAOProyecto {
 			String query = "SELECT estaActivo FROM Proyecto WHERE nombre = ?";
 			String[] values = {this.proyecto.getNombre()};
 			String[] names = {"estaActivo"};
-			String[][] results = this.connection.seleccionar(query, values, names);
+			String[][] results = this.conexion.seleccionar(query, values, names);
 			isActive = results != null && results[0][0].equals("1");
 		}
 		return isActive;
@@ -160,7 +159,7 @@ public class DAOProyecto implements IDAOProyecto {
 			if (this.estaActivo()) {
 				String query = "UPDATE Proyecto SET estaActivo = 1 WHERE nombre = ?";
 				String[] values = {this.proyecto.getNombre()};
-				reactivated = this.connection.ejecutar(query, values);
+				reactivated = this.conexion.ejecutar(query, values);
 			} else {
 				reactivated = true;
 			}
@@ -172,10 +171,10 @@ public class DAOProyecto implements IDAOProyecto {
 		String query = "SELECT COUNT(area) AS TOTAL FROM Area WHERE area = ?";
 		String[] values = {this.proyecto.getArea()};
 		String[] columns = {"TOTAL"};
-		String[][] results = this.connection.seleccionar(query, values, columns);
+		String[][] results = this.conexion.seleccionar(query, values, columns);
 		if (results != null && results[0][0].equals("0")) {
 			query = "INSERT INTO Area (area) VALUES (?)";
-			this.connection.ejecutar(query, values);
+			this.conexion.ejecutar(query, values);
 		}
 	}
 	
@@ -183,10 +182,10 @@ public class DAOProyecto implements IDAOProyecto {
 		String query = "SELECT COUNT(periodo) AS TOTAL FROM Periodo WHERE periodo = ?";
 		String[] values = {this.proyecto.getPeriodo()};
 		String[] columns = {"TOTAL"};
-		String[][] results = this.connection.seleccionar(query, values, columns);
+		String[][] results = this.conexion.seleccionar(query, values, columns);
 		if (results != null && results[0][0].equals("0")) {
 			query = "INSERT INTO Periodo (periodo) VALUES (?)";
-			this.connection.ejecutar(query, values);
+			this.conexion.ejecutar(query, values);
 		}
 	}
 	
@@ -194,13 +193,11 @@ public class DAOProyecto implements IDAOProyecto {
 		assert this.proyecto != null : "Proyecto es nulo: DAOProyecto.getId()";
 		assert this.proyecto.getNombre() != null : "Nombre del proyecto es nulo: DAOProyecto.getId()";
 		
-		String id;
-		String query = "SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1";
+		String query = "SELECT idProyecto FROM Proyecto WHERE nombre = ?";
 		String[] valores = {this.proyecto.getNombre()};
 		String[] columnas = {"idProyecto"};
-		String[][] resultado = this.connection.seleccionar(query, valores, columnas);
-		id = resultado != null ? resultado[0][0] : "";
-		return id;
+		String[][] resultado = this.conexion.seleccionar(query, valores, columnas);
+		return resultado != null ? resultado[0][0] : "";
 	}
 	
 	public String getIdOrganization() throws SQLException {
@@ -213,13 +210,13 @@ public class DAOProyecto implements IDAOProyecto {
 		String query = "SELECT COUNT(periodo) AS TOTAL FROM Periodo WHERE periodo = ?";
 		String[] values = {this.proyecto.getPeriodo()};
 		String[] columns = {"TOTAL"};
-		String[][] results = this.connection.seleccionar(query, values, columns);
+		String[][] results = this.conexion.seleccionar(query, values, columns);
 		if (results != null && results[0][0].equals("0")) {
 			this.registerPeriod();
 		}
 		query = "SELECT idPeriodo FROM Periodo WHERE periodo = ?;";
 		String[] names = {"idPeriodo"};
-		results = this.connection.seleccionar(query, values, names);
+		results = this.conexion.seleccionar(query, values, names);
 		return results != null ? results[0][0] : "";
 	}
 	
@@ -227,14 +224,14 @@ public class DAOProyecto implements IDAOProyecto {
 		String query = "SELECT COUNT(area) AS TOTAL FROM Area WHERE area = ?";
 		String[] values = {this.proyecto.getArea()};
 		String[] columns = {"TOTAL"};
-		String[][] results = this.connection.seleccionar(query, values, columns);
+		String[][] results = this.conexion.seleccionar(query, values, columns);
 		if (results != null && results[0][0].equals("0")) {
 			this.registerArea();
 		}
 		query = "SELECT idArea FROM Area WHERE area = ?";
 		values = new String[] {this.proyecto.getArea()};
 		String[] names = {"idArea"};
-		results = this.connection.seleccionar(query, values, names);
+		results = this.conexion.seleccionar(query, values, names);
 		return results != null ? results[0][0] : "";
 	}
 	
@@ -242,7 +239,7 @@ public class DAOProyecto implements IDAOProyecto {
 		String query = "SELECT area FROM Area WHERE idArea = ?";
 		String[] values = {idArea};
 		String[] names = {"area"};
-		String[][] results = this.connection.seleccionar(query, values, names);
+		String[][] results = this.conexion.seleccionar(query, values, names);
 		return results != null ? results[0][0] : "";
 	}
 	
@@ -250,16 +247,16 @@ public class DAOProyecto implements IDAOProyecto {
 		String query = "SELECT periodo FROM Periodo WHERE idPeriodo = ?";
 		String[] values = {idPeriod};
 		String[] names = {"periodo"};
-		String[][] results = this.connection.seleccionar(query, values, names);
+		String[][] results = this.conexion.seleccionar(query, values, names);
 		return results != null ? results[0][0] : "";
 	}
 	
-	public boolean haveStudents() throws SQLException {
+	public boolean tienePracticantes() throws SQLException {
 		String query = "SELECT COUNT(idProyecto) AS TOTAL FROM Asignacion " +
-			"WHERE idProyecto = ? AND estaActivo = 1";
+			"WHERE idProyecto = ?";
 		String[] values = {this.getId()};
 		String[] names = {"TOTAL"};
-		String[][] results = this.connection.seleccionar(query, values, names);
+		String[][] results = this.conexion.seleccionar(query, values, names);
 		return results != null && !results[0][0].equals("0");
 	}
 	
@@ -269,7 +266,8 @@ public class DAOProyecto implements IDAOProyecto {
 			"responsable, Periodo.periodo, Organizacion.nombre, fechaInicio, fechaFin " +
 			"FROM Proyecto INNER JOIN Area ON Proyecto.area = Area.idArea " +
 			"INNER JOIN Periodo ON Proyecto.idPeriodo = Periodo.idPeriodo " +
-			"INNER JOIN Organizacion ON Proyecto.idOrganizacion = Organizacion.idOrganizacion";
+			"INNER JOIN Organizacion ON Proyecto.idOrganizacion = Organizacion.idOrganizacion " +
+			"WHERE Proyecto.estaActivo = 1";
 		String[] names = {
 			"Proyecto.nombre",
 			"descripcion",
@@ -374,7 +372,7 @@ public class DAOProyecto implements IDAOProyecto {
 	public boolean fillAreaTable(ObservableList<String> listAreas) throws SQLException {
 		boolean filled = false;
 		String query = "SELECT area FROM Area";
-		for (String[] name: this.connection.seleccionar(query, null, new String[] {"area"})) {
+		for (String[] name: this.conexion.seleccionar(query, null, new String[] {"area"})) {
 			listAreas.add(name[0]);
 			filled = true;
 		}

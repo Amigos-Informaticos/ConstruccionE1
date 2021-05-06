@@ -198,7 +198,7 @@ public class Proyecto {
 	
 	public boolean haveStudents() throws SQLException {
 		DAOProyecto daoProyecto = new DAOProyecto(this);
-		return daoProyecto.haveStudents();
+		return daoProyecto.tienePracticantes();
 	}
 	
 	public boolean isRegistered() throws SQLException {

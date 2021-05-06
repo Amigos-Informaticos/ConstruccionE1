@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import tools.LimitadorTextfield;
+import tools.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -131,13 +132,18 @@ public class VerProyectoController implements Initializable {
 					MainController.alert(Alert.AlertType.INFORMATION,
 						"Proyecto eliminado",
 						"Proyecto eliminado exitosamente");
+					MainController.activate(
+						"ListaProyectos",
+						"Lista Proyectos",
+						MainController.Sizes.MID
+					);
 				} else {
 					MainController.alert(Alert.AlertType.ERROR,
 						"Sin conexión con BD",
 						"Sin conexión con Base de Datos");
 				}
-			} catch (SQLException throwables) {
-				throwables.printStackTrace();
+			} catch (SQLException throwable) {
+				Logger.staticLog(throwable, true);
 			}
 		}
 	}
