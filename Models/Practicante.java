@@ -49,17 +49,16 @@ public class Practicante extends Usuario {
 	public Profesor getProfesor() {
 		return profesor;
 	}
-
-	public  Profesor recuperarProfesor() throws  SQLException{
-
+	
+	public Profesor recuperarProfesor() throws SQLException {
+		
 		Profesor profesor = DAOProfesor.getByStudent(this);
-
+		
 		System.out.println("PROFESOR RECUPERADO: " + profesor.getNombres());
-
+		
 		return profesor;
-
+		
 	}
-
 	
 	public void setProfesor(Profesor profesor) {
 		this.profesor = profesor;
@@ -88,13 +87,13 @@ public class Practicante extends Usuario {
 	public boolean actualizar() throws SQLException {
 		return new DAOPracticante(this).actualizar();
 	}
-
-	public  boolean actualizarConContrasenia(String correoElectronicoAntiguo) throws SQLException{
+	
+	public boolean actualizarConContrasenia(String correoElectronicoAntiguo) throws SQLException {
 		return new DAOPracticante(this).actualizarConContrasenia(correoElectronicoAntiguo);
 	}
-
-	public  boolean actualizarSinContrasenia(String correoElectronicoAntiguo) throws  SQLException{
-		return  new  DAOPracticante(this).actualizarSinContrasenia(correoElectronicoAntiguo);
+	
+	public boolean actualizarSinContrasenia(String correoElectronicoAntiguo) throws SQLException {
+		return new DAOPracticante(this).actualizarSinContrasenia(correoElectronicoAntiguo);
 	}
 	
 	public boolean eliminar() throws SQLException {
@@ -121,7 +120,7 @@ public class Practicante extends Usuario {
 		return new DAOPracticante(this).getProyectos();
 	}
 	
-	public boolean asignarProyecto(String nombreProyecto) throws CustomException, SQLException {
+	public boolean asignarProyecto(String nombreProyecto) throws SQLException {
 		return new DAOPracticante(this).setProyecto(nombreProyecto);
 	}
 	
@@ -136,23 +135,21 @@ public class Practicante extends Usuario {
 	public boolean estaRegistrado() throws SQLException {
 		return new DAOPracticante(this).estaRegistrado();
 	}
-
-	public  boolean estaRegistradoActualizar(String correoElectronicoAntiguo) throws  SQLException{
-		return  new  DAOPracticante(this).estaRegistradoActualizar(correoElectronicoAntiguo);
+	
+	public boolean estaRegistradoActualizar(String correoElectronicoAntiguo) throws SQLException {
+		return new DAOPracticante(this).estaRegistradoActualizar(correoElectronicoAntiguo);
 	}
 	
 	public void llenarTablaPracticantes(ObservableList<Practicante> listaPracticantes)
 		throws NullPointerException, SQLException {
 		new DAOPracticante(this).llenarTablaPracticantes(listaPracticantes);
 	}
-
+	
 	public boolean guardarDocumento(File documento) throws SQLException {
 		return new DAOPracticante(this).guardarDocumento(documento);
 	}
-
-
-
-	public  boolean actualizarProfesor() throws SQLException{
+	
+	public boolean actualizarProfesor() throws SQLException {
 		return new DAOPracticante(this).actualizarProfesor();
 	}
 }

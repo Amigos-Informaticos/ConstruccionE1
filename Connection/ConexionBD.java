@@ -2,6 +2,7 @@ package Connection;
 
 import Configuration.Configuracion;
 import tools.Logger;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -115,8 +116,8 @@ public class ConexionBD {
 		}
 		return queryExecuted;
 	}
-
-	public boolean ejecutarSP(String query, String[] valores){
+	
+	public boolean ejecutarSP(String query, String[] valores) {
 		boolean queryExecuted = false;
 		try {
 			this.openConnection();
@@ -161,7 +162,6 @@ public class ConexionBD {
 			}
 		} catch (SQLException e) {
 			Logger.staticLog(e, true);
-			System.out.println("SQL EXCEPTION");
 			throw new SQLException(e.getMessage());
 			
 		}

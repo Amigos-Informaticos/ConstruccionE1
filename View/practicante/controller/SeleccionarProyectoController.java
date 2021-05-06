@@ -108,7 +108,7 @@ public class SeleccionarProyectoController implements Initializable {
 				);
 			} else {
 				try {
-					Asignacion.saveRequest((Practicante) MainController.get("user"), selectedProyecto);
+					Asignacion.guardarSolicitud((Practicante) MainController.get("user"), selectedProyecto);
 				} catch (SQLException throwable) {
 					MainController.alert(
 						Alert.AlertType.ERROR,

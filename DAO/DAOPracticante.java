@@ -2,7 +2,6 @@ package DAO;
 
 import Connection.ConexionBD;
 import Connection.ConexionFTP;
-import Exceptions.CustomException;
 import IDAO.IDAOPracticante;
 import Models.Practicante;
 import Models.Proyecto;
@@ -361,13 +360,13 @@ public class DAOPracticante implements IDAOPracticante {
 		int proyectosSeleccionados = proyectos != null ? Integer.parseInt(proyectos[0][0]) : 0;
 		
 		if (proyectosSeleccionados < 3) {
-			query = "SELECT COUNT(idMiembro) AS TOTAL FROM Solicitud " +
+			query = "SELECT COUNT(idMiembro) AS TOTAL FROM SeleccionProyecto " +
 				"WHERE idMiembro = ? AND idProyecto = " +
 				"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1)";
 			valores = new String[] {this.getId(), proyecto.getNombre()};
 			nombres = new String[] {"TOTAL"};
 			if (this.conexion.seleccionar(query, valores, nombres)[0][0].equals("0")) {
-				query = "INSERT INTO Solicitud (idProyecto, idMiembro) valores " +
+				query = "INSERT INTO Solicitud (idProyecto, idMiembro) VALUES " +
 					"((SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1), " +
 					"(SELECT MiembroFEI.idMiembro FROM MiembroFEI WHERE correoElectronico = ?))";
 				valores = new String[] {proyecto.getNombre(), this.practicante.getEmail()};
@@ -416,7 +415,7 @@ public class DAOPracticante implements IDAOPracticante {
 		boolean eliminado = false;
 		for (Proyecto proyecto: this.getProyectos()) {
 			if (proyecto != null && proyecto.getNombre().equals(nombreProyecto)) {
-				String query = "DELETE FROM Solicitud WHERE idMiembro = " +
+				String query = "DELETE FROM SeleccionProyecto WHERE idMiembro = " +
 					"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?) " +
 					"AND idProyecto = " +
 					"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1)";
@@ -428,14 +427,14 @@ public class DAOPracticante implements IDAOPracticante {
 		return eliminado;
 	}
 	
-	public boolean setProyecto(String nombreProyecto) throws CustomException, SQLException {
+	public boolean setProyecto(String nombreProyecto) throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.setProyecto()";
 		assert this.estaActivo() : "Practicante inactivo: DAOPracticante.setProyecto()";
 		assert nombreProyecto != null : "Nombre de proyecto es nulo: DAOPracticante.setProyecto()";
 		assert new DAOProyecto(nombreProyecto).estaRegistrado() :
 			"Proyecto no registrado: DAOPracticante.setProyecto()";
 		
-		boolean establecido;
+		boolean establecido = false;
 		String query =
 			"SELECT COUNT(idPracticante) AS TOTAL FROM Asignacion WHERE idPracticante = ?";
 		String[] valores = {this.getId()};
@@ -443,12 +442,9 @@ public class DAOPracticante implements IDAOPracticante {
 		String[][] practicantes = this.conexion.seleccionar(query, valores, nombres);
 		if (practicantes != null && practicantes[0][0].equals("0")) {
 			query = "INSERT INTO Asignacion (idPracticante, idProyecto) " +
-				"valores (?, (SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1))";
+				"VALUES (?, (SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1))";
 			valores = new String[] {this.getId(), nombreProyecto};
 			establecido = this.conexion.ejecutar(query, valores);
-		} else {
-			throw new CustomException("Proyecto ya establecido: setProyecto()",
-				"ProyectoYaEstablecido");
 		}
 		return establecido;
 	}
