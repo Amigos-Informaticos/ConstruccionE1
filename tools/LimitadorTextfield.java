@@ -44,7 +44,7 @@ public class LimitadorTextfield {
 				keyEvent.consume();
 			}
 		} catch (Exception ex) {
-			Logger.staticLog(ex);
+			Logger.staticLog(ex, true);
 		}
 	}
 	
@@ -54,7 +54,7 @@ public class LimitadorTextfield {
 				keyEvent.consume();
 			}
 		} catch (Exception ex) {
-			Logger.staticLog(ex);
+			Logger.staticLog(ex, true);
 		}
 	}
 	
@@ -65,7 +65,7 @@ public class LimitadorTextfield {
 				keyEvent.consume();
 			}
 		} catch (Exception ex) {
-			Logger.staticLog(ex);
+			Logger.staticLog(ex, true);
 		}
 	}
 }
