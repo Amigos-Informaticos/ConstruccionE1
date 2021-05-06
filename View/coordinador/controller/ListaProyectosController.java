@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import tools.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -25,20 +26,20 @@ public class ListaProyectosController implements Initializable {
 		ObservableList<Proyecto> listProyectos = FXCollections.observableArrayList();
 		try {
 			Proyecto.llenarTabla(listProyectos);
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
+		} catch (SQLException throwable) {
+			Logger.staticLog(throwable, true);
 		}
 		tblProject.setItems(listProyectos);
-		clmNameProject.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("nombre"));
+		clmNameProject.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 	}
-
+	
 	public void selectProject() {
-
+		
 		Proyecto proyecto = tblProject.getSelectionModel().getSelectedItem();
 		MainController.save("project", proyecto);
 		MainController.activate("VerProyecto", "Ver Proyecto", MainController.Sizes.LARGE);
 	}
-
+	
 	public void clickBack() {
 		MainController.activate("MenuProyecto", "Proyectos", MainController.Sizes.MID);
 	}
