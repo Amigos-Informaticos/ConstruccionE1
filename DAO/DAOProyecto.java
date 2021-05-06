@@ -61,6 +61,17 @@ public class DAOProyecto implements IDAOProyecto {
 		return signedUp;
 	}
 	
+	public boolean actualizar(String nombreAnterior) throws SQLException {
+		boolean actualizado = false;
+		assert this.proyecto.estaCompleto() : "Proyecto incompleto: DAOProyecto.actualizar()";
+		
+		String id = DAOProyecto.getIdConNombre(nombreAnterior);
+		if (id != null) {
+			String query = "";
+		}
+		return actualizado;
+	}
+	
 	@Override
 	public boolean estaRegistrado() throws SQLException {
 		assert this.proyecto != null : "Project is null: DAOProject.isRegistered()";
@@ -300,6 +311,14 @@ public class DAOProyecto implements IDAOProyecto {
 			}
 		}
 		return proyectos;
+	}
+	
+	public static String getIdConNombre(String nombre) throws SQLException {
+		String query = "SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1";
+		String[] valores = {nombre};
+		String[] columnas = {"idProyecto"};
+		String[][] resultado = new ConexionBD().seleccionar(query, valores, columnas);
+		return resultado != null ? resultado[0][0] : "";
 	}
 	
 	public static Proyecto obtenerPorNombre(String name) throws SQLException {

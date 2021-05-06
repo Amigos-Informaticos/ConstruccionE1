@@ -23,69 +23,69 @@ public class VerProyectoController implements Initializable {
 	@FXML
 	private JFXComboBox<String> cmbOrganizations;
 	@FXML
-	private JFXTextField txtName;
+	private JFXTextField txtNombre;
 	@FXML
-	private JFXTextArea txtDescription;
+	private JFXTextArea txtDescripcion;
 	@FXML
-	private JFXTextField txtGeneralObjective;
+	private JFXTextField txtObjetivoGeneral;
 	@FXML
-	private JFXTextField txtMediateObjective;
+	private JFXTextField txtObjetivoMediato;
 	@FXML
-	private JFXTextField txtInmediateObjective;
+	private JFXTextField txtObjetivoInmediato;
 	@FXML
-	private JFXTextField txtMethodology;
+	private JFXTextField txtMetodologia;
 	@FXML
-	private JFXTextArea txtResources;
+	private JFXTextArea txtRecursos;
 	@FXML
-	private JFXTextArea txtResponsibilities;
+	private JFXTextArea txtResponsabilidades;
 	@FXML
-	private JFXTextField txtCapacity;
+	private JFXTextField txtCapacidad;
 	@FXML
-	private JFXTextField txtPositionResponsible;
+	private JFXTextField txtPosicionResponsable;
 	@FXML
-	private JFXTextField txtEmailResponsible;
+	private JFXTextField txtEmailResponsable;
 	@FXML
-	private JFXTextField txtNameResponsible;
+	private JFXTextField txtNombreResponsable;
 	@FXML
-	private JFXTextField txtLastnameResponsible;
+	private JFXTextField txtApellidosResponsable;
 	@FXML
 	private JFXComboBox<String> cmbArea;
 	@FXML
-	private JFXComboBox<String> cmbPeriod;
+	private JFXComboBox<String> cmbPeriodo;
 	
 	@FXML
-	private JFXDatePicker initialDate;
+	private JFXDatePicker fechaInicial;
 	@FXML
-	private JFXDatePicker finalDate;
+	private JFXDatePicker fechaFinal;
 	
-	private ObservableList<String> listOrganizations;
-	private ObservableList<String> listAreas;
-	private ObservableList<String> listPeriods;
+	private ObservableList<String> listaOrganizaciones;
+	private ObservableList<String> listaAreas;
+	private ObservableList<String> listaPeriodos;
 	
 	private Proyecto proyecto;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		listOrganizations = FXCollections.observableArrayList();
+		listaOrganizaciones = FXCollections.observableArrayList();
 		try {
-			Organizacion.llenarTodosNombres(listOrganizations);
+			Organizacion.llenarTodosNombres(listaOrganizaciones);
 		} catch (SQLException throwable) {
 			System.out.println(throwable.getMessage());
 		}
-		cmbOrganizations.setItems(listOrganizations);
+		cmbOrganizations.setItems(listaOrganizaciones);
 		
-		listAreas = FXCollections.observableArrayList();
+		listaAreas = FXCollections.observableArrayList();
 		try {
-			Proyecto.fillAreaTable(listAreas);
+			Proyecto.fillAreaTable(listaAreas);
 		} catch (SQLException throwables) {
 			System.out.println(throwables);
 		}
-		cmbArea.setItems(listAreas);
+		cmbArea.setItems(listaAreas);
 		
-		listPeriods = FXCollections.observableArrayList();
-		listPeriods.add("FEB-JUL");
-		listPeriods.add("AGO-ENE");
-		cmbPeriod.setItems(listPeriods);
+		listaPeriodos = FXCollections.observableArrayList();
+		listaPeriodos.add("FEB-JUL");
+		listaPeriodos.add("AGO-ENE");
+		cmbPeriodo.setItems(listaPeriodos);
 		limitarTextfields();
 		
 		proyecto = (Proyecto) MainController.get("project");
@@ -93,36 +93,36 @@ public class VerProyectoController implements Initializable {
 	}
 	
 	public void limitarTextfields() {
-		LimitadorTextfield.soloTexto(txtName);
-		LimitadorTextfield.soloTextoArea(txtDescription);
-		LimitadorTextfield.soloTexto(txtGeneralObjective);
-		LimitadorTextfield.soloTexto(txtMediateObjective);
-		LimitadorTextfield.soloTexto(txtInmediateObjective);
-		LimitadorTextfield.soloTexto(txtMethodology);
-		LimitadorTextfield.soloTextoArea(txtResources);
-		LimitadorTextfield.soloTextoArea(txtResponsibilities);
-		LimitadorTextfield.soloTexto(txtPositionResponsible);
-		LimitadorTextfield.soloTexto(txtNameResponsible);
-		LimitadorTextfield.soloTexto(txtLastnameResponsible);
-		LimitadorTextfield.soloNumeros(txtCapacity);
+		LimitadorTextfield.soloTexto(txtNombre);
+		LimitadorTextfield.soloTextoArea(txtDescripcion);
+		LimitadorTextfield.soloTexto(txtObjetivoGeneral);
+		LimitadorTextfield.soloTexto(txtObjetivoMediato);
+		LimitadorTextfield.soloTexto(txtObjetivoInmediato);
+		LimitadorTextfield.soloTexto(txtMetodologia);
+		LimitadorTextfield.soloTextoArea(txtRecursos);
+		LimitadorTextfield.soloTextoArea(txtResponsabilidades);
+		LimitadorTextfield.soloTexto(txtPosicionResponsable);
+		LimitadorTextfield.soloTexto(txtNombreResponsable);
+		LimitadorTextfield.soloTexto(txtApellidosResponsable);
+		LimitadorTextfield.soloNumeros(txtCapacidad);
 		
-		LimitadorTextfield.limitarTamanio(txtName, 50);
-		LimitadorTextfield.limitarTamanio(txtGeneralObjective, 50);
-		LimitadorTextfield.limitarTamanio(txtMediateObjective, 50);
-		LimitadorTextfield.limitarTamanio(txtInmediateObjective, 50);
-		LimitadorTextfield.limitarTamanio(txtMethodology, 50);
-		LimitadorTextfield.limitarTamanio(txtPositionResponsible, 20);
-		LimitadorTextfield.limitarTamanio(txtNameResponsible, 20);
-		LimitadorTextfield.limitarTamanio(txtLastnameResponsible, 20);
-		LimitadorTextfield.limitarTamanio(txtEmailResponsible, 20);
-		LimitadorTextfield.limitarTamanio(txtCapacity, 2);
+		LimitadorTextfield.limitarTamanio(txtNombre, 50);
+		LimitadorTextfield.limitarTamanio(txtObjetivoGeneral, 50);
+		LimitadorTextfield.limitarTamanio(txtObjetivoMediato, 50);
+		LimitadorTextfield.limitarTamanio(txtObjetivoInmediato, 50);
+		LimitadorTextfield.limitarTamanio(txtMetodologia, 50);
+		LimitadorTextfield.limitarTamanio(txtPosicionResponsable, 20);
+		LimitadorTextfield.limitarTamanio(txtNombreResponsable, 20);
+		LimitadorTextfield.limitarTamanio(txtApellidosResponsable, 20);
+		LimitadorTextfield.limitarTamanio(txtEmailResponsable, 20);
+		LimitadorTextfield.limitarTamanio(txtCapacidad, 2);
 		
-		LimitadorTextfield.limitarTamanioArea(txtDescription, 200);
-		LimitadorTextfield.limitarTamanioArea(txtResources, 200);
-		LimitadorTextfield.limitarTamanioArea(txtResponsibilities, 200);
+		LimitadorTextfield.limitarTamanioArea(txtDescripcion, 200);
+		LimitadorTextfield.limitarTamanioArea(txtRecursos, 200);
+		LimitadorTextfield.limitarTamanioArea(txtResponsabilidades, 200);
 	}
 	
-	public void delete() {
+	public void eliminar() {
 		if (MainController.alert(Alert.AlertType.CONFIRMATION,
 			"Eliminar Proyecto",
 			"¿Seguro que desea eliminar el Proyecto?")) {
@@ -144,29 +144,49 @@ public class VerProyectoController implements Initializable {
 	
 	public void inicializarCampos() {
 		cmbOrganizations.setValue(proyecto.getOrganization().getNombre());
-		txtName.setText(proyecto.getNombre());
-		txtDescription.setText(proyecto.getDescripcion());
-		txtGeneralObjective.setText(proyecto.getObjetivoGeneral());
-		txtMediateObjective.setText(proyecto.getObjetivoMediato());
-		txtInmediateObjective.setText(proyecto.getObjetivoInmediato());
-		txtMethodology.setText(proyecto.getMetodologia());
-		txtResources.setText(proyecto.getRecursos());
-		txtResponsibilities.setText(proyecto.getResponsabilidades());
+		txtNombre.setText(proyecto.getNombre());
+		txtDescripcion.setText(proyecto.getDescripcion());
+		txtObjetivoGeneral.setText(proyecto.getObjetivoGeneral());
+		txtObjetivoMediato.setText(proyecto.getObjetivoMediato());
+		txtObjetivoInmediato.setText(proyecto.getObjetivoInmediato());
+		txtMetodologia.setText(proyecto.getMetodologia());
+		txtRecursos.setText(proyecto.getRecursos());
+		txtResponsabilidades.setText(proyecto.getResponsabilidades());
 		
-		txtPositionResponsible.setText(proyecto.getResponsable().getPosicion());
-		txtEmailResponsible.setText(proyecto.getResponsable().getEmail());
-		txtNameResponsible.setText(proyecto.getResponsable().getNombres());
-		txtLastnameResponsible.setText(proyecto.getResponsable().getApellidos());
+		txtPosicionResponsable.setText(proyecto.getResponsable().getPosicion());
+		txtEmailResponsable.setText(proyecto.getResponsable().getEmail());
+		txtNombreResponsable.setText(proyecto.getResponsable().getNombres());
+		txtApellidosResponsable.setText(proyecto.getResponsable().getApellidos());
 		
-		txtCapacity.setText(String.valueOf(proyecto.getCapacidad()));
+		txtCapacidad.setText(String.valueOf(proyecto.getCapacidad()));
 		cmbArea.setValue(proyecto.getArea());
-		cmbPeriod.setValue(proyecto.getPeriodo());
+		cmbPeriodo.setValue(proyecto.getPeriodo());
 		
-		initialDate.setValue(LocalDate.parse(proyecto.getFechaInicio()));
-		finalDate.setValue(LocalDate.parse(proyecto.getFechaFin()));
+		fechaInicial.setValue(LocalDate.parse(proyecto.getFechaInicio()));
+		fechaFinal.setValue(LocalDate.parse(proyecto.getFechaFin()));
 	}
 	
 	public void salir() {
 		MainController.activate("ListaProyectos", "Lista de Proyectos", MainController.Sizes.MID);
+	}
+	
+	public void actualizar() {
+		this.proyecto.setNombre(txtNombre.getText());
+		this.proyecto.setDescripcion(txtDescripcion.getText());
+		this.proyecto.setObjetivoGeneral(txtObjetivoGeneral.getText());
+		this.proyecto.setObjetivoMediato(txtObjetivoMediato.getText());
+		this.proyecto.setObjetivoInmediato(txtObjetivoInmediato.getText());
+		this.proyecto.setMetodologia(txtMetodologia.getText());
+		this.proyecto.setRecursos(txtRecursos.getText());
+		this.proyecto.setResponsabilidades(txtResponsabilidades.getText());
+		this.proyecto.setCapacidad(Integer.parseInt(txtCapacidad.getText()));
+		this.proyecto.getResponsable().setPosicion(txtPosicionResponsable.getText());
+		this.proyecto.getResponsable().setEmail(txtEmailResponsable.getText());
+		this.proyecto.getResponsable().setNombre(txtNombreResponsable.getText());
+		this.proyecto.getResponsable().setApellido(txtApellidosResponsable.getText());
+		this.proyecto.setArea(cmbArea.getValue());
+		this.proyecto.setPeriodo(cmbPeriodo.getValue());
+		this.proyecto.setFechaInicio(fechaInicial.getValue().toString());
+		this.proyecto.setFechaFin(fechaFinal.getValue().toString());
 	}
 }
