@@ -242,7 +242,7 @@ public class DAOProyecto implements IDAOProyecto {
 	
 	public boolean haveStudents() throws SQLException {
 		String query = "SELECT COUNT(idProyecto) AS TOTAL FROM Asignacion " +
-			"WHERE idProyecto = ? AND estaActivo = 1";
+			"WHERE idProyecto = ? AND estado = 1";
 		String[] values = {this.getId()};
 		String[] names = {"TOTAL"};
 		String[][] results = this.connection.seleccionar(query, values, names);
