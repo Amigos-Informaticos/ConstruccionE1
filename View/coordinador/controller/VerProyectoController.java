@@ -61,15 +61,11 @@ public class VerProyectoController implements Initializable {
 	@FXML
 	private JFXDatePicker fechaFinal;
 	
-	private ObservableList<String> listaOrganizaciones;
-	private ObservableList<String> listaAreas;
-	private ObservableList<String> listaPeriodos;
-	
 	private Proyecto proyecto;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		listaOrganizaciones = FXCollections.observableArrayList();
+		ObservableList<String> listaOrganizaciones = FXCollections.observableArrayList();
 		try {
 			Organizacion.llenarTodosNombres(listaOrganizaciones);
 		} catch (SQLException throwable) {
@@ -77,15 +73,15 @@ public class VerProyectoController implements Initializable {
 		}
 		cmbOrganizaciones.setItems(listaOrganizaciones);
 		
-		listaAreas = FXCollections.observableArrayList();
+		ObservableList<String> listaAreas = FXCollections.observableArrayList();
 		try {
 			Proyecto.fillAreaTable(listaAreas);
 		} catch (SQLException throwable) {
-			System.out.println(throwable);
+			Logger.staticLog(throwable, true);
 		}
 		cmbArea.setItems(listaAreas);
 		
-		listaPeriodos = FXCollections.observableArrayList();
+		ObservableList<String> listaPeriodos = FXCollections.observableArrayList();
 		listaPeriodos.add("FEB-JUL");
 		listaPeriodos.add("AGO-ENE");
 		cmbPeriodo.setItems(listaPeriodos);
