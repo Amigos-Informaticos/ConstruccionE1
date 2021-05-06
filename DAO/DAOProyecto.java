@@ -2,7 +2,6 @@ package DAO;
 
 import Connection.ConexionBD;
 import IDAO.IDAOProyecto;
-import Models.ActividadCalendarizada;
 import Models.Proyecto;
 import javafx.collections.ObservableList;
 
@@ -61,7 +60,7 @@ public class DAOProyecto implements IDAOProyecto {
 		}
 		return signedUp;
 	}
-
+	
 	@Override
 	public boolean estaRegistrado() throws SQLException {
 		assert this.proyecto != null : "Project is null: DAOProject.isRegistered()";
@@ -74,12 +73,12 @@ public class DAOProyecto implements IDAOProyecto {
 		return results != null && results[0][0].equals("1");
 	}
 	
-	public Proyecto cargarProyecto(String name) throws SQLException {
-		assert name != null : "Name is null: DAOProject.loadProject()";
+	public Proyecto cargarProyecto(String nombre) throws SQLException {
+		assert nombre != null : "Name is null: DAOProject.loadProject()";
 		Proyecto proyecto = null;
 		String query =
 			"SELECT COUNT(nombre) AS TOTAL FROM Proyecto WHERE nombre = ? AND estaActivo = 1";
-		String[] values = {name};
+		String[] values = {nombre};
 		String[] names = {"TOTAL"};
 		String[][] selection = this.connection.seleccionar(query, values, names);
 		if (selection != null && selection[0][0].equals("1")) {
@@ -181,12 +180,15 @@ public class DAOProyecto implements IDAOProyecto {
 	}
 	
 	public String getId() throws SQLException {
+		assert this.proyecto != null : "Proyecto es nulo: DAOProyecto.getId()";
+		assert this.proyecto.getNombre() != null : "Nombre del proyecto es nulo: DAOProyecto.getId()";
+		
 		String id;
-		String query = "SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1;";
-		String[] values = {this.proyecto.getNombre()};
-		String[] names = {"idProyecto"};
-		String[][] result = this.connection.seleccionar(query, values, names);
-		id = result != null ? result[0][0] : "";
+		String query = "SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1";
+		String[] valores = {this.proyecto.getNombre()};
+		String[] columnas = {"idProyecto"};
+		String[][] resultado = this.connection.seleccionar(query, valores, columnas);
+		id = resultado != null ? resultado[0][0] : "";
 		return id;
 	}
 	
@@ -300,7 +302,7 @@ public class DAOProyecto implements IDAOProyecto {
 		return proyectos;
 	}
 	
-	public static Proyecto getByName(String name) throws SQLException {
+	public static Proyecto obtenerPorNombre(String name) throws SQLException {
 		assert name != null : "Name is null: DAOProject.getByName()";
 		ConexionBD connection = new ConexionBD();
 		Proyecto proyecto;

@@ -12,62 +12,64 @@
             prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="View.practicante.controller.MainMenuStudent">
-   <children>
-      <HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;"
-            AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Separator prefHeight="5.0" prefWidth="83.0"/>
-            <Label text="Practicante" textFill="WHITE">
-               <font>
-                  <Font size="35.0"/>
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <JFXButton fx:id="solicitarProyecto" onMouseClicked="#seleccionarProyecto" layoutX="195.0"
-                 layoutY="108.0" prefHeight="60.0" prefWidth="310.0"
-                 style="-fx-background-color: #28AD56;" text="Solicitar Proyecto"
-                 textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="20.0"/>
-         </font>
-      </JFXButton>
-      <ImageView fitHeight="224.0" fitWidth="172.0" layoutX="521.0" layoutY="90.0" opacity="0.23"
-                 pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@/View/images/logo_uv.png"/>
-         </image>
-      </ImageView>
-      <JFXButton fx:id="generarReporte" onMouseClicked="#generarReporte" layoutX="195.0"
-                 layoutY="197.0" prefHeight="60.0"
-                 prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Generar Reporte"
-                 textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="20.0"/>
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="subirHorario" onMouseClicked="#subirDocumento" layoutX="195.0"
-                 layoutY="284.0" prefHeight="60.0"
-                 prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Subir Horario"
-                 textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="20.0"/>
-         </font>
-      </JFXButton>
-      <ImageView fitHeight="51.0" fitWidth="50.0" layoutX="200.0" layoutY="289.0">
-         <image>
-            <Image url="@/View/images/icon_activity.png"/>
-         </image>
-      </ImageView>
-      <ImageView fitHeight="60.0" fitWidth="59.0" layoutX="198.0" layoutY="108.0">
-         <image>
-            <Image url="@/View/images/icon_project.png"/>
-         </image>
-      </ImageView>
-      <ImageView fitHeight="51.0" fitWidth="50.0" layoutX="200.0" layoutY="200.0">
-         <image>
-            <Image url="@/View/images/icon_report.png"/>
-         </image>
-      </ImageView>
-   </children>
+	<children>
+		<HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;"
+		      AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<children>
+				<Separator prefHeight="5.0" prefWidth="83.0"/>
+				<Label text="Practicante" textFill="WHITE">
+					<font>
+						<Font size="35.0"/>
+					</font>
+				</Label>
+			</children>
+		</HBox>
+		<JFXButton fx:id="btnSolicitarProyecto" onMouseClicked="#seleccionarProyecto"
+		           layoutX="195.0"
+		           layoutY="108.0" prefHeight="60.0" prefWidth="310.0"
+		           style="-fx-background-color: #28AD56;" text="Solicitar Proyecto"
+		           textAlignment="CENTER" textFill="WHITE">
+			<font>
+				<Font name="System Bold" size="20.0"/>
+			</font>
+		</JFXButton>
+		<ImageView fitHeight="224.0" fitWidth="172.0" layoutX="521.0" layoutY="90.0" opacity="0.23"
+		           pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="@/View/images/logo_uv.png"/>
+			</image>
+		</ImageView>
+		<JFXButton fx:id="btnGenerarReporte" onMouseClicked="#generarReporte" layoutX="195.0"
+		           layoutY="197.0" prefHeight="60.0"
+		           prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Generar Reporte"
+		           textAlignment="CENTER" textFill="WHITE">
+			<font>
+				<Font name="System Bold" size="20.0"/>
+			</font>
+		</JFXButton>
+		<JFXButton fx:id="btnSubirHorario" layoutX="195.0"
+		           layoutY="284.0" prefHeight="60.0"
+		           prefWidth="310.0" style="-fx-background-color: #28AD56;" text="Subir Horario"
+		           textAlignment="CENTER" textFill="WHITE">
+			<font>
+				<Font name="System Bold" size="20.0"/>
+			</font>
+		</JFXButton>
+		<ImageView fx:id="imagenActividad" fitHeight="51.0" fitWidth="50.0" layoutX="200.0"
+		           layoutY="289.0">
+			<image>
+				<Image url="@/View/images/icon_activity.png"/>
+			</image>
+		</ImageView>
+		<ImageView fitHeight="60.0" fitWidth="59.0" layoutX="198.0" layoutY="108.0">
+			<image>
+				<Image url="@/View/images/icon_project.png"/>
+			</image>
+		</ImageView>
+		<ImageView fitHeight="51.0" fitWidth="50.0" layoutX="200.0" layoutY="200.0">
+			<image>
+				<Image url="@/View/images/icon_report.png"/>
+			</image>
+		</ImageView>
+	</children>
 </AnchorPane>
