@@ -8,13 +8,17 @@ public class LimitadorTextfield {
 	
 	public static void limitarTamanio(JFXTextField textField, int tamanio) {
 		textField.setOnKeyTyped(event -> {
-			if (textField.getText().length() > (tamanio - 1)) event.consume();
+			if (textField.getText().length() > (tamanio - 1)) {
+				event.consume();
+			}
 		});
 	}
 	
 	public static void limitarTamanioArea(JFXTextArea textField, int tamanio) {
 		textField.setOnKeyTyped(event -> {
-			if (textField.getText().length() > (tamanio - 1)) event.consume();
+			if (textField.getText().length() > (tamanio - 1)) {
+				event.consume();
+			}
 		});
 	}
 	
@@ -32,42 +36,36 @@ public class LimitadorTextfield {
 	
 	public static void soloTextoArea(JFXTextArea textArea) {
 		textArea.addEventHandler(KeyEvent.KEY_TYPED, LimitadorTextfield::soloTextoEvent);
-		
 	}
 	
 	public static void soloNumerosEnterosEvent(KeyEvent keyEvent) {
 		try {
-			char key = keyEvent.getCharacter().charAt(0);
-			
-			if (!Character.isDigit(key))
+			if (!Character.isDigit(keyEvent.getCharacter().charAt(0))) {
 				keyEvent.consume();
-			
+			}
 		} catch (Exception ex) {
-			System.out.println(ex);
+			Logger.staticLog(ex);
 		}
 	}
 	
 	public static void soloCaracteresEvent(KeyEvent keyEvent) {
 		try {
-			char key = keyEvent.getCharacter().charAt(0);
-			
-			if (Character.isDigit(key))
+			if (Character.isDigit(keyEvent.getCharacter().charAt(0))) {
 				keyEvent.consume();
-			
+			}
 		} catch (Exception ex) {
-			System.out.println(ex);
+			Logger.staticLog(ex);
 		}
 	}
 	
 	public static void soloTextoEvent(KeyEvent keyEvent) {
 		try {
 			char key = keyEvent.getCharacter().charAt(0);
-			
 			if (!Character.isLetterOrDigit(key) && !Character.isSpaceChar(key)) {
 				keyEvent.consume();
 			}
 		} catch (Exception ex) {
-			System.out.println(ex);
+			Logger.staticLog(ex);
 		}
 	}
 }
