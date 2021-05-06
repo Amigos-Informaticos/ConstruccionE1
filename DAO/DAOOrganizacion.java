@@ -86,11 +86,17 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 	public boolean eliminar() throws SQLException {
 		assert this.organizacion != null : "Organizacion es nula: DAOOrganizacion.eliminar()";
 		assert this.estaRegistrado() : "Organizacion no esta registrada: DAOOrganizacion.eliminar()";
-		assert this.estaActivo() : "Organizcacion no esta activa: DAOOrganizacion.eliminar()";
+		assert this.estaActivo() : "Organizacion no esta activa: DAOOrganizacion.eliminar()";
 		
+		boolean eliminado = false;
 		String query = "UPDATE Organizacion SET estaActivo = 0 WHERE nombre = ?";
 		String[] valores = {this.organizacion.getNombre()};
-		return this.conexion.ejecutar(query, valores);
+		if (this.conexion.ejecutar(query, valores)) {
+			query = "UPDATE Proyecto SET estaActivo = 0 WHERE idOrganizacion = ?";
+			valores = new String[] {this.getId()};
+			eliminado = this.conexion.ejecutar(query, valores);
+		}
+		return eliminado;
 	}
 	
 	@Override
