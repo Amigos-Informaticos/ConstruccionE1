@@ -1,7 +1,9 @@
 package View.coordinador.controller;
 
+import DAO.DAOProyecto;
 import Models.Organizacion;
 import Models.Proyecto;
+import Models.ResponsableProyecto;
 import View.MainController;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
@@ -22,7 +24,7 @@ import java.util.ResourceBundle;
 
 public class VerProyectoController implements Initializable {
 	@FXML
-	private JFXComboBox<String> cmbOrganizations;
+	private JFXComboBox<String> cmbOrganizaciones;
 	@FXML
 	private JFXTextField txtNombre;
 	@FXML
@@ -73,13 +75,13 @@ public class VerProyectoController implements Initializable {
 		} catch (SQLException throwable) {
 			System.out.println(throwable.getMessage());
 		}
-		cmbOrganizations.setItems(listaOrganizaciones);
+		cmbOrganizaciones.setItems(listaOrganizaciones);
 		
 		listaAreas = FXCollections.observableArrayList();
 		try {
 			Proyecto.fillAreaTable(listaAreas);
-		} catch (SQLException throwables) {
-			System.out.println(throwables);
+		} catch (SQLException throwable) {
+			System.out.println(throwable);
 		}
 		cmbArea.setItems(listaAreas);
 		
@@ -149,7 +151,7 @@ public class VerProyectoController implements Initializable {
 	}
 	
 	public void inicializarCampos() {
-		cmbOrganizations.setValue(proyecto.getOrganization().getNombre());
+		cmbOrganizaciones.setValue(proyecto.getOrganization().getNombre());
 		txtNombre.setText(proyecto.getNombre());
 		txtDescripcion.setText(proyecto.getDescripcion());
 		txtObjetivoGeneral.setText(proyecto.getObjetivoGeneral());
@@ -161,6 +163,7 @@ public class VerProyectoController implements Initializable {
 		
 		txtPosicionResponsable.setText(proyecto.getResponsable().getPosicion());
 		txtEmailResponsable.setText(proyecto.getResponsable().getEmail());
+		txtEmailResponsable.setEditable(false);
 		txtNombreResponsable.setText(proyecto.getResponsable().getNombres());
 		txtApellidosResponsable.setText(proyecto.getResponsable().getApellidos());
 		
@@ -177,22 +180,46 @@ public class VerProyectoController implements Initializable {
 	}
 	
 	public void actualizar() {
-		this.proyecto.setNombre(txtNombre.getText());
-		this.proyecto.setDescripcion(txtDescripcion.getText());
-		this.proyecto.setObjetivoGeneral(txtObjetivoGeneral.getText());
-		this.proyecto.setObjetivoMediato(txtObjetivoMediato.getText());
-		this.proyecto.setObjetivoInmediato(txtObjetivoInmediato.getText());
-		this.proyecto.setMetodologia(txtMetodologia.getText());
-		this.proyecto.setRecursos(txtRecursos.getText());
-		this.proyecto.setResponsabilidades(txtResponsabilidades.getText());
-		this.proyecto.setCapacidad(Integer.parseInt(txtCapacidad.getText()));
-		this.proyecto.getResponsable().setPosicion(txtPosicionResponsable.getText());
-		this.proyecto.getResponsable().setEmail(txtEmailResponsable.getText());
-		this.proyecto.getResponsable().setNombre(txtNombreResponsable.getText());
-		this.proyecto.getResponsable().setApellido(txtApellidosResponsable.getText());
-		this.proyecto.setArea(cmbArea.getValue());
-		this.proyecto.setPeriodo(cmbPeriodo.getValue());
-		this.proyecto.setFechaInicio(fechaInicial.getValue().toString());
-		this.proyecto.setFechaFin(fechaFinal.getValue().toString());
+		if (MainController.alert(Alert.AlertType.CONFIRMATION,
+			"Actualizar Proyecto",
+			"¿Seguro que desea Actualizar el Proyecto?")) {
+			try {
+				String idProyecto = DAOProyecto.getIdConNombre(this.proyecto.getNombre());
+				this.proyecto.setNombre(txtNombre.getText());
+				this.proyecto.setDescripcion(txtDescripcion.getText());
+				this.proyecto.setObjetivoGeneral(txtObjetivoGeneral.getText());
+				this.proyecto.setObjetivoMediato(txtObjetivoMediato.getText());
+				this.proyecto.setObjetivoInmediato(txtObjetivoInmediato.getText());
+				this.proyecto.setMetodologia(txtMetodologia.getText());
+				this.proyecto.setRecursos(txtRecursos.getText());
+				this.proyecto.setResponsabilidades(txtResponsabilidades.getText());
+				this.proyecto.setCapacidad(Integer.parseInt(txtCapacidad.getText()));
+				
+				this.proyecto.setResponsable(new ResponsableProyecto());
+				this.proyecto.getResponsable().setPosicion(txtPosicionResponsable.getText());
+				this.proyecto.getResponsable().setEmail(txtEmailResponsable.getText());
+				this.proyecto.getResponsable().setNombre(txtNombreResponsable.getText());
+				this.proyecto.getResponsable().setApellido(txtApellidosResponsable.getText());
+				
+				this.proyecto.setArea(cmbArea.getValue());
+				this.proyecto.setPeriodo(cmbPeriodo.getValue());
+				this.proyecto.setFechaInicio(fechaInicial.getValue().toString());
+				this.proyecto.setFechaFin(fechaFinal.getValue().toString());
+				
+				this.proyecto.setOrganization(new Organizacion());
+				this.proyecto.getOrganization().setNombre(cmbOrganizaciones.getValue());
+				if (this.proyecto.actualizar(idProyecto)) {
+					MainController.alert(Alert.AlertType.INFORMATION,
+						"Proyecto actualizado",
+						"Proyecto actualizado exitosamente");
+					MainController.activate(
+						"MenuCoordinador",
+						"Menu Coordinador",
+						MainController.Sizes.MID);
+				}
+			} catch (SQLException throwable) {
+				Logger.staticLog(throwable, true);
+			}
+		}
 	}
 }

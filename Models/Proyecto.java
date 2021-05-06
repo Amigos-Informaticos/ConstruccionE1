@@ -178,8 +178,8 @@ public class Proyecto {
 		return new DAOProyecto(this).registrarse();
 	}
 	
-	public boolean actualizar(String nombreAnterior) throws SQLException {
-		return new DAOProyecto(this).actualizar(nombreAnterior);
+	public boolean actualizar(String idProyecto) throws SQLException {
+		return new DAOProyecto(this).actualizar(idProyecto);
 	}
 	
 	public boolean eliminarProyecto() throws SQLException {

@@ -61,15 +61,33 @@ public class DAOProyecto implements IDAOProyecto {
 		return signedUp;
 	}
 	
-	public boolean actualizar(String nombreAnterior) throws SQLException {
-		boolean actualizado = false;
+	public boolean actualizar(String idProyecto) throws SQLException {
 		assert this.proyecto.estaCompleto() : "Proyecto incompleto: DAOProyecto.actualizar()";
 		
-		String id = DAOProyecto.getIdConNombre(nombreAnterior);
-		if (id != null) {
-			String query = "";
-		}
-		return actualizado;
+		String query =
+			"CALL SPA_actualizarProyecto(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String[] valores = {
+			idProyecto,
+			this.proyecto.getNombre(),
+			this.proyecto.getDescripcion(),
+			this.proyecto.getMetodologia(),
+			this.proyecto.getObjetivoGeneral(),
+			this.proyecto.getObjetivoMediato(),
+			this.proyecto.getObjetivoInmediato(),
+			this.proyecto.getRecursos(),
+			this.proyecto.getResponsabilidades(),
+			String.valueOf(this.proyecto.getCapacidad()),
+			this.proyecto.getArea(),
+			this.proyecto.getResponsable().getEmail(),
+			this.proyecto.getResponsable().getNombres(),
+			this.proyecto.getResponsable().getApellidos(),
+			this.proyecto.getResponsable().getPosicion(),
+			this.proyecto.getPeriodo(),
+			this.proyecto.getOrganization().getNombre(),
+			this.proyecto.getFechaInicio(),
+			this.proyecto.getFechaFin()
+		};
+		return this.conexion.ejecutar(query, valores);
 	}
 	
 	@Override
