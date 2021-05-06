@@ -1,22 +1,27 @@
 package View.coordinador.controller;
 
+import Models.Organizacion;
 import Models.Proyecto;
 import View.MainController;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import tools.LimitadorTextfield;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class VerProyectoController implements Initializable {
 	@FXML
-	private JFXTextField txtOrganization;
-	
+	private JFXComboBox<String> cmbOrganizations;
 	@FXML
 	private JFXTextField txtName;
 	@FXML
@@ -44,19 +49,79 @@ public class VerProyectoController implements Initializable {
 	@FXML
 	private JFXTextField txtLastnameResponsible;
 	@FXML
-	private JFXTextField txtArea;
+	private JFXComboBox<String> cmbArea;
 	@FXML
-	private JFXTextField txtPeriod;
+	private JFXComboBox<String> cmbPeriod;
+
+	@FXML
+	private JFXDatePicker initialDate;
+	@FXML
+	private JFXDatePicker finalDate;
+
+	private ObservableList<String> listOrganizations;
+	private ObservableList<String> listAreas;
+	private ObservableList<String> listPeriods;
 	
 	private Proyecto proyecto ;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		listOrganizations = FXCollections.observableArrayList();
+		try {
+			Organizacion.llenarNombres(listOrganizations);
+		} catch (SQLException throwables) {
+			System.out.println(throwables);
+		}
+		cmbOrganizations.setItems(listOrganizations);
+
+		listAreas = FXCollections.observableArrayList();
+		try {
+			Proyecto.fillAreaTable(listAreas);
+		} catch (SQLException throwables) {
+			System.out.println(throwables);
+		}
+		cmbArea.setItems(listAreas);
+
+		listPeriods = FXCollections.observableArrayList();
+		listPeriods.add("FEB-JUL");
+		listPeriods.add("AGO-ENE");
+		cmbPeriod.setItems(listPeriods);
+		limitarTextfields();
+
 		proyecto =  (Proyecto) MainController.get("project");
 		this.inicializarCampos();
-
 	}
-	
+
+	public void limitarTextfields() {
+		LimitadorTextfield.soloTexto(txtName);
+		LimitadorTextfield.soloTextoArea(txtDescription);
+		LimitadorTextfield.soloTexto(txtGeneralObjective);
+		LimitadorTextfield.soloTexto(txtMediateObjective);
+		LimitadorTextfield.soloTexto(txtInmediateObjective);
+		LimitadorTextfield.soloTexto(txtMethodology);
+		LimitadorTextfield.soloTextoArea(txtResources);
+		LimitadorTextfield.soloTextoArea(txtResponsibilities);
+		LimitadorTextfield.soloTexto(txtPositionResponsible);
+		LimitadorTextfield.soloTexto(txtNameResponsible);
+		LimitadorTextfield.soloTexto(txtLastnameResponsible);
+		LimitadorTextfield.soloNumeros(txtCapacity);
+
+		LimitadorTextfield.limitarTamanio(txtName, 50);
+		LimitadorTextfield.limitarTamanio(txtGeneralObjective, 50);
+		LimitadorTextfield.limitarTamanio(txtMediateObjective, 50);
+		LimitadorTextfield.limitarTamanio(txtInmediateObjective, 50);
+		LimitadorTextfield.limitarTamanio(txtMethodology, 50);
+		LimitadorTextfield.limitarTamanio(txtPositionResponsible, 20);
+		LimitadorTextfield.limitarTamanio(txtNameResponsible, 20);
+		LimitadorTextfield.limitarTamanio(txtLastnameResponsible, 20);
+		LimitadorTextfield.limitarTamanio(txtEmailResponsible, 20);
+		LimitadorTextfield.limitarTamanio(txtCapacity, 2);
+
+		LimitadorTextfield.limitarTamanioArea(txtDescription, 200);
+		LimitadorTextfield.limitarTamanioArea(txtResources, 200);
+		LimitadorTextfield.limitarTamanioArea(txtResponsibilities, 200);
+	}
+
 	public void delete() {
 		if (MainController.alert(Alert.AlertType.CONFIRMATION,
 			"Eliminar Proyecto",
@@ -68,134 +133,18 @@ public class VerProyectoController implements Initializable {
 						"Proyecto eliminado exitosamente");
 				} else {
 					MainController.alert(Alert.AlertType.ERROR,
-							"No se ha podido eliminar el proyecto",
-							"El proyecto no ha sido eliminado");
-				}
-			} catch (SQLException throwables) {
-				MainController.alert(Alert.AlertType.ERROR,
 						"Sin conexión con BD",
 						"Sin conexión con Base de Datos");
+				}
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
 			}
 		}
 	}
 
-	public void actualizar(){
-		if(proyectoEstaModificado()){
-			MainController.alert(Alert.AlertType.ERROR,
-					"Proyecto si está modificado",
-					"\"Proyecto si está modificado");
-		}
-	}
-
-	public boolean responsableModificado(){
-		boolean modificado = false;
-
-
-		String posicionResponsable = proyecto.getResponsable().getPosicion();
-		String emailResponsable = proyecto.getResponsable().getEmail();
-		String nombreResponsable = proyecto.getResponsable().getNombres();
-		String apellidoResponsable = proyecto.getResponsable().getApellidos();
-
-
-
-		if(!posicionResponsable.equals(txtPositionResponsible.getText())){
-			modificado = true;
-		}else if (!emailResponsable.equals(txtEmailResponsible.getText())){
-			modificado = true;
-		}else if(!nombreResponsable.equals(txtNameResponsible.getText())){
-			modificado = true;
-		}else if(!apellidoResponsable.equals(txtLastnameResponsible.getText())){
-			modificado = true;
-		}
-
-
-		return  modificado;
-	}
-
-	public boolean areaModificada(){
-		boolean modificada = false;
-		String area = proyecto.getArea();
-
-
-		if(!area.equals(txtArea.getText())){
-			modificada = true;
-		}
-
-		return modificada;
-
-	}
-
-	public  boolean periodoModificado(){
-		boolean modificado = false;
-		String periodo = proyecto.getPeriodo();
-
-		if(!periodo.equals(txtPeriod.getText())){
-
-			modificado = true;
-		}
-
-		return modificado;
-	}
-
-
-
-
-
-
-	public boolean proyectoEstaModificado(){
-		boolean modificado = false;
-		String organizacion = proyecto.getOrganization().getNombre();
-		String nombreProyecto = proyecto.getNombre();
-		String descripcion = proyecto.getDescripcion();
-		String objetivoGenaral = proyecto.getObjetivoGeneral();
-		String objetivoMediato = proyecto.getObjetivoMediato();
-		String objetivoInmediato = proyecto.getObjetivoInmediato();
-		String metodologia = proyecto.getMetodologia();
-		String recursos = proyecto.getRecursos();
-		String responsabilidades =proyecto.getResponsabilidades();
-		String cupo =  String.valueOf( proyecto.getCapacidad());
-
-
-
-
-
-
-		txtPositionResponsible.setText(proyecto.getResponsable().getPosicion());
-		txtEmailResponsible.setText(proyecto.getResponsable().getEmail());
-		txtNameResponsible.setText(proyecto.getResponsable().getNombres());
-		txtLastnameResponsible.setText(proyecto.getResponsable().getApellidos());
-
-
-
-
-		if (!nombreProyecto.equals(txtName.getText())){
-			modificado = true;
-		}else if(!descripcion.equals(txtDescription.getText())){
-			modificado = true;
-		}else if(!objetivoGenaral.equals(txtGeneralObjective.getText())){
-			modificado = true;
-		}else if(!objetivoMediato.equals(txtMediateObjective.getText()) ){
-			modificado = true;
-		}else if(!objetivoInmediato.equals(txtInmediateObjective.getText())){
-			modificado = true;
-		}else if(!metodologia.equals(txtMethodology.getText())){
-			modificado = true;
-		}else if(!recursos.equals(txtResources.getText())){
-			modificado = true;
-		}else if(!responsabilidades.equals(txtResponsibilities.getText())){
-			modificado = true;
-		}else if(! cupo.equals(txtCapacity.getText())){
-			modificado = true;
-		}
-
-
-
-		return	modificado;
-	}
-
 
 	public void inicializarCampos(){
-		txtOrganization.setText(proyecto.getOrganization().getNombre());
+		cmbOrganizations.setValue(proyecto.getOrganization().getNombre());
 		txtName.setText(proyecto.getNombre());
 		txtDescription.setText(proyecto.getDescripcion());
 		txtGeneralObjective.setText(proyecto.getObjetivoGeneral());
@@ -211,14 +160,15 @@ public class VerProyectoController implements Initializable {
 		txtLastnameResponsible.setText(proyecto.getResponsable().getApellidos());
 
 		txtCapacity.setText(String.valueOf(proyecto.getCapacidad()));
-		txtArea.setText(proyecto.getArea());
-		txtPeriod.setText(proyecto.getPeriodo());
+		cmbArea.setValue(proyecto.getArea());
+		cmbPeriod.setValue(proyecto.getPeriodo());
+
+		initialDate.setValue(LocalDate.parse(proyecto.getFechaInicio()));
+		finalDate.setValue(LocalDate.parse(proyecto.getFechaFin()));
+
 	}
 
-	public void eliminarClick(ActionEvent actionEvent) {
-	}
-
-	public void clicActualizar(ActionEvent actionEvent) {
-		actualizar();
+	public void onClickBack() {
+		MainController.activate("ListaProyectos", "Lista de Proyectos", MainController.Sizes.MID);
 	}
 }

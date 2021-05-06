@@ -46,7 +46,7 @@ public class SubirHorarioController implements Initializable {
 			"Menu Principal Practicante",
 			MainController.Sizes.MID);
 	}
-	
+
 	@FXML
 	private void guardarArchivo() throws SQLException {
 		Practicante practicante = DAOPracticante.get((Practicante) MainController.get("user"));
@@ -65,6 +65,8 @@ public class SubirHorarioController implements Initializable {
 			);
 		}
 	}
+
+
 	
 	private boolean extensionValida(String extension) {
 		return extension.equals("pdf") ||

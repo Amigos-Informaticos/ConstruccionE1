@@ -1,8 +1,5 @@
 package View.practicante.controller;
 
-import Exceptions.CustomException;
-import Models.ActividadCalendarizada;
-import Models.Practicante;
 import Models.Proyecto;
 import View.MainController;
 import com.jfoenix.controls.JFXDatePicker;
@@ -11,10 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
-import tools.Logger;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class GenerarReporteController implements Initializable {
@@ -43,33 +38,6 @@ public class GenerarReporteController implements Initializable {
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		try {
-			preconditions();
-		} catch (CustomException e) {
-			Logger.staticLog(e);
-		}
-	}
-
-	
-	private void preconditions() throws CustomException {
-		Practicante practicante = (Practicante) MainController.get("user");
-		try {
-			this.assignedProyecto = practicante.getProyecto();
-		} catch (SQLException throwables) {
-			MainController.alert(
-				Alert.AlertType.ERROR,
-				"ErrorBD",
-				"No se pudo establecer conexión con la base de datos"
-			);
-		}
-		if (this.assignedProyecto == null) {
-			MainController.alert(
-				Alert.AlertType.WARNING,
-				"No ha sido asignado a ningún proyecto",
-				"Necesita estar asignado a un proyecto para poder generar reportes"
-			);
-			exit();
-		}
 	}
 	
 	@FXML

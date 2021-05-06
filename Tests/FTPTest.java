@@ -1,6 +1,6 @@
 package Tests;
 
-import Connection.ConexionFTP;
+//import Connection.ConexionFTP;
 import org.junit.AfterClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(org.junit.runners.MethodSorters.NAME_ASCENDING)
 public class FTPTest {
+	/*
 	private static final ConexionFTP CONEXION_FTP = new ConexionFTP();
 	
 	@Test
@@ -28,4 +29,6 @@ public class FTPTest {
 	public static void close() {
 		CONEXION_FTP.cerrar();
 	}
+
+	 */
 }

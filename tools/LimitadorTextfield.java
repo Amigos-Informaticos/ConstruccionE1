@@ -1,11 +1,18 @@
 package tools;
 
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import javafx.scene.input.KeyEvent;
 
 public class LimitadorTextfield {
 
     public static void limitarTamanio(JFXTextField textField, int tamanio) {
+        textField.setOnKeyTyped(event -> {
+            if (textField.getText().length() > (tamanio-1)) event.consume();
+        });
+    }
+
+    public static void limitarTamanioArea(JFXTextArea textField, int tamanio) {
         textField.setOnKeyTyped(event -> {
             if (textField.getText().length() > (tamanio-1)) event.consume();
         });
@@ -21,6 +28,11 @@ public class LimitadorTextfield {
 
     public static void soloTexto(JFXTextField textField) {
         textField.addEventHandler(KeyEvent.KEY_TYPED, event -> soloTextoEvent(event));
+    }
+
+    public static void soloTextoArea(JFXTextArea textArea){
+        textArea.addEventHandler(KeyEvent.KEY_TYPED,event -> soloTextoEvent(event));
+
     }
 
     public static void soloNumerosEnterosEvent(KeyEvent keyEvent) {
