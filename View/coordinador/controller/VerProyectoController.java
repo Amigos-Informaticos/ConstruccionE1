@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import tools.LimitadorTextfield;
 import tools.Logger;
 
@@ -23,8 +24,9 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class VerProyectoController implements Initializable {
+
 	@FXML
-	private JFXComboBox<String> cmbOrganizaciones;
+	private Label lbOrganizacion;
 	@FXML
 	private JFXTextField txtNombre;
 	@FXML
@@ -65,13 +67,6 @@ public class VerProyectoController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ObservableList<String> listaOrganizaciones = FXCollections.observableArrayList();
-		try {
-			Organizacion.llenarTodosNombres(listaOrganizaciones);
-		} catch (SQLException throwable) {
-			System.out.println(throwable.getMessage());
-		}
-		cmbOrganizaciones.setItems(listaOrganizaciones);
 		
 		ObservableList<String> listaAreas = FXCollections.observableArrayList();
 		try {
@@ -147,7 +142,7 @@ public class VerProyectoController implements Initializable {
 	}
 	
 	public void inicializarCampos() {
-		cmbOrganizaciones.setValue(proyecto.getOrganization().getNombre());
+		lbOrganizacion.setText(proyecto.getOrganization().getNombre());
 		txtNombre.setText(proyecto.getNombre());
 		txtDescripcion.setText(proyecto.getDescripcion());
 		txtObjetivoGeneral.setText(proyecto.getObjetivoGeneral());
@@ -203,7 +198,6 @@ public class VerProyectoController implements Initializable {
 				this.proyecto.setFechaFin(fechaFinal.getValue().toString());
 				
 				this.proyecto.setOrganization(new Organizacion());
-				this.proyecto.getOrganization().setNombre(cmbOrganizaciones.getValue());
 				if (this.proyecto.actualizar(idProyecto)) {
 					MainController.alert(Alert.AlertType.INFORMATION,
 						"Proyecto actualizado",

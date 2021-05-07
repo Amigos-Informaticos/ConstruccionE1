@@ -220,7 +220,7 @@ public class Proyecto {
 		return filled;
 	}
 	
-	public static int contarProyectos() throws SQLException {
+	public static int contarProyectos() throws SQLException{
 		return DAOProyecto.obtenerTodos().length;
 	}
 	
