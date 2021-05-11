@@ -77,7 +77,7 @@
                           GridPane.columnIndex="1" GridPane.rowIndex="2"/>
             <JFXTextField fx:id="txtLastNames" focusColor="#28ad56" promptText="Apellidos del coordinador"
                           GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-            <JFXTextField fx:id="txtNoPersonal" focusColor="#28ad56" promptText="E.j N000001"
+            <JFXTextField fx:id="txtNoPersonal" focusColor="#28ad56" promptText="Ej. 1021001"
                           GridPane.columnIndex="1" GridPane.rowIndex="4"/>
             <JFXComboBox fx:id="cmbShift" focusColor="#28ad56" prefHeight="25.0" prefWidth="222.0"
                          GridPane.columnIndex="1" GridPane.rowIndex="5"/>

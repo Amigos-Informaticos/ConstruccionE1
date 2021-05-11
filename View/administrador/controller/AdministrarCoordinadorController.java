@@ -21,6 +21,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import tools.LimitadorTextfield;
 import tools.Logger;
 
 import java.net.URL;
@@ -89,8 +90,10 @@ public class AdministrarCoordinadorController implements Initializable {
         } catch (SQLException e) {
             Logger.staticLog(e, true);
         }
-        txtNames.addEventFilter(KeyEvent.ANY, handleLetters);
-        txtLastNames.addEventFilter(KeyEvent.ANY, handleLetters);
+        LimitadorTextfield.soloNumeros(txtNoPersonal);
+        LimitadorTextfield.soloNombres(txtNames);
+        LimitadorTextfield.soloTexto(txtLastNames);
+        LimitadorTextfield.limitarTamanio(txtNames, 32);
     }
 
     @FXML
@@ -144,7 +147,6 @@ public class AdministrarCoordinadorController implements Initializable {
 
     @FXML
     public void actualizar() {
-        coordinador = new Coordinador();
         this.instanceCoordinator(coordinador);
         try {
             if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "")) {
@@ -152,13 +154,15 @@ public class AdministrarCoordinadorController implements Initializable {
                     if (coordinador.actualizar()) {
                         MainController.alert(
                                 Alert.AlertType.INFORMATION,
-                                "Coordinador registrado exitosamente",
+                                "Coordinador modificado exitosamente",
                                 "Pulse aceptar para continua"
                         );
+                        llenarDetallesCoordinador(coordinador);
+                        mostrarCamposErroneos();
                     } else {
                         MainController.alert(
                                 Alert.AlertType.ERROR,
-                                "No se pudo actualizar al coordinador",
+                                "No se pudo modificar al coordinador",
                                 "Pulse aceptar para continuar"
                         );
                     }
@@ -168,6 +172,7 @@ public class AdministrarCoordinadorController implements Initializable {
                             "LLene todos los campos correctamente",
                             "Pulse aceptar para continuar"
                     );
+                    mostrarCamposErroneos();
                 }
             }
         } catch (AssertionError e) {
@@ -273,6 +278,8 @@ public class AdministrarCoordinadorController implements Initializable {
         lblPersonalNo.setText(coordinador.getNoPersonal());
         lblShift.setText(coordinador.getTurno());
         lblRegistrationDate.setText(coordinador.getFechaRegistro());
+        txtEmail.setText(coordinador.getEmail());
+        pwdPassword.setText(coordinador.getContrasena());
     }
 
     private void limpiarDetallesCoordinador(){
@@ -282,6 +289,8 @@ public class AdministrarCoordinadorController implements Initializable {
         lblPersonalNo.setText(null);
         lblShift.setText(null);
         lblRegistrationDate.setText(null);
+        txtEmail.setText(null);
+        pwdPassword.setText(null);
     }
 
     private void habilitarRegistro() {

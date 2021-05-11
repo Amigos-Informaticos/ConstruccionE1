@@ -2,6 +2,7 @@ package tools;
 
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class LimitadorTextfield {
@@ -35,6 +36,17 @@ public class LimitadorTextfield {
 
     }
 
+    public static void soloNombres(JFXTextField textField){
+        textField.addEventHandler(KeyEvent.KEY_TYPED, event -> soloNombresEvent(event));
+    }
+    public static void soloNombresEvent(KeyEvent keyEvent){
+        if (!keyEvent.getCode().toString().matches("[a-zA-Z]")
+                && keyEvent.getCode() != KeyCode.BACK_SPACE
+                && keyEvent.getCode() != KeyCode.SPACE
+                && keyEvent.getCode() != KeyCode.SHIFT) {
+            keyEvent.consume();
+        }
+    }
     public static void soloNumerosEnterosEvent(KeyEvent keyEvent) {
         try {
             char key = keyEvent.getCharacter().charAt(0);
