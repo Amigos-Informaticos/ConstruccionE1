@@ -66,8 +66,8 @@ public class DAOAsignacion {
 	public static boolean guardarSolicitud(Practicante practicante, Proyecto proyecto) throws SQLException {
 		boolean guardado = false;
 		ConexionBD conexionBD = new ConexionBD();
-		String query = "SELECT COUNT(idMiembro) AS TOTAL FROM Solicitud " +
-			"WHERE idMiembro = ? AND idProyecto = ? AND estaActiva = 1";
+		String query = "SELECT COUNT(idMiembro) AS TOTAL FROM SeleccionProyecto " +
+			"WHERE idMiembro = ? AND idProyecto = ?";
 		String[] valores = {
 			new DAOPracticante(practicante).getId(),
 			new DAOProyecto(proyecto).getId()
@@ -75,7 +75,7 @@ public class DAOAsignacion {
 		String[] columnas = {"TOTAL"};
 		String[][] resultados = conexionBD.seleccionar(query, valores, columnas);
 		if (resultados != null && resultados[0][0].equals("0")) {
-			query = "INSERT INTO Solicitud (idMiembro, idProyecto) VALUES (?, ?)";
+			query = "INSERT INTO SeleccionProyecto (idMiembro, idProyecto) VALUES (?, ?)";
 			guardado = conexionBD.ejecutar(query, valores);
 		}
 		return guardado;
@@ -98,7 +98,7 @@ public class DAOAsignacion {
 		if (resultados != null && resultados.length > 0) {
 			proyectos = new Proyecto[resultados.length];
 			for (int i = 0; i < resultados.length; i++) {
-				proyectos[i] = DAOProyecto.getByName(resultados[i][0]);
+				proyectos[i] = DAOProyecto.obtenerPorNombre(resultados[i][0]);
 			}
 		}
 		return proyectos;

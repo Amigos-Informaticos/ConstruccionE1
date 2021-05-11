@@ -158,7 +158,7 @@ public class Proyecto {
 	public void setCoordinator(Coordinador coordinador) {
 		this.coordinador = coordinador;
 	}
-
+	
 	public boolean estaCompleto() {
 		return this.nombre != null &&
 			this.descripcion != null &&
@@ -175,12 +175,11 @@ public class Proyecto {
 	}
 	
 	public boolean registrar() throws SQLException {
-		boolean registered = false;
-		DAOProyecto daoProyecto = new DAOProyecto(this);
-		if (daoProyecto.registrarse()) {
-			registered = true;
-		}
-		return registered;
+		return new DAOProyecto(this).registrarse();
+	}
+	
+	public boolean actualizar(String idProyecto) throws SQLException {
+		return new DAOProyecto(this).actualizar(idProyecto);
 	}
 	
 	public boolean eliminarProyecto() throws SQLException {
@@ -199,7 +198,7 @@ public class Proyecto {
 	
 	public boolean haveStudents() throws SQLException {
 		DAOProyecto daoProyecto = new DAOProyecto(this);
-		return daoProyecto.haveStudents();
+		return daoProyecto.tienePracticantes();
 	}
 	
 	public boolean isRegistered() throws SQLException {
@@ -221,15 +220,15 @@ public class Proyecto {
 		return filled;
 	}
 	
-	public static int contarProyectos() throws SQLException {
+	public static int contarProyectos() throws SQLException{
 		return DAOProyecto.obtenerTodos().length;
 	}
-
+	
 	public boolean validarFechas() {
 		LocalDate fechaActual = LocalDate.now();
 		LocalDate fechaInicial = LocalDate.parse(fechaInicio);
 		LocalDate fechaFinal = LocalDate.parse(fechaFin);
 		return fechaActual.isBefore(fechaInicial) &&
-				fechaFinal.isAfter(fechaInicial);
+			fechaFinal.isAfter(fechaInicial);
 	}
 }

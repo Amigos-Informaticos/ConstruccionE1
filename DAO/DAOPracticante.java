@@ -2,7 +2,6 @@ package DAO;
 
 import Connection.ConexionBD;
 import Connection.ConexionFTP;
-import Exceptions.CustomException;
 import IDAO.IDAOPracticante;
 import Models.Practicante;
 import Models.Proyecto;
@@ -39,76 +38,70 @@ public class DAOPracticante implements IDAOPracticante {
 		String[][] resultados = this.conexion.seleccionar(query, valores, nombres);
 		return resultados != null ? resultados[0][0] : "";
 	}
-
+	
 	public String getIdCorreoAntiguo(String correoAntiguo) throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.getId()";
 		assert this.practicante.getEmail() != null :
-				"Email del practicante es nulo: DAOPracticante.getId()";
+			"Email del practicante es nulo: DAOPracticante.getId()";
 		assert this.estaRegistrado() : "Practicante no registrado: DAOPracticante.getId()";
-
+		
 		String query = "SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?";
 		String[] valores = {correoAntiguo};
 		String[] nombres = {"idMiembro"};
 		String[][] resultados = this.conexion.seleccionar(query, valores, nombres);
 		return resultados != null ? resultados[0][0] : "";
 	}
+	
 	public boolean estaRegistradoActualizar(String correoAntiguo) throws SQLException {
-
+		
 		String idPracticante = getIdCorreoAntiguo(correoAntiguo);
-
-
-
+		
 		boolean registrado = false;
-
-		if(!estaRegistradoMatriculaActualizar(idPracticante)){
-
+		
+		if (!estaRegistradoMatriculaActualizar(idPracticante)) {
+			
 			assert this.practicante != null : "Practicante es nulo: DAOPracticante.estaRegistrado()";
-
+			
 			assert this.practicante.getEmail() != null :
-					"Email de practicante es nulo: DAOPracticante.estaRegistrado()";
-
+				"Email de practicante es nulo: DAOPracticante.estaRegistrado()";
+			
 			String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL FROM MiembroFEI " +
-					"WHERE correoElectronico = ? AND idMiembro <> ?" ;
-
-
-			String[] valores = {this.practicante.getEmail(), idPracticante };
+				"WHERE correoElectronico = ? AND idMiembro <> ?";
+			
+			String[] valores = {this.practicante.getEmail(), idPracticante};
 			String[] nombres = {"TOTAL"};
 			String[][] resultados = this.conexion.seleccionar(query, valores, nombres);
-
-			if(resultados != null &&  Integer.parseInt(resultados[0][0])> 0 ){
+			
+			if (resultados != null && Integer.parseInt(resultados[0][0]) > 0) {
 				registrado = true;
 			}
-		}else {
+		} else {
 			registrado = true;
 		}
-
-
+		
 		return registrado;
 	}
-
-	public boolean estaRegistradoMatriculaActualizar(String idPracticante) throws SQLException{
-
+	
+	public boolean estaRegistradoMatriculaActualizar(String idPracticante) throws SQLException {
+		
 		boolean registrado = false;
-
+		
 		String query = "SELECT COUNT(Practicante.matricula) AS TOTAL FROM Practicante " +
-				"WHERE matricula= ?  AND idMiembro <> ?";
-
+			"WHERE matricula= ?  AND idMiembro <> ?";
+		
 		String[] valores = {this.practicante.getMatricula(), idPracticante};
-
-		String [] nombres = {"TOTAL"};
-
-		String [][] resultados = this.conexion.seleccionar(query,valores,nombres);
-
-		if( resultados!= null	&& Integer.parseInt(resultados[0][0]) > 0){
+		
+		String[] nombres = {"TOTAL"};
+		
+		String[][] resultados = this.conexion.seleccionar(query, valores, nombres);
+		
+		if (resultados != null && Integer.parseInt(resultados[0][0]) > 0) {
 			registrado = true;
 		}
-
-		return  registrado;
-
+		
+		return registrado;
+		
 	}
-
-
-
 	
 	@Override
 	public boolean actualizar() throws SQLException {
@@ -132,52 +125,49 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return actualizado;
 	}
-
-
-	public  boolean actualizarConContrasenia(String correoElectronicoAntiguo)throws SQLException{
+	
+	public boolean actualizarConContrasenia(String correoElectronicoAntiguo) throws SQLException {
 		boolean actualizado = false;
 		String query = "UPDATE MiembroFEI SET nombres = ?, apellidos = ?, correoElectronico = ?, "
-				+ "contrasena = ? WHERE correoElectronico = ?";
+			+ "contrasena = ? WHERE correoElectronico = ?";
 		String[] valores = {
-				this.practicante.getNombres(),
-				this.practicante.getApellidos(),
-				this.practicante.getEmail(),
-				this.practicante.getContrasena(),
-				correoElectronicoAntiguo
+			this.practicante.getNombres(),
+			this.practicante.getApellidos(),
+			this.practicante.getEmail(),
+			this.practicante.getContrasena(),
+			correoElectronicoAntiguo
 		};
 		if (this.conexion.ejecutar(query, valores)) {
 			query = "UPDATE Practicante SET matricula = ? WHERE idMiembro = " +
-					"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
+				"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
 			valores = new String[] {this.practicante.getMatricula(), this.practicante.getEmail()};
 			actualizado = this.conexion.ejecutar(query, valores);
 		}
-
-
+		
 		return actualizado;
 	}
-
-	public  boolean actualizarSinContrasenia(String correoElectronicoAntiguo)throws SQLException{
-
+	
+	public boolean actualizarSinContrasenia(String correoElectronicoAntiguo) throws SQLException {
+		
 		boolean actualizado = false;
 		String query = "UPDATE MiembroFEI SET nombres = ?, apellidos = ?, correoElectronico = ? "
-				+  "WHERE correoElectronico = ?";
+			+ "WHERE correoElectronico = ?";
 		String[] valores = {
-				this.practicante.getNombres(),
-				this.practicante.getApellidos(),
-				this.practicante.getEmail(),
-				correoElectronicoAntiguo
+			this.practicante.getNombres(),
+			this.practicante.getApellidos(),
+			this.practicante.getEmail(),
+			correoElectronicoAntiguo
 		};
 		if (this.conexion.ejecutar(query, valores)) {
 			query = "UPDATE Practicante SET matricula = ? WHERE idMiembro = " +
-					"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
+				"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
 			valores = new String[] {this.practicante.getMatricula(), this.practicante.getEmail()};
 			actualizado = this.conexion.ejecutar(query, valores);
 		}
-
-		return  actualizado;
-
+		
+		return actualizado;
+		
 	}
-
 	
 	@Override
 	public boolean eliminar() throws SQLException {
@@ -236,75 +226,71 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return registrado;
 	}
-
-	public boolean actualizarProfesor() throws SQLException{
+	
+	public boolean actualizarProfesor() throws SQLException {
 		boolean actualizado = false;
 		String idProfesor = DAOProfesor.getId(this.practicante.getProfesor().getEmail());
 		String matricula = this.practicante.getMatricula();
-
+		
 		String query = "UPDATE Practicante SET profesorCalificador = ? WHERE matricula = ?";
-		String [] valores = {idProfesor, matricula};
-
-		if(this.conexion.ejecutar(query, valores)){
+		String[] valores = {idProfesor, matricula};
+		
+		if (this.conexion.ejecutar(query, valores)) {
 			actualizado = true;
 		}
-
-
-		return	 actualizado;
+		
+		return actualizado;
 	}
 	
 	@Override
 	public boolean estaRegistrado() throws SQLException {
-
+		
 		boolean registrado = false;
-
-		if(!estaRegistradoMatricula()){
-
+		
+		if (!estaRegistradoMatricula()) {
+			
 			assert this.practicante != null : "Practicante es nulo: DAOPracticante.estaRegistrado()";
 			assert this.practicante.getEmail() != null :
-					"Email de practicante es nulo: DAOPracticante.estaRegistrado()";
-
+				"Email de practicante es nulo: DAOPracticante.estaRegistrado()";
+			
 			String query = "SELECT COUNT(MiembroFEI.idMiembro) AS TOTAL FROM MiembroFEI " +
-					"WHERE correoElectronico = ?" ;
-
-
+				"WHERE correoElectronico = ?";
+			
 			String[] valores = {this.practicante.getEmail()};
 			String[] nombres = {"TOTAL"};
 			String[][] resultados = this.conexion.seleccionar(query, valores, nombres);
-
-			if(resultados != null &&  Integer.parseInt(resultados[0][0])> 0 ){
+			
+			if (resultados != null && Integer.parseInt(resultados[0][0]) > 0) {
 				registrado = true;
 			}
-		}else {
+		} else {
 			registrado = true;
 		}
-
-
+		
 		return registrado;
 	}
-
-	public boolean estaRegistradoMatricula() throws SQLException{
-
+	
+	public boolean estaRegistradoMatricula() throws SQLException {
+		
 		boolean registrado = false;
-
+		
 		String query = "SELECT COUNT(Practicante.matricula) AS TOTAL FROM Practicante " +
-		"WHERE matricula= ? ";
-
+			"WHERE matricula= ? ";
+		
 		String[] valores = {this.practicante.getMatricula()};
-
-		String [] nombres = {"TOTAL"};
-
-		String [][] resultados = this.conexion.seleccionar(query,valores,nombres);
-
-		if( resultados!= null	&& Integer.parseInt(resultados[0][0]) > 0){
+		
+		String[] nombres = {"TOTAL"};
+		
+		String[][] resultados = this.conexion.seleccionar(query, valores, nombres);
+		
+		if (resultados != null && Integer.parseInt(resultados[0][0]) > 0) {
 			registrado = true;
 		}
-
-		return  registrado;
-
+		
+		return registrado;
+		
 	}
-
-
+	
 	public boolean estaActivo() throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.estaActivo()";
 		assert this.practicante.getEmail() != null :
@@ -374,13 +360,13 @@ public class DAOPracticante implements IDAOPracticante {
 		int proyectosSeleccionados = proyectos != null ? Integer.parseInt(proyectos[0][0]) : 0;
 		
 		if (proyectosSeleccionados < 3) {
-			query = "SELECT COUNT(idMiembro) AS TOTAL FROM Solicitud " +
+			query = "SELECT COUNT(idMiembro) AS TOTAL FROM SeleccionProyecto " +
 				"WHERE idMiembro = ? AND idProyecto = " +
 				"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1)";
 			valores = new String[] {this.getId(), proyecto.getNombre()};
 			nombres = new String[] {"TOTAL"};
 			if (this.conexion.seleccionar(query, valores, nombres)[0][0].equals("0")) {
-				query = "INSERT INTO Solicitud (idProyecto, idMiembro) valores " +
+				query = "INSERT INTO Solicitud (idProyecto, idMiembro) VALUES " +
 					"((SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1), " +
 					"(SELECT MiembroFEI.idMiembro FROM MiembroFEI WHERE correoElectronico = ?))";
 				valores = new String[] {proyecto.getNombre(), this.practicante.getEmail()};
@@ -397,9 +383,9 @@ public class DAOPracticante implements IDAOPracticante {
 		assert this.estaActivo() : "Practicante inactivo: DAOPracticante.getProyectos()";
 		
 		Proyecto[] proyectos = null;
-		String query = "SELECT nombre FROM Proyecto INNER JOIN Solicitud ON " +
-			"Proyecto.idProyecto = Solicitud.idProyecto WHERE Solicitud.idMiembro = " +
-			"? AND Proyecto.estaActivo = 1";
+		String query = "SELECT nombre FROM Proyecto INNER JOIN SeleccionProyecto " +
+			"ON Proyecto.idProyecto = SeleccionProyecto.idProyecto " +
+			"WHERE SeleccionProyecto.idMiembro = ? AND Proyecto.estaActivo = 1";
 		String[] valores = {this.getId()};
 		String[] nombres = {"nombre"};
 		String[][] resultados = this.conexion.seleccionar(query, valores, nombres);
@@ -429,7 +415,7 @@ public class DAOPracticante implements IDAOPracticante {
 		boolean eliminado = false;
 		for (Proyecto proyecto: this.getProyectos()) {
 			if (proyecto != null && proyecto.getNombre().equals(nombreProyecto)) {
-				String query = "DELETE FROM Solicitud WHERE idMiembro = " +
+				String query = "DELETE FROM SeleccionProyecto WHERE idMiembro = " +
 					"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?) " +
 					"AND idProyecto = " +
 					"(SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1)";
@@ -441,14 +427,14 @@ public class DAOPracticante implements IDAOPracticante {
 		return eliminado;
 	}
 	
-	public boolean setProyecto(String nombreProyecto) throws CustomException, SQLException {
+	public boolean setProyecto(String nombreProyecto) throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.setProyecto()";
 		assert this.estaActivo() : "Practicante inactivo: DAOPracticante.setProyecto()";
 		assert nombreProyecto != null : "Nombre de proyecto es nulo: DAOPracticante.setProyecto()";
 		assert new DAOProyecto(nombreProyecto).estaRegistrado() :
 			"Proyecto no registrado: DAOPracticante.setProyecto()";
 		
-		boolean establecido;
+		boolean establecido = false;
 		String query =
 			"SELECT COUNT(idPracticante) AS TOTAL FROM Asignacion WHERE idPracticante = ?";
 		String[] valores = {this.getId()};
@@ -456,12 +442,9 @@ public class DAOPracticante implements IDAOPracticante {
 		String[][] practicantes = this.conexion.seleccionar(query, valores, nombres);
 		if (practicantes != null && practicantes[0][0].equals("0")) {
 			query = "INSERT INTO Asignacion (idPracticante, idProyecto) " +
-				"valores (?, (SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1))";
+				"VALUES (?, (SELECT idProyecto FROM Proyecto WHERE nombre = ? AND estaActivo = 1))";
 			valores = new String[] {this.getId(), nombreProyecto};
 			establecido = this.conexion.ejecutar(query, valores);
-		} else {
-			throw new CustomException("Proyecto ya establecido: setProyecto()",
-				"ProyectoYaEstablecido");
 		}
 		return establecido;
 	}
@@ -563,7 +546,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return filled;
 	}
-
+	
 	public boolean guardarDocumento(File documento) throws SQLException {
 		assert documento != null : "Documento es nulo: DAOPracticante.guardarDocumento()";
 		assert this.practicante.estaCompleto() :
@@ -585,5 +568,4 @@ public class DAOPracticante implements IDAOPracticante {
 		return guardado;
 	}
 	
-
 }
