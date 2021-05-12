@@ -1,5 +1,6 @@
 package tools;
 
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import javafx.scene.input.KeyCode;
@@ -10,6 +11,13 @@ public class LimitadorTextfield {
 	public static void limitarTamanio(JFXTextField textField, int tamanio) {
 		textField.setOnKeyTyped(event -> {
 			if (textField.getText().length() > (tamanio - 1)) {
+				event.consume();
+			}
+		});
+	}
+	public static void limitarTamanio(JFXPasswordField passwordField, int tamanio) {
+		passwordField.setOnKeyTyped(event -> {
+			if (passwordField.getText().length() > (tamanio - 1)) {
 				event.consume();
 			}
 		});
