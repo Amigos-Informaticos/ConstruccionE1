@@ -135,7 +135,7 @@ public class Practicante extends Usuario {
 	}
 	
 	public void llenarTablaPracticantes(ObservableList<Practicante> listaPracticantes)
-		throws NullPointerException, SQLException {
+		throws SQLException {
 		new DAOPracticante(this).llenarTablaPracticantes(listaPracticantes);
 	}
 	
