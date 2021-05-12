@@ -155,6 +155,7 @@ public class CrearProyectoController implements Initializable {
                     MainController.alert(Alert.AlertType.INFORMATION,
                             "Proyecto registrado",
                             "El Proyecto se registró exitosamente");
+                    MainController.activate("MenuCoordinador","Menu",MainController.Sizes.MID);
                 } else {
                     MainController.alert(Alert.AlertType.INFORMATION,
                             "Error con Base de Datos",
