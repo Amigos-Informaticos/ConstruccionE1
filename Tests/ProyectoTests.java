@@ -10,9 +10,9 @@ import java.sql.SQLException;
 import static org.junit.Assert.assertTrue;
 
 public class ProyectoTests {
-    Proyecto proyecto;
-    Organizacion organizacion;
-    ResponsableProyecto responsable;
+    private Proyecto proyecto;
+    private Organizacion organizacion;
+    private ResponsableProyecto responsable;
 
     public void instanciarProyecto() {
         proyecto = new Proyecto();
