@@ -128,7 +128,7 @@ public class Practicante extends Usuario {
 		return new DAOPracticante(this).eliminarProyecto();
 	}
 	
-	public Proyecto getProyecto() throws CustomException, SQLException {
+	public Proyecto getProyecto() throws SQLException {
 		return new DAOPracticante(this).getProyecto();
 	}
 	
