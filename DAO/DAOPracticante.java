@@ -521,9 +521,7 @@ public class DAOPracticante implements IDAOPracticante {
 					select[row][4]
 				)
 			);
-			if (!filled) {
-				filled = true;
-			}
+			filled = true;
 			row++;
 		}
 		return filled;
