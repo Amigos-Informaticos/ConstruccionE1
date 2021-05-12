@@ -188,7 +188,7 @@ public class CrearProyectoController implements Initializable {
                 proyecto.setCapacidad(Integer.parseInt(txtCapacity.getText()));
             }
         } catch (NumberFormatException e) {
-            System.out.printf(e.getMessage());;
+            System.out.println((e.getMessage()));
         }
         proyecto.setOrganization(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
         proyecto.setPeriodo(cmbPeriod.getValue());
