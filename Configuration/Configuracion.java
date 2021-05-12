@@ -37,7 +37,7 @@ public class Configuracion {
 			connection.setPassword(connectionFile.readLine());
 		}
 	}
-
+	
 	public static void cargarConexionFTP(ConexionFTP connection) {
 		File connectionFile = getFTPConnectionFile();
 		if (!connectionFile.exists()) {
@@ -59,6 +59,27 @@ public class Configuracion {
 					loadScreens(file.getStringPath()).forEach(screens::put);
 				} else if (file.getExt().equals("fxml")) {
 					screens.put(file.getNameNoExt(), file.getStringPath());
+				}
+			}
+		}
+		return screens;
+	}
+	
+	public static HashMap<String, String> loadScreenss(String path) {
+		HashMap<String, String> screens = new HashMap<>();
+		java.io.File rutaActual = new java.io.File(path);
+		if (rutaActual.isDirectory()) {
+			for (java.io.File archivo: rutaActual.listFiles()) {
+				if (archivo.isDirectory()) {
+					loadScreens(archivo.getPath()).forEach(screens::put);
+				} else {
+					String extension =
+						archivo.getName().substring(archivo.getName().lastIndexOf(".") + 1);
+					if (extension.equals("fxml")) {
+						String nombreSinExtension =
+							archivo.getName().replaceFirst("[.][^.]+$", "");
+						screens.put(nombreSinExtension, archivo.getPath());
+					}
 				}
 			}
 		}

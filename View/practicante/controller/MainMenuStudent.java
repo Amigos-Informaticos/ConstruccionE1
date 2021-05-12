@@ -39,7 +39,7 @@ public class MainMenuStudent implements Initializable {
 				imagenActividad.setVisible(false);
 				btnSubirHorario.setOnMouseClicked(event -> proyectosSeleccionados());
 			} else {
-				btnSubirHorario.setText("Subir documento");
+				btnSubirHorario.setText("Subir Horario");
 				imagenActividad.setVisible(true);
 				btnSubirHorario.setOnMouseClicked(event -> subirDocumento());
 			}
@@ -69,7 +69,7 @@ public class MainMenuStudent implements Initializable {
 		}
 	}
 	
-	public void seleccionarProyecto(MouseEvent mouseEvent) {
+	public void seleccionarProyecto() {
 		try {
 			if (Proyecto.contarProyectos() > 0) {
 				Proyecto[] proyectosSeleccionados = practicante.getSeleccion();
