@@ -1,7 +1,6 @@
 package View.practicante.controller;
 
 import DAO.DAOPracticante;
-import Exceptions.CustomException;
 import Models.Practicante;
 import Models.Proyecto;
 import View.MainController;
@@ -10,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -43,7 +41,7 @@ public class MainMenuStudent implements Initializable {
 				imagenActividad.setVisible(true);
 				btnSubirHorario.setOnMouseClicked(event -> subirDocumento());
 			}
-		} catch (SQLException | CustomException throwable) {
+		} catch (SQLException throwable) {
 			MainController.alert(
 				Alert.AlertType.ERROR,
 				"ErrorBD",
@@ -60,7 +58,7 @@ public class MainMenuStudent implements Initializable {
 					"Proyectos Seleccionados",
 					MainController.Sizes.MID);
 			}
-		} catch (SQLException throwables) {
+		} catch (SQLException throwable) {
 			MainController.alert(
 				Alert.AlertType.ERROR,
 				"ErrorBD",
@@ -102,7 +100,7 @@ public class MainMenuStudent implements Initializable {
 		}
 	}
 	
-	public void generarReporte(MouseEvent mouseEvent) {
+	public void generarReporte() {
 		try {
 			if (practicante.getProyecto() != null) {
 				MainController.activate(
@@ -117,7 +115,7 @@ public class MainMenuStudent implements Initializable {
 					"Necesita estar asignado a un proyecto para poder generar reportes"
 				);
 			}
-		} catch (CustomException | SQLException e) {
+		} catch (SQLException e) {
 			MainController.alert(
 				Alert.AlertType.ERROR,
 				"ErrorBD",
@@ -141,7 +139,7 @@ public class MainMenuStudent implements Initializable {
 					"No ha sido asignado a ningún proyecto"
 				);
 			}
-		} catch (SQLException | CustomException throwables) {
+		} catch (SQLException throwable) {
 			MainController.alert(
 				Alert.AlertType.ERROR,
 				"ErrorBD",
