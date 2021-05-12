@@ -91,9 +91,13 @@ public class AdministrarCoordinadorController implements Initializable {
             Logger.staticLog(e, true);
         }
         LimitadorTextfield.soloNumeros(txtNoPersonal);
-        LimitadorTextfield.soloNombres(txtNames);
-        LimitadorTextfield.soloTexto(txtLastNames);
-        LimitadorTextfield.limitarTamanio(txtNames, 32);
+        txtNames.addEventFilter(KeyEvent.ANY, handleLetters);
+        txtLastNames.addEventFilter(KeyEvent.ANY, handleLetters);
+        LimitadorTextfield.soloNumeros(txtNoPersonal);
+        LimitadorTextfield.limitarTamanio(txtNames, 50);
+        LimitadorTextfield.limitarTamanio(txtLastNames, 60);
+        LimitadorTextfield.limitarTamanio(pwdPassword, 32);
+        LimitadorTextfield.limitarTamanio(txtNoPersonal, 13);
     }
 
     @FXML
