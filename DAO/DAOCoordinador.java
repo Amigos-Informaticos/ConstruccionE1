@@ -33,24 +33,22 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		registrado = this.conexion.ejecutarSP(query, valores);
 		return registrado;
 	}
-
+	@Override
 	public boolean actualizar() throws SQLException{
 		assert coordinador != null : "Coordinador es nulo: DAOCoordinador.actualizar()";
 		assert coordinador.estaCompleto() : "Coordinador imcompleto: DAOCoordinador.actualizar()";
 		assert this.estaActivo() : "Coordinador inactivo: DAOCoordinador.actualizar()";
 		
-		boolean actualizado = false;
-		String query = "UPDATE MiembroFEI SET nombres = ?, apellidos = ? WHERE correoElectronico = ?";
+		boolean actualizado;
+		String query = "CALL SPA_actualizarCoordinador(?, ?, ?, ?, ?)";
 		String[] valores = {
+			this.coordinador.getEmail(),
 			this.coordinador.getNombres(),
 			this.coordinador.getApellidos(),
-			this.coordinador.getEmail()
+			this.coordinador.getNoPersonal(),
+			this.coordinador.getTurno()
 		};
-		if (this.conexion.ejecutar(query, valores)) {
-			query = "UPDATE Coordinador SET noPersonal = ? WHERE idMiembro = ?";
-			valores = new String[] {this.coordinador.getNoPersonal(), this.getIdCoordinador()};
-			actualizado = this.conexion.ejecutar(query, valores);
-		}
+		actualizado = this.conexion.ejecutarSP(query, valores);
 		return actualizado;
 	}
 	
