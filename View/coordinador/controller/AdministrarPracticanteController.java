@@ -28,6 +28,8 @@ public class AdministrarPracticanteController implements Initializable {
 	@FXML
 	public JFXButton btnActualizar;
 	@FXML
+	public JFXButton verProyecto;
+	@FXML
 	private TableView<Practicante> tblViewPracticante;
 	@FXML
 	private TableColumn<Practicante, String> clmnNombre;
@@ -60,6 +62,7 @@ public class AdministrarPracticanteController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		verProyecto.setVisible(false);
 		listPracticante = FXCollections.observableArrayList();
 		profesoresRecuperados = FXCollections.observableArrayList();
 		try {
