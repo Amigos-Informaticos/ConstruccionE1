@@ -11,17 +11,15 @@ import static org.junit.Assert.assertTrue;
 
 public class ProyectoTests {
     private Proyecto proyecto;
-    private Organizacion organizacion;
-    private ResponsableProyecto responsable;
 
     public void instanciarProyecto() {
         proyecto = new Proyecto();
-        organizacion = new Organizacion();
+        Organizacion organizacion = new Organizacion();
         organizacion.setNombre("Efra y asociados");
         organizacion.setSector("Industrial");
         organizacion.setTelefono("2282105545");
         organizacion.setDireccion("Tulipanes","302","Jardines","Xalapa");
-        responsable = new ResponsableProyecto();
+        ResponsableProyecto responsable = new ResponsableProyecto();
         responsable.setNombre("Gerardo");
         responsable.setApellido("Rendon");
         responsable.setEmail("yiragod@gmail.com");
