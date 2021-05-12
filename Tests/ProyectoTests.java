@@ -1,5 +1,6 @@
 package Tests;
 
+import DAO.DAOProyecto;
 import Models.Organizacion;
 import Models.Proyecto;
 import Models.ResponsableProyecto;
@@ -49,6 +50,30 @@ public class ProyectoTests {
             assertTrue(proyecto.registrar());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+    @Test
+    public  void actualizarProyecto() {
+        instanciarProyecto();
+        String nuevaDescripcion = "Nueva Descripción actualizada";
+        proyecto.setDescripcion(nuevaDescripcion);
+        try {
+            String idProyecto = DAOProyecto.getIdConNombre(this.proyecto.getNombre());
+            boolean actualizado = proyecto.actualizar(idProyecto);
+            assertTrue(actualizado);
+
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getMessage());
+        }
+    }
+    @Test
+    public  void eliminarProyecto(){
+        instanciarProyecto();
+        try {
+            boolean eliminado = proyecto.eliminarProyecto();
+            assertTrue(eliminado);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }
