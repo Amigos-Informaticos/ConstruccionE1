@@ -88,13 +88,13 @@ public class VerProyectoController implements Initializable {
 	
 	public void limitarTextfields() {
 		LimitadorTextfield.soloTexto(txtNombre);
-		LimitadorTextfield.soloTextoArea(txtDescripcion);
+
 		LimitadorTextfield.soloTexto(txtObjetivoGeneral);
 		LimitadorTextfield.soloTexto(txtObjetivoMediato);
 		LimitadorTextfield.soloTexto(txtObjetivoInmediato);
 		LimitadorTextfield.soloTexto(txtMetodologia);
-		LimitadorTextfield.soloTextoArea(txtRecursos);
-		LimitadorTextfield.soloTextoArea(txtResponsabilidades);
+
+
 		LimitadorTextfield.soloTexto(txtPosicionResponsable);
 		LimitadorTextfield.soloTexto(txtNombreResponsable);
 		LimitadorTextfield.soloTexto(txtApellidosResponsable);
