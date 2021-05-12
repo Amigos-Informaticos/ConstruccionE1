@@ -204,6 +204,7 @@ public class AdministrarProfesorController implements Initializable {
                         if(newValue != null) {
                             profesor = newValue;
                             txtEmail.setText(newValue.getEmail());
+                            pwdPassword.setText(newValue.getContrasena());
                             txtNames.setText(newValue.getNombres());
                             txtLastNames.setText(newValue.getApellidos());
                             txtNoPersonal.setText(newValue.getNoPersonal());

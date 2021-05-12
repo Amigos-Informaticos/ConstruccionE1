@@ -51,13 +51,7 @@ public class Practicante extends Usuario {
 	}
 	
 	public Profesor recuperarProfesor() throws SQLException {
-		
-		Profesor profesor = DAOProfesor.getByStudent(this);
-		
-		System.out.println("PROFESOR RECUPERADO: " + profesor.getNombres());
-		
-		return profesor;
-		
+		return DAOProfesor.getByStudent(this);
 	}
 	
 	public void setProfesor(Profesor profesor) {
@@ -128,7 +122,7 @@ public class Practicante extends Usuario {
 		return new DAOPracticante(this).eliminarProyecto();
 	}
 	
-	public Proyecto getProyecto() throws CustomException, SQLException {
+	public Proyecto getProyecto() throws SQLException {
 		return new DAOPracticante(this).getProyecto();
 	}
 	
@@ -141,7 +135,7 @@ public class Practicante extends Usuario {
 	}
 	
 	public void llenarTablaPracticantes(ObservableList<Practicante> listaPracticantes)
-		throws NullPointerException, SQLException {
+		throws SQLException {
 		new DAOPracticante(this).llenarTablaPracticantes(listaPracticantes);
 	}
 	
