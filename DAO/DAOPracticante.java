@@ -126,7 +126,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return actualizado;
 	}
 	
-	public boolean actualizarConContrasenia(String correoElectronicoAntiguo) throws SQLException {
+	public boolean actualizarConContrasenia(String correoElectronicoAntiguo) {
 		boolean actualizado = false;
 		String query = "UPDATE MiembroFEI SET nombres = ?, apellidos = ?, correoElectronico = ?, "
 			+ "contrasena = ? WHERE correoElectronico = ?";
@@ -147,7 +147,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return actualizado;
 	}
 	
-	public boolean actualizarSinContrasenia(String correoElectronicoAntiguo) throws SQLException {
+	public boolean actualizarSinContrasenia(String correoElectronicoAntiguo) {
 		
 		boolean actualizado = false;
 		String query = "UPDATE MiembroFEI SET nombres = ?, apellidos = ?, correoElectronico = ? "
@@ -164,9 +164,7 @@ public class DAOPracticante implements IDAOPracticante {
 			valores = new String[] {this.practicante.getMatricula(), this.practicante.getEmail()};
 			actualizado = this.conexion.ejecutar(query, valores);
 		}
-		
 		return actualizado;
-		
 	}
 	
 	@Override
@@ -504,22 +502,6 @@ public class DAOPracticante implements IDAOPracticante {
 		return reactivated;
 	}
 	
-	public boolean tienePlanActividades() throws SQLException {
-		assert this.practicante != null : "Student is null: DAOStudent.getActivityPlan()";
-		assert this.estaActivo() : "Student is not active: DAOStudent.getActivityPlan()";
-		
-		boolean hasPlan = false;
-		if (this.getProyecto() != null) {
-			String query = "SELECT COUNT(idDocumento) AS TOTAL FROM Documento " +
-				"WHERE tipo = 'PlanActividades' AND autor = ?";
-			String[] valores = {this.getId()};
-			String[] columns = {"TOTAL"};
-			String[][] resultados = this.conexion.seleccionar(query, valores, columns);
-			hasPlan = resultados != null && resultados[0][0].equals("1");
-		}
-		return hasPlan;
-	}
-	
 	public boolean llenarTablaPracticantes(ObservableList<Practicante> listPracticante) throws NullPointerException, SQLException {
 		boolean filled = false;
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
@@ -556,12 +538,14 @@ public class DAOPracticante implements IDAOPracticante {
 		String rutaRemota = this.practicante.getMatricula() + documento.getName();
 		ConexionFTP ftp = new ConexionFTP();
 		if (ftp.enviarArchivo(documento.getStringPath(), rutaRemota)) {
-			String query = "INSERT INTO Documento (propietario, ruta, nombre)" +
-				"VALUES (?, ?, ?)";
+			String query = "INSERT INTO Documento (propietario, ruta, nombre, idProyecto)" +
+				"VALUES (?, ?, ?, " +
+				"(SELECT nombre FROM Proyecto WHERE Proyecto.nombre = ?))";
 			String[] valores = {
 				this.getId(),
 				rutaRemota,
-				documento.getNameNoExt()
+				documento.getNameNoExt(),
+				this.getProyecto().getNombre()
 			};
 			guardado = this.conexion.ejecutar(query, valores);
 		}
