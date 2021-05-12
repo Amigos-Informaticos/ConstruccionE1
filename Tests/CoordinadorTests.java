@@ -12,10 +12,10 @@ public class CoordinadorTests {
     private Coordinador coordinador = new Coordinador(
             "Angel Juan",
             "Sanchez Garcia",
-            "aj@uv.com",
-            "aj1234?!",
-            "N030612",
-            "Mixto"
+            "angeljsg@uv.com.mx",
+            "beethoven",
+            "4030612",
+            "Matutino"
     );
     @Test
     public void a_registrar(){
@@ -23,6 +23,15 @@ public class CoordinadorTests {
             assertTrue(this.coordinador.registrar());
         } catch (SQLException e) {
             Logger.staticLog(e, true);
+        }
+    }
+
+    @Test
+    public void b_actualizar(){
+        try{
+            assertTrue(this.coordinador.actualizar());
+        } catch (SQLException sqlException){
+            Logger.staticLog(sqlException, true);
         }
     }
 
