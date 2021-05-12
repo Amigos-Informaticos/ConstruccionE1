@@ -80,7 +80,7 @@
                         <JFXPasswordField fx:id="pwdPassword" focusColor="#28ad56" labelFloat="true" promptText="Introduzca un password seguro" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <JFXTextField fx:id="txtNames" focusColor="#28ad56" labelFloat="true" promptText="Nombres del profesor" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <JFXTextField fx:id="txtLastNames" focusColor="#28ad56" labelFloat="true" promptText="Apellidos del profesor" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <JFXTextField fx:id="txtNoPersonal" focusColor="#28ad56" labelFloat="true" promptText="E.j N000001" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <JFXTextField fx:id="txtNoPersonal" focusColor="#28ad56" labelFloat="true" promptText="Ej. 1078001" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <JFXComboBox fx:id="cmbShift" focusColor="#28ad56" prefHeight="25.0" prefWidth="222.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
