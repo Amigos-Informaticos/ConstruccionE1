@@ -264,54 +264,52 @@ public class AdministrarPracticanteController implements Initializable {
 		try {
 			if (this.txtContrasenia.getText().equals("")) {
 				this.instanciarEstudianteSinContrasenia(practicanteNuevo);
-				if (this.validarCamposCompletosSinContrasena() &&
-					this.comprobarCamposValidos()) {
-					if (!sonPracticantesIguales(practicanteAntiguo, practicanteNuevo) &&
-						MainController.alert(Alert.AlertType.CONFIRMATION,
-							"¿Desea modificar la informacion del practicante?",
-							"")) {
-						try {
-							if (!practicanteNuevo.estaRegistradoActualizar(
-								practicanteAntiguo.getEmail())) {
-								practicanteNuevo.actualizarSinContrasenia(
-									practicanteAntiguo.getEmail());
-								practicanteNuevo.actualizarProfesor();
-								this.mostrarMensajePracticanteActualizado();
-								this.actualizarTabla();
-								this.limpiarCampos();
-							} else {
-								this.mostrarMensajePracticanteRegistradoPreviamente();
-							}
-							
-						} catch (SQLException throwables) {
-							this.mostrarMensajeErrorBD();
+				if (!sonPracticantesIguales(practicanteAntiguo, practicanteNuevo) &&
+					this.validarCamposCompletosSinContrasena() &&
+					this.comprobarCamposValidos() &&
+					MainController.alert(Alert.AlertType.CONFIRMATION,
+						"¿Desea modificar la informacion del practicante?",
+						"")) {
+					try {
+						if (!practicanteNuevo.estaRegistradoActualizar(
+							practicanteAntiguo.getEmail())) {
+							practicanteNuevo.actualizarSinContrasenia(
+								practicanteAntiguo.getEmail());
+							practicanteNuevo.actualizarProfesor();
+							this.mostrarMensajePracticanteActualizado();
+							this.actualizarTabla();
+							this.limpiarCampos();
+						} else {
+							this.mostrarMensajePracticanteRegistradoPreviamente();
 						}
+						
+					} catch (SQLException throwables) {
+						this.mostrarMensajeErrorBD();
 					}
 				}
 			} else {
 				this.instanceStudent(practicanteNuevo);
-				if (this.validarCamposCompletos() &&
-					this.comprobarCamposValidos()) {
-					if (!this.sonPracticantesIguales(practicanteAntiguo, practicanteNuevo) &&
-						MainController.alert(Alert.AlertType.CONFIRMATION,
-							"¿Desea modificar la informacion del practicante?",
-							"")) {
-						try {
-							if (!practicanteNuevo.estaRegistradoActualizar(
-								practicanteAntiguo.getEmail())) {
-								practicanteNuevo.actualizarConContrasenia(
-									practicanteAntiguo.getEmail());
-								
-								practicanteNuevo.actualizarProfesor();
-								this.mostrarMensajePracticanteActualizado();
-								this.actualizarTabla();
-								this.limpiarCampos();
-							} else {
-								this.mostrarMensajePracticanteRegistradoPreviamente();
-							}
-						} catch (SQLException throwable) {
-							this.mostrarMensajeErrorBD();
+				if (!this.sonPracticantesIguales(practicanteAntiguo, practicanteNuevo) &&
+					this.validarCamposCompletos() &&
+					this.comprobarCamposValidos() &&
+					MainController.alert(Alert.AlertType.CONFIRMATION,
+						"¿Desea modificar la informacion del practicante?",
+						"")) {
+					try {
+						if (!practicanteNuevo.estaRegistradoActualizar(
+							practicanteAntiguo.getEmail())) {
+							practicanteNuevo.actualizarConContrasenia(
+								practicanteAntiguo.getEmail());
+							
+							practicanteNuevo.actualizarProfesor();
+							this.mostrarMensajePracticanteActualizado();
+							this.actualizarTabla();
+							this.limpiarCampos();
+						} else {
+							this.mostrarMensajePracticanteRegistradoPreviamente();
 						}
+					} catch (SQLException throwable) {
+						this.mostrarMensajeErrorBD();
 					}
 				}
 			}
