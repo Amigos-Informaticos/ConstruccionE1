@@ -21,6 +21,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import tools.LimitadorTextfield;
 import tools.Logger;
 
 import java.net.URL;
@@ -89,8 +90,14 @@ public class AdministrarCoordinadorController implements Initializable {
         } catch (SQLException e) {
             Logger.staticLog(e, true);
         }
+        LimitadorTextfield.soloNumeros(txtNoPersonal);
         txtNames.addEventFilter(KeyEvent.ANY, handleLetters);
         txtLastNames.addEventFilter(KeyEvent.ANY, handleLetters);
+        LimitadorTextfield.soloNumeros(txtNoPersonal);
+        LimitadorTextfield.limitarTamanio(txtNames, 50);
+        LimitadorTextfield.limitarTamanio(txtLastNames, 60);
+        LimitadorTextfield.limitarTamanio(pwdPassword, 32);
+        LimitadorTextfield.limitarTamanio(txtNoPersonal, 13);
     }
 
     @FXML
@@ -143,32 +150,34 @@ public class AdministrarCoordinadorController implements Initializable {
     }
 
     @FXML
-    public void update() {
-        coordinador = new Coordinador();
+    public void actualizar() {
         this.instanceCoordinator(coordinador);
         try {
-            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "") &&
-                    coordinador.estaCompleto()) {
-                instanceCoordinator(coordinador);
-                if (coordinador.actualizar()) {
-                    MainController.alert(
-                            Alert.AlertType.INFORMATION,
-                            "Coordinador registrado exitosamente",
-                            "Pulse aceptar para continua"
-                    );
+            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "")) {
+                if (coordinador.estaCompleto()){
+                    if (coordinador.actualizar()) {
+                        MainController.alert(
+                                Alert.AlertType.INFORMATION,
+                                "Coordinador modificado exitosamente",
+                                "Pulse aceptar para continua"
+                        );
+                        llenarDetallesCoordinador(coordinador);
+                        mostrarCamposErroneos();
+                    } else {
+                        MainController.alert(
+                                Alert.AlertType.ERROR,
+                                "No se pudo modificar al coordinador",
+                                "Pulse aceptar para continuar"
+                        );
+                    }
                 } else {
                     MainController.alert(
-                            Alert.AlertType.ERROR,
-                            "No se pudo actualizar al coordinador",
+                            Alert.AlertType.WARNING,
+                            "LLene todos los campos correctamente",
                             "Pulse aceptar para continuar"
                     );
+                    mostrarCamposErroneos();
                 }
-            } else {
-                MainController.alert(
-                        Alert.AlertType.WARNING,
-                        "LLene todos los campos correctamente",
-                        "Pulse aceptar para continuar"
-                );
             }
         } catch (AssertionError e) {
             new Logger().log(e.getMessage());
@@ -273,6 +282,8 @@ public class AdministrarCoordinadorController implements Initializable {
         lblPersonalNo.setText(coordinador.getNoPersonal());
         lblShift.setText(coordinador.getTurno());
         lblRegistrationDate.setText(coordinador.getFechaRegistro());
+        txtEmail.setText(coordinador.getEmail());
+        pwdPassword.setText(coordinador.getContrasena());
     }
 
     private void limpiarDetallesCoordinador(){
@@ -282,6 +293,8 @@ public class AdministrarCoordinadorController implements Initializable {
         lblPersonalNo.setText(null);
         lblShift.setText(null);
         lblRegistrationDate.setText(null);
+        txtEmail.setText(null);
+        pwdPassword.setText(null);
     }
 
     private void habilitarRegistro() {

@@ -79,13 +79,10 @@ public class CrearProyectoController implements Initializable {
 
     public void limitarTextfields() {
         LimitadorTextfield.soloTexto(txtName);
-        LimitadorTextfield.soloTextoArea(txtDescription);
         LimitadorTextfield.soloTexto(txtGeneralObjective);
         LimitadorTextfield.soloTexto(txtMediateObjective);
         LimitadorTextfield.soloTexto(txtInmediateObjective);
         LimitadorTextfield.soloTexto(txtMethodology);
-        LimitadorTextfield.soloTextoArea(txtResources);
-        LimitadorTextfield.soloTextoArea(txtResponsibilities);
         LimitadorTextfield.soloTexto(txtPositionResponsible);
         LimitadorTextfield.soloTexto(txtNameResponsible);
         LimitadorTextfield.soloTexto(txtLastnameResponsible);
@@ -99,7 +96,7 @@ public class CrearProyectoController implements Initializable {
         LimitadorTextfield.limitarTamanio(txtPositionResponsible, 20);
         LimitadorTextfield.limitarTamanio(txtNameResponsible, 20);
         LimitadorTextfield.limitarTamanio(txtLastnameResponsible, 20);
-        LimitadorTextfield.limitarTamanio(txtEmailResponsible, 20);
+        LimitadorTextfield.limitarTamanio(txtEmailResponsible, 50);
         LimitadorTextfield.limitarTamanio(txtCapacity, 2);
 
         LimitadorTextfield.limitarTamanioArea(txtDescription, 200);
@@ -186,8 +183,12 @@ public class CrearProyectoController implements Initializable {
         proyecto.setMetodologia(txtMethodology.getText());
         proyecto.setRecursos(txtResources.getText());
         proyecto.setResponsabilidades(txtResponsibilities.getText());
-        if (!txtCapacity.getText().equals("") || (Integer.parseInt(txtCapacity.getText()) < 1)) {
-            proyecto.setCapacidad(Integer.parseInt(txtCapacity.getText()));
+        try {
+            if (!txtCapacity.getText().equals("") || (Integer.parseInt(txtCapacity.getText()) < 1)) {
+                proyecto.setCapacidad(Integer.parseInt(txtCapacity.getText()));
+            }
+        } catch (NumberFormatException e) {
+            System.out.println((e.getMessage()));
         }
         proyecto.setOrganization(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
         proyecto.setPeriodo(cmbPeriod.getValue());

@@ -24,6 +24,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import tools.LimitadorTextfield;
 import tools.Logger;
 import java.net.URL;
 import java.sql.SQLException;
@@ -85,6 +86,11 @@ public class AdministrarProfesorController implements Initializable {
     
         txtNames.addEventFilter(KeyEvent.ANY, handleLetters);
         txtLastNames.addEventFilter(KeyEvent.ANY, handleLetters);
+        LimitadorTextfield.soloNumeros(txtNoPersonal);
+        LimitadorTextfield.limitarTamanio(txtNames, 50);
+        LimitadorTextfield.limitarTamanio(txtLastNames, 60);
+        LimitadorTextfield.limitarTamanio(pwdPassword, 32);
+        LimitadorTextfield.limitarTamanio(txtNoPersonal, 13);
         eventManager();
     }
 
@@ -198,6 +204,7 @@ public class AdministrarProfesorController implements Initializable {
                         if(newValue != null) {
                             profesor = newValue;
                             txtEmail.setText(newValue.getEmail());
+                            pwdPassword.setText(newValue.getContrasena());
                             txtNames.setText(newValue.getNombres());
                             txtLastNames.setText(newValue.getApellidos());
                             txtNoPersonal.setText(newValue.getNoPersonal());
