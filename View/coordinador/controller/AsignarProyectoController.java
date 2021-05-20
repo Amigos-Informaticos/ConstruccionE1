@@ -50,13 +50,20 @@ public class AsignarProyectoController implements Initializable {
 		projectTable.setItems(proyectoObservableList);
 		clmName.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
 		
-		ObservableList<Proyecto> requestObservableList = FXCollections.observableArrayList();
+		ObservableList<Proyecto> seleccionObservableList = FXCollections.observableArrayList();
+
 		try {
-			Collections.addAll(requestObservableList, practicante.getSeleccion());
+			Proyecto[] proyectos = practicante.getSeleccion();
+			if(proyectos != null){
+				Collections.addAll(seleccionObservableList, practicante.getSeleccion());
+			}else{
+				System.out.println("No hay proyectos asignados");
+
+			}
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
-		requestTable.setItems(requestObservableList);
+		requestTable.setItems(seleccionObservableList);
 		clmNameRequest.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
 		
 		lbName.setText(practicante.getNombres() + " " + practicante.getApellidos());
