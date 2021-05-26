@@ -497,22 +497,13 @@ public class DAOPracticante implements IDAOPracticante {
 		assert this.practicante.estaCompleto() :
 			"Practicante incompleto: DAOPracticante.guardarDocumento()";
 		
-		boolean guardado = false;
 		String rutaRemota = this.practicante.getMatricula() + documento.getName();
 		ConexionFTP ftp = new ConexionFTP();
-		if (ftp.enviarArchivo(documento.getStringPath(), rutaRemota)) {
-			String query = "INSERT INTO Documento (propietario, ruta, nombre, idProyecto)" +
-				"VALUES (?, ?, ?, " +
-				"(SELECT nombre FROM Proyecto WHERE Proyecto.nombre = ?))";
-			String[] valores = {
-				this.getId(),
-				rutaRemota,
-				documento.getNameNoExt(),
-				this.getProyecto().getNombre()
-			};
-			guardado = this.conexion.ejecutar(query, valores);
-		}
-		return guardado;
+		String query = "CALL SPI_registrarDocumento(?, ?, ?)";
+		String[] valores = {this.getId(), rutaRemota, documento.getNameNoExt()};
+		return
+			ftp.enviarArchivo(documento.getStringPath(), rutaRemota) &&
+				this.conexion.ejecutar(query, valores);
 	}
 
 	

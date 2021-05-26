@@ -3,6 +3,7 @@ package View.practicante.controller;
 import DAO.DAOPracticante;
 import Models.Practicante;
 import View.MainController;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,12 +16,16 @@ import java.util.ResourceBundle;
 
 public class SubirHorarioController implements Initializable {
 	@FXML
+	public JFXButton aceptar;
+	@FXML
 	private JFXTextField nombreArchivo;
+	
 	private File archivoSeleccionado;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		nombreArchivo.setEditable(false);
+		aceptar.setDisable(true);
 	}
 	
 	@FXML
@@ -29,6 +34,7 @@ public class SubirHorarioController implements Initializable {
 		if (this.archivoSeleccionado.getName() != null) {
 			if (this.extensionValida(this.archivoSeleccionado.getExt())) {
 				this.nombreArchivo.setText(this.archivoSeleccionado.getName());
+				aceptar.setDisable(false);
 			} else {
 				MainController.alert(
 					Alert.AlertType.WARNING,
@@ -46,7 +52,7 @@ public class SubirHorarioController implements Initializable {
 			"Menu Principal Practicante",
 			MainController.Sizes.MID);
 	}
-
+	
 	@FXML
 	private void guardarArchivo() throws SQLException {
 		Practicante practicante = DAOPracticante.get((Practicante) MainController.get("user"));
@@ -65,8 +71,6 @@ public class SubirHorarioController implements Initializable {
 			);
 		}
 	}
-
-
 	
 	private boolean extensionValida(String extension) {
 		return extension.equals("pdf") ||
