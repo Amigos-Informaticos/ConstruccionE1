@@ -153,7 +153,7 @@ public class AdministrarCoordinadorController implements Initializable {
     public void actualizar() {
         this.instanceCoordinator(coordinador);
         try {
-            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "")) {
+            if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea actualizar al Coordinador?", "")) {
                 if (coordinador.estaCompleto()){
                     if (coordinador.actualizar()) {
                         MainController.alert(
@@ -189,7 +189,7 @@ public class AdministrarCoordinadorController implements Initializable {
 
     @FXML
     public void eliminar() {
-        if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro?", "")) {
+        if (MainController.alert(Alert.AlertType.CONFIRMATION, "¿Está seguro que desea eliminar este coordinador?", "")) {
             try {
                 habilitarRegistro();
                 limpiarFormularioCoordinador();
