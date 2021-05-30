@@ -468,7 +468,6 @@ public class DAOPracticante implements IDAOPracticante {
 	}
 	
 	public void llenarTablaPracticantes(ObservableList<Practicante> listPracticante) throws NullPointerException, SQLException {
-		boolean filled = false;
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
 			"FROM MiembroFEI INNER JOIN Practicante " +
 			"ON MiembroFEI.idMiembro = Practicante.idMiembro " +
@@ -486,10 +485,8 @@ public class DAOPracticante implements IDAOPracticante {
 					select[row][4]
 				)
 			);
-			filled = true;
 			row++;
 		}
-		return filled;
 	}
 	
 	public boolean guardarDocumento(File documento) throws SQLException {
