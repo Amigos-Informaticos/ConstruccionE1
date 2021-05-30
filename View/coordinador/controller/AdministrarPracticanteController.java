@@ -63,7 +63,6 @@ public class AdministrarPracticanteController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //verProyecto.setVisible(false);
         listPracticante = FXCollections.observableArrayList();
         profesoresRecuperados = FXCollections.observableArrayList();
         try {
