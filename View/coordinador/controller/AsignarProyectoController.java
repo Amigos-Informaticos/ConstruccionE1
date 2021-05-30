@@ -37,7 +37,7 @@ public class AsignarProyectoController implements Initializable {
 	@FXML
 	public TableView<Proyecto> projectTable;
 	
-	private Practicante practicante = (Practicante) MainController.get("student");
+	private Practicante practicante = (Practicante) MainController.get("practicante");
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -48,16 +48,23 @@ public class AsignarProyectoController implements Initializable {
 			throwables.printStackTrace();
 		}
 		projectTable.setItems(proyectoObservableList);
-		clmName.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
+		clmName.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("nombre"));
 		
-		ObservableList<Proyecto> requestObservableList = FXCollections.observableArrayList();
+		ObservableList<Proyecto> seleccionObservableList = FXCollections.observableArrayList();
+
 		try {
-			Collections.addAll(requestObservableList, practicante.getSeleccion());
+			Proyecto[] proyectos = practicante.getSeleccion();
+			if(proyectos != null){
+				Collections.addAll(seleccionObservableList, practicante.getSeleccion());
+			}else{
+				System.out.println("No hay proyectos asignados");
+
+			}
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
-		requestTable.setItems(requestObservableList);
-		clmNameRequest.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
+		requestTable.setItems(seleccionObservableList);
+		clmNameRequest.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("nombre"));
 		
 		lbName.setText(practicante.getNombres() + " " + practicante.getApellidos());
 		lbRegNo.setText(practicante.getMatricula());
@@ -68,10 +75,10 @@ public class AsignarProyectoController implements Initializable {
 	public void selectProject() {
 		if (projectTable.isFocused()) {
 			Proyecto proyecto = projectTable.getSelectionModel().getSelectedItem();
-			MainController.save("project", proyecto);
+			MainController.save("proyecto", proyecto);
 		} else if (requestTable.isFocused()) {
 			Proyecto proyecto = requestTable.getSelectionModel().getSelectedItem();
-			MainController.save("project", proyecto);
+			MainController.save("proyecto", proyecto);
 		}
 	}
 	
@@ -101,7 +108,7 @@ public class AsignarProyectoController implements Initializable {
 						"Asignación registrada",
 						"Asignacon realizada exitosamente");
 				} else {
-					MainController.alert(Alert.AlertType.ERROR, "DatabaseError", "No se pudo establecer conexión con la Base de Datos");
+					MainController.alert(Alert.AlertType.ERROR, "ErrorBD", "No se pudo establecer conexión con la Base de Datos");
 					exit();
 				}
 			} catch (SQLException throwables) {
@@ -113,7 +120,7 @@ public class AsignarProyectoController implements Initializable {
 	
 	public void exit() {
 		MainController.activate(
-			"ManageStudents",
+			"AdministrarPracticante",
 			"Administrar Practicantes",
 			MainController.Sizes.MID);
 	}
