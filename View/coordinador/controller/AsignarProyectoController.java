@@ -37,7 +37,7 @@ public class AsignarProyectoController implements Initializable {
 	@FXML
 	public TableView<Proyecto> projectTable;
 	
-	private Practicante practicante = (Practicante) MainController.get("student");
+	private Practicante practicante = (Practicante) MainController.get("practicante");
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -48,7 +48,7 @@ public class AsignarProyectoController implements Initializable {
 			throwables.printStackTrace();
 		}
 		projectTable.setItems(proyectoObservableList);
-		clmName.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
+		clmName.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("nombre"));
 		
 		ObservableList<Proyecto> seleccionObservableList = FXCollections.observableArrayList();
 
@@ -64,7 +64,7 @@ public class AsignarProyectoController implements Initializable {
 			throwables.printStackTrace();
 		}
 		requestTable.setItems(seleccionObservableList);
-		clmNameRequest.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("name"));
+		clmNameRequest.setCellValueFactory(new PropertyValueFactory<Proyecto, String>("nombre"));
 		
 		lbName.setText(practicante.getNombres() + " " + practicante.getApellidos());
 		lbRegNo.setText(practicante.getMatricula());
@@ -75,10 +75,10 @@ public class AsignarProyectoController implements Initializable {
 	public void selectProject() {
 		if (projectTable.isFocused()) {
 			Proyecto proyecto = projectTable.getSelectionModel().getSelectedItem();
-			MainController.save("project", proyecto);
+			MainController.save("proyecto", proyecto);
 		} else if (requestTable.isFocused()) {
 			Proyecto proyecto = requestTable.getSelectionModel().getSelectedItem();
-			MainController.save("project", proyecto);
+			MainController.save("proyecto", proyecto);
 		}
 	}
 	
@@ -108,7 +108,7 @@ public class AsignarProyectoController implements Initializable {
 						"Asignación registrada",
 						"Asignacon realizada exitosamente");
 				} else {
-					MainController.alert(Alert.AlertType.ERROR, "DatabaseError", "No se pudo establecer conexión con la Base de Datos");
+					MainController.alert(Alert.AlertType.ERROR, "ErrorBD", "No se pudo establecer conexión con la Base de Datos");
 					exit();
 				}
 			} catch (SQLException throwables) {
@@ -120,7 +120,7 @@ public class AsignarProyectoController implements Initializable {
 	
 	public void exit() {
 		MainController.activate(
-			"ManageStudents",
+			"AdministrarPracticante",
 			"Administrar Practicantes",
 			MainController.Sizes.MID);
 	}

@@ -63,7 +63,6 @@ public class AdministrarPracticanteController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //verProyecto.setVisible(false);
         listPracticante = FXCollections.observableArrayList();
         profesoresRecuperados = FXCollections.observableArrayList();
         try {
@@ -145,7 +144,7 @@ public class AdministrarPracticanteController implements Initializable {
                             mostrarMensajeErrorBD();
                         }
 
-                        MainController.save("student", practicante);
+                        MainController.save("practicante", practicante);
                         enableEdit();
                     } else {
                         enableRegister();
@@ -222,7 +221,7 @@ public class AdministrarPracticanteController implements Initializable {
         try {
             Proyecto proyecto = practicante.getProyecto();
             if (proyecto != null) {
-                MainController.save("project", proyecto);
+                MainController.save("proyecto", proyecto);
                 MainController.activate("VerProyecto", "Ver Proyecto",MainController.Sizes.LARGE);
             } else {
                 MainController.activate("AsignarProyecto", "Asignar Proyecto", MainController.Sizes.MID);
