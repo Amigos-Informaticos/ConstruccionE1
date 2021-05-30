@@ -469,7 +469,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return reactivated;
 	}
 	
-	public boolean llenarTablaPracticantes(ObservableList<Practicante> listPracticante) throws NullPointerException, SQLException {
+	public void llenarTablaPracticantes(ObservableList<Practicante> listPracticante) throws NullPointerException, SQLException {
 		boolean filled = false;
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
 			"FROM MiembroFEI INNER JOIN Practicante " +
@@ -491,7 +491,6 @@ public class DAOPracticante implements IDAOPracticante {
 			filled = true;
 			row++;
 		}
-		return filled;
 	}
 	
 	public boolean guardarDocumento(File documento) throws SQLException {
@@ -507,5 +506,4 @@ public class DAOPracticante implements IDAOPracticante {
 			ftp.enviarArchivo(documento.getStringPath(), rutaRemota) &&
 				this.conexion.ejecutar(query, valores);
 	}
-	
 }
