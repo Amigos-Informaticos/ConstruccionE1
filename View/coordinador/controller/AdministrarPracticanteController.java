@@ -144,7 +144,7 @@ public class AdministrarPracticanteController implements Initializable {
                             mostrarMensajeErrorBD();
                         }
 
-                        MainController.save("student", practicante);
+                        MainController.save("practicante", practicante);
                         enableEdit();
                     } else {
                         enableRegister();
@@ -221,7 +221,7 @@ public class AdministrarPracticanteController implements Initializable {
         try {
             Proyecto proyecto = practicante.getProyecto();
             if (proyecto != null) {
-                MainController.save("project", proyecto);
+                MainController.save("proyecto", proyecto);
                 MainController.activate("VerProyecto", "Ver Proyecto",MainController.Sizes.LARGE);
             } else {
                 MainController.activate("AsignarProyecto", "Asignar Proyecto", MainController.Sizes.MID);

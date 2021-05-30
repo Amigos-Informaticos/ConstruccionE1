@@ -37,7 +37,7 @@ public class AsignarProyectoController implements Initializable {
 	@FXML
 	public TableView<Proyecto> projectTable;
 	
-	private Practicante practicante = (Practicante) MainController.get("student");
+	private Practicante practicante = (Practicante) MainController.get("practicante");
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -75,10 +75,10 @@ public class AsignarProyectoController implements Initializable {
 	public void selectProject() {
 		if (projectTable.isFocused()) {
 			Proyecto proyecto = projectTable.getSelectionModel().getSelectedItem();
-			MainController.save("project", proyecto);
+			MainController.save("proyecto", proyecto);
 		} else if (requestTable.isFocused()) {
 			Proyecto proyecto = requestTable.getSelectionModel().getSelectedItem();
-			MainController.save("project", proyecto);
+			MainController.save("proyecto", proyecto);
 		}
 	}
 	
