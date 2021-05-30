@@ -104,9 +104,9 @@ public class MainMenuStudent implements Initializable {
 		try {
 			if (practicante.getProyecto() != null) {
 				MainController.activate(
-					"GenerarReporte",
+					"SubirReporte",
 					"Generar Reporte",
-					MainController.Sizes.MID
+					MainController.Sizes.LARGE
 				);
 			} else {
 				MainController.alert(
