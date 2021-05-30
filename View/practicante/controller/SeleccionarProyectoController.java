@@ -74,7 +74,7 @@ public class SeleccionarProyectoController implements Initializable {
 		if (proyectoObservableList.size() > 0) {
 			tablaProyectos.setItems(proyectoObservableList);
 			columnaTabla.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-			checkProject();
+			comprobarProyecto();
 			objetivoGeneral.setEditable(false);
 			recursos.setEditable(false);
 			responsabilidades.setEditable(false);
@@ -83,7 +83,7 @@ public class SeleccionarProyectoController implements Initializable {
 		}
 	}
 	
-	public void checkProject() {
+	public void comprobarProyecto() {
 		tablaProyectos.getSelectionModel().selectedItemProperty().addListener(
 			(observableValue, oldValue, newValue) -> {
 				if (newValue != null) {
@@ -97,10 +97,10 @@ public class SeleccionarProyectoController implements Initializable {
 			});
 	}
 	
-	public void selectProject() {
-		Proyecto selectedProyecto = tablaProyectos.getSelectionModel().getSelectedItem();
-		if (selectedProyecto != null) {
-			if (isSelected(proyectosSeleccionados, selectedProyecto)) {
+	public void seleccionarProyecto() {
+		Proyecto proyectoSeleccionado = tablaProyectos.getSelectionModel().getSelectedItem();
+		if (proyectoSeleccionado != null) {
+			if (estaSeleccionado(proyectosSeleccionados, proyectoSeleccionado)) {
 				MainController.alert(
 					Alert.AlertType.WARNING,
 					"Proyecto ya seleccionado",
@@ -108,7 +108,7 @@ public class SeleccionarProyectoController implements Initializable {
 				);
 			} else {
 				try {
-					Asignacion.guardarSolicitud((Practicante) MainController.get("user"), selectedProyecto);
+					Asignacion.guardarSolicitud((Practicante) MainController.get("user"), proyectoSeleccionado);
 				} catch (SQLException throwable) {
 					MainController.alert(
 						Alert.AlertType.ERROR,
@@ -121,7 +121,7 @@ public class SeleccionarProyectoController implements Initializable {
 					"Proyecto seleccionado exitosamente",
 					"Pulse aceptar para continuar"
 				);
-				exit();
+				salir();
 			}
 		} else {
 			MainController.alert(
@@ -132,7 +132,7 @@ public class SeleccionarProyectoController implements Initializable {
 		}
 	}
 	
-	public boolean isSelected(Proyecto[] selectedProyectos, Proyecto toSelect) {
+	public boolean estaSeleccionado(Proyecto[] selectedProyectos, Proyecto toSelect) {
 		boolean selected = false;
 		if (selectedProyectos != null) {
 			for (Proyecto proyecto: selectedProyectos) {
@@ -145,7 +145,7 @@ public class SeleccionarProyectoController implements Initializable {
 		return selected;
 	}
 	
-	public void exit() {
+	public void salir() {
 		MainController.activate(
 			"MenuPracticante",
 			"Menu Principal Practicante",
