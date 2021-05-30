@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import tools.File;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class Practicante extends Usuario {
 	private String matricula;
@@ -145,5 +146,13 @@ public class Practicante extends Usuario {
 	
 	public boolean actualizarProfesor() throws SQLException {
 		return new DAOPracticante(this).actualizarProfesor();
+	}
+	
+	public boolean registrarReporte(String tipoReporte, String planeadas, String realizadas,
+	                                String resumen, LocalDate inicial, LocalDate fechaFinal)
+		throws SQLException {
+		
+		return new DAOPracticante(this).registrarReporte(tipoReporte, planeadas, realizadas,
+			resumen, inicial, fechaFinal);
 	}
 }

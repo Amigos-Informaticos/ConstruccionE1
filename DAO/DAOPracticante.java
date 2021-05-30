@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import tools.File;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class DAOPracticante implements IDAOPracticante {
 	private Practicante practicante;
@@ -467,8 +468,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return reactivated;
 	}
 	
-	public boolean llenarTablaPracticantes(ObservableList<Practicante> listPracticante) throws NullPointerException, SQLException {
-		boolean filled = false;
+	public void llenarTablaPracticantes(ObservableList<Practicante> listPracticante) throws NullPointerException, SQLException {
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
 			"FROM MiembroFEI INNER JOIN Practicante " +
 			"ON MiembroFEI.idMiembro = Practicante.idMiembro " +
@@ -486,10 +486,8 @@ public class DAOPracticante implements IDAOPracticante {
 					select[row][4]
 				)
 			);
-			filled = true;
 			row++;
 		}
-		return filled;
 	}
 	
 	public boolean guardarDocumento(File documento) throws SQLException {
@@ -505,6 +503,21 @@ public class DAOPracticante implements IDAOPracticante {
 			ftp.enviarArchivo(documento.getStringPath(), rutaRemota) &&
 				this.conexion.ejecutar(query, valores);
 	}
-
 	
+	public boolean registrarReporte(String tipoReporte, String planeadas, String realizadas,
+	                                String resumen, LocalDate inicial, LocalDate fechaFinal)
+		throws SQLException {
+		
+		String query = "CALL SPI_registrarReporte(?, ?, ?, ?, ?, ?, ?)";
+		String[] valores = new String[] {
+			this.getId(),
+			tipoReporte,
+			planeadas,
+			realizadas,
+			resumen,
+			String.valueOf(inicial),
+			String.valueOf(fechaFinal)
+		};
+		return this.conexion.ejecutar(query, valores);
+	}
 }
