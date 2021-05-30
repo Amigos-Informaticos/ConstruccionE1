@@ -445,10 +445,8 @@ public class DAOPracticante implements IDAOPracticante {
 		String[] responses = {"TOTAL"};
 		String[][] students = this.conexion.seleccionar(query, valores, responses);
 		if (students != null && students[0][0].equals("1")) {
-			query = "SELECT Proyecto.nombre FROM Proyecto INNER JOIN Asignacion " +
-				"ON Proyecto.idProyecto = Asignacion.idProyecto " +
-				"WHERE Asignacion.idPracticante = ?;";
-			responses = new String[] {"Proyecto.nombre"};
+			query = "CALL SPS_obtenerProyectoAsignado (?);";
+			responses = new String[] {"nombre"};
 			String[][] resultados = this.conexion.seleccionar(query, valores, responses);
 			proyecto = resultados != null ? new DAOProyecto().cargarProyecto(resultados[0][0]) : null;
 		}
@@ -507,5 +505,6 @@ public class DAOPracticante implements IDAOPracticante {
 			ftp.enviarArchivo(documento.getStringPath(), rutaRemota) &&
 				this.conexion.ejecutar(query, valores);
 	}
+
 	
 }
