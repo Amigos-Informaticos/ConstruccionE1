@@ -1,7 +1,19 @@
 package DAO;
 
+import Connection.ConexionBD;
+import Exceptions.CustomException;
+import Models.Documento;
+import Models.Practicante;
+import tools.Dir;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class DAODocumento {
-	/*
+	
 	private final Documento documento;
 	private final ConexionBD connection = new ConexionBD();
 	
@@ -116,6 +128,5 @@ public class DAODocumento {
 		}
 		return id;
 	}
-
-	 */
+	
 }
