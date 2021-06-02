@@ -499,16 +499,15 @@ public class DAOPracticante implements IDAOPracticante {
 		ConexionFTP ftp = new ConexionFTP();
 		String query = "CALL SPI_registrarDocumento(?, ?, ?)";
 		String[] valores = {this.getId(), rutaRemota, documento.getNameNoExt()};
-		return
-			ftp.enviarArchivo(documento.getStringPath(), rutaRemota) &&
-				this.conexion.ejecutar(query, valores);
+		return ftp.enviarArchivo(documento.getStringPath(), rutaRemota) &&
+			this.conexion.ejecutar(query, valores);
 	}
 	
 	public boolean registrarReporte(String tipoReporte, String planeadas, String realizadas,
 	                                String resumen, LocalDate inicial, LocalDate fechaFinal)
 		throws SQLException {
 		
-		String query = "CALL SPI_registrarReporte(?, ?, ?, ?, ?, ?, ?)";
+		String query = "CALL SPI_registrarReporte(?, ?, ?, ?, ?, ?, ?, 1)";
 		String[] valores = new String[] {
 			this.getId(),
 			tipoReporte,
