@@ -1,28 +1,51 @@
 package Models;
 
+import DAO.DAODocumento;
+import DAO.DAOPracticante;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.property.TextAlignment;
+import tools.File;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Locale;
+
 public class Documento {
-	/*
-	private String title;
+	private String nombre;
 	private String type;
 	private File file;
+	
 	private Usuario author;
 	
 	public Documento() {
 	}
 	
-	public Documento(String title, String type, File file, Usuario author) {
-		this.title = title;
+	public Documento(String nombre, String type, File file, Usuario author) {
+		this.nombre = nombre;
 		this.type = type;
 		this.file = file;
 		this.author = author;
 	}
 	
-	public String getTitle() {
-		return title;
+	public Usuario getAutor() {
+		return author;
 	}
 	
-	public void setTitle(String title) {
-		this.title = title;
+	public void setAuthor(Usuario author) {
+		this.author = author;
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+	
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
 	public String getType() {
@@ -41,24 +64,18 @@ public class Documento {
 		return file;
 	}
 	
-	public Usuario getAuthor() {
-		return author;
-	}
-	
-	public void setAuthor(Usuario author) {
-		this.author = author;
-	}
-	
 	public boolean estaCompleto() {
-		return this.title != null &&
+		return this.nombre != null &&
 			this.type != null;
 	}
 	
-	public boolean save() throws SQLException {
-		return new DAODocumento(this).save(this.author.getEmail());
+	public boolean guardar(int idProyecto) throws SQLException, FileNotFoundException {
+		return new DAODocumento(this).save(
+			new DAOPracticante((Practicante) this.author).getId(),
+			idProyecto);
 	}
 	
-	public boolean saveLocally() {
+	public boolean saveLocally() throws IOException {
 		return new DAODocumento(this).saveLocally();
 	}
 	
@@ -66,13 +83,13 @@ public class Documento {
 		return new DAODocumento(this).downloadFile();
 	}
 	
-	public boolean generateAsignacionDocument(Asignacion asignacion) throws FileNotFoundException {
-		assert asignacion != null : "Asignacion is null: Document.generateAsignacionDocument()";
+	public boolean generateAssignmentDocument(Asignacion asignacion) throws FileNotFoundException {
+		assert asignacion != null : "Assignment is null: Document.generateAssignmentDocument()";
 		assert asignacion.estaCompleto() :
-			"Asignacion is incomplete: Document.generateAsignacionDocument()";
-		assert this.estaCompleto() : "Document is incomplete: Document.generateAsignacionDocument()";
+			"Assignment is incomplete: Document.generateAssignmentDocument()";
+		assert this.estaCompleto() : "Document is incomplete: Document.generateAssignmentDocument()";
 		assert this.file.getPath() != null :
-			"File path is null: Document.generateAsignacionDocument()";
+			"File path is null: Document.generateAssignmentDocument()";
 		PdfWriter pdfWriter = new PdfWriter(file.getStringPath());
 		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
 		com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
@@ -148,6 +165,4 @@ public class Documento {
 		document.close();
 		return true;
 	}
-
-	 */
 }
