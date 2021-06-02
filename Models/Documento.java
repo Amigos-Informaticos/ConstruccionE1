@@ -1,15 +1,5 @@
 package Models;
 
-import DAO.DAODocumento;
-
-import tools.File;
-
-import java.io.FileNotFoundException;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.TextStyle;
-import java.util.Locale;
-
 public class Documento {
 	/*
 	private String title;

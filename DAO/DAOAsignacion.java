@@ -2,7 +2,6 @@ package DAO;
 
 import Connection.ConexionBD;
 import Models.Asignacion;
-import Models.Documento;
 import Models.Practicante;
 import Models.Proyecto;
 
