@@ -507,10 +507,12 @@ public class DAOPracticante implements IDAOPracticante {
 	                                String resumen, LocalDate inicial, LocalDate fechaFinal)
 		throws SQLException {
 		
-		String query = "CALL SPI_registrarReporte(?, ?, ?, ?, ?, ?, ?, 1)";
+		String query = "CALL SPI_registrarReporteDocumento(?,?,?,?,?,?,?,?,?)";
 		String[] valores = new String[] {
 			this.getId(),
 			tipoReporte,
+			"Reporte " + tipoReporte + this.practicante.getMatricula(),
+			"",
 			planeadas,
 			realizadas,
 			resumen,
