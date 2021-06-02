@@ -1,6 +1,7 @@
 package Models;
 
 import DAO.DAODocumento;
+import DAO.DAOPracticante;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.element.Paragraph;
@@ -8,33 +9,43 @@ import com.itextpdf.layout.property.TextAlignment;
 import tools.File;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
 public class Documento {
-	private String title;
+	private String nombre;
 	private String type;
 	private File file;
+	
 	private Usuario author;
 	
 	public Documento() {
 	}
 	
-	public Documento(String title, String type, File file, Usuario author) {
-		this.title = title;
+	public Documento(String nombre, String type, File file, Usuario author) {
+		this.nombre = nombre;
 		this.type = type;
 		this.file = file;
 		this.author = author;
 	}
 	
-	public String getTitle() {
-		return title;
+	public Usuario getAutor() {
+		return author;
 	}
 	
-	public void setTitle(String title) {
-		this.title = title;
+	public void setAuthor(Usuario author) {
+		this.author = author;
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+	
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
 	public String getType() {
@@ -53,24 +64,18 @@ public class Documento {
 		return file;
 	}
 	
-	public Usuario getAuthor() {
-		return author;
-	}
-	
-	public void setAuthor(Usuario author) {
-		this.author = author;
-	}
-	
-	public boolean isComplete() {
-		return this.title != null &&
+	public boolean estaCompleto() {
+		return this.nombre != null &&
 			this.type != null;
 	}
 	
-	public boolean save() throws SQLException {
-		return new DAODocumento(this).save(this.author.getEmail());
+	public boolean guardar(int idProyecto) throws SQLException, FileNotFoundException {
+		return new DAODocumento(this).save(
+			new DAOPracticante((Practicante) this.author).getId(),
+			idProyecto);
 	}
 	
-	public boolean saveLocally() {
+	public boolean saveLocally() throws IOException {
 		return new DAODocumento(this).saveLocally();
 	}
 	
@@ -78,11 +83,11 @@ public class Documento {
 		return new DAODocumento(this).downloadFile();
 	}
 	
-	public boolean generateAssignmentDocument(Asignacion assignment) throws FileNotFoundException {
-		assert assignment != null : "Assignment is null: Document.generateAssignmentDocument()";
-		assert assignment.estaCompleto() :
+	public boolean generateAssignmentDocument(Asignacion asignacion) throws FileNotFoundException {
+		assert asignacion != null : "Assignment is null: Document.generateAssignmentDocument()";
+		assert asignacion.estaCompleto() :
 			"Assignment is incomplete: Document.generateAssignmentDocument()";
-		assert this.isComplete() : "Document is incomplete: Document.generateAssignmentDocument()";
+		assert this.estaCompleto() : "Document is incomplete: Document.generateAssignmentDocument()";
 		assert this.file.getPath() != null :
 			"File path is null: Document.generateAssignmentDocument()";
 		PdfWriter pdfWriter = new PdfWriter(file.getStringPath());
@@ -93,10 +98,10 @@ public class Documento {
 		date[1] = LocalDate.now().getMonth().getDisplayName(
 			TextStyle.FULL, new Locale("es", "ES"));
 		date[2] = String.valueOf(LocalDate.now().getYear());
-		String fullName = assignment.getPracticante().getNombres() + " " +
-			assignment.getPracticante().getApellidos();
-		String regNumber = assignment.getPracticante().getMatricula();
-		String proyectName = assignment.getProyecto().getNombre();
+		String fullName = asignacion.getPracticante().getNombres() + " " +
+			asignacion.getPracticante().getApellidos();
+		String regNumber = asignacion.getPracticante().getMatricula();
+		String proyectName = asignacion.getProyecto().getNombre();
 		document.add(
 			new Paragraph(
 				"Xalapa Enríquez, Veracruz, a " + date[0] + " de " + date[1] + " de " + date[2]
