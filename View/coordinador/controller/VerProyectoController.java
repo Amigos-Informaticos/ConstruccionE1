@@ -82,7 +82,7 @@ public class VerProyectoController implements Initializable {
 		cmbPeriodo.setItems(listaPeriodos);
 		limitarTextfields();
 		
-		proyecto = (Proyecto) MainController.get("project");
+		proyecto = (Proyecto) MainController.get("proyecto");
 		this.inicializarCampos();
 	}
 	
