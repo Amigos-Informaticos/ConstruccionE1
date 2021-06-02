@@ -83,7 +83,7 @@ public class AsignarProyectoController implements Initializable {
 	}
 	
 	public void assign() throws FileNotFoundException {
-		Proyecto proyecto = (Proyecto) MainController.get("project");
+		Proyecto proyecto = (Proyecto) MainController.get("proyecto");
 		Asignacion asignacion = null;
 		try {
 			asignacion = new Asignacion(
@@ -99,14 +99,13 @@ public class AsignarProyectoController implements Initializable {
 			);
 		}
 		if (MainController.alert(Alert.AlertType.CONFIRMATION, "Confirmar Asignacion",
-			"¿Esta seguro de que quiere asignar el practicante "
-				+ practicante.getNombres() +
-				" al proyecto " + proyecto.getNombre() + "?")) {
+			"¿Esta seguro de que quiere asignar este proyecto practicante?")) {
 			try {
 				if (asignacion.assignProject()) {
 					MainController.alert(Alert.AlertType.INFORMATION,
 						"Asignación registrada",
 						"Asignacon realizada exitosamente");
+					MainController.activate("AdministrarPracticante","Practicantes",MainController.Sizes.MID);
 				} else {
 					MainController.alert(Alert.AlertType.ERROR, "ErrorBD", "No se pudo establecer conexión con la Base de Datos");
 					exit();

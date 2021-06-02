@@ -1,11 +1,7 @@
 package Models;
 
-import DAO.DAODocumento;
-import tools.File;
-
-import java.sql.SQLException;
-
 public class Documento {
+	/*
 	private String title;
 	private String type;
 	private File file;
@@ -53,7 +49,7 @@ public class Documento {
 		this.author = author;
 	}
 	
-	public boolean isComplete() {
+	public boolean estaCompleto() {
 		return this.title != null &&
 			this.type != null;
 	}
@@ -70,13 +66,13 @@ public class Documento {
 		return new DAODocumento(this).downloadFile();
 	}
 	
-	/*public boolean generateAssignmentDocument(Assignment assignment) throws FileNotFoundException {
-		assert assignment != null : "Assignment is null: Document.generateAssignmentDocument()";
-		assert assignment.isComplete() :
-			"Assignment is incomplete: Document.generateAssignmentDocument()";
-		assert this.isComplete() : "Document is incomplete: Document.generateAssignmentDocument()";
+	public boolean generateAsignacionDocument(Asignacion asignacion) throws FileNotFoundException {
+		assert asignacion != null : "Asignacion is null: Document.generateAsignacionDocument()";
+		assert asignacion.estaCompleto() :
+			"Asignacion is incomplete: Document.generateAsignacionDocument()";
+		assert this.estaCompleto() : "Document is incomplete: Document.generateAsignacionDocument()";
 		assert this.file.getPath() != null :
-			"File path is null: Document.generateAssignmentDocument()";
+			"File path is null: Document.generateAsignacionDocument()";
 		PdfWriter pdfWriter = new PdfWriter(file.getStringPath());
 		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
 		com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
@@ -85,10 +81,10 @@ public class Documento {
 		date[1] = LocalDate.now().getMonth().getDisplayName(
 			TextStyle.FULL, new Locale("es", "ES"));
 		date[2] = String.valueOf(LocalDate.now().getYear());
-		String fullName = assignment.getStudent().getNames() + " " +
-			assignment.getStudent().getLastnames();
-		String regNumber = assignment.getStudent().getRegNumber();
-		String proyectName = assignment.getProject().getName();
+		String fullName = asignacion.getPracticante().getNombres() + " " +
+			asignacion.getPracticante().getApellidos();
+		String regNumber = asignacion.getPracticante().getMatricula();
+		String proyectName = asignacion.getProyecto().getNombre();
 		document.add(
 			new Paragraph(
 				"Xalapa Enríquez, Veracruz, a " + date[0] + " de " + date[1] + " de " + date[2]
@@ -151,5 +147,7 @@ public class Documento {
 		document.flush();
 		document.close();
 		return true;
-	}*/
+	}
+
+	 */
 }

@@ -1,21 +1,7 @@
 package DAO;
 
-import Connection.ConexionBD;
-import Exceptions.CustomException;
-import Models.Documento;
-import Models.Practicante;
-import tools.Dir;
-import tools.File;
-import tools.Logger;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 public class DAODocumento {
+	/*
 	private final Documento documento;
 	private final ConexionBD connection = new ConexionBD();
 	
@@ -25,7 +11,7 @@ public class DAODocumento {
 	
 	public boolean save(String authorEmail) throws SQLException {
 		assert this.documento != null : "Document is null: DAODocument.save()";
-		assert this.documento.isComplete() : "Document is incomplete: DAODocument.save()";
+		assert this.documento.estaCompleto() : "Document is incomplete: DAODocument.save()";
 		assert this.documento.getFile().exists() : "File doesnt exists: DAODocument.save()";
 		
 		String query = "SELECT COUNT(idMiembro) AS TOTAL FROM MiembroFEI " +
@@ -83,7 +69,7 @@ public class DAODocumento {
 	}
 	
 	public boolean saveLocally() {
-		assert this.documento.isComplete() : "Document is incomplete: DAODocument.saveLocally()";
+		assert this.documento.estaCompleto() : "Document is incomplete: DAODocument.saveLocally()";
 		assert this.documento.getFile().exists() : "File doesnt exists: DAODocument.saveLocally()";
 		
 		try {
@@ -99,7 +85,7 @@ public class DAODocumento {
 	
 	public boolean downloadFile() throws SQLException {
 		assert this.documento != null : "Document is null: DAODocument.getFile()";
-		assert this.documento.isComplete() : "Document is incomplete: DAODocument.getFile()";
+		assert this.documento.estaCompleto() : "Document is incomplete: DAODocument.getFile()";
 		boolean got;
 		
 		String query = "SELECT COUNT(titulo) AS TOTAL FROM Documento WHERE titulo = ?";
@@ -130,4 +116,6 @@ public class DAODocumento {
 		}
 		return id;
 	}
+
+	 */
 }
