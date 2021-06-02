@@ -139,6 +139,11 @@ public class Practicante extends Usuario {
 		throws SQLException {
 		new DAOPracticante(this).llenarTablaPracticantes(listaPracticantes);
 	}
+
+	public void llenarTablaPracticantes(ObservableList<Practicante> listaPracticante, String correoProfesor) throws
+			NullPointerException, SQLException {
+		new DAOPracticante(this).llenarTablaPracticantes(listaPracticante, correoProfesor);
+	}
 	
 	public boolean guardarDocumento(File documento) throws SQLException {
 		return new DAOPracticante(this).guardarDocumento(documento);
@@ -147,6 +152,14 @@ public class Practicante extends Usuario {
 	public boolean actualizarProfesor() throws SQLException {
 		return new DAOPracticante(this).actualizarProfesor();
 	}
+
+	@Override
+	public String toString() {
+		return super.toString() + "Practicante{" +
+				"matricula='" + matricula + '\'' +
+				", profesor=" + profesor +
+				'}';
+	}
 	
 	public boolean registrarReporte(String tipoReporte, String planeadas, String realizadas,
 	                                String resumen, LocalDate inicial, LocalDate fechaFinal)
@@ -154,5 +167,13 @@ public class Practicante extends Usuario {
 		
 		return new DAOPracticante(this).registrarReporte(tipoReporte, planeadas, realizadas,
 			resumen, inicial, fechaFinal);
+	}
+
+	public boolean llenarTablaDocumentos(ObservableList<Documento> listaDocumentos) throws SQLException {
+		return new DAOPracticante(this).llenarTablaDocumentos(listaDocumentos);
+	}
+
+	public Reporte obtenerReporte(String idDocumento) throws SQLException{
+		return new DAOPracticante(this).obtenerReporte(idDocumento);
 	}
 }
