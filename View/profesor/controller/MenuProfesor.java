@@ -3,7 +3,6 @@ package View.profesor.controller;
 import View.MainController;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
-import sun.applet.Main;
 
 public class MenuProfesor {
     @FXML
