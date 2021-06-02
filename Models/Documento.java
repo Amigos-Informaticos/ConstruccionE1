@@ -1,9 +1,17 @@
 package Models;
 
 import DAO.DAODocumento;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.property.TextAlignment;
 import tools.File;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 public class Documento {
 	private String title;
@@ -70,9 +78,9 @@ public class Documento {
 		return new DAODocumento(this).downloadFile();
 	}
 	
-	/*public boolean generateAssignmentDocument(Assignment assignment) throws FileNotFoundException {
+	public boolean generateAssignmentDocument(Asignacion assignment) throws FileNotFoundException {
 		assert assignment != null : "Assignment is null: Document.generateAssignmentDocument()";
-		assert assignment.isComplete() :
+		assert assignment.estaCompleto() :
 			"Assignment is incomplete: Document.generateAssignmentDocument()";
 		assert this.isComplete() : "Document is incomplete: Document.generateAssignmentDocument()";
 		assert this.file.getPath() != null :
@@ -85,10 +93,10 @@ public class Documento {
 		date[1] = LocalDate.now().getMonth().getDisplayName(
 			TextStyle.FULL, new Locale("es", "ES"));
 		date[2] = String.valueOf(LocalDate.now().getYear());
-		String fullName = assignment.getStudent().getNames() + " " +
-			assignment.getStudent().getLastnames();
-		String regNumber = assignment.getStudent().getRegNumber();
-		String proyectName = assignment.getProject().getName();
+		String fullName = assignment.getPracticante().getNombres() + " " +
+			assignment.getPracticante().getApellidos();
+		String regNumber = assignment.getPracticante().getMatricula();
+		String proyectName = assignment.getProyecto().getNombre();
 		document.add(
 			new Paragraph(
 				"Xalapa Enríquez, Veracruz, a " + date[0] + " de " + date[1] + " de " + date[2]
@@ -151,5 +159,5 @@ public class Documento {
 		document.flush();
 		document.close();
 		return true;
-	}*/
+	}
 }
