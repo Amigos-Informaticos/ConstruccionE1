@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 public class ExpedienteController implements Initializable {
     @FXML private TableView<Documento> tblViewDocuments;
     @FXML private TableColumn<Documento, String> clmnName;
-    @FXML private TableColumn<Documento, String> clmnRuta;
     @FXML private TableColumn<Documento, String> clmnTipo;
     @FXML private JFXButton btnCalificar;
     public JFXButton btnRegresar;
@@ -64,7 +63,6 @@ public class ExpedienteController implements Initializable {
                         if(newValue != null) {
                             documento = newValue;
                             btnCalificar.setDisable(false);
-                            System.out.println(documento);
                         } else {
                             documento = null;
                             btnCalificar.setDisable(true);
