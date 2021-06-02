@@ -31,12 +31,11 @@
       </HBox>
       <TableView fx:id="tblViewDocuments" layoutX="100.0" layoutY="87.0" prefHeight="267.0" prefWidth="532.0">
         <columns>
-          <TableColumn id="clmNames" fx:id="clmnName" minWidth="0.0" prefWidth="189.0" text="Nombre" />
-            <TableColumn fx:id="clmnRuta" prefWidth="180.0" text="Ruta" />
-          <TableColumn fx:id="clmnTipo" minWidth="0.0" prefWidth="165.0" text="Tipo" />
+          <TableColumn id="clmNames" fx:id="clmnName" minWidth="0.0" prefWidth="252.0" text="Nombre" />
+          <TableColumn fx:id="clmnTipo" minWidth="0.0" prefWidth="278.0" text="Tipo" />
         </columns>
       </TableView>
-      <JFXButton fx:id="btnCalificar" layoutX="492.0" layoutY="379.0" prefHeight="34.0" prefWidth="145.0" style="-fx-background-color: #28AD56;" text="Calificar" textFill="WHITE" />
-      <JFXButton fx:id="btnRegresar" layoutX="100.0" layoutY="379.0" prefHeight="34.0" prefWidth="145.0" style="-fx-background-color: #6B6E7A;" text="Regresar" textFill="WHITE" />
+      <JFXButton fx:id="btnCalificar" layoutX="492.0" layoutY="379.0" onAction="#onClicCalificar" prefHeight="34.0" prefWidth="145.0" style="-fx-background-color: #28AD56;" text="Calificar" textFill="WHITE" />
+      <JFXButton fx:id="btnRegresar" layoutX="100.0" layoutY="379.0" onAction="#onClicRegresar" prefHeight="34.0" prefWidth="145.0" style="-fx-background-color: #6b6e7a;" text="Regresar" textFill="WHITE" />
    </children>
 </AnchorPane>

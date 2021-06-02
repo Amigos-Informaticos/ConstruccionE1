@@ -8,12 +8,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import sun.applet.Main;
 import tools.Logger;
 import java.net.URL;
 import java.sql.SQLException;
@@ -25,6 +27,7 @@ public class ExpedienteController implements Initializable {
     @FXML private TableColumn<Documento, String> clmnRuta;
     @FXML private TableColumn<Documento, String> clmnTipo;
     @FXML private JFXButton btnCalificar;
+    public JFXButton btnRegresar;
     private Documento documento;
     private ObservableList<Documento> listaDocumentos;
     @Override
@@ -36,8 +39,7 @@ public class ExpedienteController implements Initializable {
             practicante = (Practicante) MainController.get("practicante");
             practicante.llenarTablaDocumentos(listaDocumentos);
             tblViewDocuments.setItems(listaDocumentos);
-            clmnName.setCellValueFactory(new PropertyValueFactory<Documento, String>("title"));
-            clmnRuta.setCellValueFactory(new PropertyValueFactory<Documento, String>("ruta"));
+            clmnName.setCellValueFactory(new PropertyValueFactory<Documento, String>("nombre"));
             clmnTipo.setCellValueFactory(new PropertyValueFactory<Documento, String>("type"));
         }catch (NullPointerException nullPointerException){
             MainController.alert(
@@ -51,6 +53,8 @@ public class ExpedienteController implements Initializable {
         eventManager();
     }
 
+
+
     public void eventManager(){
         tblViewDocuments.getSelectionModel().selectedItemProperty().addListener(
                 new ChangeListener<Documento>() {
@@ -60,6 +64,7 @@ public class ExpedienteController implements Initializable {
                         if(newValue != null) {
                             documento = newValue;
                             btnCalificar.setDisable(false);
+                            System.out.println(documento);
                         } else {
                             documento = null;
                             btnCalificar.setDisable(true);
@@ -67,5 +72,14 @@ public class ExpedienteController implements Initializable {
                     }
                 }
         );
+    }
+
+    public void onClicRegresar(ActionEvent actionEvent) {
+        MainController.activate("ListaPracticantes", "Lista de Practicantes", MainController.Sizes.MID);
+    }
+
+    public void onClicCalificar(ActionEvent actionEvent) {
+        MainController.save("documento", documento);
+        MainController.activate("EvaluarReporte", "Calificar Reporte", MainController.Sizes.LARGE);
     }
 }
