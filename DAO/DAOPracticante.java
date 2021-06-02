@@ -12,6 +12,7 @@ import tools.File;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Arrays;
 
 public class DAOPracticante implements IDAOPracticante {
 	private Practicante practicante;
@@ -535,12 +536,6 @@ public class DAOPracticante implements IDAOPracticante {
 			ftp.enviarArchivo(documento.getStringPath(), rutaRemota) &&
 				this.conexion.ejecutar(query, valores);
 	}
-
-	public Documento[] obtenerExpediente() {
-		Documento[] expediente = null;
-		String query = "SELECT * FROM Documento WHERE propietario = ?";
-		return expediente;
-	}
 	
 	public boolean registrarReporte(String tipoReporte, String planeadas, String realizadas,
 	                                String resumen, LocalDate inicial, LocalDate fechaFinal)
@@ -557,5 +552,31 @@ public class DAOPracticante implements IDAOPracticante {
 			String.valueOf(fechaFinal)
 		};
 		return this.conexion.ejecutar(query, valores);
+	}
+
+	public boolean llenarTablaDocumentos(ObservableList<Documento> listaDocumentos) throws SQLException{
+		boolean filled = false;
+		String query = "SELECT nombre, ruta, tipo, id FROM Documento WHERE propietario = (SELECT idMiembro FROM MiembroFEI " +
+				"WHERE correoElectronico = ?)";
+		String[] nombres = {"nombre", "ruta", "tipo", "id"};
+		String[] valores = {this.practicante.getEmail()};
+		String[][] select = this.conexion.seleccionar(query, valores, nombres);
+		int row = 0;
+		while (row < select.length) {
+			listaDocumentos.add(
+					new Documento(
+							select[row][0],
+							select[row][1],
+							select[row][2],
+							select[row][3]
+					)
+			);
+			if (!filled) {
+				filled = true;
+			}
+			row++;
+		}
+		System.out.println(Arrays.deepToString(select));
+		return filled;
 	}
 }

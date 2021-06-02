@@ -100,10 +100,6 @@ public class Practicante extends Usuario {
 			this.matricula != null &&
 			this.profesor != null;
 	}
-
-	public Documento[] obtenerExpediente(){
-		return new DAOPracticante(this).obtenerExpediente();
-	}
 	
 	public boolean seleccionarProyecto(String nombreProyecto) throws SQLException {
 		return new DAOPracticante(this).seleccionarProyecto(nombreProyecto);
@@ -171,5 +167,9 @@ public class Practicante extends Usuario {
 		
 		return new DAOPracticante(this).registrarReporte(tipoReporte, planeadas, realizadas,
 			resumen, inicial, fechaFinal);
+	}
+
+	public boolean llenarTablaDocumentos(ObservableList<Documento> listaDocumentos) throws SQLException {
+		return new DAOPracticante(this).llenarTablaDocumentos(listaDocumentos);
 	}
 }
