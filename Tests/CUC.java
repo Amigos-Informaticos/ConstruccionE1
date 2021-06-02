@@ -131,7 +131,7 @@ public class CUC {
 	}
 
 	 */
-	
+	/*
 	@Test
 	public void dAssignProject() throws FileNotFoundException, SQLException {
 		Asignacion asignacion = null;
@@ -142,6 +142,8 @@ public class CUC {
 		}
 		assertTrue(asignacion.assignProject());
 	}
+
+	 */
 	
 	@Test
 	public void eRemoveProject() {
