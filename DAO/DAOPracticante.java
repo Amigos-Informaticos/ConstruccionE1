@@ -3,7 +3,9 @@ package DAO;
 import Connection.ConexionBD;
 import Connection.ConexionFTP;
 import IDAO.IDAOPracticante;
+import Models.Documento;
 import Models.Practicante;
+import Models.Profesor;
 import Models.Proyecto;
 import javafx.collections.ObservableList;
 import tools.File;
@@ -546,7 +548,37 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return filled;
 	}
-	
+
+	public boolean llenarTablaPracticantes(ObservableList<Practicante> listPracticante, String correoProfesor) throws NullPointerException, SQLException {
+		boolean filled = false;
+		if(correoProfesor != null) {
+			String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
+					"FROM MiembroFEI INNER JOIN Practicante " +
+					"ON MiembroFEI.idMiembro = Practicante.idMiembro WHERE estaActivo = 1 AND profesorCalificador = " +
+					"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
+			String[] nombres = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
+			String[] valores = {correoProfesor};
+			String[][] select = this.conexion.seleccionar(query, valores, nombres);
+			int row = 0;
+			while (row < select.length) {
+				listPracticante.add(
+						new Practicante(
+								select[row][0],
+								select[row][1],
+								select[row][2],
+								select[row][3],
+								select[row][4]
+						)
+				);
+				if (!filled) {
+					filled = true;
+				}
+				row++;
+			}
+		}
+		return filled;
+	}
+
 	public boolean guardarDocumento(File documento) throws SQLException {
 		assert documento != null : "Documento es nulo: DAOPracticante.guardarDocumento()";
 		assert this.practicante.estaCompleto() :
@@ -567,5 +599,10 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return guardado;
 	}
-	
+
+	public Documento[] obtenerExpediente() {
+		Documento[] expediente = null;
+		String query = "SELECT * FROM Documento WHERE propietario = ?";
+		return expediente;
+	}
 }
