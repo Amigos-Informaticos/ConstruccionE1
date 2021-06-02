@@ -10,11 +10,11 @@ public class Reporte extends Documento {
 	private String actividadesPlaneadas;
 	private String actividadesRealizadas;
 	private String resumen;
+	private String calificacion;
 	private LocalDate fechaInicio;
 	private LocalDate fechaFin;
 	private String tipoReporte;
 	private Practicante practicante;
-
 	public Reporte(String actividadesPlaneadas, String actividadesRealizadas, String resumen, LocalDate fechaInicio, LocalDate fechaFin, String tipoReporte, String idReporte) {
 		this.actividadesPlaneadas = actividadesPlaneadas;
 		this.actividadesRealizadas = actividadesRealizadas;
@@ -35,6 +35,14 @@ public class Reporte extends Documento {
 
 	public void setIdReporte(String idReporte) {
 		this.idReporte = idReporte;
+	}
+
+	public String getCalificacion() {
+		return calificacion;
+	}
+
+	public void setCalificacion(String calificacion) {
+		this.calificacion = calificacion;
 	}
 
 	public String getActividadesPlaneadas() {

@@ -578,7 +578,7 @@ public class DAOPracticante implements IDAOPracticante {
 
 	public Reporte obtenerReporte(String idDocumento) throws SQLException{
 		String query = "SELECT actividadesPlaneadas, actividadesRealizadas, resumen, tipoReporte, fechaInicial, fechaFinal," +
-				" idReporte FROM Reporte WHERE IdDocumento = ?";
+				" idReporte, calificacion FROM Reporte WHERE IdDocumento = ?";
 		String[] nombres = {
 				"actividadesPlaneadas",
 				"actividadesRealizadas",
@@ -586,7 +586,8 @@ public class DAOPracticante implements IDAOPracticante {
 				"tipoReporte",
 				"fechaInicial",
 				"fechaFinal",
-				"idReporte"};
+				"idReporte",
+				"calificacion"};
 		String[] values = {idDocumento};
 		String[][] select = this.conexion.seleccionar(query, values, nombres);
 		Reporte reporte = new Reporte();
@@ -597,6 +598,7 @@ public class DAOPracticante implements IDAOPracticante {
 		reporte.setFechaInicio(LocalDate.parse(select[0][4]));
 		reporte.setFechaFin(LocalDate.parse(select[0][5]));
 		reporte.setIdReporte(select[0][6]);
+		reporte.setCalificacion(select[0][7]);
 		return reporte;
 	}
 }

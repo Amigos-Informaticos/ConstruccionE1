@@ -9,13 +9,10 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
-import sun.applet.Main;
 import tools.Logger;
 
 import java.net.URL;
@@ -49,6 +46,7 @@ public class EvaluarReporte implements Initializable {
         lblTipoReporte.setText(reporte.getTipoReporte());
         fechaFinal.setValue(reporte.getFechaFin());
         fechaInicial.setValue(reporte.getFechaInicio());
+        txtRetroalimentacion.setText(reporte.getCalificacion());
     }
 
     public void onClicCalificar(ActionEvent actionEvent) {

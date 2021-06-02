@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="450.0" maxWidth="700.0" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.profesor.controller.ListaPracticantesController">
    <children>
@@ -17,6 +20,18 @@
         </columns>
       </TableView>
       <JFXButton fx:id="btnSeleccionar" layoutX="451.0" layoutY="353.0" onAction="#onClicSeleccionPracticante" prefHeight="31.0" prefWidth="130.0" style="-fx-background-color: #28AD56;" text="Seleccionar" textFill="WHITE" />
-      <JFXButton fx:id="btnCancelar" cancelButton="true" layoutX="119.0" layoutY="356.0" onAction="#onClicCancelar" prefHeight="31.0" prefWidth="130.0" style="-fx-background-color: #434343;" text="Cancelar" textFill="WHITE" />
+      <JFXButton fx:id="btnCancelar" cancelButton="true" layoutX="119.0" layoutY="356.0" onAction="#onClicCancelar" prefHeight="31.0" prefWidth="130.0" style="-fx-background-color: #6B6E7A;" text="Cancelar" textFill="WHITE" />
+      <HBox maxWidth="700.0" minHeight="60.0" prefHeight="61.0" prefWidth="700.0" style="-fx-background-color: #18529D;">
+         <children>
+            <Label text="Lista de practicantes" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets left="20.0" top="10.0" />
+         </padding>
+      </HBox>
    </children>
 </AnchorPane>
