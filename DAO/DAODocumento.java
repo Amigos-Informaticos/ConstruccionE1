@@ -37,11 +37,11 @@ public class DAODocumento {
 		
 		query = "SELECT COUNT(titulo) AS TOTAL FROM Documento " +
 			"WHERE titulo LIKE CONCAT(?, '%')";
-		values = new String[] {this.documento.getTitle()};
+		values = new String[] {this.documento.getNombre()};
 		int occurrences = Integer.parseInt(this.connection.seleccionar(query, values, names)[0][0]);
 		String fullTitle = occurrences > 0 ?
-			this.documento.getTitle() + "(" + occurrences + ")" :
-			this.documento.getTitle();
+			this.documento.getNombre() + "(" + occurrences + ")" :
+			this.documento.getNombre();
 		
 		query = "INSERT INTO Documento (titulo, fecha, tipo, archivo, autor, path) " +
 			"VALUES (?, (SELECT CURRENT_DATE()), ?, ?, " +
@@ -59,7 +59,7 @@ public class DAODocumento {
 			statement.setString(5, this.documento.getFile().getStringPath());
 			statement.executeUpdate();
 			this.connection.closeConnection();
-			this.documento.setTitle(fullTitle);
+			this.documento.setNombre(fullTitle);
 			saved = true;
 		} catch (FileNotFoundException | SQLException e) {
 			new Logger().log(e);
@@ -103,7 +103,7 @@ public class DAODocumento {
 		boolean got;
 		
 		String query = "SELECT COUNT(titulo) AS TOTAL FROM Documento WHERE titulo = ?";
-		String[] values = {this.documento.getTitle()};
+		String[] values = {this.documento.getNombre()};
 		String[] columns = {"TOTAL"};
 		assert this.connection.seleccionar(query, values, columns)[0][0].equals("1");
 		query = "SELECT archivo, path FROM Documento WHERE titulo = ?";
@@ -119,9 +119,9 @@ public class DAODocumento {
 	public String getId() throws SQLException {
 		String id = null;
 		assert this.documento != null : "Document is null: DAODocument.getId()";
-		assert this.documento.getTitle() != null : "Document's title is null: DAODocument.getId()";
+		assert this.documento.getNombre() != null : "Document's title is null: DAODocument.getId()";
 		String query = "SELECT COUNT(titulo) AS TOTAL FROM Documento WHERE titulo = ?";
-		String[] values = {this.documento.getTitle()};
+		String[] values = {this.documento.getNombre()};
 		String[] columns = {"TOTAL"};
 		if (this.connection.seleccionar(query, values, columns)[0][0].equals("1")) {
 			query = "SELECT idDocumento FROM Documento WHERE titulo = ?";

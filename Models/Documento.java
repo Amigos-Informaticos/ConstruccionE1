@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class Documento {
 	private String id;
-	private String title;
+	private String nombre;
 	private String type;
 	private String ruta;
 
@@ -17,15 +17,15 @@ public class Documento {
 	public Documento() {
 	}
 
-	public Documento(String title, String type, File file, Usuario author) {
-		this.title = title;
+	public Documento(String nombre, String type, File file, Usuario author) {
+		this.nombre = nombre;
 		this.type = type;
 		this.file = file;
 		this.author = author;
 	}
 
-	public Documento(String title, String ruta, String type, String id) {
-		this.title = title;
+	public Documento(String nombre, String ruta, String type, String id) {
+		this.nombre = nombre;
 		this.ruta = ruta;
 		this.type = obtenerNombreTipo(type);
 		this.id = id;
@@ -62,12 +62,12 @@ public class Documento {
 		this.ruta = ruta;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getNombre() {
+		return nombre;
 	}
 	
-	public void setTitle(String title) {
-		this.title = title;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
 	public String getType() {
@@ -95,7 +95,7 @@ public class Documento {
 	}
 	
 	public boolean isComplete() {
-		return this.title != null &&
+		return this.nombre != null &&
 			this.type != null;
 	}
 	

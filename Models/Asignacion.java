@@ -63,7 +63,7 @@ public class Asignacion {
 	
 	public boolean assignProject() throws FileNotFoundException, SQLException {
 		Documento documento = new Documento();
-		documento.setTitle("Documento de asignacion");
+		documento.setNombre("Documento de asignacion");
 		documento.setAuthor(this.coordinador);
 		documento.setFile(new File("asignacion.pdf"));
 		documento.setType("DocumentoAsignacion");
