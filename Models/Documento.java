@@ -6,21 +6,62 @@ import tools.File;
 import java.sql.SQLException;
 
 public class Documento {
+	private String id;
 	private String title;
 	private String type;
+	private String ruta;
+
 	private File file;
+
 	private Usuario author;
-	
 	public Documento() {
 	}
-	
+
 	public Documento(String title, String type, File file, Usuario author) {
 		this.title = title;
 		this.type = type;
 		this.file = file;
 		this.author = author;
 	}
-	
+
+	public Documento(String title, String ruta, String type, String id) {
+		this.title = title;
+		this.ruta = ruta;
+		this.type = obtenerNombreTipo(type);
+		this.id = id;
+	}
+
+	private String obtenerNombreTipo(String type) {
+		String tipo;
+		switch (type) {
+			case "0":
+				tipo = "Asignacion";
+				break;
+			case "1":
+				tipo = "Reporte";
+				break;
+			default:
+				tipo = "";
+		}
+		return tipo;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getRuta() {
+		return ruta;
+	}
+
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
+	}
+
 	public String getTitle() {
 		return title;
 	}
