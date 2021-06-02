@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.profesor.controller.ExpedienteController">
+   <children>
+      <TableView fx:id="tblViewDocuments" layoutX="86.0" layoutY="84.0" prefHeight="283.0" prefWidth="537.0">
+        <columns>
+          <TableColumn id="clmNames" fx:id="clmnName" minWidth="0.0" prefWidth="128.0" text="Nombre" />
+            <TableColumn fx:id="clmnRuta" prefWidth="134.0" text="Ruta" />
+          <TableColumn fx:id="clmnTipo" minWidth="0.0" prefWidth="152.0" text="Tipo" />
+            <TableColumn fx:id="clmnDownload" prefWidth="122.0" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

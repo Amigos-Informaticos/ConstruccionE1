@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="450.0" maxWidth="700.0" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.profesor.controller.ListaPracticantesController">
+   <children>
+      <TableView fx:id="tblViewPracticantes" layoutX="74.0" layoutY="69.0" prefHeight="256.0" prefWidth="552.0">
+        <columns>
+          <TableColumn fx:id="clmnNombres" prefWidth="128.0" text="Nombres" />
+          <TableColumn fx:id="clmnApellidos" prefWidth="145.0" text="Apellidos" />
+            <TableColumn fx:id="clmnEmail" prefWidth="145.0" text="Email" />
+            <TableColumn fx:id="clmnMatricula" prefWidth="132.0" text="Matricula" />
+        </columns>
+      </TableView>
+      <JFXButton fx:id="btnSeleccionar" layoutX="451.0" layoutY="353.0" onAction="#onClicSeleccionPracticante" prefHeight="31.0" prefWidth="130.0" style="-fx-background-color: #28AD56;" text="Seleccionar" textFill="WHITE" />
+      <JFXButton fx:id="btnCancelar" cancelButton="true" layoutX="119.0" layoutY="356.0" onAction="#onClicCancelar" prefHeight="31.0" prefWidth="130.0" style="-fx-background-color: #434343;" text="Cancelar" textFill="WHITE" />
+   </children>
+</AnchorPane>
