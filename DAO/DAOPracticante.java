@@ -3,10 +3,7 @@ package DAO;
 import Connection.ConexionBD;
 import Connection.ConexionFTP;
 import IDAO.IDAOPracticante;
-import Models.Documento;
-import Models.Practicante;
-import Models.Profesor;
-import Models.Proyecto;
+import Models.*;
 import javafx.collections.ObservableList;
 import tools.File;
 
@@ -577,5 +574,29 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		System.out.println(Arrays.deepToString(select));
 		return filled;
+	}
+
+	public Reporte obtenerReporte(String idDocumento) throws SQLException{
+		String query = "SELECT actividadesPlaneadas, actividadesRealizadas, resumen, tipoReporte, fechaInicial, fechaFinal," +
+				" idReporte FROM Reporte WHERE IdDocumento = ?";
+		String[] nombres = {
+				"actividadesPlaneadas",
+				"actividadesRealizadas",
+				"resumen",
+				"tipoReporte",
+				"fechaInicial",
+				"fechaFinal",
+				"idReporte"};
+		String[] values = {idDocumento};
+		String[][] select = this.conexion.seleccionar(query, values, nombres);
+		Reporte reporte = new Reporte();
+		reporte.setActividadesPlaneadas(select[0][0]);
+		reporte.setActividadesRealizadas(select[0][1]);
+		reporte.setResumen(select[0][2]);
+		reporte.setTipoReporte(select[0][3]);
+		reporte.setFechaInicio(LocalDate.parse(select[0][4]));
+		reporte.setFechaFin(LocalDate.parse(select[0][5]));
+		reporte.setIdReporte(select[0][6]);
+		return reporte;
 	}
 }

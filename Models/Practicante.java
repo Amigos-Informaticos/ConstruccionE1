@@ -172,4 +172,8 @@ public class Practicante extends Usuario {
 	public boolean llenarTablaDocumentos(ObservableList<Documento> listaDocumentos) throws SQLException {
 		return new DAOPracticante(this).llenarTablaDocumentos(listaDocumentos);
 	}
+
+	public Reporte obtenerReporte(String idDocumento) throws SQLException{
+		return new DAOPracticante(this).obtenerReporte(idDocumento);
+	}
 }

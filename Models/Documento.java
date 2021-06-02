@@ -200,4 +200,16 @@ public class Documento {
 		document.close();
 		return true;
 	}*/
+
+    @Override
+    public String toString() {
+        return "Documento{" +
+                "id='" + id + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", type='" + type + '\'' +
+                ", ruta='" + ruta + '\'' +
+                ", file=" + file +
+                ", author=" + author +
+                '}';
+    }
 }
