@@ -2,6 +2,7 @@ package Models;
 
 import DAO.DAODocumento;
 import DAO.DAOPracticante;
+import View.MainController;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.element.Paragraph;
@@ -69,10 +70,9 @@ public class Documento {
 			this.type != null;
 	}
 	
-	public boolean guardar(int idProyecto) throws SQLException, FileNotFoundException {
+	public boolean guardar() throws SQLException{
 		return new DAODocumento(this).save(
-			new DAOPracticante((Practicante) this.author).getId(),
-			idProyecto);
+			new DAOPracticante((Practicante) this.author).getId());
 	}
 	
 	public boolean saveLocally() throws IOException {
@@ -90,6 +90,7 @@ public class Documento {
 		assert this.estaCompleto() : "Document is incomplete: Document.generateAssignmentDocument()";
 		assert this.file.getPath() != null :
 			"File path is null: Document.generateAssignmentDocument()";
+
 		PdfWriter pdfWriter = new PdfWriter(file.getStringPath());
 		PdfDocument pdfDocument = new PdfDocument(pdfWriter);
 		com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);

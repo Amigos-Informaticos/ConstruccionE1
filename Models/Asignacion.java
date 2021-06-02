@@ -1,6 +1,7 @@
 package Models;
 
 import DAO.DAOAsignacion;
+import tools.File;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
@@ -62,10 +63,9 @@ public class Asignacion {
 
 	public boolean assignProject() throws FileNotFoundException, SQLException {
 		boolean asignado = new DAOAsignacion(this).asignarProyecto();
+
 		return asignado;
 	}
-
-
 	
 	public boolean estaCompleto() {
 		return this.practicante != null &&
