@@ -23,20 +23,11 @@ public class DAODocumento {
 		assert this.documento.estaCompleto() : "Document is incomplete: DAODocument.save()";
 		assert this.documento.getFile().exists() : "File doesnt exists: DAODocument.save()";
 		
-		String query = "SELECT COUNT(idMiembro) AS TOTAL FROM MiembroFEI " +
-			"WHERE idMiembro = ?";
-		String[] values = {String.valueOf(autorId)};
-		String[] names = {"TOTAL"};
-		assert this.connection.seleccionar(query, values, names)[0][0].equals("1");
-		boolean saved = false;
-		
 		String ruta = "";
 		
-		query = "INSERT INTO Documento (propietario, ruta, nombre, idProyecto) " +
-			"VALUES (?, ?, ?, ?)";
-		values = new String[] {
-			autorId, ruta, this.documento.getNombre(), String.valueOf(idProyecto)};
-		
+		String query = "CALL SPI_registrarDocumento(?, ?, ?, 0)";
+		String[] values = new String[] {
+			autorId, ruta, this.documento.getNombre()};
 		return this.connection.ejecutar(query, values);
 	}
 	
