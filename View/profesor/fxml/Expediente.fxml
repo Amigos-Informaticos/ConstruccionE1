@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.profesor.controller.ExpedienteController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="700.0" style="-fx-background-color: #18529D;">
+         <children>
+            <Label prefHeight="51.0" prefWidth="362.0" text="Calificar Reporte" textFill="WHITE">
+               <font>
+                  <Font size="32.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets left="25.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
+      <TableView fx:id="tblViewDocuments" layoutX="100.0" layoutY="87.0" prefHeight="267.0" prefWidth="532.0">
+        <columns>
+          <TableColumn id="clmNames" fx:id="clmnName" minWidth="0.0" prefWidth="252.0" text="Nombre" />
+          <TableColumn fx:id="clmnTipo" minWidth="0.0" prefWidth="278.0" text="Tipo" />
+        </columns>
+      </TableView>
+      <JFXButton fx:id="btnCalificar" layoutX="492.0" layoutY="379.0" onAction="#onClicCalificar" prefHeight="34.0" prefWidth="145.0" style="-fx-background-color: #28AD56;" text="Calificar" textFill="WHITE" />
+      <JFXButton fx:id="btnRegresar" layoutX="100.0" layoutY="379.0" onAction="#onClicRegresar" prefHeight="34.0" prefWidth="145.0" style="-fx-background-color: #6b6e7a;" text="Regresar" textFill="WHITE" />
+   </children>
+</AnchorPane>
