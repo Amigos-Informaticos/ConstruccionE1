@@ -10,18 +10,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="View.coordinador.controller.AsignarProyectoController">
+
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.coordinador.controller.AsignarProyectoController">
    <children>
       <HBox prefHeight="73.0" prefWidth="350.0" style="-fx-background-color: #18529D;">
          <children>
             <ImageView fitHeight="40.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="/View/images/icon_back_white.png"/>
+                  <Image url="@/View/images/icon_back_white.png" />
                </image>
                <HBox.margin>
-                  <Insets right="10.0" top="15.0"/>
+                  <Insets right="10.0" top="15.0" />
                </HBox.margin>
             </ImageView>
             <Label text="Asignar Proyecto" textFill="WHITE">
@@ -40,7 +39,7 @@
             <Insets left="30.0" />
          </padding>
       </HBox>
-      <TableView fx:id="projectTable" layoutX="350.0" layoutY="164.0" onMouseClicked="#selectProject" prefHeight="183.0" prefWidth="350.0">
+      <TableView fx:id="projectTable" layoutX="350.0" layoutY="161.0" onMouseClicked="#selectProject" prefHeight="183.0" prefWidth="350.0">
         <columns>
           <TableColumn fx:id="clmName" prefWidth="349.0" text="Proyecto" />
         </columns>

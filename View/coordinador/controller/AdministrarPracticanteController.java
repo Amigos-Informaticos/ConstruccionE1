@@ -1,15 +1,13 @@
 package View.coordinador.controller;
 
-import Exceptions.CustomException;
 import Models.Practicante;
 import Models.Profesor;
+import Models.Proyecto;
 import Models.Usuario;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Paint;
 import tools.Logger;
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -30,6 +29,8 @@ public class AdministrarPracticanteController implements Initializable {
     @FXML
     public JFXButton btnActualizar;
     @FXML
+    public JFXButton verProyecto;
+    @FXML
     private TableView<Practicante> tblViewPracticante;
     @FXML
     private TableColumn<Practicante, String> clmnNombre;
@@ -39,8 +40,6 @@ public class AdministrarPracticanteController implements Initializable {
     private TableColumn<Practicante, String> clmnMatricula;
     @FXML
     private JFXComboBox<String> cmbProfesor;
-
-
 
     @FXML
     JFXTextField txtNombre;
@@ -53,13 +52,11 @@ public class AdministrarPracticanteController implements Initializable {
     @FXML
     JFXTextField txtContrasenia;
 
-
-
     @FXML
     JFXButton btnRegistrar;
 
     private ObservableList<Practicante> listPracticante;
-    private  ObservableList<String> profesoresRecuperados;
+    private ObservableList<String> profesoresRecuperados;
     private ObservableList<Profesor> listProfesor;
 
     private Practicante practicante;
@@ -70,9 +67,9 @@ public class AdministrarPracticanteController implements Initializable {
         profesoresRecuperados = FXCollections.observableArrayList();
         try {
             new Practicante().llenarTablaPracticantes(listPracticante);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        } catch (SQLException throwables) {
+        } catch (NullPointerException pointerException) {
+            pointerException.printStackTrace();
+        } catch (SQLException throwable) {
             this.mostrarMensajeErrorBD();
         }
 
@@ -82,16 +79,16 @@ public class AdministrarPracticanteController implements Initializable {
         clmnMatricula.setCellValueFactory(new PropertyValueFactory<Practicante, String>("matricula"));
 
         listProfesor = FXCollections.observableArrayList();
-        try{
+        try {
             new Profesor().obtenerProfesores(listProfesor);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             MainController.alert(
                     Alert.AlertType.WARNING,
                     "No hay profesores",
                     "No hay profesores registrados para asociar a los practicantes"
             );
             MainController.activate("MainMenuCoordinator");
-        }catch (Exception e){
+        } catch (Exception e) {
             MainController.alert(
                     Alert.AlertType.WARNING,
                     "ErrorBD",
@@ -102,68 +99,55 @@ public class AdministrarPracticanteController implements Initializable {
 
         this.llenarListaProfesores();
         cmbProfesor.setItems(this.profesoresRecuperados);
+        enableRegister();
         eventManager();
-
-
     }
 
-    private void llenarListaProfesores(){
-        for (Profesor profesor: this.listProfesor) {
+    private void llenarListaProfesores() {
+        for (Profesor profesor : this.listProfesor) {
             this.profesoresRecuperados.add(profesor.getNombres());
         }
     }
 
-    private  Profesor obtenerProfesorPorNombres(String nombres){
+    private Profesor obtenerProfesorPorNombres(String nombres) {
         Profesor profesor = null;
-
-        for (Profesor profesorLista: this.listProfesor) {
-            if(profesorLista.getNombres().equals(nombres)){
+        for (Profesor profesorLista : this.listProfesor) {
+            if (profesorLista.getNombres().equals(nombres)) {
                 profesor = profesorLista;
                 break;
             }
         }
-
-        return  profesor;
+        return profesor;
     }
-
-
 
     public void eventManager() {
         tblViewPracticante.getSelectionModel().selectedItemProperty().addListener(
-                new ChangeListener<Practicante>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Practicante> observable, Practicante oldValue,
-                                        Practicante newValue) {
-                        if (newValue != null) {
-                            practicante = newValue;
-                            txtNombre.setText(newValue.getNombres());
-                            txtApellido.setText(newValue.getApellidos());
-                            txtEmail.setText(newValue.getEmail());
-                            txtMatricula.setText(newValue.getMatricula());
-                            practicante = tblViewPracticante.getSelectionModel().getSelectedItem();
+                (observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        practicante = newValue;
+                        txtNombre.setText(newValue.getNombres());
+                        txtApellido.setText(newValue.getApellidos());
+                        txtEmail.setText(newValue.getEmail());
+                        txtMatricula.setText(newValue.getMatricula());
+                        practicante = tblViewPracticante.getSelectionModel().getSelectedItem();
+                        try {
+                            Profesor profesor = new Profesor();
+                            profesor = newValue.recuperarProfesor();
+                            cmbProfesor.setValue(profesor.getNombres());
+                            newValue.setProfesor(profesor);
+                            txtContrasenia.setText("");
+                            btnRegistrar.setDisable(true);
+                            btnEliminar.setDisable(false);
+                            btnActualizar.setDisable(false);
 
-                            try {
-
-                                Profesor profesor = new Profesor();
-                                profesor = newValue.recuperarProfesor();
-                                cmbProfesor.setValue(profesor.getNombres());
-                                newValue.setProfesor(profesor);
-                                txtContrasenia.setText("");
-                                btnRegistrar.setDisable(true);
-                                btnEliminar.setDisable(false);
-                                btnActualizar.setDisable(false);
-
-
-
-                            } catch (SQLException throwables) {
-                                mostrarMensajeErrorBD();
-                            }
-
-                            MainController.save("student", practicante);
-                            enableEdit();
-                        } else {
-                            enableRegister();
+                        } catch (SQLException throwable) {
+                            mostrarMensajeErrorBD();
                         }
+
+                        MainController.save("practicante", practicante);
+                        enableEdit();
+                    } else {
+                        enableRegister();
                     }
                 }
         );
@@ -172,6 +156,7 @@ public class AdministrarPracticanteController implements Initializable {
     public void enableEdit() {
         this.btnEliminar.setDisable(false);
         this.btnActualizar.setDisable(false);
+        this.verProyecto.setDisable(false);
     }
 
     public void enableRegister() {
@@ -179,6 +164,7 @@ public class AdministrarPracticanteController implements Initializable {
         this.btnRegistrar.setDisable(false);
         this.btnEliminar.setDisable(true);
         this.btnActualizar.setDisable(true);
+        this.verProyecto.setDisable(true);
     }
 
     public void limpiarCampos() {
@@ -187,94 +173,63 @@ public class AdministrarPracticanteController implements Initializable {
         this.txtMatricula.setText(null);
         this.txtEmail.setText(null);
         this.txtContrasenia.setText(null);
-
         this.cmbProfesor.getSelectionModel().clearSelection();
-
-
     }
 
     @FXML
     public void registrarPracticante() {
         Practicante practicante = new Practicante();
-
-
-        if(this.validarCamposCompletos() && this.comprobarCamposValidos() ){
-
+        if (this.validarCamposCompletos() && this.comprobarCamposValidos()) {
             this.instanceStudent(practicante);
             try {
-                if(!practicante.estaRegistrado()){
-                    if(practicante.registrar()){
+                if (!practicante.estaRegistrado()) {
+                    if (practicante.registrar()) {
                         this.mostrarMensajeRegistroExitoso();
                         this.actualizarTabla();
                         this.limpiarCampos();
-
                     }
-                }else{
+                } else {
                     this.mostrarMensajePracticanteRegistradoPreviamente();
-
                 }
-
-
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException throwable) {
+                throwable.printStackTrace();
                 this.mostrarMensajeErrorBD();
             }
-
         }
-
-
-
     }
 
     private void instanceStudent(Practicante practicante) {
         practicante.setNombres(txtNombre.getText());
-
         practicante.setApellidos(txtApellido.getText());
         practicante.setMatricula(txtMatricula.getText());
         practicante.setEmail(txtEmail.getText());
         practicante.setContrasena(txtContrasenia.getText());
         practicante.setProfesor(this.obtenerProfesorPorNombres(cmbProfesor.getValue()));
-
-        System.out.println(practicante.getNombres());
-        System.out.println(practicante.getApellidos());
-        System.out.println(practicante.getMatricula());
-        System.out.println(practicante.getEmail());
-        System.out.println(practicante.getContrasena());
-        System.out.println(practicante.getProfesor().getEmail());
     }
 
-    private  void instanciarEstudianteSinContrasenia(Practicante practicante){
-
+    private void instanciarEstudianteSinContrasenia(Practicante practicante) {
         practicante.setNombres(txtNombre.getText());
-
         practicante.setApellidos(txtApellido.getText());
         practicante.setMatricula(txtMatricula.getText());
         practicante.setEmail(txtEmail.getText());
         practicante.setContrasenaLimpia(txtContrasenia.getText());
         practicante.setProfesor(this.obtenerProfesorPorNombres(cmbProfesor.getValue()));
-
-        System.out.println(practicante.getNombres());
-        System.out.println(practicante.getApellidos());
-        System.out.println(practicante.getMatricula());
-        System.out.println(practicante.getEmail());
-        System.out.println(practicante.getContrasena());
-        System.out.println(practicante.getProfesor().getEmail());
     }
 
     @FXML
     private void checkProject() {
         try {
-            if (practicante.getProyecto() == null) {
-                MainController.activate("AssignProject", "Asignar Proyecto", MainController.Sizes.MID);
+            Proyecto proyecto = practicante.getProyecto();
+            if (proyecto != null) {
+                MainController.save("proyecto", proyecto);
+                MainController.activate("VerProyecto", "Ver Proyecto",MainController.Sizes.LARGE);
             } else {
-                MainController.save("Project", practicante.getProyecto());
-                MainController.activate("ViewProject", "Ver Proyecto");
+                MainController.activate("AsignarProyecto", "Asignar Proyecto", MainController.Sizes.MID);
             }
-        } catch (CustomException e) {
-            e.printStackTrace();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println(throwables);
         }
+
     }
 
     public void onClickBack() {
@@ -299,192 +254,147 @@ public class AdministrarPracticanteController implements Initializable {
                             "No se pudo establecer conexión con Base de Datos"
                     );
                 }
-            } catch (AssertionError e) {
-                new Logger().log(e.getMessage());
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (AssertionError assertionError) {
+                new Logger().log(assertionError.getMessage());
+            } catch (SQLException throwable) {
+                Logger.staticLog(throwable, true);
             }
         }
     }
 
     @FXML
-    public void actualizar(){
-        Practicante practicanteAntiguo =  tblViewPracticante.getSelectionModel().getSelectedItem();
-
-        Practicante practicanteNuevo =  new Practicante();
-
+    public void actualizar() {
+        Practicante practicanteAntiguo = tblViewPracticante.getSelectionModel().getSelectedItem();
+        Practicante practicanteNuevo = new Practicante();
         try {
             if (this.txtContrasenia.getText().equals("")) {
                 this.instanciarEstudianteSinContrasenia(practicanteNuevo);
-                if (this.validarCamposCompletosSinContrasena() && this.comprobarCamposValidos()) {
-
-                    if(!sonPracticantesIguales(practicanteAntiguo, practicanteNuevo) && MainController.alert(Alert.AlertType.CONFIRMATION,"¿Desea modificar la informacion del practicante?", "")){
-                        try {
-                            if (!practicanteNuevo.estaRegistradoActualizar(practicanteAntiguo.getEmail())) {
-
-                                practicanteNuevo.actualizarSinContrasenia(practicanteAntiguo.getEmail());
-                                practicanteNuevo.actualizarProfesor();
-                                this.mostrarMensajePracticanteActualizado();
-                                this.actualizarTabla();
-                                this.limpiarCampos();
-
-                            } else {
-                                this.mostrarMensajePracticanteRegistradoPreviamente();
-                            }
-
-
-                        } catch (SQLException throwables) {
-                            this.mostrarMensajeErrorBD();
+                if (!sonPracticantesIguales(practicanteAntiguo, practicanteNuevo) &&
+                        this.validarCamposCompletosSinContrasena() &&
+                        this.comprobarCamposValidos() &&
+                        MainController.alert(Alert.AlertType.CONFIRMATION,
+                                "¿Desea modificar la informacion del practicante?",
+                                "")) {
+                    try {
+                        if (!practicanteNuevo.estaRegistradoActualizar(
+                                practicanteAntiguo.getEmail())) {
+                            practicanteNuevo.actualizarSinContrasenia(
+                                    practicanteAntiguo.getEmail());
+                            practicanteNuevo.actualizarProfesor();
+                            this.mostrarMensajePracticanteActualizado();
+                            this.actualizarTabla();
+                            this.limpiarCampos();
+                        } else {
+                            this.mostrarMensajePracticanteRegistradoPreviamente();
                         }
 
+                    } catch (SQLException throwables) {
+                        this.mostrarMensajeErrorBD();
                     }
-
-
-
                 }
-
             } else {
                 this.instanceStudent(practicanteNuevo);
-                if (this.validarCamposCompletos() && this.comprobarCamposValidos()) {
+                if (!this.sonPracticantesIguales(practicanteAntiguo, practicanteNuevo) &&
+                        this.validarCamposCompletos() &&
+                        this.comprobarCamposValidos() &&
+                        MainController.alert(Alert.AlertType.CONFIRMATION,
+                                "¿Desea modificar la informacion del practicante?",
+                                "")) {
+                    try {
+                        if (!practicanteNuevo.estaRegistradoActualizar(
+                                practicanteAntiguo.getEmail())) {
+                            practicanteNuevo.actualizarConContrasenia(
+                                    practicanteAntiguo.getEmail());
 
-                    if(!this.sonPracticantesIguales(practicanteAntiguo,practicanteNuevo) && MainController.alert(Alert.AlertType.CONFIRMATION, "¿Desea modificar la informacion del practicante?", "") ){
-
-                        try {
-                            if (!practicanteNuevo.estaRegistradoActualizar(practicanteAntiguo.getEmail())) {
-
-                                practicanteNuevo.actualizarConContrasenia(practicanteAntiguo.getEmail());
-                                practicanteNuevo.actualizarProfesor();
-                                this.mostrarMensajePracticanteActualizado();
-                                this.actualizarTabla();
-                                this.limpiarCampos();
-
-
-                            } else {
-                                this.mostrarMensajePracticanteRegistradoPreviamente();
-                            }
-                        } catch (SQLException throwables) {
-                            this.mostrarMensajeErrorBD();
+                            practicanteNuevo.actualizarProfesor();
+                            this.mostrarMensajePracticanteActualizado();
+                            this.actualizarTabla();
+                            this.limpiarCampos();
+                        } else {
+                            this.mostrarMensajePracticanteRegistradoPreviamente();
                         }
-
-
-
+                    } catch (SQLException throwable) {
+                        this.mostrarMensajeErrorBD();
                     }
-
-
                 }
-
             }
-        }catch (Exception e){
-
+        } catch (Exception exception) {
+            Logger.staticLog(exception, true);
         }
     }
 
-    private boolean validarCamposCompletos(){
-        boolean camposCompletos = false;
-
-        if(
-                !this.txtApellido.getText().isEmpty() &&
+    private boolean validarCamposCompletos() {
+        boolean camposCompletos = !this.txtApellido.getText().isEmpty() &&
                 !this.txtContrasenia.getText().isEmpty() &&
                 !this.txtEmail.getText().isEmpty() &&
                 !this.txtMatricula.getText().isEmpty() &&
                 !this.txtNombre.getText().isEmpty() &&
-                this.cmbProfesor.getValue() != null
-        ){
-            camposCompletos = true;
-        }
+                this.cmbProfesor.getValue() != null;
 
-        if(!camposCompletos){
+        if (!camposCompletos) {
             MainController.alert(
                     Alert.AlertType.INFORMATION,
                     "ERROR",
                     "Campos vacíos. Por favor, ingrese toda la información"
             );
         }
-
-        return  camposCompletos;
+        return camposCompletos;
     }
 
-    private  boolean validarCamposCompletosSinContrasena(){
-        boolean camposCompletos = false;
-
-        if(
-                !this.txtApellido.getText().isEmpty() &&
+    private boolean validarCamposCompletosSinContrasena() {
+        boolean camposCompletos = !this.txtApellido.getText().isEmpty() &&
                 !this.txtEmail.getText().isEmpty() &&
                 !this.txtMatricula.getText().isEmpty() &&
                 !this.txtNombre.getText().isEmpty() &&
-                this.cmbProfesor.getValue() != null
+                this.cmbProfesor.getValue() != null;
 
-        ){
-            camposCompletos = true;
-        }
-
-        if(!camposCompletos){
+        if (!camposCompletos) {
             MainController.alert(
                     Alert.AlertType.INFORMATION,
                     "ERROR",
                     "Campos vacíos. Por favor, ingrese toda la información"
             );
         }
-
-        return  camposCompletos;
+        return camposCompletos;
     }
 
-
-
-
-    private  boolean comprobarCamposValidos() {
+    private boolean comprobarCamposValidos() {
         boolean camposValidos = true;
-
         boolean dialogoMostrado = false;
-
         if (!Usuario.esEmail(this.txtEmail.getText())) {
             camposValidos = false;
-
-
-            if(!dialogoMostrado){
-                mostrarMensajeInformacionIncorrecta();
-                dialogoMostrado = true;
-            }
-
+            mostrarMensajeInformacionIncorrecta();
+            dialogoMostrado = true;
             this.txtEmail.setUnFocusColor(Paint.valueOf("red"));
         }
-
-        if(!Usuario.esNombre(this.txtNombre.getText())){
+        if (!Usuario.esNombre(this.txtNombre.getText())) {
             camposValidos = false;
-
-            if(!dialogoMostrado){
+            if (!dialogoMostrado) {
                 mostrarMensajeInformacionIncorrecta();
                 dialogoMostrado = true;
             }
             this.txtNombre.setUnFocusColor(Paint.valueOf("red"));
         }
-
-        if(!Usuario.esNombre(this.txtApellido.getText())){
+        if (!Usuario.esNombre(this.txtApellido.getText())) {
             camposValidos = false;
-            if(!dialogoMostrado){
+            if (!dialogoMostrado) {
                 mostrarMensajeInformacionIncorrecta();
                 dialogoMostrado = true;
             }
             this.txtApellido.setUnFocusColor(Paint.valueOf("red"));
         }
-
-        if(!this.esMatriculaValida(this.txtMatricula.getText())){
+        if (!this.esMatriculaValida(this.txtMatricula.getText())) {
             camposValidos = false;
-            if(!dialogoMostrado){
+            if (!dialogoMostrado) {
                 mostrarMensajeInformacionIncorrecta();
 
             }
             this.txtMatricula.setUnFocusColor(Paint.valueOf("red"));
-
         }
-
-
-        return  camposValidos;
-
+        return camposValidos;
     }
 
-
-    private void mostrarMensajeInformacionIncorrecta(){
+    private void mostrarMensajeInformacionIncorrecta() {
         MainController.alert(
                 Alert.AlertType.INFORMATION,
                 "InformacionIncorrecta",
@@ -492,8 +402,7 @@ public class AdministrarPracticanteController implements Initializable {
         );
     }
 
-
-    private  void mostrarMensajeErrorBD(){
+    private void mostrarMensajeErrorBD() {
         MainController.alert(
                 Alert.AlertType.INFORMATION,
                 "ErrorBD",
@@ -501,7 +410,7 @@ public class AdministrarPracticanteController implements Initializable {
         );
     }
 
-    private  void mostrarMensajeRegistroExitoso(){
+    private void mostrarMensajeRegistroExitoso() {
         MainController.alert(
                 Alert.AlertType.INFORMATION,
                 "Registro exitoso",
@@ -509,14 +418,15 @@ public class AdministrarPracticanteController implements Initializable {
         );
     }
 
-    private void mostrarMensajePracticanteRegistradoPreviamente(){
+    private void mostrarMensajePracticanteRegistradoPreviamente() {
         MainController.alert(
                 Alert.AlertType.INFORMATION,
                 "Practicante registrado previamente",
                 ""
         );
     }
-    private  void mostrarMensajePracticanteActualizado(){
+
+    private void mostrarMensajePracticanteActualizado() {
         MainController.alert(
                 Alert.AlertType.INFORMATION,
                 "Practicante actualizado exitosamente",
@@ -524,62 +434,44 @@ public class AdministrarPracticanteController implements Initializable {
         );
     }
 
-
-    private  void actualizarTabla(){
+    private void actualizarTabla() {
         listPracticante = FXCollections.observableArrayList();
         try {
             new Practicante().llenarTablaPracticantes(listPracticante);
             tblViewPracticante.setItems(listPracticante);
-        } catch (SQLException throwables) {
+        } catch (SQLException throwable) {
             mostrarMensajeErrorBD();
         }
     }
-    private boolean sonPracticantesIguales(Practicante practicanteAntiguo, Practicante practicanteNuevo){
-        boolean sonIguales = false ;
 
-        if(
-                practicanteAntiguo.getEmail().equals(practicanteNuevo.getEmail())
+    private boolean sonPracticantesIguales(Practicante practicanteAntiguo,
+                                           Practicante practicanteNuevo) {
+        boolean sonIguales = practicanteAntiguo.getEmail().equals(practicanteNuevo.getEmail())
                 && practicanteAntiguo.getNombres().equals(practicanteNuevo.getNombres())
                 && practicanteAntiguo.getApellidos().equals(practicanteNuevo.getApellidos())
                 && practicanteAntiguo.getMatricula().equals(practicanteNuevo.getMatricula())
-                && practicanteAntiguo.getProfesor().getNoPersonal().equals(practicanteNuevo.getProfesor().getNoPersonal())
-
-        ){
-            sonIguales = true;
-        }
-
-
+                && practicanteAntiguo.getProfesor().getNoPersonal().equals(
+                practicanteNuevo.getProfesor().getNoPersonal());
         return sonIguales;
     }
+
     private boolean esMatriculaValida(String matricula) {
         boolean matriculaValida = true;
-
-
         if (matricula.length() == 9) {
             if (matricula.charAt(0) != 'S' && matricula.charAt(0) != 's') {
                 matriculaValida = false;
-
             }
         } else if (matricula.length() == 10) {
             if (matricula.charAt(0) != 'Z' && matricula.charAt(0) != 'z') {
                 matriculaValida = false;
-
             } else {
                 if (matricula.charAt(1) != 'S' && matricula.charAt(1) != 's') {
                     matriculaValida = false;
-
                 }
             }
-
         } else {
-
             matriculaValida = false;
         }
-
-
         return matriculaValida;
     }
-
-
-
 }

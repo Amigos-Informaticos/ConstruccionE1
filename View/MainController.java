@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tools.Logger;
@@ -117,6 +118,11 @@ public class MainController extends Application {
 	public static File fileExplorer() {
 		MainController.stage.setTitle("Seleccione un archivo");
 		return new FileChooser().showOpenDialog(MainController.stage);
+	}
+	
+	public static File directoryExplorer() {
+		MainController.stage.setTitle("Seleccione un directorio");
+		return new DirectoryChooser().showDialog(MainController.stage);
 	}
 	
 	public static void hit(String name, String title, Sizes size) {
