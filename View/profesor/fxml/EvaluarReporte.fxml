@@ -5,24 +5,14 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="710.0" minWidth="700.0" prefHeight="710.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.practicante.controller.SubirReporteController">
+<AnchorPane minHeight="710.0" minWidth="700.0" prefHeight="710.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.profesor.controller.EvaluarReporte">
 	<children>
 		<HBox maxWidth="350.0" minHeight="60.0" prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;">
 			<children>
-				<ImageView fitHeight="42.0" fitWidth="28.0" onMouseClicked="#salir" pickOnBounds="true" preserveRatio="true">
-					<image>
-						<Image url="@/View/images/icon_back_white.png" />
-					</image>
-					<HBox.margin>
-						<Insets right="5.0" top="5.0" />
-					</HBox.margin>
-				</ImageView>
 				<Label text="Calificar Reporte" textFill="WHITE">
 					<font>
 						<Font size="27.0" />
@@ -43,13 +33,13 @@
 				<Font name="System Bold" size="17.0" />
 			</font>
 		</Label>
-		<JFXButton layoutX="542.0" layoutY="647.0" onMouseClicked="#guardar" prefHeight="31.0" prefWidth="141.0" style="-fx-background-color: #28AD56;" text="Aceptar" textFill="WHITE">
+		<JFXButton fx:id="btnCalificar" layoutX="525.0" layoutY="646.0" onAction="#onClicCalificar" prefHeight="31.0" prefWidth="141.0" style="-fx-background-color: #28AD56;" text="Calificar" textFill="WHITE">
 			<font>
 				<Font name="System Bold" size="15.0" />
 			</font>
 		</JFXButton>
-		<JFXDatePicker fx:id="fechaInicial" layoutX="80.0" layoutY="551.0" promptText="Fecha Inicial" />
-		<JFXDatePicker fx:id="fechaFinal" layoutX="80.0" layoutY="596.0" promptText="Fecha Final" />
+		<JFXDatePicker fx:id="fechaInicial" disable="true" layoutX="80.0" layoutY="551.0" promptText="Fecha Inicial" />
+		<JFXDatePicker fx:id="fechaFinal" disable="true" layoutX="80.0" layoutY="596.0" promptText="Fecha Final" />
 		<Label layoutX="65.0" layoutY="368.0" text="Resumen" textFill="#18529d">
 			<font>
 				<Font name="System Bold" size="17.0" />
@@ -65,26 +55,36 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <JFXTextArea fx:id="txtResumen1" focusColor="#28ad56" layoutX="265.0" layoutY="541.0" prefHeight="85.0" prefWidth="350.0" />
-      <Label alignment="TOP_LEFT" layoutX="63.0" layoutY="106.0" prefHeight="100.0" prefWidth="554.0" text="Label">
+      <JFXTextArea fx:id="txtRetroalimentacion" focusColor="#28ad56" layoutX="265.0" layoutY="541.0" prefHeight="85.0" prefWidth="350.0" />
+      <Label fx:id="lblActividadesPlaneadas" alignment="TOP_LEFT" layoutX="63.0" layoutY="106.0" prefHeight="100.0" prefWidth="554.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label alignment="TOP_LEFT" layoutX="63.0" layoutY="249.0" prefHeight="100.0" prefWidth="554.0" text="Label">
+      <Label fx:id="lblActividadesRealizadas" alignment="TOP_LEFT" layoutX="63.0" layoutY="249.0" prefHeight="100.0" prefWidth="554.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label alignment="TOP_LEFT" layoutX="63.0" layoutY="394.0" prefHeight="100.0" prefWidth="554.0" text="Label">
+      <Label fx:id="lblResumen" alignment="TOP_LEFT" layoutX="63.0" layoutY="394.0" prefHeight="100.0" prefWidth="554.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="367.0" layoutY="17.0" prefHeight="26.0" prefWidth="296.0" text="Tipo de reporte" textFill="#18529d">
+      <Label layoutX="367.0" layoutY="17.0" prefHeight="14.0" prefWidth="141.0" text="Tipo de reporte" textFill="#18529d">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
+      <Label fx:id="lblTipoReporte" layoutX="525.0" layoutY="17.0" prefHeight="14.0" prefWidth="141.0">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnRegresar" layoutX="359.0" layoutY="646.0" onAction="#onClicRegresar" prefHeight="31.0" prefWidth="141.0" style="-fx-background-color: #6B6E7A;" text="Regresar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXButton>
 	</children>
 </AnchorPane>

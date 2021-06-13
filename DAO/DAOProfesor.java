@@ -5,6 +5,7 @@ import IDAO.IDAOProfesor;
 import IDAO.Turno;
 import Models.Practicante;
 import Models.Profesor;
+import Models.Reporte;
 
 import java.sql.SQLException;
 
@@ -217,5 +218,15 @@ public class DAOProfesor implements IDAOProfesor, Turno {
         profesor.setNumeroPersonal(responses[4]);
         profesor.setTurno(responses[5]);
         return profesor;
+    }
+
+    public boolean calificarReporte(Reporte reporte, String retroalimentacion) throws SQLException{
+        boolean calificado = false;
+        String query = "UPDATE Reporte SET calificacion = ? WHERE idReporte = ?";
+        String[] values = {retroalimentacion, reporte.getIdReporte()};
+        if (this.connection.ejecutar(query, values)) {
+            calificado = true;
+        }
+        return calificado;
     }
 }

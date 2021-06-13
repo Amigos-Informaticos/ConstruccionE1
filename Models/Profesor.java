@@ -100,4 +100,8 @@ public class Profesor extends Usuario implements  IDAOProfesor{
 				", turno='" + turno + '\'' +
 				'}';
 	}
+
+    public boolean calificarReporte(Reporte reporte, String retroalimentacion) throws SQLException{
+		return new DAOProfesor(this).calificarReporte(reporte, retroalimentacion);
+    }
 }
