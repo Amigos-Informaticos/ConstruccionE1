@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
 <AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.coordinador.controller.AdministrarPracticanteController">
     <children>
         <SplitPane dividerPositions="0.49331103678929766" layoutY="71.0" prefHeight="380.0" prefWidth="700.0">
@@ -47,17 +57,17 @@
                                         <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Label>
-                                <JFXTextField fx:id="txtNombre" GridPane.columnIndex="1">
+                                <JFXTextField fx:id="txtNombre" onInputMethodTextChanged="#onChangeTxtNombre" onMouseClicked="#onClicTxtNombre" GridPane.columnIndex="1">
                                     <GridPane.margin>
                                         <Insets left="10.0" />
                                     </GridPane.margin>
                                 </JFXTextField>
-                                <JFXTextField fx:id="txtApellido" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <JFXTextField fx:id="txtApellido" onInputMethodTextChanged="#onChangeTxtApellido" onMouseClicked="#onClicTxtApellido" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <GridPane.margin>
                                         <Insets left="10.0" />
                                     </GridPane.margin>
                                 </JFXTextField>
-                                <JFXTextField fx:id="txtMatricula" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <JFXTextField fx:id="txtMatricula" onInputMethodTextChanged="#onChangeTxtMatricula" onMouseClicked="#onClicTxtMatricula" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                     <GridPane.margin>
                                         <Insets left="10.0" />
                                     </GridPane.margin>
@@ -67,12 +77,12 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <JFXTextField fx:id="txtEmail" onInputMethodTextChanged="#onChangeTxtEmail" onMouseClicked="#onClicTxtEmail" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtContrasenia" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <JFXTextField fx:id="txtContrasenia" onInputMethodTextChanged="#onChangeTxtContrasenia" onMouseClicked="#onClicTxtContrasenia" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
@@ -83,6 +93,7 @@
                            </font>
                         </Label>
                         <JFXComboBox fx:id="cmbProfesor" prefHeight="25.0" prefWidth="234.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <JFXTextField fx:id="txtNombre1" layoutX="10.0" layoutY="10.0" onInputMethodTextChanged="#onChangeTxtNombre" onMouseClicked="#onClicTxtNombre" />
                             </children>
                         </GridPane>
                         <HBox layoutY="305.0" prefHeight="73.0" prefWidth="341.0" spacing="15.0">
@@ -107,12 +118,9 @@
                                 <Insets left="15.0" right="15.0" />
                             </padding>
                         </HBox>
-                        <JFXButton fx:id="verProyecto" layoutX="100.0" layoutY="263.0"
-                                   onAction="#checkProject" prefHeight="27.0" prefWidth="142.0"
-                                   style="-fx-background-color: #18529D;" text="Ver Proyecto"
-                                   textFill="WHITE">
+                        <JFXButton fx:id="verProyecto" layoutX="100.0" layoutY="263.0" onAction="#checkProject" prefHeight="27.0" prefWidth="142.0" style="-fx-background-color: #18529D;" text="Ver Proyecto" textFill="WHITE">
                             <font>
-                                <Font name="System Bold" size="12.0"/>
+                                <Font name="System Bold" size="12.0" />
                             </font>
                         </JFXButton>
                     </children>

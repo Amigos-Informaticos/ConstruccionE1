@@ -38,6 +38,7 @@ public class DAOPracticante implements IDAOPracticante {
 		String[][] resultados = this.conexion.seleccionar(query, valores, nombres);
 		return resultados != null ? resultados[0][0] : "";
 	}
+
 	
 	public String getIdCorreoAntiguo(String correoAntiguo) throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.getId()";

@@ -15,7 +15,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import org.apache.commons.validator.routines.EmailValidator;
+import tools.LimitadorTextfield;
 import tools.Logger;
 
 import java.net.URL;
@@ -59,7 +63,7 @@ public class AdministrarPracticanteController implements Initializable {
 	private ObservableList<Profesor> listProfesor;
 	
 	private Practicante practicante;
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		verProyecto.setVisible(false);
@@ -99,6 +103,9 @@ public class AdministrarPracticanteController implements Initializable {
 		
 		this.llenarListaProfesores();
 		cmbProfesor.setItems(this.profesoresRecuperados);
+		reiniciarColorTxtbox();
+		this.limitarTextFields();
+
 		eventManager();
 	}
 	
@@ -189,7 +196,6 @@ public class AdministrarPracticanteController implements Initializable {
 					this.mostrarMensajePracticanteRegistradoPreviamente();
 				}
 			} catch (SQLException throwable) {
-				throwable.printStackTrace();
 				this.mostrarMensajeErrorBD();
 			}
 		}
@@ -356,11 +362,9 @@ public class AdministrarPracticanteController implements Initializable {
 	private boolean comprobarCamposValidos() {
 		boolean camposValidos = true;
 		boolean dialogoMostrado = false;
-		if (!Usuario.esEmail(this.txtEmail.getText())) {
+		if (!this.emailValido(this.txtEmail.getText())) {
 			camposValidos = false;
-			mostrarMensajeInformacionIncorrecta();
 			dialogoMostrado = true;
-			this.txtEmail.setUnFocusColor(Paint.valueOf("red"));
 		}
 		if (!Usuario.esNombre(this.txtNombre.getText())) {
 			camposValidos = false;
@@ -456,17 +460,92 @@ public class AdministrarPracticanteController implements Initializable {
 			if (matricula.charAt(0) != 'S' && matricula.charAt(0) != 's') {
 				matriculaValida = false;
 			}
-		} else if (matricula.length() == 10) {
-			if (matricula.charAt(0) != 'Z' && matricula.charAt(0) != 'z') {
-				matriculaValida = false;
-			} else {
-				if (matricula.charAt(1) != 'S' && matricula.charAt(1) != 's') {
-					matriculaValida = false;
-				}
-			}
-		} else {
+		} else{
 			matriculaValida = false;
 		}
+
+		if(matriculaValida){
+			matriculaValida = sonNumeros(matricula);
+		}
+
 		return matriculaValida;
+	}
+
+	private  boolean sonNumeros(String matricula){
+		boolean sonNumeros = true;
+		int index = 1;
+		while (index<matricula.length()){
+			if (!Character.isDigit(matricula.charAt(index))){
+				sonNumeros = false;
+				break;
+			}
+			index++;
+
+		}
+
+		return  sonNumeros;
+
+	}
+
+	public void onChangeTxtNombre(InputMethodEvent inputMethodEvent) {
+		reiniciarColorTxtbox();
+	}
+
+	public void onChangeTxtApellido(InputMethodEvent inputMethodEvent) {
+		reiniciarColorTxtbox();
+	}
+
+	public void onChangeTxtMatricula(InputMethodEvent inputMethodEvent) {
+		reiniciarColorTxtbox();
+	}
+
+	public void onChangeTxtEmail(InputMethodEvent inputMethodEvent) {
+		reiniciarColorTxtbox();
+	}
+
+	public void onChangeTxtContrasenia(InputMethodEvent inputMethodEvent) {
+		reiniciarColorTxtbox();
+	}
+
+	private void reiniciarColorTxtbox(){
+		this.txtMatricula.setUnFocusColor(Paint.valueOf("blue"));
+		this.txtContrasenia.setUnFocusColor(Paint.valueOf("blue"));
+		this.txtEmail.setUnFocusColor(Paint.valueOf("blue"));
+		this.txtApellido.setUnFocusColor(Paint.valueOf("blue"));
+		this.txtNombre.setUnFocusColor(Paint.valueOf("blue"));
+	}
+
+	public void onClicTxtNombre(MouseEvent mouseEvent) {
+		reiniciarColorTxtbox();
+	}
+
+	public void onClicTxtApellido(MouseEvent mouseEvent) {
+		reiniciarColorTxtbox();
+	}
+
+	public void onClicTxtMatricula(MouseEvent mouseEvent) {
+		reiniciarColorTxtbox();
+	}
+
+	public void onClicTxtEmail(MouseEvent mouseEvent) {
+		reiniciarColorTxtbox();
+	}
+
+	public void onClicTxtContrasenia(MouseEvent mouseEvent) {
+		reiniciarColorTxtbox();
+	}
+	private boolean emailValido(String email){
+		EmailValidator validator = EmailValidator.getInstance();
+		boolean emailValido = validator.isValid(email);
+		if(!emailValido){
+			this.mostrarMensajeInformacionIncorrecta();
+			this.txtEmail.setUnFocusColor(Paint.valueOf("red"));
+		}
+		return  emailValido;
+	}
+	private void limitarTextFields(){
+		LimitadorTextfield.soloTexto(this.txtNombre);
+		LimitadorTextfield.soloTexto(this.txtApellido);
+		LimitadorTextfield.soloTexto(this.txtMatricula);
 	}
 }
