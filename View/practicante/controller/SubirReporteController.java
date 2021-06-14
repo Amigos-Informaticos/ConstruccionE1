@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
 
 import java.net.URL;
@@ -24,9 +25,22 @@ public class SubirReporteController implements Initializable {
 	public JFXDatePicker fechaInicial;
 	public JFXDatePicker fechaFinal;
 	public JFXTextArea txtResumen;
+	public Label lblProyecto;
+	private Practicante practicante;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		try {
+			this.practicante = DAOPracticante.get((Practicante) MainController.get("user"));
+			lblProyecto.setText(practicante.getProyecto().getNombre());
+		} catch (SQLException throwable) {
+			MainController.alert(
+				Alert.AlertType.ERROR,
+				"ErrorBD",
+				"No se pudo establecer conexión con la base de datos"
+			);
+			salir();
+		}
 		ObservableList<String> tiposReporte = FXCollections.observableArrayList();
 		tiposReporte.add("Reporte Parcial");
 		tiposReporte.add("Reporte Mensual");
@@ -111,9 +125,7 @@ public class SubirReporteController implements Initializable {
 				if (MainController.alert(
 					Alert.AlertType.CONFIRMATION,
 					"¿Desea registrar el reporte?", "")) {
-					Practicante practicante = DAOPracticante.get(
-						(Practicante) MainController.get("user"));
-					if (practicante.registrarReporte(
+					if (this.practicante.registrarReporte(
 						cmbTipoReporte.getValue(),
 						txtActividadesPlaneadas.getText().trim(),
 						txtActividadesRealizadas.getText().trim(),
