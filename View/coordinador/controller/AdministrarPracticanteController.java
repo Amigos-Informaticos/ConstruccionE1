@@ -2,6 +2,7 @@ package View.coordinador.controller;
 
 import Models.Practicante;
 import Models.Profesor;
+import Models.Proyecto;
 import Models.Usuario;
 import View.MainController;
 import com.jfoenix.controls.JFXButton;
@@ -66,7 +67,7 @@ public class AdministrarPracticanteController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		verProyecto.setVisible(false);
+		//verProyecto.setVisible(false);
 		listPracticante = FXCollections.observableArrayList();
 		profesoresRecuperados = FXCollections.observableArrayList();
 		try {
@@ -222,14 +223,17 @@ public class AdministrarPracticanteController implements Initializable {
 	@FXML
 	private void checkProject() {
 		try {
-			if (practicante.getProyecto() == null) {
-				MainController.activate("AsignarProyecto", "Asignar Proyecto", MainController.Sizes.MID);
+			Proyecto proyecto = practicante.getProyecto();
+			if (proyecto != null) {
+				MainController.save("proyecto", proyecto);
+				MainController.activate("VerProyecto", "Ver Proyecto",MainController.Sizes.LARGE);
 			} else {
-				MainController.save("Project", practicante.getProyecto());
-				MainController.activate("VerProyecto", "Ver Proyecto");
+				System.out.println("PROYECTO NULLO");
+				MainController.save("practicante", this.practicante);
+				MainController.activate("AsignarProyecto", "Asignar Proyecto", MainController.Sizes.MID);
 			}
-		} catch (SQLException throwable) {
-			throwable.printStackTrace();
+		} catch (SQLException throwables) {
+			System.out.println(throwables);
 		}
 	}
 	
