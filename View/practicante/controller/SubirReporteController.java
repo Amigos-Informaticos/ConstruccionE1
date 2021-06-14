@@ -46,15 +46,12 @@ public class SubirReporteController implements Initializable {
 		tiposReporte.add("Reporte Mensual");
 		cmbTipoReporte.setItems(tiposReporte);
 		cmbTipoReporte.setValue("Reporte Parcial");
-		txtActividadesPlaneadas.setOnMouseClicked(event -> {
-			txtActividadesPlaneadas.setUnFocusColor(Paint.valueOf("black"));
-		});
-		txtActividadesRealizadas.setOnMouseClicked(event -> {
-			txtActividadesRealizadas.setUnFocusColor(Paint.valueOf("black"));
-		});
-		txtResumen.setOnMouseClicked(event -> {
-			txtResumen.setUnFocusColor(Paint.valueOf("black"));
-		});
+		txtActividadesPlaneadas.setOnMouseClicked(event ->
+			txtActividadesPlaneadas.setUnFocusColor(Paint.valueOf("black")));
+		txtActividadesRealizadas.setOnMouseClicked(event ->
+			txtActividadesRealizadas.setUnFocusColor(Paint.valueOf("black")));
+		txtResumen.setOnMouseClicked(event ->
+			txtResumen.setUnFocusColor(Paint.valueOf("black")));
 	}
 	
 	public void salir() {
@@ -124,21 +121,19 @@ public class SubirReporteController implements Initializable {
 			try {
 				if (MainController.alert(
 					Alert.AlertType.CONFIRMATION,
-					"¿Desea registrar el reporte?", "")) {
-					if (this.practicante.registrarReporte(
+					"¿Desea registrar el reporte?", "") &&
+					this.practicante.registrarReporte(
 						cmbTipoReporte.getValue(),
 						txtActividadesPlaneadas.getText().trim(),
 						txtActividadesRealizadas.getText().trim(),
 						txtResumen.getText().trim(),
 						fechaInicial.getValue(),
-						fechaInicial.getValue())
-					) {
-						MainController.alert(
-							Alert.AlertType.INFORMATION,
-							"Reporte registrado",
-							"El reporte se ha registrado exitosamente");
-						this.salir();
-					}
+						fechaInicial.getValue())) {
+					MainController.alert(
+						Alert.AlertType.INFORMATION,
+						"Reporte registrado",
+						"El reporte se ha registrado exitosamente");
+					this.salir();
 				}
 			} catch (SQLException throwables) {
 				MainController.alert(
