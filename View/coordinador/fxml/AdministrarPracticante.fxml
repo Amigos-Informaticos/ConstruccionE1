@@ -57,7 +57,7 @@
                                         <Insets left="10.0" />
                                     </GridPane.margin>
                                 </JFXTextField>
-                                <JFXTextField fx:id="txtMatricula" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <JFXTextField fx:id="txtMatricula" onInputMethodTextChanged="#onChangeTxtMatricula" onMouseClicked="#onClicTxtMatricula" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                     <GridPane.margin>
                                         <Insets left="10.0" />
                                     </GridPane.margin>
@@ -67,12 +67,12 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <JFXTextField fx:id="txtEmail" onInputMethodTextChanged="#onChangeTxtEmail" onMouseClicked="#onClicTxtEmail" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </JFXTextField>
-                        <JFXTextField fx:id="txtContrasenia" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <JFXTextField fx:id="txtContrasenia" onInputMethodTextChanged="#onChangeTxtContrasenia" onMouseClicked="#onClicTxtContrasenia" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
@@ -83,6 +83,7 @@
                            </font>
                         </Label>
                         <JFXComboBox fx:id="cmbProfesor" prefHeight="25.0" prefWidth="234.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <JFXTextField fx:id="txtNombre1" layoutX="10.0" layoutY="10.0" onInputMethodTextChanged="#onChangeTxtNombre" onMouseClicked="#onClicTxtNombre" />
                             </children>
                         </GridPane>
                         <HBox layoutY="305.0" prefHeight="73.0" prefWidth="341.0" spacing="15.0">
