@@ -15,7 +15,7 @@
    <children>
       <HBox prefHeight="73.0" prefWidth="350.0" style="-fx-background-color: #18529D;">
          <children>
-            <ImageView fitHeight="40.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="40.0" fitWidth="34.0" onMouseClicked="#exit" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@/View/images/icon_back_white.png" />
                </image>

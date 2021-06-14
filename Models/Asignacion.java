@@ -1,7 +1,6 @@
 package Models;
 
 import DAO.DAOAsignacion;
-import tools.File;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
