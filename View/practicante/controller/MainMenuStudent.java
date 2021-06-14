@@ -69,26 +69,34 @@ public class MainMenuStudent implements Initializable {
 	
 	public void seleccionarProyecto() {
 		try {
-			if (Proyecto.contarProyectos() > 0) {
-				Proyecto[] proyectosSeleccionados = practicante.getSeleccion();
-				if (proyectosSeleccionados == null || proyectosSeleccionados.length < 3) {
-					MainController.activate(
-						"SeleccionarProyecto",
-						"Solicitar Proyecto",
-						MainController.Sizes.MID
-					);
+			if (practicante.getProyecto() == null) {
+				if (Proyecto.contarProyectos() > 0) {
+					Proyecto[] proyectosSeleccionados = practicante.getSeleccion();
+					if (proyectosSeleccionados == null || proyectosSeleccionados.length < 3) {
+						MainController.activate(
+							"SeleccionarProyecto",
+							"Solicitar Proyecto",
+							MainController.Sizes.MID
+						);
+					} else {
+						MainController.alert(
+							Alert.AlertType.WARNING,
+							"Limite de proyectos seleccionados",
+							"Ya ha llegado a su límite de 3 proyectos"
+						);
+					}
 				} else {
 					MainController.alert(
-						Alert.AlertType.WARNING,
-						"Limite de proyectos seleccionados",
-						"Ya ha llegado a su límite de 3 proyectos"
+						Alert.AlertType.INFORMATION,
+						"Sin proyectos",
+						"No hay proyectos registrados"
 					);
 				}
 			} else {
 				MainController.alert(
 					Alert.AlertType.INFORMATION,
-					"Sin proyectos",
-					"No hay proyectos registrados"
+					"Proyecto asignado",
+					"Ya fue asignado a un proyecto"
 				);
 			}
 		} catch (SQLException throwable) {
