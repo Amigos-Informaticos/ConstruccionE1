@@ -114,7 +114,7 @@ public class DAOProyecto implements IDAOProyecto {
 			query = "SELECT * FROM Proyecto WHERE nombre = ?";
 			String[] results = {"idProyecto", "nombre", "descripcion", "metodologia",
 				"objetivoGeneral", "objetivoMediato", "objetivoInmediato", "recursos",
-				"responsabilidades", "area", "responsable", "idPeriodo", "idOrganizacion"};
+				"responsabilidades", "area", "responsable", "idPeriodo", "idOrganizacion","fechaInicio", "fechaFin"};
 			selection = this.conexion.seleccionar(query, values, results);
 			if (selection != null) {
 				String[] projectReturned = this.conexion.seleccionar(query, values, results)[0];
@@ -132,6 +132,8 @@ public class DAOProyecto implements IDAOProyecto {
 				proyecto.setResponsable(DAOResponsableProyecto.get(projectReturned[10]));
 				proyecto.setPeriodo(getPeriodById(projectReturned[11]));
 				proyecto.setOrganization(DAOOrganizacion.getNameById(projectReturned[12]));
+				proyecto.setFechaInicio(projectReturned[13]);
+				proyecto.setFechaFin(projectReturned[14]);
 			}
 		}
 		return proyecto;

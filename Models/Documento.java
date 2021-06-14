@@ -1,80 +1,128 @@
 package Models;
 
 import DAO.DAODocumento;
+import DAO.DAOPracticante;
 import tools.File;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 public class Documento {
-	private String title;
-	private String type;
-	private File file;
-	private Usuario author;
+    private String id;
+    private String nombre;
+    private String type;
+    private String ruta;
+    private File file;
+    private Usuario author;
+
+    public Documento() {
+    }
+
+    public Documento(String nombre, String type, File file, Usuario author) {
+        this.nombre = nombre;
+        this.type = type;
+        this.file = file;
+        this.author = author;
+    }
+
+    public Documento(String nombre, String ruta, String type, String id) {
+        this.nombre = nombre;
+        this.ruta = ruta;
+        this.type = obtenerNombreTipo(type);
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getRuta() {
+        return ruta;
+    }
+
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    public void setAuthor(Usuario author) {
+        this.author = author;
+    }
+
+    public Usuario getAutor() {
+        return author;
+    }
+
+    private String obtenerNombreTipo(String type) {
+        String tipo;
+        switch (type) {
+            case "0":
+                tipo = "Asignacion";
+                break;
+            case "1":
+                tipo = "Reporte";
+                break;
+            default:
+                tipo = "";
+        }
+        return tipo;
+    }
+
+    public boolean estaCompleto() {
+        return this.nombre != null &&
+                this.type != null;
+    }
+
+    public boolean guardar(int idProyecto) throws SQLException, FileNotFoundException {
+        return new DAODocumento(this).save(
+                new DAOPracticante((Practicante) this.author).getId(),
+                idProyecto);
+    }
+
+    public boolean saveLocally() throws IOException {
+        return new DAODocumento(this).saveLocally();
+    }
+
+    public boolean downloadFile() throws SQLException {
+        return new DAODocumento(this).downloadFile();
+    }
 	
-	public Documento() {
-	}
-	
-	public Documento(String title, String type, File file, Usuario author) {
-		this.title = title;
-		this.type = type;
-		this.file = file;
-		this.author = author;
-	}
-	
-	public String getTitle() {
-		return title;
-	}
-	
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	
-	public String getType() {
-		return type;
-	}
-	
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-	public void setFile(File file) {
-		this.file = file;
-	}
-	
-	public File getFile() {
-		return file;
-	}
-	
-	public Usuario getAuthor() {
-		return author;
-	}
-	
-	public void setAuthor(Usuario author) {
-		this.author = author;
-	}
-	
-	public boolean isComplete() {
-		return this.title != null &&
-			this.type != null;
-	}
-	
-	public boolean save() throws SQLException {
-		return new DAODocumento(this).save(this.author.getEmail());
-	}
-	
-	public boolean saveLocally() {
-		return new DAODocumento(this).saveLocally();
-	}
-	
-	public boolean downloadFile() throws SQLException {
-		return new DAODocumento(this).downloadFile();
-	}
-	
-	/*public boolean generateAssignmentDocument(Assignment assignment) throws FileNotFoundException {
-		assert assignment != null : "Assignment is null: Document.generateAssignmentDocument()";
-		assert assignment.isComplete() :
+	/*public boolean generateAssignmentDocument(Asignacion asignacion) throws FileNotFoundException {
+		assert asignacion != null : "Assignment is null: Document.generateAssignmentDocument()";
+		assert asignacion.estaCompleto() :
 			"Assignment is incomplete: Document.generateAssignmentDocument()";
-		assert this.isComplete() : "Document is incomplete: Document.generateAssignmentDocument()";
+		assert this.estaCompleto() : "Document is incomplete: Document.generateAssignmentDocument()";
 		assert this.file.getPath() != null :
 			"File path is null: Document.generateAssignmentDocument()";
 		PdfWriter pdfWriter = new PdfWriter(file.getStringPath());
@@ -85,10 +133,10 @@ public class Documento {
 		date[1] = LocalDate.now().getMonth().getDisplayName(
 			TextStyle.FULL, new Locale("es", "ES"));
 		date[2] = String.valueOf(LocalDate.now().getYear());
-		String fullName = assignment.getStudent().getNames() + " " +
-			assignment.getStudent().getLastnames();
-		String regNumber = assignment.getStudent().getRegNumber();
-		String proyectName = assignment.getProject().getName();
+		String fullName = asignacion.getPracticante().getNombres() + " " +
+			asignacion.getPracticante().getApellidos();
+		String regNumber = asignacion.getPracticante().getMatricula();
+		String proyectName = asignacion.getProyecto().getNombre();
 		document.add(
 			new Paragraph(
 				"Xalapa Enríquez, Veracruz, a " + date[0] + " de " + date[1] + " de " + date[2]
@@ -152,4 +200,16 @@ public class Documento {
 		document.close();
 		return true;
 	}*/
+
+    @Override
+    public String toString() {
+        return "Documento{" +
+                "id='" + id + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", type='" + type + '\'' +
+                ", ruta='" + ruta + '\'' +
+                ", file=" + file +
+                ", author=" + author +
+                '}';
+    }
 }

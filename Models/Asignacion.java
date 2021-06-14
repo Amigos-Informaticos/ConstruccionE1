@@ -1,7 +1,6 @@
 package Models;
 
 import DAO.DAOAsignacion;
-import tools.File;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
@@ -25,7 +24,7 @@ public class Asignacion {
 		return practicante;
 	}
 	
-	public void setStudent(Practicante practicante) {
+	public void setPracticante(Practicante practicante) {
 		this.practicante = practicante;
 	}
 	
@@ -33,7 +32,7 @@ public class Asignacion {
 		return proyecto;
 	}
 	
-	public void setProject(Proyecto proyecto) {
+	public void setProyecto(Proyecto proyecto) {
 		this.proyecto = proyecto;
 	}
 	
@@ -49,30 +48,24 @@ public class Asignacion {
 		return profesor;
 	}
 	
-	public void setProfessor(Profesor profesor) {
+	public void setProfesor(Profesor profesor) {
 		this.profesor = profesor;
 	}
 	
-	public Coordinador getCoordinator() {
+	public Coordinador getCoordinador() {
 		return coordinador;
 	}
 	
-	public void setCoordinator(Coordinador coordinador) {
+	public void setCoordinador(Coordinador coordinador) {
 		this.coordinador = coordinador;
 	}
-	
+
 	public boolean assignProject() throws FileNotFoundException, SQLException {
-		Documento documento = new Documento();
-		documento.setTitle("Documento de asignacion");
-		documento.setAuthor(this.coordinador);
-		documento.setFile(new File("asignacion.pdf"));
-		documento.setType("DocumentoAsignacion");
-		//boolean generated = document.generateAssignmentDocument(this);
-		boolean generated = true;
-		documento.save();
-		boolean assigned = new DAOAsignacion(this).asignarProyecto(documento);
-		return assigned && generated;
+		boolean asignado = new DAOAsignacion(this).asignarProyecto();
+		return asignado;
 	}
+
+
 	
 	public boolean estaCompleto() {
 		return this.practicante != null &&

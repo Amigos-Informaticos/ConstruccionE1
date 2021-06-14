@@ -3,12 +3,13 @@ package DAO;
 import Connection.ConexionBD;
 import Connection.ConexionFTP;
 import IDAO.IDAOPracticante;
-import Models.Practicante;
-import Models.Proyecto;
+import Models.*;
 import javafx.collections.ObservableList;
 import tools.File;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Arrays;
 
 public class DAOPracticante implements IDAOPracticante {
 	private Practicante practicante;
@@ -446,10 +447,8 @@ public class DAOPracticante implements IDAOPracticante {
 		String[] responses = {"TOTAL"};
 		String[][] students = this.conexion.seleccionar(query, valores, responses);
 		if (students != null && students[0][0].equals("1")) {
-			query = "SELECT Proyecto.nombre FROM Proyecto INNER JOIN Asignacion " +
-				"ON Proyecto.idProyecto = Asignacion.idProyecto " +
-				"WHERE Asignacion.idPracticante = ?;";
-			responses = new String[] {"Proyecto.nombre"};
+			query = "CALL SPS_obtenerProyectoAsignado (?);";
+			responses = new String[] {"nombre"};
 			String[][] resultados = this.conexion.seleccionar(query, valores, responses);
 			proyecto = resultados != null ? new DAOProyecto().cargarProyecto(resultados[0][0]) : null;
 		}
@@ -470,8 +469,7 @@ public class DAOPracticante implements IDAOPracticante {
 		return reactivated;
 	}
 	
-	public boolean llenarTablaPracticantes(ObservableList<Practicante> listPracticante) throws NullPointerException, SQLException {
-		boolean filled = false;
+	public void llenarTablaPracticantes(ObservableList<Practicante> listPracticante) throws NullPointerException, SQLException {
 		String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
 			"FROM MiembroFEI INNER JOIN Practicante " +
 			"ON MiembroFEI.idMiembro = Practicante.idMiembro " +
@@ -489,33 +487,121 @@ public class DAOPracticante implements IDAOPracticante {
 					select[row][4]
 				)
 			);
-			filled = true;
 			row++;
+		}
+	}
+
+	public boolean llenarTablaPracticantes(ObservableList<Practicante> listPracticante, String correoProfesor) throws NullPointerException, SQLException {
+		boolean filled = false;
+		if(correoProfesor != null) {
+			String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
+					"FROM MiembroFEI INNER JOIN Practicante " +
+					"ON MiembroFEI.idMiembro = Practicante.idMiembro WHERE estaActivo = 1 AND profesorCalificador = " +
+					"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
+			String[] nombres = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
+			String[] valores = {correoProfesor};
+			String[][] select = this.conexion.seleccionar(query, valores, nombres);
+			int row = 0;
+			while (row < select.length) {
+				listPracticante.add(
+						new Practicante(
+								select[row][0],
+								select[row][1],
+								select[row][2],
+								select[row][3],
+								select[row][4]
+						)
+				);
+				if (!filled) {
+					filled = true;
+				}
+				row++;
+			}
 		}
 		return filled;
 	}
-	
+
 	public boolean guardarDocumento(File documento) throws SQLException {
 		assert documento != null : "Documento es nulo: DAOPracticante.guardarDocumento()";
 		assert this.practicante.estaCompleto() :
 			"Practicante incompleto: DAOPracticante.guardarDocumento()";
 		
-		boolean guardado = false;
 		String rutaRemota = this.practicante.getMatricula() + documento.getName();
 		ConexionFTP ftp = new ConexionFTP();
-		if (ftp.enviarArchivo(documento.getStringPath(), rutaRemota)) {
-			String query = "INSERT INTO Documento (propietario, ruta, nombre, idProyecto)" +
-				"VALUES (?, ?, ?, " +
-				"(SELECT nombre FROM Proyecto WHERE Proyecto.nombre = ?))";
-			String[] valores = {
-				this.getId(),
-				rutaRemota,
-				documento.getNameNoExt(),
-				this.getProyecto().getNombre()
-			};
-			guardado = this.conexion.ejecutar(query, valores);
-		}
-		return guardado;
+		String query = "CALL SPI_registrarDocumento(?, ?, ?)";
+		String[] valores = {this.getId(), rutaRemota, documento.getNameNoExt()};
+		return ftp.enviarArchivo(documento.getStringPath(), rutaRemota) &&
+			this.conexion.ejecutar(query, valores);
 	}
 	
+	public boolean registrarReporte(String tipoReporte, String planeadas, String realizadas,
+	                                String resumen, LocalDate inicial, LocalDate fechaFinal)
+		throws SQLException {
+		
+		String query = "CALL SPI_registrarReporteDocumento(?,?,?,?,?,?,?,?,?)";
+		String[] valores = new String[] {
+			this.getId(),
+			tipoReporte,
+			"Reporte " + tipoReporte + this.practicante.getMatricula(),
+			"",
+			planeadas,
+			realizadas,
+			resumen,
+			String.valueOf(inicial),
+			String.valueOf(fechaFinal)
+		};
+		return this.conexion.ejecutar(query, valores);
+	}
+
+	public boolean llenarTablaDocumentos(ObservableList<Documento> listaDocumentos) throws SQLException{
+		boolean filled = false;
+		String query = "SELECT nombre, ruta, tipo, id FROM Documento WHERE propietario = (SELECT idMiembro FROM MiembroFEI " +
+				"WHERE correoElectronico = ?)";
+		String[] nombres = {"nombre", "ruta", "tipo", "id"};
+		String[] valores = {this.practicante.getEmail()};
+		String[][] select = this.conexion.seleccionar(query, valores, nombres);
+		int row = 0;
+		while (row < select.length) {
+			listaDocumentos.add(
+					new Documento(
+							select[row][0],
+							select[row][1],
+							select[row][2],
+							select[row][3]
+					)
+			);
+			if (!filled) {
+				filled = true;
+			}
+			row++;
+		}
+		System.out.println(Arrays.deepToString(select));
+		return filled;
+	}
+
+	public Reporte obtenerReporte(String idDocumento) throws SQLException{
+		String query = "SELECT actividadesPlaneadas, actividadesRealizadas, resumen, tipoReporte, fechaInicial, fechaFinal," +
+				" idReporte, calificacion FROM Reporte WHERE IdDocumento = ?";
+		String[] nombres = {
+				"actividadesPlaneadas",
+				"actividadesRealizadas",
+				"resumen",
+				"tipoReporte",
+				"fechaInicial",
+				"fechaFinal",
+				"idReporte",
+				"calificacion"};
+		String[] values = {idDocumento};
+		String[][] select = this.conexion.seleccionar(query, values, nombres);
+		Reporte reporte = new Reporte();
+		reporte.setActividadesPlaneadas(select[0][0]);
+		reporte.setActividadesRealizadas(select[0][1]);
+		reporte.setResumen(select[0][2]);
+		reporte.setTipoReporte(select[0][3]);
+		reporte.setFechaInicio(LocalDate.parse(select[0][4]));
+		reporte.setFechaFin(LocalDate.parse(select[0][5]));
+		reporte.setIdReporte(select[0][6]);
+		reporte.setCalificacion(select[0][7]);
+		return reporte;
+	}
 }

@@ -1,18 +1,10 @@
 package Tests;
 
-import Models.ActividadCalendarizada;
-import Models.Asignacion;
-import Models.Coordinador;
-import Models.Organizacion;
-import Models.Practicante;
-import Models.Profesor;
-import Models.Proyecto;
-import Models.ResponsableProyecto;
+import Models.*;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -131,7 +123,7 @@ public class CUC {
 	}
 
 	 */
-	
+	/*
 	@Test
 	public void dAssignProject() throws FileNotFoundException, SQLException {
 		Asignacion asignacion = null;
@@ -142,6 +134,8 @@ public class CUC {
 		}
 		assertTrue(asignacion.assignProject());
 	}
+
+	 */
 	
 	@Test
 	public void eRemoveProject() {
