@@ -18,7 +18,7 @@ public class DAODocumento {
 		this.documento = documento;
 	}
 	
-	public boolean save(String autorId, int idProyecto) throws SQLException {
+	public boolean save(String autorId) {
 		assert this.documento != null : "Document is null: DAODocument.save()";
 		assert this.documento.estaCompleto() : "Document is incomplete: DAODocument.save()";
 		assert this.documento.getFile().exists() : "File doesnt exists: DAODocument.save()";
