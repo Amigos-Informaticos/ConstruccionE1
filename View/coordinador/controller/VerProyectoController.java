@@ -24,7 +24,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class VerProyectoController implements Initializable {
-
+	
 	@FXML
 	private Label lbOrganizacion;
 	@FXML
@@ -67,7 +67,6 @@ public class VerProyectoController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
 		ObservableList<String> listaAreas = FXCollections.observableArrayList();
 		try {
 			Proyecto.fillAreaTable(listaAreas);
@@ -88,13 +87,12 @@ public class VerProyectoController implements Initializable {
 	
 	public void limitarTextfields() {
 		LimitadorTextfield.soloTexto(txtNombre);
-
+		
 		LimitadorTextfield.soloTexto(txtObjetivoGeneral);
 		LimitadorTextfield.soloTexto(txtObjetivoMediato);
 		LimitadorTextfield.soloTexto(txtObjetivoInmediato);
 		LimitadorTextfield.soloTexto(txtMetodologia);
-
-
+		
 		LimitadorTextfield.soloTexto(txtPosicionResponsable);
 		LimitadorTextfield.soloTexto(txtNombreResponsable);
 		LimitadorTextfield.soloTexto(txtApellidosResponsable);
