@@ -31,7 +31,7 @@ public class ExpedienteController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btnCalificar.setDisable(true);
-        listaDocumentos = FXCollections.observableArrayList();
+        listaDocumentos = FXCollections.observableArrayList(); 
         Practicante practicante;
         try {
             practicante = (Practicante) MainController.get("practicante");
@@ -42,7 +42,7 @@ public class ExpedienteController implements Initializable {
         }catch (NullPointerException nullPointerException){
             MainController.alert(
                     Alert.AlertType.INFORMATION,
-                    "No hay profesores registrados",
+                    "El practicante seleccionado no cuenta con documentos",
                     "Pulse aceptar para continuar"
             );
         } catch (SQLException sqlException) {
