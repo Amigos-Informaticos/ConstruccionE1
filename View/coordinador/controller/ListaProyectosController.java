@@ -35,7 +35,7 @@ public class ListaProyectosController implements Initializable {
 	
 	public void selectProject() {
 		Proyecto proyecto = tblProject.getSelectionModel().getSelectedItem();
-		MainController.save("project", proyecto);
+		MainController.save("proyecto", proyecto);
 		MainController.activate("VerProyecto", "Ver Proyecto", MainController.Sizes.LARGE);
 	}
 	
