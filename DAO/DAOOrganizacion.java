@@ -95,6 +95,7 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 			query = "UPDATE Proyecto SET estaActivo = 0 WHERE idOrganizacion = ?";
 			valores = new String[] {this.getId()};
 			eliminado = this.conexion.ejecutar(query, valores);
+			eliminado = true;
 		}
 		return eliminado;
 	}
