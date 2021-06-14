@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
 
 import java.net.URL;
@@ -24,23 +25,33 @@ public class SubirReporteController implements Initializable {
 	public JFXDatePicker fechaInicial;
 	public JFXDatePicker fechaFinal;
 	public JFXTextArea txtResumen;
+	public Label lblProyecto;
+	private Practicante practicante;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		try {
+			this.practicante = DAOPracticante.get((Practicante) MainController.get("user"));
+			lblProyecto.setText(practicante.getProyecto().getNombre());
+		} catch (SQLException throwable) {
+			MainController.alert(
+				Alert.AlertType.ERROR,
+				"ErrorBD",
+				"No se pudo establecer conexión con la base de datos"
+			);
+			salir();
+		}
 		ObservableList<String> tiposReporte = FXCollections.observableArrayList();
 		tiposReporte.add("Reporte Parcial");
 		tiposReporte.add("Reporte Mensual");
 		cmbTipoReporte.setItems(tiposReporte);
 		cmbTipoReporte.setValue("Reporte Parcial");
-		txtActividadesPlaneadas.setOnMouseClicked(event -> {
-			txtActividadesPlaneadas.setUnFocusColor(Paint.valueOf("black"));
-		});
-		txtActividadesRealizadas.setOnMouseClicked(event -> {
-			txtActividadesRealizadas.setUnFocusColor(Paint.valueOf("black"));
-		});
-		txtResumen.setOnMouseClicked(event -> {
-			txtResumen.setUnFocusColor(Paint.valueOf("black"));
-		});
+		txtActividadesPlaneadas.setOnMouseClicked(event ->
+			txtActividadesPlaneadas.setUnFocusColor(Paint.valueOf("black")));
+		txtActividadesRealizadas.setOnMouseClicked(event ->
+			txtActividadesRealizadas.setUnFocusColor(Paint.valueOf("black")));
+		txtResumen.setOnMouseClicked(event ->
+			txtResumen.setUnFocusColor(Paint.valueOf("black")));
 	}
 	
 	public void salir() {
@@ -110,23 +121,19 @@ public class SubirReporteController implements Initializable {
 			try {
 				if (MainController.alert(
 					Alert.AlertType.CONFIRMATION,
-					"¿Desea registrar el reporte?", "")) {
-					Practicante practicante = DAOPracticante.get(
-						(Practicante) MainController.get("user"));
-					if (practicante.registrarReporte(
+					"¿Desea registrar el reporte?", "") &&
+					this.practicante.registrarReporte(
 						cmbTipoReporte.getValue(),
 						txtActividadesPlaneadas.getText().trim(),
 						txtActividadesRealizadas.getText().trim(),
 						txtResumen.getText().trim(),
 						fechaInicial.getValue(),
-						fechaInicial.getValue())
-					) {
-						MainController.alert(
-							Alert.AlertType.INFORMATION,
-							"Reporte registrado",
-							"El reporte se ha registrado exitosamente");
-						this.salir();
-					}
+						fechaInicial.getValue())) {
+					MainController.alert(
+						Alert.AlertType.INFORMATION,
+						"Reporte registrado",
+						"El reporte se ha registrado exitosamente");
+					this.salir();
 				}
 			} catch (SQLException throwables) {
 				MainController.alert(

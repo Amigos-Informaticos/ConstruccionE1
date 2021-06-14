@@ -54,7 +54,7 @@ public class SeleccionarProyectoController implements Initializable {
 		try {
 			Practicante practicante = DAOPracticante.get((Practicante) MainController.get("user"));
 			proyectosSeleccionados = practicante.getSeleccion();
-		} catch (SQLException throwables) {
+		} catch (SQLException throwable) {
 			MainController.alert(
 				Alert.AlertType.ERROR,
 				"ErrorBD",

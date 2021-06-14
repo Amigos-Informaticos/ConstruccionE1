@@ -64,10 +64,9 @@ public class AdministrarPracticanteController implements Initializable {
 	private ObservableList<Profesor> listProfesor;
 	
 	private Practicante practicante;
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//verProyecto.setVisible(false);
 		listPracticante = FXCollections.observableArrayList();
 		profesoresRecuperados = FXCollections.observableArrayList();
 		try {
@@ -79,9 +78,9 @@ public class AdministrarPracticanteController implements Initializable {
 		}
 		
 		tblViewPracticante.setItems(listPracticante);
-		clmnNombre.setCellValueFactory(new PropertyValueFactory<Practicante, String>("nombres"));
-		clmnApellido.setCellValueFactory(new PropertyValueFactory<Practicante, String>("apellidos"));
-		clmnMatricula.setCellValueFactory(new PropertyValueFactory<Practicante, String>("matricula"));
+		clmnNombre.setCellValueFactory(new PropertyValueFactory<>("nombres"));
+		clmnApellido.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
+		clmnMatricula.setCellValueFactory(new PropertyValueFactory<>("matricula"));
 		
 		listProfesor = FXCollections.observableArrayList();
 		try {
@@ -106,7 +105,6 @@ public class AdministrarPracticanteController implements Initializable {
 		cmbProfesor.setItems(this.profesoresRecuperados);
 		reiniciarColorTxtbox();
 		this.limitarTextFields();
-
 		eventManager();
 	}
 	
@@ -138,8 +136,7 @@ public class AdministrarPracticanteController implements Initializable {
 					txtMatricula.setText(newValue.getMatricula());
 					practicante = tblViewPracticante.getSelectionModel().getSelectedItem();
 					try {
-						Profesor profesor = new Profesor();
-						profesor = newValue.recuperarProfesor();
+						Profesor profesor = newValue.recuperarProfesor();
 						cmbProfesor.setValue(profesor.getNombres());
 						newValue.setProfesor(profesor);
 						txtContrasenia.setText("");
@@ -226,14 +223,18 @@ public class AdministrarPracticanteController implements Initializable {
 			Proyecto proyecto = practicante.getProyecto();
 			if (proyecto != null) {
 				MainController.save("proyecto", proyecto);
-				MainController.activate("VerProyecto", "Ver Proyecto",MainController.Sizes.LARGE);
+				MainController.activate("VerProyecto", "Ver Proyecto", MainController.Sizes.LARGE);
 			} else {
 				System.out.println("PROYECTO NULLO");
 				MainController.save("practicante", this.practicante);
 				MainController.activate("AsignarProyecto", "Asignar Proyecto", MainController.Sizes.MID);
 			}
-		} catch (SQLException throwables) {
-			System.out.println(throwables);
+		} catch (SQLException throwable) {
+			MainController.alert(
+				Alert.AlertType.INFORMATION,
+				"DBError",
+				"No se pudo establecer conexión con Base de Datos"
+			);
 		}
 	}
 	
@@ -449,13 +450,12 @@ public class AdministrarPracticanteController implements Initializable {
 	
 	private boolean sonPracticantesIguales(Practicante practicanteAntiguo,
 	                                       Practicante practicanteNuevo) {
-		boolean sonIguales = practicanteAntiguo.getEmail().equals(practicanteNuevo.getEmail())
+		return practicanteAntiguo.getEmail().equals(practicanteNuevo.getEmail())
 			&& practicanteAntiguo.getNombres().equals(practicanteNuevo.getNombres())
 			&& practicanteAntiguo.getApellidos().equals(practicanteNuevo.getApellidos())
 			&& practicanteAntiguo.getMatricula().equals(practicanteNuevo.getMatricula())
 			&& practicanteAntiguo.getProfesor().getNoPersonal().equals(
 			practicanteNuevo.getProfesor().getNoPersonal());
-		return sonIguales;
 	}
 	
 	private boolean esMatriculaValida(String matricula) {
@@ -464,90 +464,92 @@ public class AdministrarPracticanteController implements Initializable {
 			if (matricula.charAt(0) != 'S' && matricula.charAt(0) != 's') {
 				matriculaValida = false;
 			}
-		} else{
+		} else {
 			matriculaValida = false;
 		}
-
-		if(matriculaValida){
+		
+		if (matriculaValida) {
 			matriculaValida = sonNumeros(matricula);
 		}
-
+		
 		return matriculaValida;
 	}
-
-	private  boolean sonNumeros(String matricula){
+	
+	private boolean sonNumeros(String matricula) {
 		boolean sonNumeros = true;
 		int index = 1;
-		while (index<matricula.length()){
-			if (!Character.isDigit(matricula.charAt(index))){
+		while (index < matricula.length()) {
+			if (!Character.isDigit(matricula.charAt(index))) {
 				sonNumeros = false;
 				break;
 			}
 			index++;
-
+			
 		}
-
-		return  sonNumeros;
-
+		
+		return sonNumeros;
+		
 	}
-
+	
 	public void onChangeTxtNombre(InputMethodEvent inputMethodEvent) {
 		reiniciarColorTxtbox();
 	}
-
+	
 	public void onChangeTxtApellido(InputMethodEvent inputMethodEvent) {
 		reiniciarColorTxtbox();
 	}
-
+	
 	public void onChangeTxtMatricula(InputMethodEvent inputMethodEvent) {
 		reiniciarColorTxtbox();
 	}
-
+	
 	public void onChangeTxtEmail(InputMethodEvent inputMethodEvent) {
 		reiniciarColorTxtbox();
 	}
-
+	
 	public void onChangeTxtContrasenia(InputMethodEvent inputMethodEvent) {
 		reiniciarColorTxtbox();
 	}
-
-	private void reiniciarColorTxtbox(){
+	
+	private void reiniciarColorTxtbox() {
 		this.txtMatricula.setUnFocusColor(Paint.valueOf("blue"));
 		this.txtContrasenia.setUnFocusColor(Paint.valueOf("blue"));
 		this.txtEmail.setUnFocusColor(Paint.valueOf("blue"));
 		this.txtApellido.setUnFocusColor(Paint.valueOf("blue"));
 		this.txtNombre.setUnFocusColor(Paint.valueOf("blue"));
 	}
-
+	
 	public void onClicTxtNombre(MouseEvent mouseEvent) {
 		reiniciarColorTxtbox();
 	}
-
+	
 	public void onClicTxtApellido(MouseEvent mouseEvent) {
 		reiniciarColorTxtbox();
 	}
-
+	
 	public void onClicTxtMatricula(MouseEvent mouseEvent) {
 		reiniciarColorTxtbox();
 	}
-
+	
 	public void onClicTxtEmail(MouseEvent mouseEvent) {
 		reiniciarColorTxtbox();
 	}
-
+	
 	public void onClicTxtContrasenia(MouseEvent mouseEvent) {
 		reiniciarColorTxtbox();
 	}
-	private boolean emailValido(String email){
+	
+	private boolean emailValido(String email) {
 		EmailValidator validator = EmailValidator.getInstance();
 		boolean emailValido = validator.isValid(email);
-		if(!emailValido){
+		if (!emailValido) {
 			this.mostrarMensajeInformacionIncorrecta();
 			this.txtEmail.setUnFocusColor(Paint.valueOf("red"));
 		}
-		return  emailValido;
+		return emailValido;
 	}
-	private void limitarTextFields(){
+	
+	private void limitarTextFields() {
 		LimitadorTextfield.soloTexto(this.txtNombre);
 		LimitadorTextfield.soloTexto(this.txtApellido);
 		LimitadorTextfield.soloTexto(this.txtMatricula);
