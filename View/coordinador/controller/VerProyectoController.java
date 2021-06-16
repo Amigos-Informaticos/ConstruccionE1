@@ -165,7 +165,15 @@ public class VerProyectoController implements Initializable {
 	}
 	
 	public void salir() {
-		MainController.activate("ListaProyectos", "Lista de Proyectos", MainController.Sizes.MID);
+		String pantallaAnterior = (String) MainController.get("pantallaAnterior");
+
+		if (pantallaAnterior.equals("listaProyectos")){
+			MainController.activate("ListaProyectos", "Lista de Proyectos", MainController.Sizes.MID);
+		}else{
+			MainController.activate("AdministrarPracticante", "Administrar Practicante", MainController.Sizes.MID);
+		}
+
+
 	}
 	
 	public void actualizar() {

@@ -224,8 +224,8 @@ public class AdministrarPracticanteController implements Initializable {
 			if (proyecto != null) {
 				MainController.save("proyecto", proyecto);
 				MainController.activate("VerProyecto", "Ver Proyecto", MainController.Sizes.LARGE);
+				MainController.save("pantallaAnterior", "practicantes");
 			} else {
-				System.out.println("PROYECTO NULLO");
 				MainController.save("practicante", this.practicante);
 				MainController.activate("AsignarProyecto", "Asignar Proyecto", MainController.Sizes.MID);
 			}
@@ -249,18 +249,32 @@ public class AdministrarPracticanteController implements Initializable {
 			"¿Está seguro que desea eliminar al Practicante seleccionado?")) {
 			try {
 				if(tblViewPracticante.getSelectionModel().getSelectedItem() != null){
-					if (tblViewPracticante.getSelectionModel().getSelectedItem().eliminar()) {
-						listPracticante.remove(tblViewPracticante.getSelectionModel().getSelectedIndex());
-						MainController.alert(Alert.AlertType.INFORMATION,
-								"Practicante eliminado",
-								"Organización eliminada exitosamente");
-					} else {
-						MainController.alert(
-								Alert.AlertType.INFORMATION,
-								"DBError",
-								"No se pudo establecer conexión con Base de Datos"
-						);
+					if(!estaAsignado()){
+						if (tblViewPracticante.getSelectionModel().getSelectedItem().eliminar()) {
+							listPracticante.remove(tblViewPracticante.getSelectionModel().getSelectedIndex());
+							MainController.alert(Alert.AlertType.INFORMATION,
+									"Practicante eliminado",
+									"Organización eliminada exitosamente");
+						} else {
+							MainController.alert(
+									Alert.AlertType.INFORMATION,
+									"DBError",
+									"No se pudo establecer conexión con Base de Datos"
+							);
+						}
+					}else {
+						if(MainController.alert(Alert.AlertType.CONFIRMATION,
+								"Eliminar Practicante",
+								"El practicante esta asignado, " +
+										"¿Está seguro que desea eliminar al Practicante seleccionado?")){
+							tblViewPracticante.getSelectionModel().getSelectedItem().eliminar();
+							tblViewPracticante.getSelectionModel().getSelectedItem().eliminarAsignacion();
+							listPracticante.remove(tblViewPracticante.getSelectionModel().getSelectedIndex());
+
+						}
 					}
+
+
 				}else{
 					MainController.alert(Alert.AlertType.ERROR, "No ha seleccionado practicante", "Se" +
 							"leccione un practicante por favor");
@@ -272,6 +286,18 @@ public class AdministrarPracticanteController implements Initializable {
 				Logger.staticLog(throwable, true);
 			}
 		}
+	}
+
+	public boolean estaAsignado(){
+		boolean asignado = false;
+
+		try {
+			 asignado = tblViewPracticante.getSelectionModel().getSelectedItem().estaAsignado();
+		} catch (SQLException throwables) {
+			MainController.alert(Alert.AlertType.ERROR, "Error Bd", "Error al conectar " +
+					"con la base de datos");
+		}
+		return asignado;
 	}
 	
 	@FXML
