@@ -77,15 +77,12 @@ public class AsignarProyectoController implements Initializable {
     public void selectProject() {
         if (projectTable.isFocused()) {
             proyecto = projectTable.getSelectionModel().getSelectedItem();
-           // MainController.save("proyecto", proyecto);
         } else if (requestTable.isFocused()) {
             proyecto = requestTable.getSelectionModel().getSelectedItem();
-            //MainController.save("proyecto", proyecto);
         }
     }
 
     public void assign() throws FileNotFoundException {
-        //Proyecto proyecto = (Proyecto) MainController.get("proyecto");
         if (proyecto != null){
             Asignacion asignacion = null;
             try {
