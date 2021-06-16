@@ -39,6 +39,7 @@ public class DAOPracticante implements IDAOPracticante {
 		String[][] resultados = this.conexion.seleccionar(query, valores, nombres);
 		return resultados != null ? resultados[0][0] : "";
 	}
+
 	
 	public String getIdCorreoAntiguo(String correoAntiguo) throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.getId()";
@@ -537,10 +538,12 @@ public class DAOPracticante implements IDAOPracticante {
 	                                String resumen, LocalDate inicial, LocalDate fechaFinal)
 		throws SQLException {
 		
-		String query = "CALL SPI_registrarReporte(?, ?, ?, ?, ?, ?, ?, 1)";
+		String query = "CALL SPI_registrarReporteDocumento(?,?,?,?,?,?,?,?,?)";
 		String[] valores = new String[] {
 			this.getId(),
 			tipoReporte,
+			"Reporte " + tipoReporte + this.practicante.getMatricula(),
+			"",
 			planeadas,
 			realizadas,
 			resumen,

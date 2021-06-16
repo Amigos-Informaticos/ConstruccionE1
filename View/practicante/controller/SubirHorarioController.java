@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import tools.File;
 
 import java.net.URL;
@@ -17,6 +18,7 @@ import java.util.ResourceBundle;
 public class SubirHorarioController implements Initializable {
 	@FXML
 	public JFXButton aceptar;
+	public Label lblProyecto;
 	@FXML
 	private JFXTextField nombreArchivo;
 	
@@ -24,6 +26,18 @@ public class SubirHorarioController implements Initializable {
 	
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
+		Practicante practicante = null;
+		try {
+			practicante = DAOPracticante.get((Practicante) MainController.get("user"));
+			lblProyecto.setText(practicante.getProyecto().getNombre());
+		} catch (SQLException throwables) {
+			MainController.alert(
+				Alert.AlertType.ERROR,
+				"ErrorBD",
+				"No se pudo establecer conexión con la base de datos"
+			);
+			salir();
+		}
 		nombreArchivo.setEditable(false);
 		aceptar.setDisable(true);
 	}

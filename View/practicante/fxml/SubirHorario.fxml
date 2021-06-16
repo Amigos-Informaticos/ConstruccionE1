@@ -9,63 +9,58 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="View.practicante.controller.SubirHorarioController">
+
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.practicante.controller.SubirHorarioController">
 	<children>
-		<ImageView disable="true" fitHeight="417.0" fitWidth="389.0" layoutX="194.0" layoutY="17.0"
-		           opacity="0.08" pickOnBounds="true" preserveRatio="true">
+		<ImageView disable="true" fitHeight="417.0" fitWidth="389.0" layoutX="194.0" layoutY="17.0" opacity="0.08" pickOnBounds="true" preserveRatio="true">
 			<image>
-				<Image url="@/View/images/logo_uv.png"/>
+				<Image url="@/View/images/logo_uv.png" />
 			</image>
 		</ImageView>
 		<HBox prefHeight="60.0" prefWidth="350.0" style="-fx-background-color: #18529D;">
 			<children>
-				<ImageView fitHeight="59.0" fitWidth="28.0" onMouseClicked="#salir"
-				           pickOnBounds="true"
-				           preserveRatio="true">
+				<ImageView fitHeight="59.0" fitWidth="28.0" onMouseClicked="#salir" pickOnBounds="true" preserveRatio="true">
 					<image>
-						<Image url="@/View/images/icon_back_white.png"/>
+						<Image url="@/View/images/icon_back_white.png" />
 					</image>
 					<HBox.margin>
-						<Insets left="10.0" top="10.0"/>
+						<Insets left="10.0" top="10.0" />
 					</HBox.margin>
 				</ImageView>
 				<Label text="Subir Horario" textFill="WHITE">
 					<font>
-						<Font size="35.0"/>
+						<Font size="35.0" />
 					</font>
 					<HBox.margin>
-						<Insets left="10.0"/>
+						<Insets left="10.0" />
 					</HBox.margin>
 				</Label>
 			</children>
 		</HBox>
-		<JFXButton fx:id="aceptar" layoutX="260.0" layoutY="343.0" onMouseClicked="#guardarArchivo"
-		           prefHeight="28.0"
-		           prefWidth="181.0" style="-fx-background-color: #28AD56;" text="Aceptar"
-		           textFill="WHITE">
+		<JFXButton fx:id="aceptar" layoutX="260.0" layoutY="343.0" onMouseClicked="#guardarArchivo" prefHeight="28.0" prefWidth="181.0" style="-fx-background-color: #28AD56;" text="Aceptar" textFill="WHITE">
 			<font>
-				<Font name="System Bold" size="12.0"/>
+				<Font name="System Bold" size="12.0" />
 			</font>
 		</JFXButton>
 		<Label layoutX="219.0" layoutY="159.0" text="Seleccione un Archivo" textFill="#18529d">
 			<font>
-				<Font size="27.0"/>
+				<Font size="27.0" />
 			</font>
 		</Label>
-		<JFXButton layoutX="260.0" layoutY="215.0" onMouseClicked="#abrirExploradorArchivos"
-		           prefHeight="39.0" prefWidth="181.0" style="-fx-background-color: #18529D;"
-		           text="Seleccionar" textFill="WHITE">
+		<JFXButton layoutX="260.0" layoutY="215.0" onMouseClicked="#abrirExploradorArchivos" prefHeight="39.0" prefWidth="181.0" style="-fx-background-color: #18529D;" text="Seleccionar" textFill="WHITE">
 			<font>
-				<Font name="System Bold" size="18.0"/>
+				<Font name="System Bold" size="18.0" />
 			</font>
 		</JFXButton>
-		<JFXTextField fx:id="nombreArchivo" layoutX="237.0" layoutY="282.0" prefHeight="25.0"
-		              prefWidth="228.0" promptText="Nombre del archivo">
+		<JFXTextField fx:id="nombreArchivo" layoutX="237.0" layoutY="282.0" prefHeight="25.0" prefWidth="228.0" promptText="Nombre del archivo">
 			<font>
-				<Font name="System Italic" size="12.0"/>
+				<Font name="System Italic" size="12.0" />
 			</font>
 		</JFXTextField>
+      <Label fx:id="lblProyecto" layoutX="389.0" layoutY="15.0" prefHeight="39.0" prefWidth="280.0" text="Proyecto" textFill="#18529d">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
 	</children>
 </AnchorPane>
