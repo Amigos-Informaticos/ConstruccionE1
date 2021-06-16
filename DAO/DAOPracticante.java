@@ -3,13 +3,15 @@ package DAO;
 import Connection.ConexionBD;
 import Connection.ConexionFTP;
 import IDAO.IDAOPracticante;
-import Models.*;
+import Models.Documento;
+import Models.Practicante;
+import Models.Proyecto;
+import Models.Reporte;
 import javafx.collections.ObservableList;
 import tools.File;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Arrays;
 
 public class DAOPracticante implements IDAOPracticante {
 	private Practicante practicante;
@@ -603,4 +605,27 @@ public class DAOPracticante implements IDAOPracticante {
 		reporte.setCalificacion(select[0][7]);
 		return reporte;
 	}
+
+
+	public void eliminarAsignacion() throws SQLException {
+		String idPracticante = getId();
+		String[] valores = {String.valueOf(idPracticante)};
+		String query = "UPDATE Asignacion SET estaActivo = 0 WHERE idPracticante = ?";
+		this.conexion.ejecutar(query, valores);
+	}
+
+
+	public  boolean estaAsignado()throws SQLException{
+		boolean asignado = false;
+		String idPracticante = getId();
+		String [] columnas = {"idPracticante", "idProyecto", "estado"};
+		String[] valores = {String.valueOf(idPracticante)};
+		String query = "SELECT * FROM Asignacion WHERE idPracticante = ?";
+		String [][] resultados = this.conexion.seleccionar(query, valores, columnas);
+		if(resultados != null && resultados.length> 0){
+			asignado = true;
+		}
+		return  asignado;
+	}
+
 }
