@@ -88,7 +88,7 @@ public class DAOResponsableProyecto {
 			String[] columnas = {"nombres", "apellidos", "cargo", "organizacion"};
 			String[][] respuestas = conexion.seleccionar(query, valores, columnas);
 			if (respuestas != null) {
-				responsable.setNombre(respuestas[0][1]);
+				responsable.setNombre(respuestas[0][0]);
 				responsable.setApellido(respuestas[0][1]);
 				responsable.setPosicion(respuestas[0][2]);
 				responsable.setOrganizacion(DAOOrganizacion.obtenerPorNombre(respuestas[0][3]));
