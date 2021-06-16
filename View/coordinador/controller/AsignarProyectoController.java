@@ -39,6 +39,8 @@ public class AsignarProyectoController implements Initializable {
 
     private Practicante practicante = (Practicante) MainController.get("practicante");
 
+    private Proyecto proyecto;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<Proyecto> proyectoObservableList = FXCollections.observableArrayList();
@@ -74,48 +76,55 @@ public class AsignarProyectoController implements Initializable {
 
     public void selectProject() {
         if (projectTable.isFocused()) {
-            Proyecto proyecto = projectTable.getSelectionModel().getSelectedItem();
-            MainController.save("proyecto", proyecto);
+            proyecto = projectTable.getSelectionModel().getSelectedItem();
+           // MainController.save("proyecto", proyecto);
         } else if (requestTable.isFocused()) {
-            Proyecto proyecto = requestTable.getSelectionModel().getSelectedItem();
-            MainController.save("proyecto", proyecto);
+            proyecto = requestTable.getSelectionModel().getSelectedItem();
+            //MainController.save("proyecto", proyecto);
         }
     }
 
     public void assign() throws FileNotFoundException {
-        Proyecto proyecto = (Proyecto) MainController.get("proyecto");
-        Asignacion asignacion = null;
-        try {
-            asignacion = new Asignacion(
-                    practicante,
-                    proyecto,
-                    (Coordinador) MainController.get("user")
-            );
-        } catch (SQLException throwables) {
+        //Proyecto proyecto = (Proyecto) MainController.get("proyecto");
+        if (proyecto != null){
+            Asignacion asignacion = null;
+            try {
+                asignacion = new Asignacion(
+                        practicante,
+                        proyecto,
+                        (Coordinador) MainController.get("user")
+                );
+            } catch (SQLException throwables) {
+                MainController.alert(
+                        Alert.AlertType.ERROR,
+                        "ErrorBD",
+                        "No se pudo establecer conexión con la base de datos"
+                );
+            }
+            if (MainController.alert(Alert.AlertType.CONFIRMATION, "Confirmar Asignacion",
+                    "¿Esta seguro de que quiere asignar este proyecto practicante?")) {
+                try {
+                    if (asignacion.assignProject()) {
+                        MainController.alert(Alert.AlertType.INFORMATION,
+                                "Asignación registrada",
+                                "Asignacon realizada exitosamente");
+                        MainController.activate("AdministrarPracticante", "Practicantes", MainController.Sizes.MID);
+
+                    } else {
+                        MainController.alert(Alert.AlertType.ERROR, "ErrorBD", "No se pudo establecer conexión con la Base de Datos");
+                        exit();
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        }else{
             MainController.alert(
                     Alert.AlertType.ERROR,
-                    "ErrorBD",
-                    "No se pudo establecer conexión con la base de datos"
+                    "Proyecto no seleccionado",
+                    "Debe seleccionar un royecto de las listas para poder asignarlo"
             );
         }
-        if (MainController.alert(Alert.AlertType.CONFIRMATION, "Confirmar Asignacion",
-                "¿Esta seguro de que quiere asignar este proyecto practicante?")) {
-            try {
-                if (asignacion.assignProject()) {
-                    MainController.alert(Alert.AlertType.INFORMATION,
-                            "Asignación registrada",
-                            "Asignacon realizada exitosamente");
-                    MainController.activate("AdministrarPracticante", "Practicantes", MainController.Sizes.MID);
-
-                } else {
-                    MainController.alert(Alert.AlertType.ERROR, "ErrorBD", "No se pudo establecer conexión con la Base de Datos");
-                    exit();
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-
     }
 
     public void exit() {
