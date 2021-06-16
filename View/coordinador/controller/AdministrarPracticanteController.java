@@ -248,18 +248,24 @@ public class AdministrarPracticanteController implements Initializable {
 			"Eliminar Practicante",
 			"¿Está seguro que desea eliminar al Practicante seleccionado?")) {
 			try {
-				if (tblViewPracticante.getSelectionModel().getSelectedItem().eliminar()) {
-					listPracticante.remove(tblViewPracticante.getSelectionModel().getSelectedIndex());
-					MainController.alert(Alert.AlertType.INFORMATION,
-						"Practicante eliminado",
-						"Organización eliminada exitosamente");
-				} else {
-					MainController.alert(
-						Alert.AlertType.INFORMATION,
-						"DBError",
-						"No se pudo establecer conexión con Base de Datos"
-					);
+				if(tblViewPracticante.getSelectionModel().getSelectedItem() != null){
+					if (tblViewPracticante.getSelectionModel().getSelectedItem().eliminar()) {
+						listPracticante.remove(tblViewPracticante.getSelectionModel().getSelectedIndex());
+						MainController.alert(Alert.AlertType.INFORMATION,
+								"Practicante eliminado",
+								"Organización eliminada exitosamente");
+					} else {
+						MainController.alert(
+								Alert.AlertType.INFORMATION,
+								"DBError",
+								"No se pudo establecer conexión con Base de Datos"
+						);
+					}
+				}else{
+					MainController.alert(Alert.AlertType.ERROR, "No ha seleccionado practicante", "Se" +
+							"leccione un practicante por favor");
 				}
+
 			} catch (AssertionError assertionError) {
 				new Logger().log(assertionError.getMessage());
 			} catch (SQLException throwable) {
