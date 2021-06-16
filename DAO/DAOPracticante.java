@@ -575,7 +575,6 @@ public class DAOPracticante implements IDAOPracticante {
 			}
 			row++;
 		}
-		System.out.println(Arrays.deepToString(select));
 		return filled;
 	}
 

@@ -44,19 +44,19 @@
           <TableColumn fx:id="clmName" prefWidth="349.0" text="Proyecto" />
         </columns>
       </TableView>
-      <Label fx:id="lbName" layoutX="28.0" layoutY="116.0" text="Nombre">
+      <Label fx:id="lbName" layoutX="6.0" layoutY="118.0" prefHeight="30.0" prefWidth="317.0" text="Nombre">
          <font>
-            <Font size="20.0" />
+            <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lbRegNo" layoutX="28.0" layoutY="170.0" text="Matrícula">
+      <Label fx:id="lbRegNo" layoutX="5.0" layoutY="213.0" prefHeight="30.0" prefWidth="317.0" text="Matrícula">
          <font>
-            <Font size="20.0" />
+            <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lbEmail" layoutX="30.0" layoutY="222.0" text="Correo Electrónico">
+      <Label fx:id="lbEmail" layoutX="5.0" layoutY="305.0" prefHeight="30.0" prefWidth="317.0" text="Correo Electrónico">
          <font>
-            <Font size="20.0" />
+            <Font size="18.0" />
          </font>
       </Label>
       <JFXButton layoutX="575.0" layoutY="382.0" onMouseClicked="#assign" prefHeight="25.0" prefWidth="111.0" style="-fx-background-color: #28AD56;" text="Asignar" textFill="WHITE">
@@ -69,5 +69,20 @@
           <TableColumn fx:id="clmNameRequest" prefWidth="349.0" text="Proyectos solicitados" />
         </columns>
       </TableView>
+      <Label layoutX="6.0" layoutY="101.0" text="Nombre" textFill="#18529d">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="6.0" layoutY="195.0" text="Matrícula" textFill="#18529d">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="5.0" layoutY="290.0" text="Correo Electrónico" textFill="#18529d">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

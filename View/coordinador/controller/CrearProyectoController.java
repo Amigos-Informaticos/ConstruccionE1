@@ -72,7 +72,7 @@ public class CrearProyectoController implements Initializable {
         try {
             loadValues();
         } catch (SQLException throwables) {
-            System.out.println(throwables);
+            throwables.printStackTrace();
         }
         limitarTextfields();
     }
@@ -189,7 +189,7 @@ public class CrearProyectoController implements Initializable {
                 proyecto.setCapacidad(Integer.parseInt(txtCapacity.getText()));
             }
         } catch (NumberFormatException e) {
-            System.out.println((e.getMessage()));
+            e.printStackTrace();
         }
         proyecto.setOrganization(Organizacion.obtenerPorNombre(cmbOrganizations.getValue()));
         proyecto.setPeriodo(cmbPeriod.getValue());
