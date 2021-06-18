@@ -4,6 +4,7 @@ import Connection.ConexionBD;
 import IDAO.IDAOCoordinador;
 import IDAO.Turno;
 import Models.Coordinador;
+
 import java.sql.SQLException;
 
 public class DAOCoordinador implements IDAOCoordinador, Turno {
@@ -17,24 +18,25 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 	@Override
 	public boolean registrar() throws SQLException {
 		assert this.coordinador.estaCompleto() :
-				"Coordinador incompleto: DAOCoordinador.registrarSP()";
+			"Coordinador incompleto: DAOCoordinador.registrarSP()";
 		assert !this.estaRegistrado() : "Coordinador ya registrado: DAOCoordinador.registrarSP()";
 		assert !this.hayOtro() : "Ya hay otro coordinador: DAOCoordinador.registrarSP()";
 		boolean registrado;
 		String query =
-				"CALL SPI_registrarCoordinador(?, ?, ?, ?, ?, ?)";
+			"CALL SPI_registrarCoordinador(?, ?, ?, ?, ?, ?)";
 		String[] valores =
-				{this.coordinador.getNombres(),
-						this.coordinador.getApellidos(),
-						this.coordinador.getEmail(),
-						this.coordinador.getContrasena(),
-						this.coordinador.getNoPersonal(),
-						this.coordinador.getTurno()};
+			{this.coordinador.getNombres(),
+				this.coordinador.getApellidos(),
+				this.coordinador.getEmail(),
+				this.coordinador.getContrasena(),
+				this.coordinador.getNoPersonal(),
+				this.coordinador.getTurno()};
 		registrado = this.conexion.ejecutarSP(query, valores);
 		return registrado;
 	}
+	
 	@Override
-	public boolean actualizar() throws SQLException{
+	public boolean actualizar() throws SQLException {
 		assert coordinador != null : "Coordinador es nulo: DAOCoordinador.actualizar()";
 		assert coordinador.estaCompleto() : "Coordinador imcompleto: DAOCoordinador.actualizar()";
 		assert this.estaActivo() : "Coordinador inactivo: DAOCoordinador.actualizar()";
@@ -142,9 +144,14 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		String query =
 			"SELECT nombres, apellidos, correoElectronico, contrasena, noPersonal, fechaRegistro, " +
 				"Turno.turno FROM " +
-				"MiembroFEI INNER JOIN Coordinador ON MiembroFEI.idMiembro = Coordinador.idMiembro " +
-				"INNER JOIN Turno ON Turno.idTurno = Coordinador.turno WHERE estaActivo = 1";
-		String[] columnas = {"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal", "fechaRegistro", "turno"};
+				"MiembroFEI INNER JOIN Coordinador " +
+				"ON MiembroFEI.idMiembro = Coordinador.idMiembro " +
+				"INNER JOIN Turno " +
+				"ON Turno.idTurno = Coordinador.turno WHERE estaActivo = 1";
+		String[] columnas = {
+			"nombres", "apellidos", "correoElectronico", "contrasena", "noPersonal",
+			"fechaRegistro", "turno"
+		};
 		String[][] resultados = new ConexionBD().seleccionar(query, null, columnas);
 		if (resultados != null && resultados.length > 0) {
 			coordinador.setNombres(resultados[0][0]);
@@ -157,7 +164,7 @@ public class DAOCoordinador implements IDAOCoordinador, Turno {
 		}
 		return coordinador;
 	}
-
+	
 	private String getIdCoordinador() throws SQLException {
 		String query =
 			"SELECT idMiembro AS idCoordinator FROM MiembroFEI WHERE correoElectronico = ?";
