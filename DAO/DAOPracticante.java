@@ -41,7 +41,6 @@ public class DAOPracticante implements IDAOPracticante {
 		String[][] resultados = this.conexion.seleccionar(query, valores, nombres);
 		return resultados != null ? resultados[0][0] : "";
 	}
-
 	
 	public String getIdCorreoAntiguo(String correoAntiguo) throws SQLException {
 		assert this.practicante != null : "Practicante es nulo: DAOPracticante.getId()";
@@ -479,7 +478,7 @@ public class DAOPracticante implements IDAOPracticante {
 		String[] nombres = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
 		String[][] select = this.conexion.seleccionar(query, null, nombres);
 		int row = 0;
-		while (row < select.length) {
+		while (select != null && row < select.length) {
 			listPracticante.add(
 				new Practicante(
 					select[row][0],
@@ -492,27 +491,27 @@ public class DAOPracticante implements IDAOPracticante {
 			row++;
 		}
 	}
-
+	
 	public boolean llenarTablaPracticantes(ObservableList<Practicante> listPracticante, String correoProfesor) throws NullPointerException, SQLException {
 		boolean filled = false;
-		if(correoProfesor != null) {
+		if (correoProfesor != null) {
 			String query = "SELECT nombres, apellidos, correoElectronico, contrasena, matricula " +
-					"FROM MiembroFEI INNER JOIN Practicante " +
-					"ON MiembroFEI.idMiembro = Practicante.idMiembro WHERE estaActivo = 1 AND profesorCalificador = " +
-					"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
+				"FROM MiembroFEI INNER JOIN Practicante " +
+				"ON MiembroFEI.idMiembro = Practicante.idMiembro WHERE estaActivo = 1 AND profesorCalificador = " +
+				"(SELECT idMiembro FROM MiembroFEI WHERE correoElectronico = ?)";
 			String[] nombres = {"nombres", "apellidos", "correoElectronico", "contrasena", "matricula"};
 			String[] valores = {correoProfesor};
 			String[][] select = this.conexion.seleccionar(query, valores, nombres);
 			int row = 0;
 			while (row < select.length) {
 				listPracticante.add(
-						new Practicante(
-								select[row][0],
-								select[row][1],
-								select[row][2],
-								select[row][3],
-								select[row][4]
-						)
+					new Practicante(
+						select[row][0],
+						select[row][1],
+						select[row][2],
+						select[row][3],
+						select[row][4]
+					)
 				);
 				if (!filled) {
 					filled = true;
@@ -522,7 +521,7 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return filled;
 	}
-
+	
 	public boolean guardarDocumento(File documento) throws SQLException {
 		assert documento != null : "Documento es nulo: DAOPracticante.guardarDocumento()";
 		assert this.practicante.estaCompleto() :
@@ -554,23 +553,23 @@ public class DAOPracticante implements IDAOPracticante {
 		};
 		return this.conexion.ejecutar(query, valores);
 	}
-
-	public boolean llenarTablaDocumentos(ObservableList<Documento> listaDocumentos) throws SQLException{
+	
+	public boolean llenarTablaDocumentos(ObservableList<Documento> listaDocumentos) throws SQLException {
 		boolean filled = false;
 		String query = "SELECT nombre, ruta, tipo, id FROM Documento WHERE propietario = (SELECT idMiembro FROM MiembroFEI " +
-				"WHERE correoElectronico = ?)";
+			"WHERE correoElectronico = ?)";
 		String[] nombres = {"nombre", "ruta", "tipo", "id"};
 		String[] valores = {this.practicante.getEmail()};
 		String[][] select = this.conexion.seleccionar(query, valores, nombres);
 		int row = 0;
 		while (row < select.length) {
 			listaDocumentos.add(
-					new Documento(
-							select[row][0],
-							select[row][1],
-							select[row][2],
-							select[row][3]
-					)
+				new Documento(
+					select[row][0],
+					select[row][1],
+					select[row][2],
+					select[row][3]
+				)
 			);
 			if (!filled) {
 				filled = true;
@@ -579,19 +578,19 @@ public class DAOPracticante implements IDAOPracticante {
 		}
 		return filled;
 	}
-
-	public Reporte obtenerReporte(String idDocumento) throws SQLException{
+	
+	public Reporte obtenerReporte(String idDocumento) throws SQLException {
 		String query = "SELECT actividadesPlaneadas, actividadesRealizadas, resumen, tipoReporte, fechaInicial, fechaFinal," +
-				" idReporte, calificacion FROM Reporte WHERE IdDocumento = ?";
+			" idReporte, calificacion FROM Reporte WHERE IdDocumento = ?";
 		String[] nombres = {
-				"actividadesPlaneadas",
-				"actividadesRealizadas",
-				"resumen",
-				"tipoReporte",
-				"fechaInicial",
-				"fechaFinal",
-				"idReporte",
-				"calificacion"};
+			"actividadesPlaneadas",
+			"actividadesRealizadas",
+			"resumen",
+			"tipoReporte",
+			"fechaInicial",
+			"fechaFinal",
+			"idReporte",
+			"calificacion"};
 		String[] values = {idDocumento};
 		String[][] select = this.conexion.seleccionar(query, values, nombres);
 		Reporte reporte = new Reporte();
@@ -605,27 +604,25 @@ public class DAOPracticante implements IDAOPracticante {
 		reporte.setCalificacion(select[0][7]);
 		return reporte;
 	}
-
-
+	
 	public void eliminarAsignacion() throws SQLException {
 		String idPracticante = getId();
 		String[] valores = {String.valueOf(idPracticante)};
 		String query = "UPDATE Asignacion SET estaActivo = 0 WHERE idPracticante = ?";
 		this.conexion.ejecutar(query, valores);
 	}
-
-
-	public  boolean estaAsignado()throws SQLException{
+	
+	public boolean estaAsignado() throws SQLException {
 		boolean asignado = false;
 		String idPracticante = getId();
-		String [] columnas = {"idPracticante", "idProyecto", "estado"};
+		String[] columnas = {"idPracticante", "idProyecto", "estado"};
 		String[] valores = {String.valueOf(idPracticante)};
 		String query = "SELECT * FROM Asignacion WHERE idPracticante = ?";
-		String [][] resultados = this.conexion.seleccionar(query, valores, columnas);
-		if(resultados != null && resultados.length> 0){
+		String[][] resultados = this.conexion.seleccionar(query, valores, columnas);
+		if (resultados != null && resultados.length > 0) {
 			asignado = true;
 		}
-		return  asignado;
+		return asignado;
 	}
-
+	
 }
