@@ -176,4 +176,10 @@ public class Practicante extends Usuario {
 	public Reporte obtenerReporte(String idDocumento) throws SQLException{
 		return new DAOPracticante(this).obtenerReporte(idDocumento);
 	}
+	public boolean estaAsignado() throws SQLException {
+		return  new DAOPracticante(this).estaAsignado();
+	}
+	public void eliminarAsignacion() throws SQLException {
+		new DAOPracticante(this).eliminarAsignacion();
+	}
 }
