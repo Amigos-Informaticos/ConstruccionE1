@@ -219,23 +219,29 @@ public class AdministrarPracticanteController implements Initializable {
 	
 	@FXML
 	private void checkProject() {
-		try {
-			Proyecto proyecto = practicante.getProyecto();
-			if (proyecto != null) {
-				MainController.save("proyecto", proyecto);
-				MainController.activate("VerProyecto", "Ver Proyecto", MainController.Sizes.LARGE);
-				MainController.save("pantallaAnterior", "practicantes");
-			} else {
-				MainController.save("practicante", this.practicante);
-				MainController.activate("AsignarProyecto", "Asignar Proyecto", MainController.Sizes.MID);
+
+		if(practicante != null){
+			try {
+
+				Proyecto proyecto = practicante.getProyecto();
+				if (proyecto != null) {
+					MainController.save("proyecto", proyecto);
+					MainController.activate("VerProyecto", "Ver Proyecto", MainController.Sizes.LARGE);
+					MainController.save("pantallaAnterior", "practicantes");
+				} else {
+					MainController.save("practicante", this.practicante);
+					MainController.activate("AsignarProyecto", "Asignar Proyecto", MainController.Sizes.MID);
+				}
+			} catch (SQLException throwable) {
+				MainController.alert(
+						Alert.AlertType.INFORMATION,
+						"DBError",
+						"No se pudo establecer conexión con Base de Datos"
+				);
 			}
-		} catch (SQLException throwable) {
-			MainController.alert(
-				Alert.AlertType.INFORMATION,
-				"DBError",
-				"No se pudo establecer conexión con Base de Datos"
-			);
 		}
+
+
 	}
 	
 	public void onClickBack() {

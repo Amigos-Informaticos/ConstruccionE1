@@ -231,16 +231,18 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 			"sector"
 		};
 		String[][] seleccionar = this.conexion.seleccionar(query, null, columnas);
-		for (String[] strings: seleccionar) {
-			Organizacion organizacion = new Organizacion();
-			organizacion.setNombre(strings[0]);
-			organizacion.setDireccion(strings[1],
-				strings[2],
-				strings[3],
-				strings[4]);
-			organizacion.setTelefono(strings[5]);
-			organizacion.setSector(strings[6]);
-			listaOrganizacion.add(organizacion);
+		if (seleccionar != null){
+			for (String[] strings: seleccionar) {
+				Organizacion organizacion = new Organizacion();
+				organizacion.setNombre(strings[0]);
+				organizacion.setDireccion(strings[1],
+						strings[2],
+						strings[3],
+						strings[4]);
+				organizacion.setTelefono(strings[5]);
+				organizacion.setSector(strings[6]);
+				listaOrganizacion.add(organizacion);
+		}
 			if (!lleno) {
 				lleno = true;
 			}
