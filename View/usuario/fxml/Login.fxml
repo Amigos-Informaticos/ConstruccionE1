@@ -61,12 +61,12 @@
 				<Image url="/View/images/icon_email.png"/>
 			</image>
 		</ImageView>
-		<ImageView fitHeight="42.0" fitWidth="21.0" layoutX="273.0" layoutY="267.0"
-		           pickOnBounds="true" preserveRatio="true">
-			<image>
-				<Image url="/View/images/icon_eye.png"/>
-			</image>
-		</ImageView>
+<!--		<ImageView fitHeight="42.0" fitWidth="21.0" layoutX="273.0" layoutY="267.0"-->
+<!--		           pickOnBounds="true" preserveRatio="true">-->
+<!--			<image>-->
+<!--				<Image url="/View/images/icon_eye.png"/>-->
+<!--			</image>-->
+<!--		</ImageView>-->
 		<ImageView fitHeight="51.0" fitWidth="35.0" layoutX="137.0" layoutY="307.0" opacity="0.4"
 		           pickOnBounds="true" preserveRatio="true">
 			<image>
