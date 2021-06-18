@@ -183,9 +183,11 @@ public class DAOOrganizacion implements IDAOOrganizacion {
 		String query = "SELECT nombre FROM Organizacion WHERE estaActivo = 1";
 		String[] columnas = {"nombre"};
 		String[][] resultados = this.conexion.seleccionar(query, null, columnas);
-		for (String[] name: resultados) {
-			listaOrganizaciones.add(name[0]);
-			lleno = true;
+		if (resultados != null){
+			for (String[] name: resultados) {
+				listaOrganizaciones.add(name[0]);
+				lleno = true;
+			}
 		}
 		return lleno;
 	}
